@@ -71,6 +71,9 @@
                     <button class="btn btn-danger" type="submit">
                         {{ trans('global.create') }}
                     </button>
+                <a class="btn btn-danger" href="/">
+                    {{ trans('global.cancel') }}
+                </a>
                 </div>
             </form>
         </div>

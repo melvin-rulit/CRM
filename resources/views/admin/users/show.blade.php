@@ -2,14 +2,10 @@
 @section('content')
 
 <div class="card">
-    <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.user.title') }}
-    </div>
-
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.users.index') }}">
+                <a class="btn btn-outline-primary mb-2" href="{{ route('admin.users.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -57,26 +53,21 @@
                             @endforeach
                         </td>
                     </tr>
-                    <tr>
+<!--                     <tr>
                         <th>
                             {{ trans('cruds.user.fields.class') }}
                         </th>
                         <td>
                             {{ $user->class->name ?? '' }}
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.users.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
         </div>
     </div>
 </div>
 
-<div class="card">
+<!-- <div class="card">
     <div class="card-header">
         {{ trans('global.relatedData') }}
     </div>
@@ -92,6 +83,6 @@
             @includeIf('admin.users.relationships.teacherLessons', ['lessons' => $user->teacherLessons])
         </div>
     </div>
-</div>
+</div> -->
 
 @endsection
