@@ -98,7 +98,7 @@
                 @endif
 
                 <div class="form-group">
-                    <label for="class_id">{{ trans('cruds.user.fields.class') }}</label>
+                    <label for="class_id">{{ trans('cruds.user.fields.branch') }}</label>
                     <select class="form-control select2 {{ $errors->has('class') ? 'is-invalid' : '' }}" name="class_id" id="class_id">
                         @foreach($classes as $id => $class)
                             <option value="{{ $id }}" {{ old('class_id') == $id ? 'selected' : '' }}>{{ $class }}</option>

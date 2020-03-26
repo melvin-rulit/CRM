@@ -18,7 +18,7 @@
               <div class="dropup">
                 <a href="#" id="sidebarIconCopy" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="avatar avatar-xl avatar-online">
-                    <img src="http://83.220.172.19/storage/avatars/oLyK6qvfzTIWmRCzLjyljVLrr89a3IyMqI5TnWaH.jpeg
+                    <img src="http://83.220.172.19/images/photo_LI.jpg
                     " class="avatar-img rounded-circle" alt="...">
                   </div>
                 </a>
