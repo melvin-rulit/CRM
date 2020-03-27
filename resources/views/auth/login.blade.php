@@ -19,7 +19,7 @@
                             <input id="email" name="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" required autocomplete="email" autofocus placeholder="{{ trans('global.login_email') }}" value="{{ old('email', null) }}">
 
                               @if ($errors->has('email'))
-                                <span class="help-block">
+                                <span class="help-block" style="color:red; font-size: 14px;">
                                     <strong>{{ $errors->first('email') }}</strong>
                                 </span>
                             @endif

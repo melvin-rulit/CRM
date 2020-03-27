@@ -56,7 +56,7 @@
                       <label class="required" for="region_id">{{ trans('cruds.branch.fields.region') }}</label>
                       <select class="form-control" name="region_id" id="region_id" required>
                           @foreach($regions as $id => $region)
-                              <option value="{{ $id }}">{{ $region->name }}</option>
+                              <option value="{{ $region->id }}">{{ $region->name }}</option>
                           @endforeach
                       </select>
                       @if($errors->has('region'))

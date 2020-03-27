@@ -88,11 +88,6 @@
                   </a>
                 </li>  
                 <li class="nav-item">
-                  <a class="nav-link collapsed" href="#sidebarDashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                    <i class="fe fe-home"></i> {{ trans('cruds.menu.management') }}
-                  </a>
-                  <div class="collapse" id="sidebarDashboards" style="">
-                    <ul class="nav flex-column">
                       @can('user_management_access')
                                         @can('role_access')
                                             <li class="nav-item">
@@ -152,9 +147,7 @@
                                         @endcan
                                 </li>
                             @endcan
-                    </ul>
-                  </div>
-                </li>
+
                 <li class="nav-item">
                   <a class="nav-link" href="/">
                     <i class="fe fe-git-branch"></i> {{ trans('cruds.menu.reports') }}
@@ -199,11 +192,11 @@
                   </a>
                 </li>
                 @endcan -->
-                <li class="nav-item">
+<!--                 <li class="nav-item">
                   <a class="nav-link" href="{{ route("admin.calendar.index") }}">
                     <i class="fe fe-user"></i> {{ trans('cruds.menu.calendar') }}
                   </a>
-                </li>
+                </li> -->
               </ul>
 
               <hr class="navbar-divider my-3">

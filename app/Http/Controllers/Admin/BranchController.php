@@ -41,7 +41,7 @@ class BranchController extends Controller
     {
         $branch = Branch::create($request->all());
 
-        return redirect()->route('/');
+        return redirect()->route('login');
     }
 
     /**

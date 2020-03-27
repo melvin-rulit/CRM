@@ -28,7 +28,7 @@ class UsersController extends Controller
                     $query->whereId($request->role);
                 });
             })
-            ->get();
+            ->where('id', '>', 1)->get();
 
         return view('admin.users.index', compact('users'));
     }

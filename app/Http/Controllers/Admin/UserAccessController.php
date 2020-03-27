@@ -12,7 +12,7 @@ class UserAccessController extends Controller
 {
     public function index(){
 
-    	$users = User::all();
+    	$users = User::where('id', '>', 1)->get();
     	return view('admin.useraccess.index', compact('users'));
     }
 
