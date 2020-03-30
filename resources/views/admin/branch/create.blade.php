@@ -53,7 +53,7 @@
                     </div>
 
                   <div class="form-group">
-                      <label class="required" for="region_id">{{ trans('cruds.branch.fields.region') }}</label>
+                      <label style="color: red" class="required" for="region_id">{{ trans('cruds.branch.fields.region_required') }}</label>
                       <select class="form-control" name="region_id" id="region_id" required>
                           @foreach($regions as $id => $region)
                               <option value="{{ $region->id }}">{{ $region->name }}</option>

@@ -4,10 +4,10 @@ return [
     'menu' => [
         'home'           => 'На главную',
         'management'     => 'Управление',
-        'roleaccess'     => 'Доступ ролей',
+        'roleaccess'     => 'Доступ должностей',
         'permissions'    => 'Разрешения',
-        'roles'          => 'Роли',
-        'users'          => 'Пользователи',
+        'roles'          => 'Должности',
+        'users'          => 'Сотрудники',
         'reports'        => 'Отчеты',
         'kassa'          => 'Касса',
         'notifications'  => 'Уведомления',
@@ -18,7 +18,7 @@ return [
         'guide'          => 'Справочники',
     ],
     'roleAccess' => [
-        'title'         => 'Доступ ролей'
+        'title'         => 'Доступ должностей'
     ],
     'userManagement' => [
         'title'          => 'User management',
@@ -44,12 +44,12 @@ return [
     ],
     'role'           => [
         'title'          => 'Roles',
-        'title_sing' => 'Роль',
-        'title_singular' => 'Ролей',
+        'title_sing' => 'Должность',
+        'title_singular' => 'Должностей',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
-            'title'              => 'Имя роли',
+            'title'              => 'Имя должности',
             'title_helper'       => '',
             'permissions'        => 'Доступы',
             'permissions_helper' => '',
@@ -62,13 +62,13 @@ return [
         ],
     ],
     'useraccess'         => [
-        'title'          => 'Список разрешенных ролей на добавление пользователю',
-        'title_sing'     => 'Пользователь',
-        'title_access'   => 'Доступы на добавление ролей',
+        'title'          => 'Список разрешенных должностей на добавление сотруднику',
+        'title_sing'     => 'Сотрудник',
+        'title_access'   => 'Доступы на добавление должностей',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
-            'title'              => 'Имя роли',
+            'title'              => 'Имя должности',
             'title_helper'       => '',
             'permissions'        => 'Доступы',
             'permissions_helper' => '',
@@ -82,8 +82,8 @@ return [
     ],
     'user'           => [
         'title'          => 'Users',
-        'title_singular' => 'Пользователей',
-        'title_sing' => 'Пользователя',
+        'title_singular' => 'Сотрудников',
+        'title_sing' => 'Сотрудника',
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
@@ -93,13 +93,17 @@ return [
             'surname_helper'           => '',
             'phone'                    => 'Телефон',
             'phone_helper'             => '',
+            'avatar'                   => 'Аватар',
+            'avatar_helper'            => '',
+            'pasport'                  => 'Фото документов',
+            'pasport_helper'           => '',
             'email'                    => 'Логин (Почта)',
             'email_helper'             => '',
             'email_verified_at'        => 'Email verified at',
             'email_verified_at_helper' => '',
             'password'                 => 'Пароль',
             'password_helper'          => '',
-            'roles'                    => 'Роль',
+            'roles'                    => 'Должность',
             'roles_helper'             => '',
             'remember_token'           => 'Remember Token',
             'remember_token_helper'    => '',
@@ -109,8 +113,9 @@ return [
             'updated_at_helper'        => '',
             'deleted_at'               => 'Deleted at',
             'deleted_at_helper'        => '',
-            'branch'                    => 'Филиалы',
+            'branch'                   => 'Филиалы',
             'class_helper'             => '',
+            'about_as'                 => 'О себе',
         ],
     ],
     'region'           => [
@@ -138,6 +143,8 @@ return [
             'phone_helper'             => '',
             'region'                   => 'Регион',
             'region_helper'            => '',
+            'region_required'          => 'Внимание, выберите регион для добавления филиала',
+            'region_required_helper'   => '',
         ],
     ],
     'lesson'         => [

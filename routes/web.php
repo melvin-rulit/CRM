@@ -13,7 +13,13 @@ Route::redirect('/', '/login');
 Auth::routes(['register' => false]);
 // Admin
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+// Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+
+    Route::get('vue', 'PagesController@vue');
+    Route::get('get', 'VueController@get');
+    Route::post('getone', 'VueController@getOne');
+
     Route::get('/', 'PagesController@index')->name('home');
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');

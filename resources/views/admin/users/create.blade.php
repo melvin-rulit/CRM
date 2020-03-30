@@ -85,17 +85,32 @@
                     <input type="hidden" name="roles[]" value="4">
                 @endif
 
-<!--                 <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
-                    <label for="avatar" class="col-md-4 control-label">Аватар</label>
+                <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
+                    <label for="avatar" class="col-md-4 control-label">{{ trans('cruds.user.fields.avatar') }}</label>
                     <div class="col-md-6">
                         <input id="avatar" type="file" name="avatar" class="btn btn-outline-secondary mb-2">
                     </div>
-                </div> -->
+                </div>
                 @if ($errors->has('avatar'))
-<!--                     <span class="help-block">
+                    <span class="help-block">
                         <strong>{{ $errors->first('avatar') }}</strong>
-                    </span> -->
+                    </span>
                 @endif
+
+                <div class="form-group{{ $errors->has('pasport') ? ' has-error' : '' }}">
+                    <label for="pasport" class="col-md-4 control-label">{{ trans('cruds.user.fields.pasport') }}</label>
+                    <div class="col-md-6">
+                        <input id="pasport" type="file" name="pasport" class="btn btn-outline-secondary mb-2">
+                    </div>
+                </div>
+                @if ($errors->has('pasport'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('pasport') }}</strong>
+                    </span>
+                @endif
+
+                <label for="pasport" class="col-md-4 control-label">{{ trans('cruds.user.fields.about_as') }}</label>
+                <textarea class="form-control mb-3" type="text" name="about_as" id="about_as" rows="1"></textarea>
 
                 <div class="form-group">
                     <label for="class_id">{{ trans('cruds.user.fields.branch') }}</label>

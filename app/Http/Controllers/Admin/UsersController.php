@@ -48,6 +48,7 @@ class UsersController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        dd($request->all());
         $user = User::create($request->all());
         $user->roles()->sync($request->input('roles', []));
 

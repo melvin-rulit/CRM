@@ -1926,13 +1926,89 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = (_data$data$created$me = {
   data: {
-    articles: null
+    articles: null,
+    users: null
   }
 }, _defineProperty(_data$data$created$me, "data", function data() {
   return {
     articles: [],
+    users: [],
     article: {
       id: '',
       title: '',
@@ -1942,27 +2018,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     pagination: {},
     edit: false
   };
-}), _defineProperty(_data$data$created$me, "created", function created() {
-  this.fetchArticles();
+}), _defineProperty(_data$data$created$me, "created", function created() {// this.fetchArticles();
 }), _defineProperty(_data$data$created$me, "methods", {
-  fetchArticles: function fetchArticles() {
+  add: function add() {
     var _this = this;
 
-    axios.get('http://127.0.0.1:8000/admin/users/create') // .then(response => console.log(response.data));
+    axios.post('getone', {
+      name: this.name
+    }).then(function (res) {
+      _this.users = res.data;
+    })["finally"](function () {
+      return console.log('Посты успешно отправлены');
+    });
+  },
+  fetchArticles: function fetchArticles() {
+    var _this2 = this;
+
+    axios.get('get') //.then(response => console.log(response.data));
     .then(function (response) {
-      return _this.articles = response.data;
+      return _this2.articles = response.data;
     })["finally"](function () {
       return console.log('Посты успешно загружены');
     });
-  },
-  deleteArticle: function deleteArticle(id) {
-    // console.log(url)
-    axios.post('api/article/' + id) // delete('api/article/' + id)
-    .then(function (response) {
-      return console.log(response.data);
-    });
-    this.fetchArticles();
-  }
+  } // getOne(){
+  //     axios.
+  //     post('getOne/1')
+  //     // delete('api/article/' + id)
+  //     .then(response => console.log(response.data));
+  //     this.fetchArticles();
+  // },
+  // countDown: function(){
+  //     var input = this.message;
+  //     alert(input);
+  // },
+
 }), _data$data$created$me);
 
 /***/ }),
@@ -37337,25 +37426,182 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h3", [_vm._v("Посты в базе даных")]),
+  return _c("div", { staticClass: "container" }, [
+    _c("h1", [_vm._v("Новый регион")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-body" }, [
+        _c("label", { staticClass: "required", attrs: { for: "name" } }, [
+          _vm._v("Введите имя")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.name,
+              expression: "name"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", name: "name", id: "name" },
+          domProps: { value: _vm.name },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.name = $event.target.value
+            }
+          }
+        })
+      ]),
       _vm._v(" "),
-      _vm._l(_vm.articles, function(article) {
-        return _c("div", { staticClass: "card mb-3" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("b", [_vm._v(_vm._s(article.name) + " - ")]),
-            _vm._v(" "),
-            _c("span", [_vm._v(_vm._s(article.email))])
-          ])
+      _c("div", { staticClass: "form-group ml-4" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-danger",
+            attrs: { type: "submit" },
+            on: { click: _vm.add }
+          },
+          [_vm._v("\n                        Добавить\n                    ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-danger", on: { click: _vm.fetchArticles } },
+          [_vm._v("\n                        Получить\n                    ")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "ul",
+      { staticClass: "list-group" },
+      _vm._l(_vm.users, function(user) {
+        return _c(
+          "li",
+          { staticClass: "list-group-item list-group-item-action" },
+          [
+            _vm._v(
+              _vm._s(user.id) +
+                " - " +
+                _vm._s(user.name) +
+                " - " +
+                _vm._s(user.email)
+            )
+          ]
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v("\n        Список пользователей\n    ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "table-responsive" }, [
+          _c(
+            "table",
+            {
+              staticClass:
+                " table table-bordered table-hover datatable datatable-User"
+            },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.articles, function(article) {
+                  return _c("tr", [
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(article.id) +
+                          "\n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(article.name) +
+                          "\n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(article.email) +
+                          "\n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1, true)
+                  ])
+                }),
+                0
+              )
+            ]
+          )
         ])
-      })
-    ],
-    2
-  )
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { width: "10" } }),
+        _vm._v(" "),
+        _c("th", [
+          _vm._v("\n                            1\n                        ")
+        ]),
+        _vm._v(" "),
+        _c("th", [
+          _vm._v("\n                            2\n                        ")
+        ]),
+        _vm._v(" "),
+        _c("th", [
+          _vm._v("\n                            3\n                        ")
+        ]),
+        _vm._v(" "),
+        _c("th", [
+          _vm._v("\n                            4\n                        ")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("a", { staticClass: "btn btn-sm btn-primary", attrs: { href: "" } }, [
+        _vm._v(
+          "\n                                        Посмотреть\n                                    "
+        )
+      ]),
+      _vm._v(" "),
+      _c("a", { staticClass: "btn btn-sm btn-info", attrs: { href: "" } }, [
+        _vm._v(
+          "\n                                        Редактировать\n                                    "
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

@@ -7,8 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     <center class="m-t-30">
-                        <img src="http://83.220.172.19/storage/avatars/oLyK6qvfzTIWmRCzLjyljVLrr89a3IyMqI5TnWaH.jpeg
-                        " class="avatar-img rounded-circle" alt="..." width="150">
+                        <img src="http://83.220.172.19/images/photo_LI.jpg" class="avatar-img rounded-circle" alt="..." width="150">
                         <hr>
                         <div class="text-center">
                             <h2 class="card-title">
@@ -64,6 +63,33 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
                     </div>
+                    <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
+                        <label for="avatar" class="col-md-4 control-label">{{ trans('cruds.user.fields.avatar') }}</label>
+                        <div class="col-md-6">
+                            <input id="avatar" type="file" name="avatar" class="btn btn-outline-secondary mb-2">
+                        </div>
+                    </div>
+                    @if ($errors->has('avatar'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('avatar') }}</strong>
+                        </span>
+                    @endif
+
+                    <div class="form-group{{ $errors->has('pasport') ? ' has-error' : '' }}">
+                        <label for="pasport" class="col-md-4 control-label">{{ trans('cruds.user.fields.pasport') }}</label>
+                        <div class="col-md-6">
+                            <input id="pasport" type="file" name="pasport" class="btn btn-outline-secondary mb-2">
+                        </div>
+                    </div>
+                    @if ($errors->has('pasport'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('pasport') }}</strong>
+                        </span>
+                    @endif
+                    
+                <label for="pasport" class="col-md-4 control-label">{{ trans('cruds.user.fields.about_as') }}</label>
+                <textarea class="form-control mb-3" data-toggle="autosize" rows="1"></textarea>
+
                     <div class="form-group">
                         <label class="required" for="email">{{ trans('cruds.user.fields.email') }}</label>
                         <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="text" name="email" id="email" value="{{ old('email', $user->email) }}" required>
@@ -105,6 +131,7 @@
                     </div>
 
                     <div class="form-group mb-4">
+                        <label class="required" for="roles">{{ trans('cruds.user.fields.branch') }}</label>
                         <select class="form-control select2 {{ $errors->has('branches') ? 'is-invalid' : '' }}" name="branches[]" id="branches" multiple required>
                             @foreach($branches as $id => $branches)
                                 <option value="{{ $id }}" {{ ($user->branches->contains($id)) ? 'selected' : '' }}>{{ $branches }}</option>

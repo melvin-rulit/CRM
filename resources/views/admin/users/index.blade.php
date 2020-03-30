@@ -13,10 +13,6 @@
     </div>
 @endcan
 
-<!-- <div id="app"><example-component></example-component></div> -->
-
-<script src="{{ asset('js/app.js') }}"></script>
-
 <div class="card">
     <div class="card-header">
          {{ trans('global.list') }} {{ trans('cruds.user.title_singular') }}

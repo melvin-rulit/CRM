@@ -21,4 +21,9 @@ class PagesController extends Controller
         return view('pages.index', compact('regions'));
     }
 
+    public function vue(){
+
+        return view('pages.vue');
+    }
+
 }
