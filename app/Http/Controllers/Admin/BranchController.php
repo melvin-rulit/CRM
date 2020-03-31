@@ -63,7 +63,10 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
-        //
+        $branch = Branch::find($id);
+        $regions = Region::all();
+
+        return view('admin.branch.edit', compact('branch', 'regions'));
     }
 
     /**
@@ -73,9 +76,10 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Branch $branch)
     {
-        //
+        $branch->update($request->all());
+        return redirect()->route('admin.region.index');
     }
 
     /**

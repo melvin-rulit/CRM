@@ -13,4 +13,9 @@ class Region extends Model
     public function branches(){
     	return $this->hasMany(Branch::class);
     }
+
+    static function getIsRegionAttribute($id)
+    {
+        return Region::find($id);
+    }
 }

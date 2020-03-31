@@ -41,16 +41,18 @@ class UsersController extends Controller
 
         $roles = Role::all()->pluck('title', 'id');
 
+        $branches = Branch::all()->pluck('name', 'id');
+
         $classes = Branch::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.users.create', compact('roles', 'classes', 'useraccesses'));
+        return view('admin.users.create', compact('roles', 'classes', 'useraccesses', 'branches'));
     }
 
     public function store(StoreUserRequest $request)
     {
-        dd($request->all());
         $user = User::create($request->all());
         $user->roles()->sync($request->input('roles', []));
+        $user->branches()->sync($request->input('branches', []));
 
         return redirect()->route('admin.users.index');
     }

@@ -114,13 +114,15 @@ return [
             'deleted_at'               => 'Deleted at',
             'deleted_at_helper'        => '',
             'branch'                   => 'Филиалы',
-            'class_helper'             => '',
+            'branch_helper'             => '',
             'about_as'                 => 'О себе',
         ],
     ],
     'region'           => [
         'title'          => 'Регионы',
         'add_region'     => 'Добавить регион',
+        'edit_region'    => 'Редактировать регион',
+        'delete_region'  => 'Удалить регион',
         'count'          => 'В регионе нет филиалов',
         'fields'         => [
             'id'                       => 'ID',
@@ -131,6 +133,8 @@ return [
     'branch'             => [
         'title'          => 'Филиалы',
         'add_branch'     => 'Добавить филиал',
+        'new_branch'     => 'Новый филиал',
+        'edit_branch'    => 'Редактировать филиал',
         'fields'         => [
             'id'                       => 'ID',
             'name'                     => 'Название филиала',

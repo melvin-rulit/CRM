@@ -50,7 +50,8 @@ class RegionController extends Controller
      */
     public function show($id)
     {
-        //
+        $region = Region::find($id);
+        return view('admin.region.show', compact('region'));
     }
 
     /**
@@ -61,7 +62,8 @@ class RegionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $region = Region::find($id);
+        return view('admin.region.edit', compact('region'));
     }
 
     /**
@@ -71,9 +73,10 @@ class RegionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Region $region)
     {
-        //
+        $region->update($request->all());
+        return redirect()->route('admin.region.index');
     }
 
     /**
@@ -84,6 +87,7 @@ class RegionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user->delete();
+        return back();
     }
 }

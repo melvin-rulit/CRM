@@ -5,6 +5,6 @@ return [
     'reset'    => 'Your password has been reset!',
     'sent'     => 'We have e-mailed your password reset link!',
     'token'    => 'This password reset token is invalid.',
-    'user'     => 'Мы не можем найти пользователя с таким адресом электронной почты.',
+    'user'     => 'Не верный логин или пароль, пожалуйста будьте внимательны',
     'updated'  => 'Your password has been changed!',
 ];

@@ -29,7 +29,7 @@
       <div class="card-header">
         <div class="row align-items-center">
           <div class="col">
-            <a href="regional/{{ $region->id }}" class="card-header-title">
+            <a href="region/{{ $region->id }}" class="card-header-title">
               {{ $region->name }}
             </a>
           </div>
@@ -44,7 +44,7 @@
             <div class="card-body">
               <div class="row align-items-center">
                 <div class="col-12 col-md">
-                  <p class="mb-md-0">
+                  <a href="branch/{{ $branch->id }}/edit" class="mb-md-0">
                     {{ $branch->name }}
                   </p>
                   <div class="pl-3 pt-1">

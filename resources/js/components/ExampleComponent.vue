@@ -115,7 +115,6 @@
                 axios.post('getone', {name: this.name}).then(res => {
                     this.users = res.data
                 })
-                .finally(() => console.log('Посты успешно отправлены'));
             },
             fetchArticles(){
                 axios.

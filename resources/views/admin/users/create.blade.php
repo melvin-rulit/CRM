@@ -70,7 +70,7 @@
                         <select class="form-control select2 {{ $errors->has('roles') ? 'is-invalid' : '' }}" name="roles[]" id="roles" multiple required>
 
                             @foreach($useraccesses as $id => $val)
-                                <option value="{{ $id }}" {{ in_array($val, old('roles', [])) ? 'selected' : '' }}>{{ $val->title }}</option>
+                                <option value="{{ $val->id }}" {{ in_array($val, old('roles', [])) ? 'selected' : '' }}>{{ $val->title }}</option>
                             @endforeach
 
                         </select>
@@ -109,23 +109,28 @@
                     </span>
                 @endif
 
-                <label for="pasport" class="col-md-4 control-label">{{ trans('cruds.user.fields.about_as') }}</label>
-                <textarea class="form-control mb-3" type="text" name="about_as" id="about_as" rows="1"></textarea>
+            <div class="form-group">
+                <label for="about_as" class="required">{{ trans('cruds.user.fields.about_as') }}</label>
+                <textarea class="form-control mb-3" type="text" name="about_as" id="about_as" rows="1" required></textarea>
+            </div>
 
                 <div class="form-group">
-                    <label for="class_id">{{ trans('cruds.user.fields.branch') }}</label>
-                    <select class="form-control select2 {{ $errors->has('class') ? 'is-invalid' : '' }}" name="class_id" id="class_id">
-                        @foreach($classes as $id => $class)
-                            <option value="{{ $id }}" {{ old('class_id') == $id ? 'selected' : '' }}>{{ $class }}</option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('class'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('class') }}
-                        </div>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.user.fields.class_helper') }}</span>
+                        <label class="required" for="branches">{{ trans('cruds.user.fields.branch') }}</label>
+                        <select class="form-control select2 {{ $errors->has('branches') ? 'is-invalid' : '' }}" name="branches[]" id="branches" multiple required>
+
+                            @foreach($branches as $id => $val)
+                                <option value="{{ $id }}" {{ in_array($val, old('branches', [])) ? 'selected' : '' }}>{{ $val }}</option>
+                            @endforeach
+
+                        </select>
+                        @if($errors->has('branches'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('branch') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.user.fields.branch_helper') }}</span>
                 </div>
+
                 <div class="form-group">
                     <button class="btn btn-danger" type="submit">
                         {{ trans('global.save') }}
