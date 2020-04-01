@@ -6,6 +6,7 @@ return [
     'cancel'                               => 'Отменить',
     'allRightsReserved'                    => 'All rights reserved.',
     'areYouSure'                           => 'Вы уверены ?',
+    'notDelete'                            => 'Регион нельзя удалить пока в нем есть филиалы, пожалуйста переместите их в другие регионы или удалите.',
     'clickHereToVerify'                    => 'Click here to verify',
     'create'                               => 'Создать',
     'dashboard'                            => 'Dashboard',

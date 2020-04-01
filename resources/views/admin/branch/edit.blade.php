@@ -55,7 +55,7 @@
                   <div class="form-group">
                       <label style="color: red" class="required" for="region_id">{{ trans('cruds.branch.fields.region_required') }}</label>
                       <select class="form-control" name="region_id" id="region_id" required>
-                              <option selected="{{ old('branch', $branch->region_id) }}">{{\App\Region::getIsRegionAttribute($branch->region_id)->name}}</option>
+                              <option selected="{{ old('branch', $branch->region_id) }}" value="{{ $branch->region_id }}">{{\App\Region::getIsRegionAttribute($branch->region_id)->name}}</option>
                           @foreach($regions as $id => $region)
                               <option value="{{ $region->id }}">{{ $region->name }}</option>
                           @endforeach
@@ -69,14 +69,19 @@
                   </div>
 
                 <div class="form-group">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-success" type="submit">
                         {{ trans('global.save') }}
                     </button>
-                <a class="btn btn-danger" href="/">
+                <a class="btn btn-info" href="/">
                     {{ trans('global.cancel') }}
                 </a>
                 </div>
             </form>
+                            <form action="{{ route('admin.branch.destroy', $branch->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="submit" class="btn btn-danger" value="{{ trans('cruds.branch.delete_branch') }}">
+                </form>
         </div>
     </div>
 </div>

@@ -41,7 +41,7 @@ class BranchController extends Controller
     {
         $branch = Branch::create($request->all());
 
-        return redirect()->route('login');
+        return redirect()->route('admin.region.index');
     }
 
     /**
@@ -88,8 +88,9 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Branch $branch)
     {
-        //
+        $branch->delete();
+        return redirect()->route('admin.region.index');
     }
 }

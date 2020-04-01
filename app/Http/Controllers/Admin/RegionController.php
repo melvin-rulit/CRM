@@ -85,9 +85,9 @@ class RegionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Region $region)
     {
-        $user->delete();
-        return back();
+        $region->delete();
+        return redirect()->route('admin.region.index');
     }
 }
