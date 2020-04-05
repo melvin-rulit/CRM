@@ -23,7 +23,7 @@ return [
     'login_email'                          => 'Email',
     'login_password'                       => 'Пароль',
     'login_password_confirmation'          => 'Password confirmation',
-    'logout'                               => 'Logout',
+    'logout'                               => 'Выход',
     'month'                                => 'Month',
     'no'                                   => 'No',
     'pleaseSelect'                         => 'Please select',

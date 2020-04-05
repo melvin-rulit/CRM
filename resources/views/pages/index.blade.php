@@ -1,8 +1,6 @@
 @extends('layouts.admin')
 @section('content')
 
-
-
 <div class="row">
   <div class="col-lg-12">
     <div class="card mb-2">
@@ -25,13 +23,28 @@
   @foreach($regions as $region)
   <div class="col-4 col-lg-4">
     <div class="card">
-
       <div class="card-header">
         <div class="row align-items-center">
           <div class="col">
-            <a href="region/{{ $region->id }}" class="card-header-title">
               {{ $region->name }}
-            </a>
+          </div>
+          <div class="col-auto">
+            <a href="/region/{{ $region->id }}/edit" style="color: #e6b00d" class="btn h2 fe fe-edit mb-0"></a>
+
+            @if(count($region->branches))
+                <form action="{{ route('admin.region.destroy', $region->id) }}" method="POST" onsubmit=" confirm('{{ trans('global.notDelete') }}'); return false;" style="display: inline-block;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn"><i class="h2 fe fe-trash-2 mb-0" style="color: red"></i></button>
+                </form>
+            @else
+                <form action="{{ route('admin.region.destroy', $region->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn"><i class="h2 fe fe-trash-2 mb-0" style="color: red"></i></button>
+                </form>
+            @endif
+
           </div>
         </div>
       </div>
@@ -44,18 +57,13 @@
             <div class="card-body">
               <div class="row align-items-center">
                 <div class="col-12 col-md">
-                  <a href="branch/{{ $branch->id }}/edit" class="mb-md-0">
+                  <a href="branch/{{ $branch->id }}" class="mb-md-0">
                     {{ $branch->name }}
-                  </p>
-                  <div class="pl-3 pt-1">
-                    <p class="card-text small text-muted mb-1">
-                      {{ $branch->adress }}
-                    </p>
-                    <p class="card-text small text-muted mb-1">
-                      {{ $branch->phone }}
-                    </p>
-                  </div>
+                  </a>
                 </div>
+                <div class="col-auto">
+                <a href="/branch/{{ $branch->id }}/edit" style="color: #e6b00d" class="h2 fe fe-edit mb-0"></a>
+              </div>
               </div>
             </div>
           </div>

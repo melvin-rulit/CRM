@@ -27,10 +27,10 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.id') }}
+                            {{ trans('cruds.user.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
+                            {{ trans('cruds.user.fields.surname') }}
                         </th>
                         <th>
                             {{ trans('cruds.user.fields.email') }}
@@ -53,10 +53,10 @@
 
                             </td>
                             <td>
-                                {{ $user->id ?? '' }}
+                                {{ $user->name ?? '' }}
                             </td>
                             <td>
-                                {{ $user->name ?? '' }}
+                                {{ $user->surname ?? '' }}
                             </td>
                             <td>
                                 {{ $user->email ?? '' }}

@@ -86,6 +86,45 @@
                             <strong>{{ $errors->first('pasport') }}</strong>
                         </span>
                     @endif
+
+
+
+                    <div class="form-group">
+                        <label for="birthday">{{ trans('cruds.user.fields.birthday') }}</label>
+                        <input class="form-control {{ $errors->has('birthday') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('birthday', $user->birthday) }}">
+                        @if($errors->has('birthday'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('birthday') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.user.fields.birthday_helper') }}</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="facebook">{{ trans('cruds.user.fields.facebook') }}</label>
+                        <input class="form-control {{ $errors->has('facebook') ? 'is-invalid' : '' }}" type="text" name="facebook" id="facebook" value="{{ old('facebook', $user->facebook) }}">
+                        @if($errors->has('facebook'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('facebook') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.user.fields.facebook_helper') }}</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instagram">{{ trans('cruds.user.fields.instagram') }}</label>
+                        <input class="form-control {{ $errors->has('instagram') ? 'is-invalid' : '' }}" type="text" name="instagram" id="instagram" value="{{ old('instagram', $user->instagram) }}">
+                        @if($errors->has('instagram'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('instagram') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.user.fields.instagram_helper') }}</span>
+                    </div>
+
+
+
+
                     
                 <label for="pasport" class="col-md-4 control-label">{{ trans('cruds.user.fields.about_as') }}</label>
                 <textarea class="form-control mb-3" data-toggle="autosize" rows="1"></textarea>

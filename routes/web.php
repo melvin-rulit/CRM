@@ -54,4 +54,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::resource('branch', 'BranchController');
 
     Route::get('/', 'PagesController@index');
+
+    Route::resource('promoter', 'BaseController');
+
 });

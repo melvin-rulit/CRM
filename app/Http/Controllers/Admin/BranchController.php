@@ -52,7 +52,10 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $branch = Branch::find($id);
+
+        return view('admin.branch.show', compact('branch'));
     }
 
     /**

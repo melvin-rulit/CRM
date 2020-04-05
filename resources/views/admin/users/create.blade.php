@@ -109,6 +109,36 @@
                     </span>
                 @endif
 
+                <div class="form-group{{ $errors->has('birthday') ? ' has-error' : '' }}">
+                    <label for="birthday" class="col-md-4 control-label">{{ trans('cruds.user.fields.birthday') }}</label>
+                        <input id="birthday" type="date" name="birthday" class="form-control" min="1950-01-01" max="2030-01-01">
+                </div>
+                @if ($errors->has('birthday'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('birthday') }}</strong>
+                    </span>
+                @endif
+
+                <div class="form-group{{ $errors->has('facebook') ? ' has-error' : '' }}">
+                    <label for="facebook" class="col-md-4 control-label">{{ trans('cruds.user.fields.facebook') }}</label>
+                        <input id="facebook" type="text" name="facebook" class="form-control">
+                </div>
+                @if ($errors->has('facebook'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('facebook') }}</strong>
+                    </span>
+                @endif
+
+                <div class="form-group{{ $errors->has('instagram') ? ' has-error' : '' }}">
+                    <label for="instagram" class="col-md-4 control-label">{{ trans('cruds.user.fields.instagram') }}</label>
+                        <input id="instagram" type="text" name="instagram" class="form-control">
+                </div>
+                @if ($errors->has('instagram'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('instagram') }}</strong>
+                    </span>
+                @endif
+
             <div class="form-group">
                 <label for="about_as" class="required">{{ trans('cruds.user.fields.about_as') }}</label>
                 <textarea class="form-control mb-3" type="text" name="about_as" id="about_as" rows="1" required></textarea>
