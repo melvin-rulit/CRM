@@ -98,7 +98,7 @@
         <h4 class="card-title">{{ api.attributes.child_surname }}</h4>
         <h4 class="card-title">{{ api.attributes.child_name }}</h4>
         <h4 class="card-title">{{ api.attributes.child_middle_name }}</h4>
-        <p class="card-text">26.03.1988 ({{ api.attributes.age }} лет)</p>
+        <p class="card-text">{{ api.attributes.child_birthday }} ({{ api.attributes.age }} лет)</p>
         <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
       </div>
     </div>

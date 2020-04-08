@@ -38778,7 +38778,8 @@ var render = function() {
                         _vm._v(" "),
                         _c("p", { staticClass: "card-text" }, [
                           _vm._v(
-                            "26.03.1988 (" +
+                            _vm._s(api.attributes.child_birthday) +
+                              " (" +
                               _vm._s(api.attributes.age) +
                               " лет)"
                           )
