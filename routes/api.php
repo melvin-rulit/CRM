@@ -1,5 +1,15 @@
 <?php
 
+// Route::resource('articles', 'Admin\ApiController');
+// Route::post('getinfo', 'Api\V2\BaseController@getInfo');
+
+Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], function () {
+    Route::post('getinfo', 'BaseController@getInfo');
+    Route::get('collection', 'BaseController@index');
+});
+
+
+
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:api']], function () {
     // Permissions
     Route::apiResource('permissions', 'PermissionsApiController');

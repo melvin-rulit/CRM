@@ -18,6 +18,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('vue', 'PagesController@vue');
     Route::get('get', 'VueController@get');
+    Route::get('get_email', 'VueController@getEmail');
     Route::post('getone', 'VueController@getOne');
 
     Route::get('/', 'PagesController@index')->name('home');
