@@ -2225,6 +2225,148 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   //         data:{
   //   articles: null,
@@ -2275,6 +2417,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.apis = response.data;
         console.log(response);
       });
+    },
+    getModalSale: function getModalSale() {// $('#modalSale').modal('show');
     },
     fetchArticles: function fetchArticles() {
       var _this3 = this;
@@ -38525,10 +38669,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
     _c(
       "ul",
       { staticClass: "nav nav-tabs", attrs: { id: "myTab", role: "tablist" } },
       [
+        _vm._m(1),
+        _vm._v(" "),
         _c("li", { staticClass: "nav-item" }, [
           _c(
             "a",
@@ -38575,11 +38723,20 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(0)
+        _vm._m(2)
       ]
     ),
     _vm._v(" "),
     _c("div", { staticClass: "tab-content", attrs: { id: "myTabContent" } }, [
+      _c(
+        "div",
+        {
+          staticClass: "tab-pane fade",
+          attrs: { id: "all", role: "tabpanel", "aria-labelledby": "all-tab" }
+        },
+        [_vm._v("666")]
+      ),
+      _vm._v(" "),
       _c(
         "div",
         {
@@ -38597,7 +38754,7 @@ var render = function() {
                       " table table-bordered table-hover datatable datatable-User"
                   },
                   [
-                    _vm._m(1),
+                    _vm._m(3),
                     _vm._v(" "),
                     _vm._l(_vm.articles, function(article) {
                       return _c(
@@ -38728,7 +38885,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(2, true)
+                _vm._m(4, true)
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
@@ -38785,6 +38942,10 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
+                        _c("h4", { staticClass: "card-title" }, [
+                          _vm._v('"Зирка Лева"')
+                        ]),
+                        _vm._v(" "),
                         _c(
                           "h6",
                           { staticClass: "text-uppercase text-muted mb-2" },
@@ -38795,7 +38956,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(3, true),
+                _vm._m(5, true),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -38817,33 +38978,41 @@ var render = function() {
                       },
                       [
                         _c("div", { staticClass: "card-body" }, [
-                          _c("h4", { staticClass: "card-title" }, [
-                            _vm._v(
-                              _vm._s(api.attributes.mother_surname) +
-                                " " +
-                                _vm._s(api.attributes.mother_name) +
-                                "  " +
-                                _vm._s(api.attributes.mother_middle_name)
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "card-text" }, [
-                            _vm._v(
-                              "Телефон: " + _vm._s(api.attributes.mother_phone)
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "card-text" }, [
-                            _vm._v(
-                              "Телефон: " +
-                                _vm._s(api.attributes.mother_dop_phone)
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "card-text" }, [
-                            _vm._v(
-                              "Телефон: " + _vm._s(api.attributes.mother_email)
-                            )
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  _vm._s(api.attributes.mother_surname) +
+                                    " " +
+                                    _vm._s(api.attributes.mother_name) +
+                                    "  " +
+                                    _vm._s(api.attributes.mother_middle_name)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Телефон: " +
+                                    _vm._s(api.attributes.mother_phone)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Доп Телефон: " +
+                                    _vm._s(api.attributes.mother_dop_phone)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Почта: " +
+                                    _vm._s(api.attributes.mother_email)
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(6, true)
                           ])
                         ])
                       ]
@@ -38859,7 +39028,46 @@ var render = function() {
                           "aria-labelledby": "father-tab"
                         }
                       },
-                      [_vm._v("Отец")]
+                      [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  _vm._s(api.attributes.father_surname) +
+                                    " " +
+                                    _vm._s(api.attributes.father_name) +
+                                    "  " +
+                                    _vm._s(api.attributes.father_middle_name)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Телефон: " +
+                                    _vm._s(api.attributes.father_phone)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Доп Телефон: " +
+                                    _vm._s(api.attributes.father_dop_phone)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Почта: " +
+                                    _vm._s(api.attributes.father_email)
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(7, true)
+                          ])
+                        ])
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -38872,7 +39080,52 @@ var render = function() {
                           "aria-labelledby": "other_relative-tab"
                         }
                       },
-                      [_vm._v("Родственник")]
+                      [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  _vm._s(
+                                    api.attributes.other_relative_surname
+                                  ) +
+                                    " " +
+                                    _vm._s(api.attributes.other_relative_name) +
+                                    "  " +
+                                    _vm._s(
+                                      api.attributes.other_relative_middle_name
+                                    )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Телефон: " +
+                                    _vm._s(api.attributes.other_relative_phone)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Доп Телефон: " +
+                                    _vm._s(
+                                      api.attributes.other_relative_dop_phone
+                                    )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(
+                                  "Почта: " +
+                                    _vm._s(api.attributes.other_relative_email)
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(8, true)
+                          ])
+                        ])
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -38885,7 +39138,61 @@ var render = function() {
                           "aria-labelledby": "contract-tab"
                         }
                       },
-                      [_vm._v("Контракт")]
+                      [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _c(
+                                "p",
+                                { staticClass: "card-text text-center" },
+                                [_vm._v('"Зирка Лева"')]
+                              ),
+                              _vm._v(" "),
+                              _vm._m(9, true),
+                              _vm._v(" "),
+                              _c("p", [
+                                _vm._v("Оплаты: \n    "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "text-muted ml-2",
+                                    attrs: {
+                                      "data-toggle": "tooltip",
+                                      "data-placement": "bottom",
+                                      title: "Дата оплаты - 23.05.2015"
+                                    }
+                                  },
+                                  [_vm._v("4212")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "text-success ml-2",
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.getModalSale()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("3159")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  { staticClass: "text-danger ml-2" },
+                                  [_vm._v("3348")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(10, true)
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(11, true)
+                          ])
+                        ])
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
@@ -38917,7 +39224,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm._m(4, true)
+              _vm._m(12, true)
             ])
           }),
           0
@@ -38927,6 +39234,64 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-lg-12" }, [
+        _c("div", { staticClass: "card mb-2" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("div", { staticClass: "row align-items-center" }, [
+              _c("div", { staticClass: "col" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-auto" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-success",
+                    attrs: { href: "javascript:void(0)" }
+                  },
+                  [_vm._v("Добавить клиента")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-info",
+                    attrs: { href: "javascript:void(0)" }
+                  },
+                  [_vm._v("Фильтр")]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link",
+          attrs: {
+            id: "all-tab",
+            "data-toggle": "tab",
+            href: "#all",
+            role: "tab",
+            "aria-controls": "all",
+            "aria-selected": "false"
+          }
+        },
+        [_vm._v("Все")]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -39119,6 +39484,181 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "" } }, [_vm._v("Примечания:")]),
+        _vm._v(" "),
+        _c("textarea", {
+          staticClass: "form-control",
+          attrs: { id: "mother_notes", rows: "3" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "" } }, [_vm._v("Примечания:")]),
+        _vm._v(" "),
+        _c("textarea", {
+          staticClass: "form-control",
+          attrs: { id: "mother_notes", rows: "3" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "" } }, [_vm._v("Примечания:")]),
+        _vm._v(" "),
+        _c("textarea", {
+          staticClass: "form-control",
+          attrs: { id: "mother_notes", rows: "3" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "table-responsive" }, [
+      _c(
+        "table",
+        {
+          staticClass:
+            " table table-bordered table-hover datatable datatable-User"
+        },
+        [
+          _c("tbody", [
+            _c("tr", [
+              _c("td", [
+                _vm._v(
+                  "\n                                Начало:\n                            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                                8.09.2020\n                            "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [
+                _vm._v(
+                  "\n                                Окончание:\n                            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                                8.09.2021\n                            "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [
+                _vm._v(
+                  "\n                                Окончание факт:\n                            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                                8.09.2020\n                            "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [
+                _vm._v(
+                  "\n                                Заморозки:\n                            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                                24 | 15 | 9\n                            "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [
+                _vm._v(
+                  "\n                                Тренировки:\n                            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                                81 | 28 | 53\n                            "
+                )
+              ])
+            ])
+          ])
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("Сумма и остаток: "),
+      _c("span", { staticClass: "ml-2" }, [_vm._v("10530 (3159)")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("p", { staticClass: "card-text text-center" }, [
+          _vm._v("Прошлые контракты")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _c(
+            "a",
+            {
+              staticClass: "text-muted",
+              attrs: { href: "javascript:void(0)" }
+            },
+            [_vm._v('"Вперед до зирок"    8.12.16 - 28.10.17')]
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _c(
+            "a",
+            {
+              staticClass: "text-muted",
+              attrs: { href: "javascript:void(0)" }
+            },
+            [_vm._v('"Народження зирки"   30.10.17 - 25.08.18')]
+          )
+        ])
+      ])
+    ])
   },
   function() {
     var _vm = this
