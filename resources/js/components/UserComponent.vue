@@ -1,3 +1,4 @@
+
 <template>
 <div>
     <div class="row">
@@ -6,17 +7,51 @@
           <div class="card-header">
             <div class="row align-items-center">
               <div class="col">
-               
               </div>
               <div class="col-auto">
                 <a class="btn btn-sm btn-success" href="javascript:void(0)">Добавить клиента</a>
                 <a class="btn btn-sm btn-info" href="javascript:void(0)">Фильтр</a>
+                
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+<!-- <vmdogovor-component></vmdogovor-component> -->
+
+
+<kiss-component></kiss-component>
+
+
+
+    <div class="modal fade" id="vmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLongTitle">Пробный контракт</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="ststic_page">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="text-center">Договор на оказания услуг программы "Зирка Лева"</h3>
+                                <p>ФИО: {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }} {{ dataObject.attributes['child_middle_name'] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button @click="vmContract = !vmContract, contractSelected = !contractSelected" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -103,9 +138,9 @@
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content" v-for="api in apis">
+    <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка  &nbsp {{ api.attributes.child_surname }} {{ api.attributes.child_name }}</h4>
+        <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка  &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -120,10 +155,11 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h4 class="card-title">{{ api.attributes.child_surname }}</h4>
-        <h4 class="card-title">{{ api.attributes.child_name }}</h4>
-        <h4 class="card-title">{{ api.attributes.child_middle_name }}</h4>
-        <p class="card-text">{{ api.attributes.child_birthday }} ({{ api.attributes.age }} лет)</p>
+        <h4 class="card-title" contenteditable="true" spellcheck="false" @blur="event => editField(event, 'child_surname')">{{ dataObject.attributes['child_surname'] }}</h4>
+        <h4 class="card-title" contenteditable="true" @blur="event => editField(event, 'child_name')">{{ dataObject.attributes['child_name'] }}</h4>
+        <h4 v-if="dataObject.attributes['child_middle_name']" class="card-title" contenteditable="true" @blur="event => editField(event, 'child_middle_name')">{{ dataObject.attributes['child_middle_name'] }}</h4>
+        <h4 v-else class="card-title" contenteditable="true" @blur="event => editField(event, 'child_middle_name')">Отчество</h4>
+        <p class="card-text">{{ dataObject.attributes['child_birthday'] }} ({{ dataObject.attributes['age'] }} лет)</p>
         <h4 class="card-title mb-3">"Зирка Лева"</h4>
         <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
       </div>
@@ -152,15 +188,16 @@
     <a class="nav-link" id="interests-tab" data-toggle="tab" href="#interests" role="tab" aria-controls="interests" aria-selected="false">Интересы</a>
   </li>
 </ul>
+
 <div class="tab-content" id="infoContent" style="min-height: 150px">
   <div class="tab-pane fade show active" id="mother" role="tabpanel" aria-labelledby="mother-tab">
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <p class="card-text">{{ api.attributes.mother_surname }} {{ api.attributes.mother_name }}  {{ api.attributes.mother_middle_name }}</p>
-                <p class="card-text">Телефон: {{ api.attributes.mother_phone }}</p>
-                <p class="card-text">Доп Телефон: {{ api.attributes.mother_dop_phone }}</p>
-                <p class="card-text">Почта: {{ api.attributes.mother_email }}</p>
+                <p class="card-text">{{ dataObject.attributes['mother_surname'] }} {{ dataObject.attributes['mother_name'] }}  {{ dataObject.attributes['mother_middle_name'] }}</p>
+                <p class="card-text">Телефон: {{ dataObject.attributes['mother_phone'] }}</p>
+                <p class="card-text">Доп Телефон: {{ dataObject.attributes['mother_dop_phone'] }}</p>
+                <p class="card-text">Почта: {{ dataObject.attributes['mother_email'] }}</p>
             </div>
             <div class="col-md-6">
                  <div class="form-group">
@@ -175,10 +212,10 @@
         <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <p class="card-text">{{ api.attributes.father_surname }} {{ api.attributes.father_name }}  {{ api.attributes.father_middle_name }}</p>
-                <p class="card-text">Телефон: {{ api.attributes.father_phone }}</p>
-                <p class="card-text">Доп Телефон: {{ api.attributes.father_dop_phone }}</p>
-                <p class="card-text">Почта: {{ api.attributes.father_email }}</p>
+                <p class="card-text">{{ dataObject.attributes['father_surname'] }} {{ dataObject.attributes['father_name'] }}  {{ dataObject.attributes['father_middle_name'] }}</p>
+                <p class="card-text">Телефон: {{ dataObject.attributes['father_phone'] }}</p>
+                <p class="card-text">Доп Телефон: {{ dataObject.attributes['father_dop_phone'] }}</p>
+                <p class="card-text">Почта: {{ dataObject.attributes['father_email'] }}</p>
             </div>
             <div class="col-md-6">
                  <div class="form-group">
@@ -193,10 +230,10 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="card-text">{{ api.attributes.other_relative_surname }} {{ api.attributes.other_relative_name }}  {{ api.attributes.other_relative_middle_name }}</p>
-                    <p class="card-text">Телефон: {{ api.attributes.other_relative_phone }}</p>
-                    <p class="card-text">Доп Телефон: {{ api.attributes.other_relative_dop_phone }}</p>
-                    <p class="card-text">Почта: {{ api.attributes.other_relative_email }}</p>
+                    <p class="card-text">{{ dataObject.attributes['other_relative_surname'] }} {{ dataObject.attributes['other_relative_name'] }}  {{ dataObject.attributes['other_relative_middle_name'] }}</p>
+                    <p class="card-text">Телефон: {{ dataObject.attributes['other_relative_phone'] }}</p>
+                    <p class="card-text">Доп Телефон: {{ dataObject.attributes['other_relative_dop_phone'] }}</p>
+                    <p class="card-text">Почта: {{ dataObject.attributes['other_relative_email'] }}</p>
                 </div>
                 <div class="col-md-6">
                    <div class="form-group">
@@ -275,12 +312,17 @@
                     <p class="card-text text-center">Прошлые контракты</p>
                     <p><a href="javascript:void(0)" class="text-muted">"Вперед до зирок"  &nbsp 8.12.16 - 28.10.17</a></p>
                     <p><a href="javascript:void(0)" class="text-muted">"Народження зирки" &nbsp 30.10.17 - 25.08.18</a></p>
+                    <div class="row">
+                        <div class="center">
+                            <button @click="closeModal()" class="btn btn-sm btn-success">Добавить контракт</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
   </div>
-  <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">История</div>
+  <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab"></div>
   <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab">Интересы</div>
 </div>
 
@@ -305,6 +347,7 @@
 <script>
 
 
+
     export default {
       //         data:{
       //   articles: null,
@@ -313,6 +356,19 @@
       // },
         data() {
             return{
+                options: [
+                  { text: 'Зирка лева', value: 'А' },
+                  { text: 'Народження зирки', value: 'Б' },
+                ],      
+                dataObject: {
+                     attributes: {}
+                },
+                data: [{id: 1}, {id: 2}, {id: 3}],
+                vmContract: true,
+                contractSelected: false,
+                getURL: "api/v2/getinfo",
+                postURL: "getone",
+                showInput: false,
                 articles: [],
                 users: [],
                 apis: null,
@@ -330,7 +386,12 @@
             this.fetchArticles();
         },
 
+
         methods: {
+
+                getNameId(){
+        alert(this.$refs.textName.id);
+    },
             contact(){
                 this.fetchArticles();
             },
@@ -338,19 +399,15 @@
                 this.emails();
             },
             add(){
-                axios.post('getone', {name: this.name}).then(res => {
+                axios.post('getone', {user_id: 1, id: this.$refs.child.id, name: this.title}).then(res => {
                     this.users = res.data
                 })
             },
             getModal(id){
                 $('#addNew').modal('show');
                 axios.post('api/v2/getinfo', {id : id}).then(response => {
-                    this.apis = response.data
-                    console.log(response)
+                    this.dataObject = response.data.data
                 })
-            },
-            getModalSale(){
-                // $('#modalSale').modal('show');
             },
             fetchArticles(){
                 axios.
@@ -368,17 +425,27 @@
                 .finally(() => console.log('Посты успешно загружены'));
 
             },
-            // getOne(){
-            //     axios.
-            //     post('getOne/1')
-            //     // delete('api/article/' + id)
-            //     .then(response => console.log(response.data));
-            //     this.fetchArticles();
-            // },
-            // countDown: function(){
-            //     var input = this.message;
-            //     alert(input);
-            // },
+            getData(id){
+                axios.post(this.getURL, {id : id}).then((response) => {
+                this.dataObject = response.data.data
+                })
+            },
+            saveData(){
+                axios.post(this.postURL, this.dataObject)
+            },
+            editField(event, key) {
+                const value = event.target.innerText;
+                if(value !== this.dataObject.attributes[key]){
+                    this.dataObject.attributes[key] = value;
+                    axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
+                    this.fetchArticles();
+                    // this.saveData();
+                }
+            },
+            closeModal(){
+                $('#selectModal').modal('show');
+                $('#addNew').modal('hide');
+            },
         }
     }
 
@@ -390,4 +457,9 @@
         padding: 10px;
         font-size: 14px;
     }
+
+    .center{
+ display: block;
+ margin: 0 auto;
+}
 </style>

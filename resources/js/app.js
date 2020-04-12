@@ -22,6 +22,9 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('user-component', require('./components/UserComponent.vue').default);
+Vue.component('kiss-component', require('./components/KissComponent.vue').default);
+Vue.component('vmdogovor-component', require('./components/VmDogovor.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

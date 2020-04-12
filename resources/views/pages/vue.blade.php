@@ -4,6 +4,7 @@
 <div id="app">
 	
 <user-component></user-component>
+<!-- <example-component></example-component> -->
 
 
 </div>

@@ -27,7 +27,18 @@ class VueController extends Controller
     	return $data;
     }
 
-    public function getOne(Request $id){
+    public function getOne(Request $request){
+
+    	$field_name = $request['field_name'];
+
+    	$user = Base::find($request['user_id']);
+		$user->$field_name = $request['field_value'];
+		$user->save();
+		return "OK";
+
+
+
+    	
     	$dr = Carbon::createFromDate(1988, 9, 1)->diff(Carbon::now())->format('%y лет, %m месяцев и %d дней');
     	$post = User::find($id);
     	$data = Base::find($id);

@@ -2,13 +2,25 @@
 
     <div class="container">
         <h1>Новый регион</h1>
+
+
+<div id="app">
+  <div class="col-md-8">
+    <div class="card-body">
+            <h4 v-if="!showInput" class="card-title" @click="showInput = true">{{ title }}</h4>
+            <input v-else type="text" id="child_name" name="name" ref="click" v-model="title" @blur="add(), showInput = false">
+    </div>
+  </div>
+</div>
+
+
         <div class="card">
                 <div class="card-body">
                     <label class="required" for="name">Введите имя</label>
                     <input class="form-control" type="text" name="name" id="name" v-model="name">
                 </div>
                 <div class="form-group ml-4">
-                    <button class="btn btn-danger" type="submit" @click="add">
+                    <button class="btn btn-danger" type="submit" @click="getNameId" id="child_name" ref="textName">
                         Добавить
                     </button>
                     <button class="btn btn-danger" @click="fetchArticles">
@@ -87,6 +99,8 @@
 </template>
 
 <script>
+
+
     export default {
               data:{
         articles: null,
@@ -94,6 +108,8 @@
       },
         data() {
             return{
+                showInput: false,
+                title: "Title",
                 articles: [],
                 users: [],
                 article: {
@@ -111,8 +127,15 @@
         },
 
         methods: {
+
+
+    getNameId(){
+        console.log(this.$refs.textName.id);
+    },
+
+
             add(){
-                axios.post('getone', {name: this.name}).then(res => {
+                axios.post('getone', {user_id: 1, id: this.$refs.click.id, name: this.title}).then(res => {
                     this.users = res.data
                 })
             },
