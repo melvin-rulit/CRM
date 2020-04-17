@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "vue-cute-modal": "^1.1.0",
+        "vue-html-to-paper": "^1.3.1",
         "vue-slick": "^1.1.15",
         "vue-tabs-component": "^1.5.0",
         "vue2-simplert-plugin": "^0.5.3"

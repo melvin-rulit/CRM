@@ -11,7 +11,6 @@
               <div class="col-auto">
                 <a class="btn btn-sm btn-success" href="javascript:void(0)">Добавить клиента</a>
                 <a class="btn btn-sm btn-info" href="javascript:void(0)">Фильтр</a>
-                
               </div>
             </div>
           </div>
@@ -19,38 +18,12 @@
       </div>
     </div>
 
-<!-- <vmdogovor-component></vmdogovor-component> -->
 
 
-<kiss-component></kiss-component>
+<dogovor-component></dogovor-component>
 
 
 
-    <div class="modal fade" id="vmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLongTitle">Пробный контракт</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="ststic_page">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <h3 class="text-center">Договор на оказания услуг программы "Зирка Лева"</h3>
-                                <p>ФИО: {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }} {{ dataObject.attributes['child_middle_name'] }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button @click="vmContract = !vmContract, contractSelected = !contractSelected" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -155,11 +128,14 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h4 class="card-title" contenteditable="true" spellcheck="false" @blur="event => editField(event, 'child_surname')">{{ dataObject.attributes['child_surname'] }}</h4>
-        <h4 class="card-title" contenteditable="true" @blur="event => editField(event, 'child_name')">{{ dataObject.attributes['child_name'] }}</h4>
-        <h4 v-if="dataObject.attributes['child_middle_name']" class="card-title" contenteditable="true" @blur="event => editField(event, 'child_middle_name')">{{ dataObject.attributes['child_middle_name'] }}</h4>
-        <h4 v-else class="card-title" contenteditable="true" @blur="event => editField(event, 'child_middle_name')">Отчество</h4>
-        <p class="card-text">{{ dataObject.attributes['child_birthday'] }} ({{ dataObject.attributes['age'] }} лет)</p>
+
+<!-- <editfield-component></editfield-component> -->
+
+    <h4><input-form v-model="dataObject.attributes.child_surname" name="child_surname" @edit-field="editField"></input-form></h4>
+    <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
+    <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
+
+        <p class="card-text"><input-form v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> ({{ dataObject.attributes['age'] }} лет)</p>
         <h4 class="card-title mb-3">"Зирка Лева"</h4>
         <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
       </div>
@@ -194,10 +170,12 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <p class="card-text">{{ dataObject.attributes['mother_surname'] }} {{ dataObject.attributes['mother_name'] }}  {{ dataObject.attributes['mother_middle_name'] }}</p>
-                <p class="card-text">Телефон: {{ dataObject.attributes['mother_phone'] }}</p>
-                <p class="card-text">Доп Телефон: {{ dataObject.attributes['mother_dop_phone'] }}</p>
-                <p class="card-text">Почта: {{ dataObject.attributes['mother_email'] }}</p>
+                <p class="card-text">Фамилия: <input-form v-model="dataObject.attributes.mother_surname" name="mother_surname" @edit-field="editField"></input-form></p>
+                <p class="card-text">Имя: <input-form v-model="dataObject.attributes.mother_name" name="mother_name" @edit-field="editField"></input-form></p>
+                <p class="card-text">Отчество: <input-form v-model="dataObject.attributes.mother_middle_name" name="mother_middle_name" @edit-field="editField"></input-form></p>
+                <p class="card-text">Телефон: <input-form v-model="dataObject.attributes.mother_phone" name="mother_phone" @edit-field="editField"></input-form></p>
+                <p class="card-text">Доп Телефон: <input-form v-model="dataObject.attributes.mother_dop_phone" name="mother_dop_phone" @edit-field="editField"></input-form></p>
+                <p class="card-text">Почта: <input-form v-model="dataObject.attributes.mother_email" name="mother_email" @edit-field="editField"></input-form></p>
             </div>
             <div class="col-md-6">
                  <div class="form-group">
@@ -212,10 +190,12 @@
         <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <p class="card-text">{{ dataObject.attributes['father_surname'] }} {{ dataObject.attributes['father_name'] }}  {{ dataObject.attributes['father_middle_name'] }}</p>
-                <p class="card-text">Телефон: {{ dataObject.attributes['father_phone'] }}</p>
-                <p class="card-text">Доп Телефон: {{ dataObject.attributes['father_dop_phone'] }}</p>
-                <p class="card-text">Почта: {{ dataObject.attributes['father_email'] }}</p>
+             <p class="card-text">Фамилия: <input-form v-model="dataObject.attributes.father_surname" name="father_surname" @edit-field="editField"></input-form></p>
+                <p class="card-text">Имя: <input-form v-model="dataObject.attributes.father_name" name="father_name" @edit-field="editField"></input-form></p>
+                <p class="card-text">Отчество: <input-form v-model="dataObject.attributes.father_middle_name" name="father_middle_name" @edit-field="editField"></input-form></p>
+                <p class="card-text">Телефон: <input-form v-model="dataObject.attributes.father_phone" name="father_phone" @edit-field="editField"></input-form></p>
+                <p class="card-text">Доп Телефон: <input-form v-model="dataObject.attributes.father_dop_phone" name="father_dop_phone" @edit-field="editField"></input-form></p>
+                <p class="card-text">Почта: <input-form v-model="dataObject.attributes.father_email" name="father_email" @edit-field="editField"></input-form></p>
             </div>
             <div class="col-md-6">
                  <div class="form-group">
@@ -230,10 +210,12 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="card-text">{{ dataObject.attributes['other_relative_surname'] }} {{ dataObject.attributes['other_relative_name'] }}  {{ dataObject.attributes['other_relative_middle_name'] }}</p>
-                    <p class="card-text">Телефон: {{ dataObject.attributes['other_relative_phone'] }}</p>
-                    <p class="card-text">Доп Телефон: {{ dataObject.attributes['other_relative_dop_phone'] }}</p>
-                    <p class="card-text">Почта: {{ dataObject.attributes['other_relative_email'] }}</p>
+                 <p class="card-text">Фамилия: <input-form v-model="dataObject.attributes.other_relative_surname" name="other_relative_surname" @edit-field="editField"></input-form></p>
+                    <p class="card-text">Имя: <input-form v-model="dataObject.attributes.other_relative_name" name="other_relative_name" @edit-field="editField"></input-form></p>
+                    <p class="card-text">Отчество: <input-form v-model="dataObject.attributes.other_relative_middle_name" name="other_relative_middle_name" @edit-field="editField"></input-form></p>
+                    <p class="card-text">Телефон: <input-form v-model="dataObject.attributes.other_relative_phone" name="other_relative_phone" @edit-field="editField"></input-form></p>
+                    <p class="card-text">Доп Телефон: <input-form v-model="dataObject.attributes.other_relative_dop_phone" name="other_relative_dop_phone" @edit-field="editField"></input-form></p>
+                    <p class="card-text">Почта: <input-form v-model="dataObject.attributes.other_relative_email" name="other_relative_email" @edit-field="editField"></input-form></p>
                 </div>
                 <div class="col-md-6">
                    <div class="form-group">
@@ -246,77 +228,106 @@
   </div>
   <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="contract-tab">
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-6">
-                <p class="card-text text-center">"Зирка Лева"</p>
+
+          <div class="row">
+    <div class="col-md-6 border-bottom">
 
 
-
-        <div class="table-responsive">
-            <table class=" table table-bordered table-hover datatable datatable-User">
-                <tbody>
-                        <tr>
-                            <td>
-                                Начало:
-                            </td>
-                            <td>
-                                8.09.2020
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Окончание:
-                            </td>
-                            <td>
-                                8.09.2021
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Окончание факт:
-                            </td>
-                            <td>
-                                8.09.2020
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Заморозки:
-                            </td>
-                            <td>
-                                24 | 15 | 9
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Тренировки:
-                            </td>
-                            <td>
-                                81 | 28 | 53
-                            </td>
-                        </tr>
-                </tbody>
-            </table>
-        </div>
-
-<p>Оплаты: 
-    <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">4212</span>
-    <a href="javascript:void(0)" class="text-success ml-2" v-on:click="getModalSale()">3159</a>
-    <span class="text-danger ml-2">3348</span>
-</p>
-<p>Сумма и остаток: <span class="ml-2">10530 (3159)</span></p>
-
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <p class="card-text text-center">Прошлые контракты</p>
-                    <p><a href="javascript:void(0)" class="text-muted">"Вперед до зирок"  &nbsp 8.12.16 - 28.10.17</a></p>
-                    <p><a href="javascript:void(0)" class="text-muted">"Народження зирки" &nbsp 30.10.17 - 25.08.18</a></p>
-                    <div class="row">
-                        <div class="center">
+     <div class="btn-group btn-group-sm mb-3 text-center">
+        <button class="btn btn-sm btn-outline-secondary" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
+        <button class="btn btn-sm btn-outline-secondary" @click="indexActiveUser++" :disabled="indexActiveUser === dataUser.length - 1">Следующий</button>
+     </div>
+    </div>
+    <hr>
+    <div class="col-md-6 border-bottom">
+                         <div class="row">
+                        <div class="center mb-3">
                             <button @click="closeModal()" class="btn btn-sm btn-success">Добавить контракт</button>
                         </div>
                     </div>
+    </div>
+    <hr>
+  </div>
+
+        <div class="row">
+
+
+<!--         <div class="card mb-2">
+            <transition name="fade" mode="out-in">
+          <div class="card-body">
+            <h5 class="card-title">{{activeUser.name}}</h5>
+            <p class="card-text">{{activeUser.time}}</p>
+          </div>
+      </transition>
+        </div> -->
+
+            <div class="col-md-6 mt-3" v-for="cont in dataObject.contracts_active">
+
+                
+                <div class="table-responsive" v-for="co in cont">
+                    <p class="card-text text-center">"{{ co.name }}"</p>
+                    <table class=" table table-bordered table-hover datatable datatable-User">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Начало:
+                                </td>
+                                <td>
+                                    {{ co.start }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Окончание:
+                                </td>
+                                <td>
+                                    {{ co.end }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Окончание факт:
+                                </td>
+                                <td>
+                                    {{ co.end_actually }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Заморозки:
+                                </td>
+                                <td>
+                                    24 | 15 | 9
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Тренировки:
+                                </td>
+                                <td>
+                                    81 | 28 | 53
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>Оплаты: 
+                    <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">4212</span>
+                    <a href="javascript:void(0)" class="text-success ml-2" v-on:click="getModalSale()">3159</a>
+                    <span class="text-danger ml-2">3348</span>
+                </p>
+                <p>Сумма и остаток: <span class="ml-2">10530 (3159)</span></p>
+
+            </div>
+
+
+
+
+            <div class="col-md-6 mt-3">
+                <div class="form-group" v-for="cont in dataObject.contracts_not_active">
+                    <p class="card-text text-center">Прошлые контракты</p>
+                    <p  v-for="co in cont"><a href="javascript:void(0)" class="text-muted">"{{co.name}}"  &nbsp {{co.start}} - {{co.end}}</a></p>
                 </div>
             </div>
         </div>
@@ -346,6 +357,55 @@
 
 <script>
 
+Vue.component('inputForm', {
+  props: {
+    value: {
+      type: String,
+      required: true
+    },
+        title: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      keyInputForm: null,
+      thisValue: this.value,
+    }
+  },
+  template: `
+
+      <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
+      <input v-else type="text" :value="value" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false" v-on:keyup.enter="keyInputForm = false;$emit('edit-field', $event)">
+
+  `
+})
+
+
+
+
+import Vue from 'vue';
+import VueHtmlToPaper from 'vue-html-to-paper';
+
+const options = {
+  name: '_blank',
+  specs: [
+    'fullscreen=yes',
+    'titlebar=yes',
+    'scrollbars=yes'
+  ],
+  styles: [
+    'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+    'https://unpkg.com/kidlat-css/css/kidlat.css'
+  ]
+}
+
+Vue.use(VueHtmlToPaper, options);
 
 
     export default {
@@ -356,14 +416,47 @@
       // },
         data() {
             return{
+
+    dataInput: {
+      name: 'Name',
+      surname: 'Surname',
+      age: '17',
+      type: 'base_info',
+      id: 1
+    },
+
+                dataVm: {},
+                name:'',
+                fio_child: '',
+                fio_parent: 'Ложков Петр Алексеевич',
+                contract_name: 'Відкрий можливості',
+                town: 'м.Одесса',
+                date: '23.09.2020',
+                ip: 'Фізична особо-підприємець Булик І.В',
+                branch_adress: 'м.Одеса, пр-т Добровольського, 122/2',
+
+
                 options: [
                   { text: 'Зирка лева', value: 'А' },
                   { text: 'Народження зирки', value: 'Б' },
                 ],      
                 dataObject: {
-                     attributes: {}
+                     attributes: {},
+                     contracts_not_active: {},
+                     contracts_active: {},
                 },
-                data: [{id: 1}, {id: 2}, {id: 3}],
+                contract:{},
+                      dataUser: [{
+        name: 'Alex',
+        time: '8.09.2020'
+      }, {
+        name: 'Ivan',
+        time: '8.01.2020'
+      }, {
+        name: 'Olga',
+        time: '8.02.2020'
+      }],
+      indexActiveUser: 0,
                 vmContract: true,
                 contractSelected: false,
                 getURL: "api/v2/getinfo",
@@ -386,11 +479,16 @@
             this.fetchArticles();
         },
 
+  computed: {
+    activeUser() {
+      return this.dataUser[this.indexActiveUser]
+    }
+  },
 
         methods: {
-
-                getNameId(){
-        alert(this.$refs.textName.id);
+                print() {
+      // Pass the element id here
+      this.$htmlToPaper('printVM');
     },
             contact(){
                 this.fetchArticles();
@@ -433,18 +531,36 @@
             saveData(){
                 axios.post(this.postURL, this.dataObject)
             },
-            editField(event, key) {
-                const value = event.target.innerText;
-                if(value !== this.dataObject.attributes[key]){
-                    this.dataObject.attributes[key] = value;
-                    axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
-                    this.fetchArticles();
-                    // this.saveData();
-                }
+            // editField(event, key) {
+            //     const value = event.target.innerText;
+            //     if(value !== this.dataObject.attributes[key]){
+            //         this.dataObject.attributes[key] = value;
+            //         axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
+            //         this.fetchArticles();
+            //         // this.saveData();
+            //     }
+            // },
+            editField(e) {
+              console.clear();
+              const value = e.target.value;
+              const key = e.currentTarget.getAttribute('name');
+              if (value !== this.dataObject.attributes[key]) {
+                    axios.post(this.postURL, { user_id: this.dataObject.id, field_name: key, field_value: value })
+              }else{
+                console.log("Нечего изменять");
+              }
+
+              this.fetchArticles();
             },
             closeModal(){
-                $('#selectModal').modal('show');
+                this.get();
                 $('#addNew').modal('hide');
+                $('#selectModal').modal('show');
+            },
+            get(id){
+                axios.post('api/v2/getvmcontract', {id : 1}).then(response => {
+                    this.dataVm = response.data.data
+                })
             },
         }
     }
@@ -461,5 +577,14 @@
     .center{
  display: block;
  margin: 0 auto;
+}
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>

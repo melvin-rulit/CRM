@@ -15,4 +15,8 @@ class Base extends Model
         'source',
         'notes',
     ];
+
+    public function contracts(){
+    	return $this->hasMany(Contract::class);
+    }
 }

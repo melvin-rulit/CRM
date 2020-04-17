@@ -1899,6 +1899,392 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DogovorComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DogovorComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      dataVm: {},
+      options: [{
+        text: 'Зирка лева',
+        value: 'А'
+      }, {
+        text: 'Народження зирки',
+        value: 'Б'
+      }],
+      vmContract: true,
+      contractSelected: false
+    };
+  },
+  methods: {
+    vmModal: function vmModal() {
+      var _this = this;
+
+      axios.post('api/v2/getvmcontract', {
+        id: 1
+      }).then(function (response) {
+        _this.dataVm = response.data.data;
+      });
+      $('#vmModal').modal('show');
+      $('#selectModal').modal('hide');
+    },
+    osnModal: function osnModal() {
+      $('#osnModal').modal('show');
+      $('#selectModal').modal('hide');
+    },
+    sendVm: function sendVm() {
+      axios.post('get', {
+        base_id: 1,
+        name: this.dataVm.contract_name,
+        start: this.dataVm.date,
+        end: this.dataVm.date,
+        fio_child: this.dataVm.child_fio,
+        active: true
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -2073,86 +2459,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/KissComponent.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/KissComponent.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      options: [{
-        text: 'Зирка лева',
-        value: 'А'
-      }, {
-        text: 'Народження зирки',
-        value: 'Б'
-      }],
-      vmContract: true,
-      contractSelected: false
-    };
-  },
-  methods: {
-    vmModal: function vmModal() {
-      $('#vmModal').modal('show');
-      $('#selectModal').modal('hide');
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserComponent.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UserComponent.vue?vue&type=script&lang=js& ***!
@@ -2162,6 +2468,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -2508,6 +2818,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
+  props: {
+    value: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      keyInputForm: null,
+      thisValue: this.value
+    };
+  },
+  template: "\n\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false\" v-on:keyup.enter=\"keyInputForm = false;$emit('edit-field', $event)\">\n\n  "
+});
+
+
+var options = {
+  name: '_blank',
+  specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
+  styles: ['https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', 'https://unpkg.com/kidlat-css/css/kidlat.css']
+};
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1___default.a, options);
 /* harmony default export */ __webpack_exports__["default"] = ({
   //         data:{
   //   articles: null,
@@ -2516,6 +2868,22 @@ __webpack_require__.r(__webpack_exports__);
   // },
   data: function data() {
     return {
+      dataInput: {
+        name: 'Name',
+        surname: 'Surname',
+        age: '17',
+        type: 'base_info',
+        id: 1
+      },
+      dataVm: {},
+      name: '',
+      fio_child: '',
+      fio_parent: 'Ложков Петр Алексеевич',
+      contract_name: 'Відкрий можливості',
+      town: 'м.Одесса',
+      date: '23.09.2020',
+      ip: 'Фізична особо-підприємець Булик І.В',
+      branch_adress: 'м.Одеса, пр-т Добровольського, 122/2',
       options: [{
         text: 'Зирка лева',
         value: 'А'
@@ -2524,15 +2892,22 @@ __webpack_require__.r(__webpack_exports__);
         value: 'Б'
       }],
       dataObject: {
-        attributes: {}
+        attributes: {},
+        contracts_not_active: {},
+        contracts_active: {}
       },
-      data: [{
-        id: 1
+      contract: {},
+      dataUser: [{
+        name: 'Alex',
+        time: '8.09.2020'
       }, {
-        id: 2
+        name: 'Ivan',
+        time: '8.01.2020'
       }, {
-        id: 3
+        name: 'Olga',
+        time: '8.02.2020'
       }],
+      indexActiveUser: 0,
       vmContract: true,
       contractSelected: false,
       getURL: "api/v2/getinfo",
@@ -2554,9 +2929,15 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.fetchArticles();
   },
+  computed: {
+    activeUser: function activeUser() {
+      return this.dataUser[this.indexActiveUser];
+    }
+  },
   methods: {
-    getNameId: function getNameId() {
-      alert(this.$refs.textName.id);
+    print: function print() {
+      // Pass the element id here
+      this.$htmlToPaper('printVM');
     },
     contact: function contact() {
       this.fetchArticles();
@@ -2617,22 +2998,45 @@ __webpack_require__.r(__webpack_exports__);
     saveData: function saveData() {
       axios.post(this.postURL, this.dataObject);
     },
-    editField: function editField(event, key) {
-      var value = event.target.innerText;
+    // editField(event, key) {
+    //     const value = event.target.innerText;
+    //     if(value !== this.dataObject.attributes[key]){
+    //         this.dataObject.attributes[key] = value;
+    //         axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
+    //         this.fetchArticles();
+    //         // this.saveData();
+    //     }
+    // },
+    editField: function editField(e) {
+      console.clear();
+      var value = e.target.value;
+      var key = e.currentTarget.getAttribute('name');
 
       if (value !== this.dataObject.attributes[key]) {
-        this.dataObject.attributes[key] = value;
         axios.post(this.postURL, {
           user_id: this.dataObject.id,
           field_name: key,
           field_value: value
         });
-        this.fetchArticles(); // this.saveData();
+      } else {
+        console.log("Нечего изменять");
       }
+
+      this.fetchArticles();
     },
     closeModal: function closeModal() {
-      $('#selectModal').modal('show');
+      this.get();
       $('#addNew').modal('hide');
+      $('#selectModal').modal('show');
+    },
+    get: function get(id) {
+      var _this6 = this;
+
+      axios.post('api/v2/getvmcontract', {
+        id: 1
+      }).then(function (response) {
+        _this6.dataVm = response.data.data;
+      });
     }
   }
 });
@@ -7170,10 +7574,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7182,7 +7586,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {\n  opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n#vmModal, #osnModal{\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -7201,7 +7605,26 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.table td, .table th {\n        padding: 10px;\n        font-size: 14px;\n}\n.center{\n display: block;\n margin: 0 auto;\n}\n", ""]);
+exports.push([module.i, "\n.table td, .table th {\n        padding: 10px;\n        font-size: 14px;\n}\n.center{\n display: block;\n margin: 0 auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: all .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n  transform: translateY(20px);\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\nSize : 8.27in and 11.69 inches\n\n@page Section1 {\nsize:8.27in 11.69in; \nmargin:.5in .5in .5in .5in; \nmso-header-margin:.5in; \nmso-footer-margin:.5in; \nmso-paper-source:0;\n}\n\n\n\n/*body, .tdleft, .tdright, .line, .tabs{\n\tfont-size: 0.138in;\n}*/\ndiv.Section1 {\npage:Section1;\nborder: solid 0px;\n}\n.logo{\n\tdisplay: block;\n\twidth: 1.917in;\n\theight: 0.590in;\n}\nh1{\n\ttext-align: center;\n\tfont-size: 0.166in;\n}\n.tabs{\n\twidth: 100%;\n}\n.tdleft{\n\ttext-align: left;\n}\n.tdright{\n\ttext-align: right;\n}\n.line{\n\tborder: solid;\n\tborder-width: 0px 0px 1px 0px;\n\twidth: 100%;\n\tfont-weight: bold;\n}\n.hide{\n\tfont-weight: normal;\n}\n.gray{background:#cbc1c1;}\n", ""]);
 
 // exports
 
@@ -38044,15 +38467,15 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./KissComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./DogovorComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -38083,6 +38506,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./UserComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./VmDogovor.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -38688,6 +39141,1103 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-html-to-paper/dist/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vue-html-to-paper/dist/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports=function(e){function t(r){if(n[r])return n[r].exports;var o=n[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var n={};return t.m=e,t.c=n,t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,n){"use strict";function r(e,t){t.forEach(function(t){var n=e.document.createElement("link");n.setAttribute("rel","stylesheet"),n.setAttribute("type","text/css"),n.setAttribute("href",t),e.document.getElementsByTagName("head")[0].appendChild(n)})}Object.defineProperty(t,"__esModule",{value:!0}),t.default={install:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};e.prototype.$htmlToPaper=function(e,n){var o=arguments.length>2&&void 0!==arguments[2]?arguments[2]:function(){return!0},l=["fullscreen=yes","titlebar=yes","scrollbars=yes"],u=[],i=t.name,s=void 0===i?"_blank":i,c=t.specs,a=void 0===c?l:c,d=t.replace,p=void 0===d||d,f=t.styles,m=void 0===f?u:f;n&&(n.name&&(s=n.name),n.specs&&(a=n.specs),n.replace&&(p=n.replace),n.styles&&(m=n.styles)),console.warn(m),a=a.length?a.join(","):"";var y=document.getElementById(e);if(!y)return void alert("Element to print #"+e+" not found!");var v=window.open("",s,a,p);return v.document.write("\n        <html>\n          <head>\n            <title>"+document.title+"</title>\n          </head>\n          <body>\n            "+y.innerHTML+"\n          </body>\n        </html>\n      "),r(v,m),setTimeout(function(){v.document.close(),v.focus(),v.print(),v.close(),o()},1e3),!0}}}}]);
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DogovorComponent.vue?vue&type=template&id=12fe9542&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DogovorComponent.vue?vue&type=template&id=12fe9542& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "selectModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "row modal-body" }, [
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.vmContract,
+                        expression: "vmContract"
+                      }
+                    ],
+                    staticClass: "col-md-6"
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "javascript:void(0)" },
+                        on: {
+                          click: function($event) {
+                            return _vm.vmModal()
+                          }
+                        }
+                      },
+                      [_vm._v("Контракт на пробное занятие")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.vmContract,
+                        expression: "vmContract"
+                      }
+                    ],
+                    staticClass: "col-md-6"
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "javascript:void(0)" },
+                        on: {
+                          click: function($event) {
+                            return _vm.osnModal()
+                          }
+                        }
+                      },
+                      [_vm._v("Контракт основной программы")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.contractSelected,
+                        expression: "contractSelected"
+                      }
+                    ],
+                    staticClass: "form-inline",
+                    staticStyle: { margin: "0 auto" }
+                  },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group mx-sm-3 mb-2" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.selected,
+                              expression: "selected"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selected = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        _vm._l(_vm.options, function(option) {
+                          return _c(
+                            "option",
+                            { domProps: { value: option.value } },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(option.text) +
+                                  "\n              "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary mb-2",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Выбрать")]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        ;(_vm.vmContract = !_vm.vmContract),
+                          (_vm.contractSelected = !_vm.contractSelected)
+                      }
+                    }
+                  },
+                  [_vm._v("Закрыть")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "vmModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLongTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLongTitle" }
+                  },
+                  [_vm._v(_vm._s(_vm.dataVm.contract_name))]
+                ),
+                _vm._v(" "),
+                _vm._m(2)
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "modal-body modal-lg",
+                  attrs: { id: "printVM" }
+                },
+                [
+                  _c("div", { staticClass: "Section1" }, [
+                    _c("h1", [
+                      _vm._v("Договір"),
+                      _c("br"),
+                      _vm._v("\n            про надання послуг"),
+                      _c("br"),
+                      _vm._v(
+                        "\n            за програмою «" +
+                          _vm._s(_vm.dataVm.contract_name) +
+                          "»\n          "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("table", { attrs: { border: "0", width: "100%" } }, [
+                      _c("tr"),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "tdleft" }, [
+                        _vm._v(_vm._s(_vm.dataVm.town))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "tdright" }, [
+                        _vm._v(_vm._s(_vm.dataVm.date) + " рік")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("p"),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v(
+                        "\n            Фізична особо-підприємець " +
+                          _vm._s(_vm.dataVm.ip) +
+                          "."
+                      ),
+                      _vm._v(
+                        ", надалі іменується «Виконавець», з одного боку, та законні представники\n            (опікуни, піклувальники)\n          "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("form", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.fio_parent,
+                            expression: "fio_parent"
+                          }
+                        ],
+                        staticClass: "line",
+                        domProps: { value: _vm.fio_parent },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.fio_parent = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v("\n            ПІП, надалі - «Замовник»,"),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("table", { staticClass: "tabs" }, [
+                        _c("tr", [
+                          _c("td", { attrs: { width: "25%" } }, [
+                            _vm._v("неповнолітньої дитини:")
+                          ]),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.child_fio,
+                                  expression: "dataVm.child_fio"
+                                }
+                              ],
+                              staticClass: "line",
+                              domProps: { value: _vm.dataVm.child_fio },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "child_fio",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ]),
+                      _vm._v(
+                        "\n            ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            а разом «Сторони», уклали цей Договір, про наступне:"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            1. Предметом Договору є надання Виконавцем, Замовнику послуг з фізичної підготовкиза програмою«Відкрий\n            можливості» (надалі – «Програма») на визначених цим Договором умовах."
+                      ),
+                      _c("br"),
+                      _vm._v("\n            2. Умови Програми:"),
+                      _c("br"),
+                      _vm._v(
+                        "\n            2.1. Програма складається з двох тренувань, тривалістю 45 хвилинкожне;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            2.2. Тренування відбуваються у спеціальному спортивному залі за адресою: " +
+                          _vm._s(_vm.dataVm.branch_adress) +
+                          ";"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            2.3. Заняття Програми проводять два тренери одночасно;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            2.4. Заняття проводяться без присутності батьків в спортивному залі;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без\n            повного комплекту форми та змінного спортивного взуття."
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            2.6. Вартість Програми складає " +
+                          _vm._s(_vm.dataVm.programm_price) +
+                          " (" +
+                          _vm._s(_vm.dataVm.programm_price_title) +
+                          ".)."
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті\n            п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:"
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm._m(3),
+                      _vm._v("\n            3. Права та обов’язки Замовника"),
+                      _c("br"),
+                      _vm._v(
+                        "\n            3.1. Замовник має право сплатити послуги за акційною ціною " +
+                          _vm._s(_vm.dataVm.programm_price_stock) +
+                          " (" +
+                          _vm._s(_vm.dataVm.programm_price_stock_title) +
+                          ") грн. у випадку оплати"
+                      ),
+                      _vm._v(
+                        "\n            Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні\n            занять Програми протягом наступних, семи днів після оплати;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            3.2. Замовник має право з поважних причин змінити час та групу для тренування лише в період дії акційної ціни\n            та наявності вільних місць в групах в перші 7 днів після оплати. Переважне право прийняття остаточного\n            рішення належить Виконавцю."
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            3.3. У випадку переносу занять на більш пізній термін без поважної причини, Замовник зобов’язується оплатити\n            повну вартість Програми;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            3.4. Замовник має право спостерігати за заняттями на екрані телевізора в кімнаті батьків;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            4. Якщо Вихованцем було пропущено одне з двох навчально-тренувальних занять, Програма вважається\n            завершеною. Вартість пропущеного заняття Виконавцем не повертається."
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            5.Замовник вносить заставу за форму в розмірі " +
+                          _vm._s(_vm.dataVm.programm_price_pledge) +
+                          " (" +
+                          _vm._s(_vm.dataVm.programm_price_pledge_title) +
+                          ") грн."
+                      ),
+                      _vm._v(
+                        " до початку першого тренування. Форма повинна\n            бути повернена Виконавцю після другого заняття. Якщо Замовником не повертається форма в день закінчення\n            Програми, застава за форму вважається її оплатою. У випадку продовження тренувань Вихованця забазовими\n            програмами «Відкрий можливості» чи «Народження Зірки», застава в розмірі 400 (чотириста) грн. зараховується в\n            оплату вартості подальшогонавчання.\n            "
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            6. Підписуючи даний Договір, Замовник дає згоду на проведення Виконавцем фото та відео зйомки тренувань з\n            подальшим використанням цих матеріалів в рекламних і маркетингових цілях."
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            7. Підписуючи Договір, Замовник підтверджує факт відсутності обмежень, чи будь-яких протипоказань до занять\n            спортом у Вихованця."
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            8. Договір підписується у 2-х примірниках, маючих однакову юридичну силу.\n          "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("table", { staticClass: "tabs" }, [
+                      _c("tr", [
+                        _c("td", { attrs: { width: "50%" } }, [
+                          _c("b", [_vm._v("Виконавець")]),
+                          _c("br"),
+                          _vm._v(
+                            "\n                ФОП " +
+                              _vm._s(_vm.dataVm.ip) +
+                              "."
+                          ),
+                          _c("br"),
+                          _vm._v("\n                Реквізити для оплати:"),
+                          _c("br"),
+                          _vm._v(
+                            "\n                " + _vm._s(_vm.dataVm.requisites)
+                          ),
+                          _c("br"),
+                          _vm._v("\n                Адреса надання послуг:"),
+                          _c("br"),
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(_vm.dataVm.branch_adress)
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                Тел. " + _vm._s(_vm.dataVm.phone)
+                          ),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(
+                            "\n                __________________________(підпис)\n              "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(4)
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Отменить")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.sendVm }
+                  },
+                  [_vm._v("Сохранить и распечатать")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "osnModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLongTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(5),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "modal-body modal-lg",
+                  attrs: { id: "printVM" }
+                },
+                [
+                  _c("div", { staticClass: "Section1" }, [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _vm._m(9),
+                    _vm._v(
+                      "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання \n          "
+                    ),
+                    _vm._m(10),
+                    _vm._v(" з наступними умовами:"),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("table", { staticClass: "tabs" }, [
+                      _c("tr", [
+                        _c(
+                          "td",
+                          { staticClass: "gray", attrs: { width: "25%" } },
+                          [_vm._v("Дата початку\n              договору")]
+                        ),
+                        _c("td", { attrs: { width: "25%" } }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.data,
+                                expression: "dataVm.data"
+                              }
+                            ],
+                            staticClass: "line",
+                            attrs: { type: "date", name: "" },
+                            domProps: { value: _vm.dataVm.data },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "data",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "gray", attrs: { width: "25%" } },
+                          [_vm._v("Дата закінчення\n              договору")]
+                        ),
+                        _vm._m(11)
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(12)
+                    ]),
+                    _vm._v(
+                      "\n          Адреса надання послуг: Добровольського 122/2."
+                    ),
+                    _vm._v(
+                      "\n          Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n          "
+                    ),
+                    _vm._m(13),
+                    _vm._v(
+                      "\n            Вказана\n            ціна діє для категорії часу занять « » (вказується категорія від 1 до 4)"
+                    ),
+                    _c("br"),
+                    _vm._v("\n            Графік оплати:"),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm._m(14),
+                    _vm._v(
+                      "\n\n            Підписанням цієї Заяви я підтверджую, що:"
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n            1. приймаю в повному обсязі умови Публічної пропозиції Академії футболу для дошкільнят «Клуб Лева»"
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n            на укладення Договору надання послуг фізичного виховання дітей, яка розміщена на офіційному сайті:\n            clubleva.ua;"
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n            2. надаю право на обробку персональних даних, склад та зміст зібраних персональних даних, права\n            суб’єкта персональних даних та іншу інформацію згідно Закону України «Про захист персональних\n            даних»;"
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n            3. вчасно та в повному обсязі сплачувати послуги за цим договором;"
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n            4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання\n            послуг фізичного виховання дітей."
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("b", [
+                      _vm._v(
+                        "Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення\n            договору."
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(15)
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        ;(_vm.vmContract = !_vm.vmContract),
+                          (_vm.contractSelected = !_vm.contractSelected)
+                      }
+                    }
+                  },
+                  [_vm._v("Закрыть")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h4",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
+        [_vm._v("Выберите контракт")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mb-2" }, [
+      _c("label", [_vm._v("Выберите программу")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("table", { staticClass: "tabs" }, [
+      _c("tr", [
+        _c("td", [_vm._v("дні занять")]),
+        _vm._v(" "),
+        _c("td", [
+          _c("select", { staticClass: "line", attrs: { name: "" } }, [
+            _c("option", [_vm._v("Пн:Ср")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("Вт:Чт")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("Сб:Вс")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("td", [_vm._v(", час занять")]),
+        _c("td", [
+          _c("select", { staticClass: "line", attrs: { type: "", name: "" } }, [
+            _c("option", [_vm._v("08:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("09:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("10:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("11:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("12:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("13:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("14:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("15:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("16:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("17:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("18:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("19:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("20:00")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("21:00")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("td", [_vm._v(", а Вихованець закріплюється за конкретною групою.")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("b", [_vm._v("Замовник")]),
+      _c("br"),
+      _vm._v("\n                ПІП ________________________________________"),
+      _c("br"),
+      _vm._v("\n                ____________________________________________"),
+      _c("br"),
+      _vm._v("\n                Адреса:_____________________________________"),
+      _c("br"),
+      _vm._v("\n                ____________________________________________"),
+      _c("br"),
+      _vm._v("\n                Тел._________________________________________"),
+      _c("br"),
+      _vm._v("\n                E-mail_______________________________________"),
+      _c("br"),
+      _vm._v(
+        "\n                ______________________________ (підпис)\n              "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", {
+        staticClass: "modal-title",
+        attrs: { id: "exampleModalLongTitle" }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _vm._v("ЗАЯВА № _________ від «___» ____________ ____ р."),
+      _c("br"),
+      _vm._v(
+        "\n            до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
+      ),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "hide" }, [
+        _vm._v(
+          "(публічний договір розташований на офіційномусайті clubleva.ua)"
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("table", { staticClass: "tabs" }, [
+      _c("tr", [
+        _c("td", { attrs: { width: "25%" } }, [
+          _vm._v("Я, законний представник")
+        ]),
+        _c("td", [
+          _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("table", { staticClass: "tabs" }, [
+      _c("tr", [
+        _c("td", { attrs: { width: "25%" } }, [
+          _vm._v("неповнолітньої дитини")
+        ]),
+        _vm._v(" "),
+        _c("td", [
+          _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
+        ]),
+        _vm._v(" "),
+        _c("td", [_vm._v(", дата народження")]),
+        _c("td", [
+          _c("input", {
+            staticClass: "line",
+            attrs: { type: "date", name: "" }
+          })
+        ]),
+        _c("td", [_vm._v("надалі «Замовник»")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("table", { staticClass: "tabs" }, [
+      _c("tr", [
+        _c("td", { staticClass: "gray" }, [_vm._v("Телефон Замовника")]),
+        _vm._v(" "),
+        _c("td", [
+          _c("input", {
+            staticClass: "line",
+            attrs: {
+              type: "",
+              name: "",
+              required: "",
+              "data-mask": "+0 (000) 000-00-00",
+              placeholder: "+_ (___) ___ __ __"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("td", { staticClass: "gray" }, [_vm._v("Viber/Telegram Замовника")]),
+        _vm._v(" "),
+        _c("td", [
+          _c("input", {
+            staticClass: "line",
+            attrs: {
+              type: "",
+              name: "",
+              required: "",
+              "data-mask": "+0 (000) 000-00-00",
+              placeholder: "+_ (___) ___ __ __"
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("tr", [
+        _c("td", { staticClass: "gray" }, [_vm._v("Email Замовника")]),
+        _vm._v(" "),
+        _c("td", [
+          _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
+        ]),
+        _vm._v(" "),
+        _c("td", { staticClass: "gray" }, [
+          _vm._v("Facebok/Instagram Замовника")
+        ]),
+        _vm._v(" "),
+        _c("td", [
+          _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "select",
+      { staticStyle: { "font-weight": "bold", border: "0" } },
+      [
+        _c("option", [_vm._v("«Вперед до зiрок»")]),
+        _vm._v(" "),
+        _c("option", [_vm._v("«Народження Зiрки»")]),
+        _vm._v(" "),
+        _c("option", [_vm._v("«Зiрка Лева»")]),
+        _vm._v(" "),
+        _c("option", [_vm._v("«Лiдер Прайду»")]),
+        _vm._v(" "),
+        _c("option", [_vm._v("«Супер Зiрка»")]),
+        _vm._v(" "),
+        _c("option", [_vm._v("«Школа футболу»")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { width: "25%" } }, [
+      _c("b", [_vm._v("___________")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "gray", attrs: { width: "25%" } }, [
+        _vm._v("Загальна кількість\n              занять за договором")
+      ]),
+      _c("td", { attrs: { width: "25%" } }, [
+        _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
+      ]),
+      _vm._v(" "),
+      _c("td", { staticClass: "gray", attrs: { width: "25%" } }, [
+        _vm._v("Кількість занять\n              на тиждень")
+      ]),
+      _vm._v(" "),
+      _c("td", { attrs: { width: "25%" } }, [
+        _c("table", [
+          _c("tr", [
+            _c("td", [
+              _vm._v("Одне:"),
+              _c("input", {
+                staticClass: "line",
+                attrs: { type: "checkbox", name: "" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v("Два:"),
+              _c("input", {
+                staticClass: "line",
+                attrs: { type: "checkbox", name: "" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v("Три:"),
+              _c("input", {
+                staticClass: "line",
+                attrs: { type: "checkbox", name: "" }
+              })
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("table", { staticClass: "tabs" }, [
+      _c("tr"),
+      _vm._v(" "),
+      _c("td", { attrs: { width: "15%" } }, [
+        _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
+      ]),
+      _c("td", [_vm._v(" грн.")]),
+      _c("td", [_vm._v("(____________________________"), _vm._v(") грн.")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("table", [
+      _c("tr", [
+        _c("td", [_vm._v("Кількість акційних заморозок (____"), _vm._v(")")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Включаються заморозки по: (____) тренування")]),
+        _c("td", [
+          _vm._v("Форма включена у\n                вартість занять.")
+        ]),
+        _c("td", [_vm._v("Розмiр")]),
+        _vm._v(" "),
+        _c("td", [
+          _c("select", [
+            _c("option", [_vm._v("31")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("31")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("31")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("31")])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "table",
+      {
+        staticClass: "tabs",
+        staticStyle: { "margin-top": "0.5in", "border-spacing": "0.2in" }
+      },
+      [
+        _c("tr", [
+          _c("td", [_vm._v("«Виконавець» ФОП")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("_______________________")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("«Замовник»")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("_______________________")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v("Підпис:")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("_______________________")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Підпис:")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("_______________________")])
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -38930,242 +40480,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/KissComponent.vue?vue&type=template&id=d3f48af8&":
-/*!****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/KissComponent.vue?vue&type=template&id=d3f48af8& ***!
-  \****************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "selectModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalCenterTitle",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "modal-dialog modal-dialog-centered",
-            attrs: { role: "document" }
-          },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("div", { staticClass: "row modal-body" }, [
-                _c(
-                  "div",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.vmContract,
-                        expression: "vmContract"
-                      }
-                    ],
-                    staticClass: "col-md-6"
-                  },
-                  [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "javascript:void(0)" },
-                        on: {
-                          click: function($event) {
-                            return _vm.vmModal()
-                          }
-                        }
-                      },
-                      [_vm._v("Контракт на пробное занятие")]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.vmContract,
-                        expression: "vmContract"
-                      }
-                    ],
-                    staticClass: "col-md-6"
-                  },
-                  [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "javascript:void(0)" },
-                        on: {
-                          click: function($event) {
-                            ;(_vm.vmContract = !_vm.vmContract),
-                              (_vm.contractSelected = !_vm.contractSelected)
-                          }
-                        }
-                      },
-                      [_vm._v("Контракт основной программы")]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "form",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.contractSelected,
-                        expression: "contractSelected"
-                      }
-                    ],
-                    staticClass: "form-inline"
-                  },
-                  [
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group mx-sm-3 mb-2" }, [
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.selected,
-                              expression: "selected"
-                            }
-                          ],
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.selected = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
-                          }
-                        },
-                        _vm._l(_vm.options, function(option) {
-                          return _c(
-                            "option",
-                            { domProps: { value: option.value } },
-                            [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(option.text) +
-                                  "\n                    "
-                              )
-                            ]
-                          )
-                        }),
-                        0
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-primary mb-2",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Выбрать")]
-                    )
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" },
-                    on: {
-                      click: function($event) {
-                        ;(_vm.vmContract = !_vm.vmContract),
-                          (_vm.contractSelected = !_vm.contractSelected)
-                      }
-                    }
-                  },
-                  [_vm._v("Закрыть")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h4",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
-        [_vm._v("Выберите контракт")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group mb-2" }, [
-      _c("label", [_vm._v("Выберите программу")])
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserComponent.vue?vue&type=template&id=7f050fd2&":
 /*!****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UserComponent.vue?vue&type=template&id=7f050fd2& ***!
@@ -39186,81 +40500,7 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
-      _c("kiss-component"),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal fade",
-          attrs: {
-            id: "vmModal",
-            tabindex: "-1",
-            role: "dialog",
-            "aria-labelledby": "exampleModalCenterTitle",
-            "aria-hidden": "true"
-          }
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass: "modal-dialog modal-dialog-centered",
-              attrs: { role: "document" }
-            },
-            [
-              _c("div", { staticClass: "modal-content" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c("div", { staticClass: "modal-body" }, [
-                  _c("div", { staticClass: "ststic_page" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-sm-12" }, [
-                        _c("h3", { staticClass: "text-center" }, [
-                          _vm._v(
-                            'Договор на оказания услуг программы "Зирка Лева"'
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [
-                          _vm._v(
-                            "ФИО: " +
-                              _vm._s(
-                                _vm.dataObject.attributes["child_surname"]
-                              ) +
-                              " " +
-                              _vm._s(_vm.dataObject.attributes["child_name"]) +
-                              " " +
-                              _vm._s(
-                                _vm.dataObject.attributes["child_middle_name"]
-                              )
-                          )
-                        ])
-                      ])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "modal-footer" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary",
-                      attrs: { type: "button", "data-dismiss": "modal" },
-                      on: {
-                        click: function($event) {
-                          ;(_vm.vmContract = !_vm.vmContract),
-                            (_vm.contractSelected = !_vm.contractSelected)
-                        }
-                      }
-                    },
-                    [_vm._v("Закрыть")]
-                  )
-                ])
-              ])
-            ]
-          )
-        ]
-      ),
+      _c("dogovor-component"),
       _vm._v(" "),
       _c(
         "ul",
@@ -39269,7 +40509,7 @@ var render = function() {
           attrs: { id: "myTab", role: "tablist" }
         },
         [
-          _vm._m(2),
+          _vm._m(1),
           _vm._v(" "),
           _c("li", { staticClass: "nav-item" }, [
             _c(
@@ -39317,7 +40557,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(3)
+          _vm._m(2)
         ]
       ),
       _vm._v(" "),
@@ -39352,7 +40592,7 @@ var render = function() {
                         " table table-bordered table-hover datatable datatable-User"
                     },
                     [
-                      _vm._m(4),
+                      _vm._m(3),
                       _vm._v(" "),
                       _vm._l(_vm.articles, function(article) {
                         return _c(
@@ -39483,7 +40723,7 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm._m(5)
+                  _vm._m(4)
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
@@ -39521,97 +40761,103 @@ var render = function() {
                         _c("div", { staticClass: "card-body" }, [
                           _c(
                             "h4",
-                            {
-                              staticClass: "card-title",
-                              attrs: {
-                                contenteditable: "true",
-                                spellcheck: "false"
-                              },
-                              on: {
-                                blur: function(event) {
-                                  return _vm.editField(event, "child_surname")
-                                }
-                              }
-                            },
                             [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.dataObject.attributes["child_surname"]
-                                )
-                              )
-                            ]
+                              _c("input-form", {
+                                attrs: { name: "child_surname" },
+                                on: { "edit-field": _vm.editField },
+                                model: {
+                                  value:
+                                    _vm.dataObject.attributes.child_surname,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.dataObject.attributes,
+                                      "child_surname",
+                                      $$v
+                                    )
+                                  },
+                                  expression:
+                                    "dataObject.attributes.child_surname"
+                                }
+                              })
+                            ],
+                            1
                           ),
                           _vm._v(" "),
                           _c(
                             "h4",
-                            {
-                              staticClass: "card-title",
-                              attrs: { contenteditable: "true" },
-                              on: {
-                                blur: function(event) {
-                                  return _vm.editField(event, "child_name")
-                                }
-                              }
-                            },
                             [
-                              _vm._v(
-                                _vm._s(_vm.dataObject.attributes["child_name"])
-                              )
-                            ]
+                              _c("input-form", {
+                                attrs: { name: "child_name" },
+                                on: { "edit-field": _vm.editField },
+                                model: {
+                                  value: _vm.dataObject.attributes.child_name,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.dataObject.attributes,
+                                      "child_name",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "dataObject.attributes.child_name"
+                                }
+                              })
+                            ],
+                            1
                           ),
                           _vm._v(" "),
-                          _vm.dataObject.attributes["child_middle_name"]
-                            ? _c(
-                                "h4",
-                                {
-                                  staticClass: "card-title",
-                                  attrs: { contenteditable: "true" },
-                                  on: {
-                                    blur: function(event) {
-                                      return _vm.editField(
-                                        event,
-                                        "child_middle_name"
-                                      )
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.dataObject.attributes[
-                                        "child_middle_name"
-                                      ]
+                          _c(
+                            "h4",
+                            [
+                              _c("input-form", {
+                                attrs: { name: "child_middle_name" },
+                                on: { "edit-field": _vm.editField },
+                                model: {
+                                  value:
+                                    _vm.dataObject.attributes.child_middle_name,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.dataObject.attributes,
+                                      "child_middle_name",
+                                      $$v
                                     )
-                                  )
-                                ]
-                              )
-                            : _c(
-                                "h4",
-                                {
-                                  staticClass: "card-title",
-                                  attrs: { contenteditable: "true" },
-                                  on: {
-                                    blur: function(event) {
-                                      return _vm.editField(
-                                        event,
-                                        "child_middle_name"
-                                      )
-                                    }
-                                  }
-                                },
-                                [_vm._v("Отчество")]
-                              ),
+                                  },
+                                  expression:
+                                    "dataObject.attributes.child_middle_name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
-                          _c("p", { staticClass: "card-text" }, [
-                            _vm._v(
-                              _vm._s(
-                                _vm.dataObject.attributes["child_birthday"]
-                              ) +
+                          _c(
+                            "p",
+                            { staticClass: "card-text" },
+                            [
+                              _c("input-form", {
+                                attrs: { name: "child_birthday" },
+                                on: { "edit-field": _vm.editField },
+                                model: {
+                                  value:
+                                    _vm.dataObject.attributes.child_birthday,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.dataObject.attributes,
+                                      "child_birthday",
+                                      $$v
+                                    )
+                                  },
+                                  expression:
+                                    "dataObject.attributes.child_birthday"
+                                }
+                              }),
+                              _vm._v(
                                 " (" +
-                                _vm._s(_vm.dataObject.attributes["age"]) +
-                                " лет)"
-                            )
-                          ]),
+                                  _vm._s(_vm.dataObject.attributes["age"]) +
+                                  " лет)"
+                              )
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c("h4", { staticClass: "card-title mb-3" }, [
                             _vm._v('"Зирка Лева"')
@@ -39627,7 +40873,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(6),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -39651,61 +40897,169 @@ var render = function() {
                           _c("div", { staticClass: "card-body" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-6" }, [
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.dataObject.attributes[
-                                        "mother_surname"
-                                      ]
-                                    ) +
-                                      " " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes["mother_name"]
-                                      ) +
-                                      "  " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "mother_middle_name"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Фамилия: "),
+                                    _c("input-form", {
+                                      attrs: { name: "mother_surname" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .mother_surname,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "mother_surname",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.mother_surname"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Телефон: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "mother_phone"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Имя: "),
+                                    _c("input-form", {
+                                      attrs: { name: "mother_name" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes.mother_name,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "mother_name",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.mother_name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Доп Телефон: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "mother_dop_phone"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Отчество: "),
+                                    _c("input-form", {
+                                      attrs: { name: "mother_middle_name" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .mother_middle_name,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "mother_middle_name",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.mother_middle_name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Почта: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "mother_email"
-                                        ]
-                                      )
-                                  )
-                                ])
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Телефон: "),
+                                    _c("input-form", {
+                                      attrs: { name: "mother_phone" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .mother_phone,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "mother_phone",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.mother_phone"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Доп Телефон: "),
+                                    _c("input-form", {
+                                      attrs: { name: "mother_dop_phone" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .mother_dop_phone,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "mother_dop_phone",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.mother_dop_phone"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Почта: "),
+                                    _c("input-form", {
+                                      attrs: { name: "mother_email" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .mother_email,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "mother_email",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.mother_email"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
                               ]),
                               _vm._v(" "),
-                              _vm._m(7)
+                              _vm._m(6)
                             ])
                           ])
                         ]
@@ -39725,61 +41079,169 @@ var render = function() {
                           _c("div", { staticClass: "card-body" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-6" }, [
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.dataObject.attributes[
-                                        "father_surname"
-                                      ]
-                                    ) +
-                                      " " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes["father_name"]
-                                      ) +
-                                      "  " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "father_middle_name"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Фамилия: "),
+                                    _c("input-form", {
+                                      attrs: { name: "father_surname" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .father_surname,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "father_surname",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.father_surname"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Телефон: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "father_phone"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Имя: "),
+                                    _c("input-form", {
+                                      attrs: { name: "father_name" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes.father_name,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "father_name",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.father_name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Доп Телефон: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "father_dop_phone"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Отчество: "),
+                                    _c("input-form", {
+                                      attrs: { name: "father_middle_name" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .father_middle_name,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "father_middle_name",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.father_middle_name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Почта: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "father_email"
-                                        ]
-                                      )
-                                  )
-                                ])
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Телефон: "),
+                                    _c("input-form", {
+                                      attrs: { name: "father_phone" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .father_phone,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "father_phone",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.father_phone"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Доп Телефон: "),
+                                    _c("input-form", {
+                                      attrs: { name: "father_dop_phone" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .father_dop_phone,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "father_dop_phone",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.father_dop_phone"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Почта: "),
+                                    _c("input-form", {
+                                      attrs: { name: "father_email" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .father_email,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "father_email",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.father_email"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
                               ]),
                               _vm._v(" "),
-                              _vm._m(8)
+                              _vm._m(7)
                             ])
                           ])
                         ]
@@ -39799,63 +41261,174 @@ var render = function() {
                           _c("div", { staticClass: "card-body" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-6" }, [
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.dataObject.attributes[
-                                        "other_relative_surname"
-                                      ]
-                                    ) +
-                                      " " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "other_relative_name"
-                                        ]
-                                      ) +
-                                      "  " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "other_relative_middle_name"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Фамилия: "),
+                                    _c("input-form", {
+                                      attrs: { name: "other_relative_surname" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .other_relative_surname,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "other_relative_surname",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.other_relative_surname"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Телефон: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "other_relative_phone"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Имя: "),
+                                    _c("input-form", {
+                                      attrs: { name: "other_relative_name" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .other_relative_name,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "other_relative_name",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.other_relative_name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Доп Телефон: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "other_relative_dop_phone"
-                                        ]
-                                      )
-                                  )
-                                ]),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Отчество: "),
+                                    _c("input-form", {
+                                      attrs: {
+                                        name: "other_relative_middle_name"
+                                      },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .other_relative_middle_name,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "other_relative_middle_name",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.other_relative_middle_name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(
-                                    "Почта: " +
-                                      _vm._s(
-                                        _vm.dataObject.attributes[
-                                          "other_relative_email"
-                                        ]
-                                      )
-                                  )
-                                ])
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Телефон: "),
+                                    _c("input-form", {
+                                      attrs: { name: "other_relative_phone" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .other_relative_phone,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "other_relative_phone",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.other_relative_phone"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Доп Телефон: "),
+                                    _c("input-form", {
+                                      attrs: {
+                                        name: "other_relative_dop_phone"
+                                      },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .other_relative_dop_phone,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "other_relative_dop_phone",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.other_relative_dop_phone"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  { staticClass: "card-text" },
+                                  [
+                                    _vm._v("Почта: "),
+                                    _c("input-form", {
+                                      attrs: { name: "other_relative_email" },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .other_relative_email,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.dataObject.attributes,
+                                            "other_relative_email",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "dataObject.attributes.other_relative_email"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
                               ]),
                               _vm._v(" "),
-                              _vm._m(9)
+                              _vm._m(8)
                             ])
                           ])
                         ]
@@ -39874,68 +41447,65 @@ var render = function() {
                         [
                           _c("div", { staticClass: "card-body" }, [
                             _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col-md-6" }, [
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text text-center" },
-                                  [_vm._v('"Зирка Лева"')]
-                                ),
-                                _vm._v(" "),
-                                _vm._m(10),
-                                _vm._v(" "),
-                                _c("p", [
-                                  _vm._v("Оплаты: \n    "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6 border-bottom" },
+                                [
                                   _c(
-                                    "span",
+                                    "div",
                                     {
-                                      staticClass: "text-muted ml-2",
-                                      attrs: {
-                                        "data-toggle": "tooltip",
-                                        "data-placement": "bottom",
-                                        title: "Дата оплаты - 23.05.2015"
-                                      }
+                                      staticClass:
+                                        "btn-group btn-group-sm mb-3 text-center"
                                     },
-                                    [_vm._v("4212")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "text-success ml-2",
-                                      attrs: { href: "javascript:void(0)" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.getModalSale()
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("3159")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    { staticClass: "text-danger ml-2" },
-                                    [_vm._v("3348")]
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-sm btn-outline-secondary",
+                                          attrs: {
+                                            disabled: _vm.indexActiveUser <= 0
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.indexActiveUser--
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Предыдущий")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-sm btn-outline-secondary",
+                                          attrs: {
+                                            disabled:
+                                              _vm.indexActiveUser ===
+                                              _vm.dataUser.length - 1
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.indexActiveUser++
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Следующий")]
+                                      )
+                                    ]
                                   )
-                                ]),
-                                _vm._v(" "),
-                                _vm._m(11)
-                              ]),
+                                ]
+                              ),
                               _vm._v(" "),
-                              _c("div", { staticClass: "col-md-6" }, [
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c(
-                                    "p",
-                                    { staticClass: "card-text text-center" },
-                                    [_vm._v("Прошлые контракты")]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm._m(12),
-                                  _vm._v(" "),
-                                  _vm._m(13),
-                                  _vm._v(" "),
+                              _c("hr"),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6 border-bottom" },
+                                [
                                   _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "center" }, [
+                                    _c("div", { staticClass: "center mb-3" }, [
                                       _c(
                                         "button",
                                         {
@@ -39950,9 +41520,209 @@ var render = function() {
                                       )
                                     ])
                                   ])
-                                ])
-                              ])
-                            ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("hr")
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "row" },
+                              [
+                                _vm._l(
+                                  _vm.dataObject.contracts_active,
+                                  function(cont) {
+                                    return _c(
+                                      "div",
+                                      { staticClass: "col-md-6 mt-3" },
+                                      [
+                                        _vm._l(cont, function(co) {
+                                          return _c(
+                                            "div",
+                                            { staticClass: "table-responsive" },
+                                            [
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticClass:
+                                                    "card-text text-center"
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    '"' + _vm._s(co.name) + '"'
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "table",
+                                                {
+                                                  staticClass:
+                                                    " table table-bordered table-hover datatable datatable-User"
+                                                },
+                                                [
+                                                  _c("tbody", [
+                                                    _c("tr", [
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          "\n                                    Начало:\n                                "
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          "\n                                    " +
+                                                            _vm._s(co.start) +
+                                                            "\n                                "
+                                                        )
+                                                      ])
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("tr", [
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          "\n                                    Окончание:\n                                "
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          "\n                                    " +
+                                                            _vm._s(co.end) +
+                                                            "\n                                "
+                                                        )
+                                                      ])
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("tr", [
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          "\n                                    Окончание факт:\n                                "
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          "\n                                    " +
+                                                            _vm._s(
+                                                              co.end_actually
+                                                            ) +
+                                                            "\n                                "
+                                                        )
+                                                      ])
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _vm._m(9, true),
+                                                    _vm._v(" "),
+                                                    _vm._m(10, true)
+                                                  ])
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        }),
+                                        _vm._v(" "),
+                                        _c("p", [
+                                          _vm._v(
+                                            "Оплаты: \n                    "
+                                          ),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "text-muted ml-2",
+                                              attrs: {
+                                                "data-toggle": "tooltip",
+                                                "data-placement": "bottom",
+                                                title:
+                                                  "Дата оплаты - 23.05.2015"
+                                              }
+                                            },
+                                            [_vm._v("4212")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "text-success ml-2",
+                                              attrs: {
+                                                href: "javascript:void(0)"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.getModalSale()
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("3159")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            { staticClass: "text-danger ml-2" },
+                                            [_vm._v("3348")]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(11, true)
+                                      ],
+                                      2
+                                    )
+                                  }
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-6 mt-3" },
+                                  _vm._l(
+                                    _vm.dataObject.contracts_not_active,
+                                    function(cont) {
+                                      return _c(
+                                        "div",
+                                        { staticClass: "form-group" },
+                                        [
+                                          _c(
+                                            "p",
+                                            {
+                                              staticClass:
+                                                "card-text text-center"
+                                            },
+                                            [_vm._v("Прошлые контракты")]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(cont, function(co) {
+                                            return _c("p", [
+                                              _c(
+                                                "a",
+                                                {
+                                                  staticClass: "text-muted",
+                                                  attrs: {
+                                                    href: "javascript:void(0)"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    '"' +
+                                                      _vm._s(co.name) +
+                                                      '"    ' +
+                                                      _vm._s(co.start) +
+                                                      " - " +
+                                                      _vm._s(co.end)
+                                                  )
+                                                ]
+                                              )
+                                            ])
+                                          })
+                                        ],
+                                        2
+                                      )
+                                    }
+                                  ),
+                                  0
+                                )
+                              ],
+                              2
+                            )
                           ])
                         ]
                       ),
@@ -39982,7 +41752,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(14)
+                _vm._m(12)
               ])
             ]
           )
@@ -40027,31 +41797,6 @@ var staticRenderFns = [
           ])
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h4",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
-        [_vm._v("Пробный контракт")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
     ])
   },
   function() {
@@ -40318,87 +42063,36 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "table-responsive" }, [
-      _c(
-        "table",
-        {
-          staticClass:
-            " table table-bordered table-hover datatable datatable-User"
-        },
-        [
-          _c("tbody", [
-            _c("tr", [
-              _c("td", [
-                _vm._v(
-                  "\n                                Начало:\n                            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n                                8.09.2020\n                            "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [
-                _vm._v(
-                  "\n                                Окончание:\n                            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n                                8.09.2021\n                            "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [
-                _vm._v(
-                  "\n                                Окончание факт:\n                            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n                                8.09.2020\n                            "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [
-                _vm._v(
-                  "\n                                Заморозки:\n                            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n                                24 | 15 | 9\n                            "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [
-                _vm._v(
-                  "\n                                Тренировки:\n                            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n                                81 | 28 | 53\n                            "
-                )
-              ])
-            ])
-          ])
-        ]
-      )
+    return _c("tr", [
+      _c("td", [
+        _vm._v(
+          "\n                                    Заморозки:\n                                "
+        )
+      ]),
+      _vm._v(" "),
+      _c("td", [
+        _vm._v(
+          "\n                                    24 | 15 | 9\n                                "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", [
+        _vm._v(
+          "\n                                    Тренировки:\n                                "
+        )
+      ]),
+      _vm._v(" "),
+      _c("td", [
+        _vm._v(
+          "\n                                    81 | 28 | 53\n                                "
+        )
+      ])
     ])
   },
   function() {
@@ -40408,30 +42102,6 @@ var staticRenderFns = [
     return _c("p", [
       _vm._v("Сумма и остаток: "),
       _c("span", { staticClass: "ml-2" }, [_vm._v("10530 (3159)")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c(
-        "a",
-        { staticClass: "text-muted", attrs: { href: "javascript:void(0)" } },
-        [_vm._v('"Вперед до зирок"    8.12.16 - 28.10.17')]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c(
-        "a",
-        { staticClass: "text-muted", attrs: { href: "javascript:void(0)" } },
-        [_vm._v('"Народження зирки"   30.10.17 - 25.08.18')]
-      )
     ])
   },
   function() {
@@ -40471,99 +42141,71 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "modal fade",
-      attrs: {
-        id: "dogovorModal",
-        tabindex: "-1",
-        role: "dialog",
-        "aria-labelledby": "exampleModalCenterTitle",
-        "aria-hidden": "true"
-      }
-    },
-    [
-      _c(
-        "div",
-        {
-          staticClass: "modal-dialog modal-dialog-centered",
-          attrs: { role: "document" }
-        },
-        [
-          _c("div", { staticClass: "modal-content" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _c("div", { staticClass: "ststic_page" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-sm-12" }, [
-                    _c("h3", { staticClass: "text-center" }, [
-                      _vm._v('Договор на оказания услуг программы "Зирка Лева"')
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v(
-                        "ФИО: " +
-                          _vm._s(_vm.dataObject.attributes["child_surname"]) +
-                          " " +
-                          _vm._s(_vm.dataObject.attributes["child_name"]) +
-                          " " +
-                          _vm._s(_vm.dataObject.attributes["child_middle_name"])
-                      )
-                    ])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "vmModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLongTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLongTitle" }
+                  },
+                  [_vm._v(_vm._s(_vm.dataVm.contract_name))]
+                ),
+                _vm._v(" "),
+                _vm._m(0)
+              ]),
+              _vm._v(" "),
               _c(
-                "button",
+                "div",
                 {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", "data-dismiss": "modal" },
-                  on: {
-                    click: function($event) {
-                      ;(_vm.vmContract = !_vm.vmContract),
-                        (_vm.contractSelected = !_vm.contractSelected)
-                    }
-                  }
+                  staticClass: "modal-body modal-lg",
+                  attrs: { id: "printVM" }
                 },
-                [_vm._v("Закрыть")]
+                [_c("vmdogovor-component")],
+                1
               )
             ])
-          ])
-        ]
-      )
-    ]
-  )
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h4",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
-        [_vm._v("Выберите контракт")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true
@@ -52756,8 +54398,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('user-component', __webpack_require__(/*! ./components/UserComponent.vue */ "./resources/js/components/UserComponent.vue")["default"]);
-Vue.component('kiss-component', __webpack_require__(/*! ./components/KissComponent.vue */ "./resources/js/components/KissComponent.vue")["default"]);
+Vue.component('dogovor-component', __webpack_require__(/*! ./components/DogovorComponent.vue */ "./resources/js/components/DogovorComponent.vue")["default"]);
 Vue.component('vmdogovor-component', __webpack_require__(/*! ./components/VmDogovor.vue */ "./resources/js/components/VmDogovor.vue")["default"]);
+Vue.component('editfield-component', __webpack_require__(/*! ./components/EditFieldComponent.vue */ "./resources/js/components/EditFieldComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -52812,6 +54455,125 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/DogovorComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/DogovorComponent.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DogovorComponent_vue_vue_type_template_id_12fe9542___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DogovorComponent.vue?vue&type=template&id=12fe9542& */ "./resources/js/components/DogovorComponent.vue?vue&type=template&id=12fe9542&");
+/* harmony import */ var _DogovorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DogovorComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/DogovorComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _DogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DogovorComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _DogovorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DogovorComponent_vue_vue_type_template_id_12fe9542___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DogovorComponent_vue_vue_type_template_id_12fe9542___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/DogovorComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/DogovorComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/DogovorComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./DogovorComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DogovorComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./DogovorComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DogovorComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/DogovorComponent.vue?vue&type=template&id=12fe9542&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/DogovorComponent.vue?vue&type=template&id=12fe9542& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_template_id_12fe9542___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./DogovorComponent.vue?vue&type=template&id=12fe9542& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DogovorComponent.vue?vue&type=template&id=12fe9542&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_template_id_12fe9542___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DogovorComponent_vue_vue_type_template_id_12fe9542___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/EditFieldComponent.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/EditFieldComponent.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/components/EditFieldComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
@@ -52879,93 +54641,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/KissComponent.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/components/KissComponent.vue ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _KissComponent_vue_vue_type_template_id_d3f48af8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./KissComponent.vue?vue&type=template&id=d3f48af8& */ "./resources/js/components/KissComponent.vue?vue&type=template&id=d3f48af8&");
-/* harmony import */ var _KissComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./KissComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/KissComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _KissComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./KissComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _KissComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _KissComponent_vue_vue_type_template_id_d3f48af8___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _KissComponent_vue_vue_type_template_id_d3f48af8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/KissComponent.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/KissComponent.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/KissComponent.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./KissComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/KissComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./KissComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/KissComponent.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/components/KissComponent.vue?vue&type=template&id=d3f48af8&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/components/KissComponent.vue?vue&type=template&id=d3f48af8& ***!
-  \**********************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_template_id_d3f48af8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./KissComponent.vue?vue&type=template&id=d3f48af8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/KissComponent.vue?vue&type=template&id=d3f48af8&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_template_id_d3f48af8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_KissComponent_vue_vue_type_template_id_d3f48af8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -53068,14 +54743,16 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _VmDogovor_vue_vue_type_template_id_95052598___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VmDogovor.vue?vue&type=template&id=95052598& */ "./resources/js/components/VmDogovor.vue?vue&type=template&id=95052598&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _VmDogovor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VmDogovor.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 var script = {}
 
 
+
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   script,
   _VmDogovor_vue_vue_type_template_id_95052598___WEBPACK_IMPORTED_MODULE_0__["render"],
   _VmDogovor_vue_vue_type_template_id_95052598___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -53090,6 +54767,22 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/VmDogovor.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VmDogovor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./VmDogovor.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/VmDogovor.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VmDogovor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VmDogovor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VmDogovor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VmDogovor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VmDogovor_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

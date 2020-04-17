@@ -22,8 +22,9 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('user-component', require('./components/UserComponent.vue').default);
-Vue.component('kiss-component', require('./components/KissComponent.vue').default);
+Vue.component('dogovor-component', require('./components/DogovorComponent.vue').default);
 Vue.component('vmdogovor-component', require('./components/VmDogovor.vue').default);
+Vue.component('editfield-component', require('./components/EditFieldComponent.vue').default);
 
 
 /**

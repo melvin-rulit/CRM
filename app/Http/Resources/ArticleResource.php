@@ -15,9 +15,12 @@ class ArticleResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'type'          => 'base-info',
             'id'            => (string)$this->id,
+            'contracts_active' => new ContractsResource($this->contracts->where('active',1)),
+            'contracts_not_active' => new ContractsResource($this->contracts->where('active',0)),
             'attributes'    => [
                 'child_name' => $this->child_name,
                 'child_surname' => $this->child_surname,
