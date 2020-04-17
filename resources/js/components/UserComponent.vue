@@ -50,7 +50,7 @@
                                 <th>Имя</th>
                                 <th>Отчество</th>
                                 <th>Возраст</th>
-                                <th>ХЗ</th>
+                                <th>?</th>
                             </tr>
                         </thead>
                         <tbody v-for="article in articles">
@@ -60,7 +60,7 @@
                                 <td>{{ ar.attributes.child_name }}</td>
                                 <td>{{ ar.attributes.child_middle_name }}</td>
                                 <td>{{ ar.attributes.age }} лет</td>
-                                <td>3</td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>

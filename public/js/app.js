@@ -40507,7 +40507,7 @@ var render = function() {
                                 _vm._v(_vm._s(ar.attributes.age) + " лет")
                               ]),
                               _vm._v(" "),
-                              _c("td", [_vm._v("3")])
+                              _c("td")
                             ])
                           }),
                           0
@@ -41708,7 +41708,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Возраст")]),
         _vm._v(" "),
-        _c("th", [_vm._v("ХЗ")])
+        _c("th", [_vm._v("?")])
       ])
     ])
   },
