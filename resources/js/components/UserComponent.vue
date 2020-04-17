@@ -18,13 +18,7 @@
       </div>
     </div>
 
-
-
 <dogovor-component></dogovor-component>
-
-
-
-
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -40,71 +34,44 @@
     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Продления</a>
   </li>
 </ul>
+
+
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">666</div>
-
-
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-
-    <div class="card">
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-hover datatable datatable-User">
-                <thead>
-                    <tr>
-                        <th width="10">
-                        </th>
-                        <th>
-                            Фамилия
-                        </th>
-                        <th>
-                            Имя
-                        </th>
-                        <th>
-                            Отчество
-                        </th>
-                        <th>
-                            Возраст
-                        </th>
-                        <th>
-                            ХЗ
-                        </th>
-                    </tr>
-                </thead>
-                <tbody v-for="article in articles">
-                        <tr v-for="ar in article">
-                            <td>
-
-                            </td>
-                            <td>
-                                <a href="javascript:void(0)" v-on:click="getModal(ar.id)">{{ ar.attributes.child_surname }}</a>
-                            </td>
-                            <td>
-                                {{ ar.attributes.child_name }}
-                            </td>
-                            <td>
-                                {{ ar.attributes.child_middle_name }}
-                            </td>
-                            <td>
-                                {{ ar.attributes.age }} лет
-                            </td>
-                            <td>
-                                3
-                            </td>
-                        </tr>
-                </tbody>
-            </table>
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class=" table table-bordered table-hover datatable datatable-User">
+                        <thead>
+                            <tr>
+                                <th width="10"></th>
+                                <th>Фамилия</th>
+                                <th>Имя</th>
+                                <th>Отчество</th>
+                                <th>Возраст</th>
+                                <th>ХЗ</th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="article in articles">
+                            <tr v-for="ar in article">
+                                <td></td>
+                                <td><a href="javascript:void(0)" v-on:click="getModal(ar.id)">{{ ar.attributes.child_surname }}</a></td>
+                                <td>{{ ar.attributes.child_name }}</td>
+                                <td>{{ ar.attributes.child_middle_name }}</td>
+                                <td>{{ ar.attributes.age }} лет</td>
+                                <td>3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-  </div>
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <p v-for="user in users">{{ user }}</p>
     </div>
-  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-</div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"></div>
 </div>
 
 
@@ -114,35 +81,28 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка  &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
       </div>
       <div class="modal-body">
-        
-
         <div class="card mb-3">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-
-<!-- <editfield-component></editfield-component> -->
-
-    <h4><input-form v-model="dataObject.attributes.child_surname" name="child_surname" @edit-field="editField"></input-form></h4>
-    <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
-    <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
-
-        <p class="card-text"><input-form v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> ({{ dataObject.attributes['age'] }} лет)</p>
-        <h4 class="card-title mb-3">"Зирка Лева"</h4>
-        <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
-      </div>
-    </div>
-  </div>
-</div>
-
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h4><input-form v-model="dataObject.attributes.child_surname" name="child_surname" @edit-field="editField"></input-form></h4>
+                        <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
+                        <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
+                        <p class="card-text"><input-form v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> ({{ dataObject.attributes['age'] }} лет)</p>
+                        <h4 class="card-title mb-3">"Зирка Лева"</h4>
+                        <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 <ul class="nav nav-tabs" id="info" role="tablist">
   <li class="nav-item">
@@ -228,102 +188,60 @@
   </div>
   <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="contract-tab">
     <div class="card-body">
-
-          <div class="row">
-    <div class="col-md-6 border-bottom">
-
-
-     <div class="btn-group btn-group-sm mb-3 text-center">
-        <button class="btn btn-sm btn-outline-secondary" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
-        <button class="btn btn-sm btn-outline-secondary" @click="indexActiveUser++" :disabled="indexActiveUser === dataUser.length - 1">Следующий</button>
-     </div>
-    </div>
-    <hr>
-    <div class="col-md-6 border-bottom">
-                         <div class="row">
-                        <div class="center mb-3">
-                            <button @click="closeModal()" class="btn btn-sm btn-success">Добавить контракт</button>
-                        </div>
+        <div class="row">
+            <div class="col-md-6 border-bottom">
+                <div class="btn-group btn-group-sm mb-3 text-center">
+                    <button class="btn btn-sm btn-outline-secondary" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
+                    <button class="btn btn-sm btn-outline-secondary" @click="indexActiveUser++" :disabled="indexActiveUser === dataUser.length - 1">Следующий</button>
+                </div>
+            </div>
+            <hr>
+            <div class="col-md-6 border-bottom">
+                <div class="row">
+                    <div class="center mb-3">
+                        <button @click="closeModal()" class="btn btn-sm btn-success">Добавить контракт</button>
                     </div>
-    </div>
-    <hr>
-  </div>
+                </div>
+            </div>
+            <hr>
+        </div>
 
         <div class="row">
-
-
-<!--         <div class="card mb-2">
-            <transition name="fade" mode="out-in">
-          <div class="card-body">
-            <h5 class="card-title">{{activeUser.name}}</h5>
-            <p class="card-text">{{activeUser.time}}</p>
-          </div>
-      </transition>
-        </div> -->
-
             <div class="col-md-6 mt-3" v-for="cont in dataObject.contracts_active">
-
-                
                 <div class="table-responsive" v-for="co in cont">
                     <p class="card-text text-center">"{{ co.name }}"</p>
                     <table class=" table table-bordered table-hover datatable datatable-User">
                         <tbody>
                             <tr>
-                                <td>
-                                    Начало:
-                                </td>
-                                <td>
-                                    {{ co.start }}
-                                </td>
+                                <td>Начало:</td>
+                                <td>{{ co.start }}</td>
                             </tr>
                             <tr>
-                                <td>
-                                    Окончание:
-                                </td>
-                                <td>
-                                    {{ co.end }}
-                                </td>
+                                <td>Окончание:</td>
+                                <td>{{ co.end }}</td>
                             </tr>
                             <tr>
-                                <td>
-                                    Окончание факт:
-                                </td>
-                                <td>
-                                    {{ co.end_actually }}
-                                </td>
+                                <td>Окончание факт:</td>
+                                <td>{{ co.end_actually }}</td>
                             </tr>
                             <tr>
-                                <td>
-                                    Заморозки:
-                                </td>
-                                <td>
-                                    24 | 15 | 9
-                                </td>
+                                <td>Заморозки:</td>
+                                <td>24 | 15 | 9</td>
                             </tr>
                             <tr>
-                                <td>
-                                    Тренировки:
-                                </td>
-                                <td>
-                                    81 | 28 | 53
-                                </td>
+                                <td>Тренировки:</td>
+                                <td>81 | 28 | 53</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
                 <p>Оплаты: 
                     <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">4212</span>
                     <a href="javascript:void(0)" class="text-success ml-2" v-on:click="getModalSale()">3159</a>
                     <span class="text-danger ml-2">3348</span>
                 </p>
                 <p>Сумма и остаток: <span class="ml-2">10530 (3159)</span></p>
-
             </div>
-
-
-
-
             <div class="col-md-6 mt-3">
                 <div class="form-group" v-for="cont in dataObject.contracts_not_active">
                     <p class="card-text text-center">Прошлые контракты</p>
@@ -336,8 +254,6 @@
   <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab"></div>
   <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab">Интересы</div>
 </div>
-
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -347,12 +263,6 @@
 </div>
 
 </div>
-
-
-
-
-
-
 </template>
 
 <script>
@@ -390,8 +300,6 @@ Vue.component('inputForm', {
 })
 
 
-
-
 import Vue from 'vue';
 import VueHtmlToPaper from 'vue-html-to-paper';
 
@@ -412,33 +320,10 @@ Vue.use(VueHtmlToPaper, options);
 
 
     export default {
-      //         data:{
-      //   articles: null,
-      //   users: null,
-      //   posts: null,
-      // },
         data() {
             return{
-
-    dataInput: {
-      name: 'Name',
-      surname: 'Surname',
-      age: '17',
-      type: 'base_info',
-      id: 1
-    },
-
                 dataVm: {},
                 name:'',
-                fio_child: '',
-                fio_parent: 'Ложков Петр Алексеевич',
-                contract_name: 'Відкрий можливості',
-                town: 'м.Одесса',
-                date: '23.09.2020',
-                ip: 'Фізична особо-підприємець Булик І.В',
-                branch_adress: 'м.Одеса, пр-т Добровольського, 122/2',
-
-
                 options: [
                   { text: 'Зирка лева', value: 'А' },
                   { text: 'Народження зирки', value: 'Б' },
@@ -448,18 +333,18 @@ Vue.use(VueHtmlToPaper, options);
                      contracts_not_active: {},
                      contracts_active: {},
                 },
+                dataUser: [{
+                    name: 'Alex',
+                    time: '8.09.2020'
+                  }, {
+                    name: 'Ivan',
+                    time: '8.01.2020'
+                  }, {
+                    name: 'Olga',
+                    time: '8.02.2020'
+                  }],
                 contract:{},
-                      dataUser: [{
-        name: 'Alex',
-        time: '8.09.2020'
-      }, {
-        name: 'Ivan',
-        time: '8.01.2020'
-      }, {
-        name: 'Olga',
-        time: '8.02.2020'
-      }],
-      indexActiveUser: 0,
+                indexActiveUser: 0,
                 vmContract: true,
                 contractSelected: false,
                 getURL: "api/v2/getinfo",
@@ -482,17 +367,16 @@ Vue.use(VueHtmlToPaper, options);
             this.fetchArticles();
         },
 
-  computed: {
-    activeUser() {
-      return this.dataUser[this.indexActiveUser]
-    }
-  },
+        computed: {
+            activeUser() {
+              return this.dataUser[this.indexActiveUser]
+            }
+          },
 
         methods: {
-                print() {
-      // Pass the element id here
-      this.$htmlToPaper('printVM');
-    },
+            print() {
+                this.$htmlToPaper('printVM');
+            },
             contact(){
                 this.fetchArticles();
             },
@@ -521,7 +405,6 @@ Vue.use(VueHtmlToPaper, options);
             emails(){
                 axios.
                 get('get_email')
-                 //.then(response => console.log(response.data));
                 .then(response => this.users = response.data)
                 .finally(() => console.log('Посты успешно загружены'));
 
@@ -547,10 +430,8 @@ Vue.use(VueHtmlToPaper, options);
               console.clear();
               const value = e.target.value;
               const key = e.currentTarget.getAttribute('name');
-
-                    axios.post(this.postURL, { user_id: this.dataObject.id, field_name: key, field_value: value })
-
-              this.fetchArticles();
+                axios.post(this.postURL, { user_id: this.dataObject.id, field_name: key, field_value: value })
+                this.fetchArticles();
             },
             closeModal(){
                 this.get();
@@ -564,8 +445,6 @@ Vue.use(VueHtmlToPaper, options);
             },
         }
     }
-
-
 </script>
 
 <style type="text/css">
@@ -575,16 +454,14 @@ Vue.use(VueHtmlToPaper, options);
     }
 
     .center{
- display: block;
- margin: 0 auto;
-}
-
-
-.fade-enter-active, .fade-leave-active {
-  transition: all .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-  transform: translateY(20px);
-}
+         display: block;
+         margin: 0 auto;
+    }
+    .fade-enter-active, .fade-leave-active {
+      transition: all .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
+      transform: translateY(20px);
+    }
 </style>

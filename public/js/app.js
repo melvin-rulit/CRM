@@ -2739,96 +2739,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
   props: {
     value: {
@@ -2857,29 +2767,10 @@ var options = {
 };
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1___default.a, options);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  //         data:{
-  //   articles: null,
-  //   users: null,
-  //   posts: null,
-  // },
   data: function data() {
     return {
-      dataInput: {
-        name: 'Name',
-        surname: 'Surname',
-        age: '17',
-        type: 'base_info',
-        id: 1
-      },
       dataVm: {},
       name: '',
-      fio_child: '',
-      fio_parent: 'Ложков Петр Алексеевич',
-      contract_name: 'Відкрий можливості',
-      town: 'м.Одесса',
-      date: '23.09.2020',
-      ip: 'Фізична особо-підприємець Булик І.В',
-      branch_adress: 'м.Одеса, пр-т Добровольського, 122/2',
       options: [{
         text: 'Зирка лева',
         value: 'А'
@@ -2892,7 +2783,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         contracts_not_active: {},
         contracts_active: {}
       },
-      contract: {},
       dataUser: [{
         name: 'Alex',
         time: '8.09.2020'
@@ -2903,6 +2793,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         name: 'Olga',
         time: '8.02.2020'
       }],
+      contract: {},
       indexActiveUser: 0,
       vmContract: true,
       contractSelected: false,
@@ -2932,7 +2823,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
   },
   methods: {
     print: function print() {
-      // Pass the element id here
       this.$htmlToPaper('printVM');
     },
     contact: function contact() {
@@ -2975,8 +2865,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     emails: function emails() {
       var _this4 = this;
 
-      axios.get('get_email') //.then(response => console.log(response.data));
-      .then(function (response) {
+      axios.get('get_email').then(function (response) {
         return _this4.users = response.data;
       })["finally"](function () {
         return console.log('Посты успешно загружены');
@@ -7595,7 +7484,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.table td, .table th {\n        padding: 10px;\n        font-size: 14px;\n}\n.center{\n display: block;\n margin: 0 auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: all .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n  transform: translateY(20px);\n}\n", ""]);
+exports.push([module.i, "\n.table td, .table th {\n    padding: 10px;\n    font-size: 14px;\n}\n.center{\n     display: block;\n     margin: 0 auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: all .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n  transform: translateY(20px);\n}\n", ""]);
 
 // exports
 
@@ -40607,34 +40496,18 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("td", [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(ar.attributes.child_name) +
-                                    "\n                            "
-                                )
+                                _vm._v(_vm._s(ar.attributes.child_name))
                               ]),
                               _vm._v(" "),
                               _c("td", [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(ar.attributes.child_middle_name) +
-                                    "\n                            "
-                                )
+                                _vm._v(_vm._s(ar.attributes.child_middle_name))
                               ]),
                               _vm._v(" "),
                               _c("td", [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(ar.attributes.age) +
-                                    " лет\n                            "
-                                )
+                                _vm._v(_vm._s(ar.attributes.age) + " лет")
                               ]),
                               _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  "\n                                3\n                            "
-                                )
-                              ])
+                              _c("td", [_vm._v("3")])
                             ])
                           }),
                           0
@@ -41555,50 +41428,36 @@ var render = function() {
                                                   _c("tbody", [
                                                     _c("tr", [
                                                       _c("td", [
-                                                        _vm._v(
-                                                          "\n                                    Начало:\n                                "
-                                                        )
+                                                        _vm._v("Начало:")
                                                       ]),
                                                       _vm._v(" "),
                                                       _c("td", [
-                                                        _vm._v(
-                                                          "\n                                    " +
-                                                            _vm._s(co.start) +
-                                                            "\n                                "
-                                                        )
+                                                        _vm._v(_vm._s(co.start))
+                                                      ])
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("tr", [
+                                                      _c("td", [
+                                                        _vm._v("Окончание:")
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _vm._v(_vm._s(co.end))
                                                       ])
                                                     ]),
                                                     _vm._v(" "),
                                                     _c("tr", [
                                                       _c("td", [
                                                         _vm._v(
-                                                          "\n                                    Окончание:\n                                "
+                                                          "Окончание факт:"
                                                         )
                                                       ]),
                                                       _vm._v(" "),
                                                       _c("td", [
                                                         _vm._v(
-                                                          "\n                                    " +
-                                                            _vm._s(co.end) +
-                                                            "\n                                "
-                                                        )
-                                                      ])
-                                                    ]),
-                                                    _vm._v(" "),
-                                                    _c("tr", [
-                                                      _c("td", [
-                                                        _vm._v(
-                                                          "\n                                    Окончание факт:\n                                "
-                                                        )
-                                                      ]),
-                                                      _vm._v(" "),
-                                                      _c("td", [
-                                                        _vm._v(
-                                                          "\n                                    " +
-                                                            _vm._s(
-                                                              co.end_actually
-                                                            ) +
-                                                            "\n                                "
+                                                          _vm._s(
+                                                            co.end_actually
+                                                          )
                                                         )
                                                       ])
                                                     ]),
@@ -41841,31 +41700,15 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { width: "10" } }),
         _vm._v(" "),
-        _c("th", [
-          _vm._v(
-            "\n                            Фамилия\n                        "
-          )
-        ]),
+        _c("th", [_vm._v("Фамилия")]),
         _vm._v(" "),
-        _c("th", [
-          _vm._v("\n                            Имя\n                        ")
-        ]),
+        _c("th", [_vm._v("Имя")]),
         _vm._v(" "),
-        _c("th", [
-          _vm._v(
-            "\n                            Отчество\n                        "
-          )
-        ]),
+        _c("th", [_vm._v("Отчество")]),
         _vm._v(" "),
-        _c("th", [
-          _vm._v(
-            "\n                            Возраст\n                        "
-          )
-        ]),
+        _c("th", [_vm._v("Возраст")]),
         _vm._v(" "),
-        _c("th", [
-          _vm._v("\n                            ХЗ\n                        ")
-        ])
+        _c("th", [_vm._v("ХЗ")])
       ])
     ])
   },
@@ -42054,17 +41897,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", [
-        _vm._v(
-          "\n                                    Заморозки:\n                                "
-        )
-      ]),
+      _c("td", [_vm._v("Заморозки:")]),
       _vm._v(" "),
-      _c("td", [
-        _vm._v(
-          "\n                                    24 | 15 | 9\n                                "
-        )
-      ])
+      _c("td", [_vm._v("24 | 15 | 9")])
     ])
   },
   function() {
@@ -42072,17 +41907,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", [
-        _vm._v(
-          "\n                                    Тренировки:\n                                "
-        )
-      ]),
+      _c("td", [_vm._v("Тренировки:")]),
       _vm._v(" "),
-      _c("td", [
-        _vm._v(
-          "\n                                    81 | 28 | 53\n                                "
-        )
-      ])
+      _c("td", [_vm._v("81 | 28 | 53")])
     ])
   },
   function() {

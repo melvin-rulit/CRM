@@ -16,7 +16,7 @@ Auth::routes(['register' => false]);
 // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
 
-    Route::get('vue', 'PagesController@vue');
+    Route::get('base', 'PagesController@vue');
     Route::get('get', 'VueController@get');
     Route::get('get_email', 'VueController@getEmail');
     Route::post('getone', 'VueController@getOne');
