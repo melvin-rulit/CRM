@@ -2835,10 +2835,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
       type: String,
       required: true
     },
-    title: {
-      type: String,
-      required: true
-    },
     name: {
       type: String,
       required: true
@@ -2850,7 +2846,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
       thisValue: this.value
     };
   },
-  template: "\n\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false\" v-on:keyup.enter=\"keyInputForm = false;$emit('edit-field', $event)\">\n\n  "
+  template: "\n\n\n\n    <span>\n    <i v-if=\"!value && !keyInputForm\" @click=\"keyInputForm=true;thisValue=''\" class=\"fe fe-plus-circle ml-2\" style=\"color: green; font-size: 20px;\"></i>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false\" v-on:keyup.enter=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
 });
 
 
@@ -3011,17 +3007,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       console.clear();
       var value = e.target.value;
       var key = e.currentTarget.getAttribute('name');
-
-      if (value !== this.dataObject.attributes[key]) {
-        axios.post(this.postURL, {
-          user_id: this.dataObject.id,
-          field_name: key,
-          field_value: value
-        });
-      } else {
-        console.log("Нечего изменять");
-      }
-
+      axios.post(this.postURL, {
+        user_id: this.dataObject.id,
+        field_name: key,
+        field_value: value
+      });
       this.fetchArticles();
     },
     closeModal: function closeModal() {

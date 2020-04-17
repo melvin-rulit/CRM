@@ -33,7 +33,7 @@ class ArticleResource extends JsonResource
                 'mother_phone' => $this->mother_phone,
                 'mother_dop_phone' => $this->mother_dop_phone,
                 'mother_activity' => $this->mother_activity,
-                'mother_emai' => $this->mother_email,
+                'mother_email' => $this->mother_email,
                 'mother_telegram' => $this->mother_telegram,
                 'mother_viber' => $this->mother_viber,
 

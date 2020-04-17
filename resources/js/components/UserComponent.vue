@@ -363,10 +363,6 @@ Vue.component('inputForm', {
       type: String,
       required: true
     },
-        title: {
-      type: String,
-      required: true
-    },
     name: {
       type: String,
       required: true
@@ -380,8 +376,15 @@ Vue.component('inputForm', {
   },
   template: `
 
+
+
+    <span>
+    <i v-if="!value && !keyInputForm" @click="keyInputForm=true;thisValue=''" class="fe fe-plus-circle ml-2" style="color: green; font-size: 20px;"></i>
+    <span>
       <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
       <input v-else type="text" :value="value" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false" v-on:keyup.enter="keyInputForm = false;$emit('edit-field', $event)">
+      </div>
+    </div>
 
   `
 })
@@ -544,11 +547,8 @@ Vue.use(VueHtmlToPaper, options);
               console.clear();
               const value = e.target.value;
               const key = e.currentTarget.getAttribute('name');
-              if (value !== this.dataObject.attributes[key]) {
+
                     axios.post(this.postURL, { user_id: this.dataObject.id, field_name: key, field_value: value })
-              }else{
-                console.log("Нечего изменять");
-              }
 
               this.fetchArticles();
             },
