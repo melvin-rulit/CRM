@@ -68,16 +68,38 @@
             (опікуни, піклувальники)
           </p>
           <form>
-            <input v-model="fio_parent" class="line"><!-- ФИО родителя -->
+              <table class="tabs">
+              <tr>
+              <td><input v-model="dataVm.parent_surname" class="line" placeholder="Фамилия">
+              </td>
+              <td>
+              <input v-model="dataVm.parent_name" class="line" placeholder="Имя">
+              </td>
+              <td>
+              <input v-model="dataVm.parent_middle_name" class="line" placeholder="Отчество">
+              </td>
+              <!-- ФИО родителя -->
+              </tr>
+              </table>
             <br>
             ПІП, надалі - «Замовник»,<br>
-            <table class="tabs">
+<!--             <table class="tabs">
               <tr>
                 <td width="25%">неповнолітньої дитини:</td><td>
-                  <input v-model="dataVm.child_fio" class="line"><!-- ФИО ребенка -->
+                  <input v-model="dataVm.child_fio" class="line">
                 </td>
               </tr>
+            </table> -->
+
+            <table class="tabs">
+                <tr>
+                  <td width="25%">неповнолітньої дитини:</td>
+                  <td><input v-model="dataVm.child_surname" type="" name="" class="line" placeholder="Фамилия"></td>
+                  <td><input v-model="dataVm.child_name" type="" name="" class="line" placeholder="Имя"></td>
+                  <td><input v-model="dataVm.child_middle_name" type="" name="" class="line" placeholder="Отчество"></td>
+                </tr>
             </table>
+
             ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»<br>
             а разом «Сторони», уклали цей Договір, про наступне:<br>
             1. Предметом Договору є надання Виконавцем, Замовнику послуг з фізичної підготовкиза програмою«Відкрий
@@ -332,6 +354,9 @@
 <script>
 
     export default {
+        props: {
+          user_id: {},
+        },
         data() {
             return{
               dataVm: {},
@@ -346,7 +371,7 @@
 
         methods: {
         	vmModal(){
-                axios.post('api/v2/getvmcontract', {id : 1}).then(response => {
+                axios.post('api/v2/getvmcontract', {id : this.user_id}).then(response => {
                     this.dataVm = response.data.data
                 });
                 $('#vmModal').modal('show');
@@ -357,7 +382,19 @@
                 $('#selectModal').modal('hide');
             },
           sendVm() {
-                axios.post('get', {base_id: 1 , name: this.dataVm.contract_name, start: this.dataVm.date, end: this.dataVm.date, fio_child: this.dataVm.child_fio, active: true})
+                axios.post('get', {
+                  base_id: this.user_id , 
+                  name: this.dataVm.contract_name, 
+                  start: this.dataVm.date, 
+                  end: this.dataVm.date, 
+                  child_surname: this.dataVm.child_surname, 
+                  child_name: this.dataVm.child_name, 
+                  child_middle_name: this.dataVm.child_middle_name, 
+                  parent_surname: this.dataVm.parent_surname, 
+                  parent_name: this.dataVm.parent_name,
+                  parent_middle_name: this.dataVm.parent_middle_name, 
+                  active: true
+                })
              },
         }
 }

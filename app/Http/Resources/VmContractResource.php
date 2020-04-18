@@ -18,7 +18,9 @@ class VmContractResource extends JsonResource
     {
         return [
             'date' =>  Carbon::now()->format('d.m.Y'),
-            'child_fio' =>  $this->child_surname . ' ' . $this->child_name . ' ' . $this->child_middle_name,
+            'child_surname' =>  $this->child_surname,
+            'child_name' =>  $this->child_name,
+            'child_middle_name' =>  $this->child_middle_name,
             'parent_fio' =>  $this->child_surname . ' ' . $this->child_name . ' ' . $this->child_middle_name,
             'contract_name' =>  'Відкрий можливості',
             'town' =>  'м.Одесса',

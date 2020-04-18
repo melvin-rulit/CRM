@@ -18,7 +18,7 @@
       </div>
     </div>
 
-<dogovor-component></dogovor-component>
+<dogovor-component :user_id="dataObject.id"></dogovor-component>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -50,7 +50,7 @@
                                 <th>Имя</th>
                                 <th>Отчество</th>
                                 <th>Возраст</th>
-                                <th>?</th>
+                                <th class="text-center">?</th>
                             </tr>
                         </thead>
                         <tbody v-for="article in articles">
@@ -91,7 +91,7 @@
                 <div class="col-md-4">
                     <svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-4">
                     <div class="card-body">
                         <h4><input-form v-model="dataObject.attributes.child_surname" name="child_surname" @edit-field="editField"></input-form></h4>
                         <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
@@ -100,6 +100,9 @@
                         <h4 class="card-title mb-3">"Зирка Лева"</h4>
                         <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
                     </div>
+                </div>
+                <div class="col-md-4 border-left">
+                    
                 </div>
             </div>
         </div>
@@ -140,7 +143,7 @@
             <div class="col-md-6">
                  <div class="form-group">
                     <label for="">Примечания:</label>
-                    <textarea class="form-control" id="mother_notes" rows="3"></textarea>
+                    <textarea class="form-control" v-model="dataObject.attributes.mother_notes" @blur="event => editField(event, 'mother_notes')" rows="3"></textarea>
                 </div>
             </div>
         </div>
@@ -160,7 +163,7 @@
             <div class="col-md-6">
                  <div class="form-group">
                     <label for="">Примечания:</label>
-                    <textarea class="form-control" id="mother_notes" rows="3"></textarea>
+                    <textarea class="form-control" v-model="dataObject.attributes.father_notes" @blur="event => editField(event, 'father_notes')" rows="3"></textarea>
                 </div>
             </div>
         </div>
@@ -179,20 +182,22 @@
                 </div>
                 <div class="col-md-6">
                    <div class="form-group">
-                    <label for="">Примечания:</label>
-                    <textarea class="form-control" id="mother_notes" rows="3"></textarea>
+                        <label for="">Примечания:</label>
+                        <textarea class="form-control" v-model="dataObject.attributes.other_relative_notes" @blur="event => editField(event, 'other_relative_notes')" rows="3"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
   </div>
   <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="contract-tab">
-    <div class="card-body">
+    <div class="card-body pt-3">
         <div class="row">
             <div class="col-md-6 border-bottom">
-                <div class="btn-group btn-group-sm mb-3 text-center">
-                    <button class="btn btn-sm btn-outline-secondary" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
-                    <button class="btn btn-sm btn-outline-secondary" @click="indexActiveUser++" :disabled="indexActiveUser === dataUser.length - 1">Следующий</button>
+                <div class="row">
+                    <div class="btn-group btn-group-sm mb-3 text-center mx-auto">
+                        <button class="btn btn-sm btn-outline-secondary mr-4" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
+                        <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexActiveUser++" :disabled="indexActiveUser === dataUser.length - 1">Следующий</button>
+                    </div>
                 </div>
             </div>
             <hr>
@@ -207,22 +212,24 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6 mt-3" v-for="cont in dataObject.contracts_active">
-                <div class="table-responsive" v-for="co in cont">
-                    <p class="card-text text-center">"{{ co.name }}"</p>
+
+            <div class="col-md-6 mt-3" v-if="dataObject.contracts_active.length > 0">
+                <transition name="fade" mode="out-in">
+                <div class="table-responsive" :key="indexActiveUser">
+                    <p class="card-text text-center">"{{ activeUser.name }}"</p>
                     <table class=" table table-bordered table-hover datatable datatable-User">
                         <tbody>
                             <tr>
                                 <td>Начало:</td>
-                                <td>{{ co.start }}</td>
+                                <td>{{ activeUser.start }}</td>
                             </tr>
                             <tr>
                                 <td>Окончание:</td>
-                                <td>{{ co.end }}</td>
+                                <td>{{ activeUser.end }}</td>
                             </tr>
                             <tr>
                                 <td>Окончание факт:</td>
-                                <td>{{ co.end_actually }}</td>
+                                <td>{{ activeUser.end_actually }}</td>
                             </tr>
                             <tr>
                                 <td>Заморозки:</td>
@@ -235,6 +242,7 @@
                         </tbody>
                     </table>
                 </div>
+                </transition>
                 <p>Оплаты: 
                     <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">4212</span>
                     <a href="javascript:void(0)" class="text-success ml-2" v-on:click="getModalSale()">3159</a>
@@ -242,6 +250,7 @@
                 </p>
                 <p>Сумма и остаток: <span class="ml-2">10530 (3159)</span></p>
             </div>
+
             <div class="col-md-6 mt-3">
                 <div class="form-group" v-for="cont in dataObject.contracts_not_active">
                     <p class="card-text text-center">Прошлые контракты</p>
@@ -331,7 +340,7 @@ Vue.use(VueHtmlToPaper, options);
                 dataObject: {
                      attributes: {},
                      contracts_not_active: {},
-                     contracts_active: {},
+                     contracts_active: [],
                 },
                 dataUser: [{
                     name: 'Alex',
@@ -369,7 +378,8 @@ Vue.use(VueHtmlToPaper, options);
 
         computed: {
             activeUser() {
-              return this.dataUser[this.indexActiveUser]
+              return this.dataObject.contracts_active[0][this.indexActiveUser]
+              // return this.dataUser[this.indexActiveUser]
             }
           },
 
@@ -417,31 +427,22 @@ Vue.use(VueHtmlToPaper, options);
             saveData(){
                 axios.post(this.postURL, this.dataObject)
             },
-            // editField(event, key) {
-            //     const value = event.target.innerText;
+            // editNotes(event, key) {
+            //     const value = event.target.value;
             //     if(value !== this.dataObject.attributes[key]){
             //         this.dataObject.attributes[key] = value;
             //         axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
-            //         this.fetchArticles();
-            //         // this.saveData();
             //     }
             // },
-            editField(e) {
-              console.clear();
-              const value = e.target.value;
-              const key = e.currentTarget.getAttribute('name');
-                axios.post(this.postURL, { user_id: this.dataObject.id, field_name: key, field_value: value })
-                this.fetchArticles();
+            editField(e, name) {
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.post(this.postURL, { user_id: this.dataObject.id, field_name: name ? name : key, field_value: value })
+                key ? this.fetchArticles(): null;
             },
             closeModal(){
-                this.get();
                 $('#addNew').modal('hide');
                 $('#selectModal').modal('show');
-            },
-            get(id){
-                axios.post('api/v2/getvmcontract', {id : 1}).then(response => {
-                    this.dataVm = response.data.data
-                })
             },
         }
     }

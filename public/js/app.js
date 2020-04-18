@@ -2239,7 +2239,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    user_id: {}
+  },
   data: function data() {
     return {
       dataVm: {},
@@ -2259,7 +2284,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('api/v2/getvmcontract', {
-        id: 1
+        id: this.user_id
       }).then(function (response) {
         _this.dataVm = response.data.data;
       });
@@ -2272,11 +2297,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     sendVm: function sendVm() {
       axios.post('get', {
-        base_id: 1,
+        base_id: this.user_id,
         name: this.dataVm.contract_name,
         start: this.dataVm.date,
         end: this.dataVm.date,
-        fio_child: this.dataVm.child_fio,
+        child_surname: this.dataVm.child_surname,
+        child_name: this.dataVm.child_name,
+        child_middle_name: this.dataVm.child_middle_name,
+        parent_surname: this.dataVm.parent_surname,
+        parent_name: this.dataVm.parent_name,
+        parent_middle_name: this.dataVm.parent_middle_name,
         active: true
       });
     }
@@ -2739,6 +2769,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
   props: {
     value: {
@@ -2781,7 +2820,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       dataObject: {
         attributes: {},
         contracts_not_active: {},
-        contracts_active: {}
+        contracts_active: []
       },
       dataUser: [{
         name: 'Alex',
@@ -2818,7 +2857,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
   },
   computed: {
     activeUser: function activeUser() {
-      return this.dataUser[this.indexActiveUser];
+      return this.dataObject.contracts_active[0][this.indexActiveUser]; // return this.dataUser[this.indexActiveUser]
     }
   },
   methods: {
@@ -2883,39 +2922,26 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     saveData: function saveData() {
       axios.post(this.postURL, this.dataObject);
     },
-    // editField(event, key) {
-    //     const value = event.target.innerText;
+    // editNotes(event, key) {
+    //     const value = event.target.value;
     //     if(value !== this.dataObject.attributes[key]){
     //         this.dataObject.attributes[key] = value;
     //         axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
-    //         this.fetchArticles();
-    //         // this.saveData();
     //     }
     // },
-    editField: function editField(e) {
-      console.clear();
+    editField: function editField(e, name) {
       var value = e.target.value;
       var key = e.currentTarget.getAttribute('name');
       axios.post(this.postURL, {
         user_id: this.dataObject.id,
-        field_name: key,
+        field_name: name ? name : key,
         field_value: value
       });
-      this.fetchArticles();
+      key ? this.fetchArticles() : null;
     },
     closeModal: function closeModal() {
-      this.get();
       $('#addNew').modal('hide');
       $('#selectModal').modal('show');
-    },
-    get: function get(id) {
-      var _this6 = this;
-
-      axios.post('api/v2/getvmcontract', {
-        id: 1
-      }).then(function (response) {
-        _this6.dataVm = response.data.data;
-      });
     }
   }
 });
@@ -39302,26 +39328,95 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("form", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.fio_parent,
-                            expression: "fio_parent"
-                          }
-                        ],
-                        staticClass: "line",
-                        domProps: { value: _vm.fio_parent },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.fio_parent = $event.target.value
-                          }
-                        }
-                      }),
+                      _c("table", { staticClass: "tabs" }, [
+                        _c("tr", [
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_surname,
+                                  expression: "dataVm.parent_surname"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "Фамилия" },
+                              domProps: { value: _vm.dataVm.parent_surname },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_surname",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_name,
+                                  expression: "dataVm.parent_name"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "Имя" },
+                              domProps: { value: _vm.dataVm.parent_name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_middle_name,
+                                  expression: "dataVm.parent_middle_name"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "Отчество" },
+                              domProps: {
+                                value: _vm.dataVm.parent_middle_name
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_middle_name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("br"),
                       _vm._v("\n            ПІП, надалі - «Замовник»,"),
@@ -39332,18 +39427,24 @@ var render = function() {
                           _c("td", { attrs: { width: "25%" } }, [
                             _vm._v("неповнолітньої дитини:")
                           ]),
+                          _vm._v(" "),
                           _c("td", [
                             _c("input", {
                               directives: [
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.dataVm.child_fio,
-                                  expression: "dataVm.child_fio"
+                                  value: _vm.dataVm.child_surname,
+                                  expression: "dataVm.child_surname"
                                 }
                               ],
                               staticClass: "line",
-                              domProps: { value: _vm.dataVm.child_fio },
+                              attrs: {
+                                type: "",
+                                name: "",
+                                placeholder: "Фамилия"
+                              },
+                              domProps: { value: _vm.dataVm.child_surname },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
@@ -39351,7 +39452,67 @@ var render = function() {
                                   }
                                   _vm.$set(
                                     _vm.dataVm,
-                                    "child_fio",
+                                    "child_surname",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.child_name,
+                                  expression: "dataVm.child_name"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { type: "", name: "", placeholder: "Имя" },
+                              domProps: { value: _vm.dataVm.child_name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "child_name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.child_middle_name,
+                                  expression: "dataVm.child_middle_name"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: {
+                                type: "",
+                                name: "",
+                                placeholder: "Отчество"
+                              },
+                              domProps: { value: _vm.dataVm.child_middle_name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "child_middle_name",
                                     $event.target.value
                                   )
                                 }
@@ -39361,7 +39522,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n            ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»"
+                        "\n\n            ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»"
                       ),
                       _c("br"),
                       _vm._v(
@@ -40379,7 +40540,7 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
-      _c("dogovor-component"),
+      _c("dogovor-component", { attrs: { user_id: _vm.dataObject.id } }),
       _vm._v(" "),
       _c(
         "ul",
@@ -40620,7 +40781,7 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-8" }, [
+                      _c("div", { staticClass: "col-md-4" }, [
                         _c("div", { staticClass: "card-body" }, [
                           _c(
                             "h4",
@@ -40732,7 +40893,9 @@ var render = function() {
                             [_vm._v("Люберецкий филиал")]
                           )
                         ])
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4 border-left" })
                     ])
                   ]),
                   _vm._v(" "),
@@ -40922,7 +41085,51 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _vm._m(6)
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", { attrs: { for: "" } }, [
+                                    _vm._v("Примечания:")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .mother_notes,
+                                        expression:
+                                          "dataObject.attributes.mother_notes"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { rows: "3" },
+                                    domProps: {
+                                      value:
+                                        _vm.dataObject.attributes.mother_notes
+                                    },
+                                    on: {
+                                      blur: function(event) {
+                                        return _vm.editField(
+                                          event,
+                                          "mother_notes"
+                                        )
+                                      },
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.dataObject.attributes,
+                                          "mother_notes",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
                             ])
                           ])
                         ]
@@ -41104,7 +41311,51 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _vm._m(7)
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", { attrs: { for: "" } }, [
+                                    _vm._v("Примечания:")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .father_notes,
+                                        expression:
+                                          "dataObject.attributes.father_notes"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { rows: "3" },
+                                    domProps: {
+                                      value:
+                                        _vm.dataObject.attributes.father_notes
+                                    },
+                                    on: {
+                                      blur: function(event) {
+                                        return _vm.editField(
+                                          event,
+                                          "father_notes"
+                                        )
+                                      },
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.dataObject.attributes,
+                                          "father_notes",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
                             ])
                           ])
                         ]
@@ -41291,7 +41542,52 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _vm._m(8)
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", { attrs: { for: "" } }, [
+                                    _vm._v("Примечания:")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.dataObject.attributes
+                                            .other_relative_notes,
+                                        expression:
+                                          "dataObject.attributes.other_relative_notes"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { rows: "3" },
+                                    domProps: {
+                                      value:
+                                        _vm.dataObject.attributes
+                                          .other_relative_notes
+                                    },
+                                    on: {
+                                      blur: function(event) {
+                                        return _vm.editField(
+                                          event,
+                                          "other_relative_notes"
+                                        )
+                                      },
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.dataObject.attributes,
+                                          "other_relative_notes",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
                             ])
                           ])
                         ]
@@ -41308,56 +41604,58 @@ var render = function() {
                           }
                         },
                         [
-                          _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "card-body pt-3" }, [
                             _c("div", { staticClass: "row" }, [
                               _c(
                                 "div",
                                 { staticClass: "col-md-6 border-bottom" },
                                 [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "btn-group btn-group-sm mb-3 text-center"
-                                    },
-                                    [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-sm btn-outline-secondary",
-                                          attrs: {
-                                            disabled: _vm.indexActiveUser <= 0
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.indexActiveUser--
+                                  _c("div", { staticClass: "row" }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "btn-group btn-group-sm mb-3 text-center mx-auto"
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-sm btn-outline-secondary mr-4",
+                                            attrs: {
+                                              disabled: _vm.indexActiveUser <= 0
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.indexActiveUser--
+                                              }
                                             }
-                                          }
-                                        },
-                                        [_vm._v("Предыдущий")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-sm btn-outline-secondary",
-                                          attrs: {
-                                            disabled:
-                                              _vm.indexActiveUser ===
-                                              _vm.dataUser.length - 1
                                           },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.indexActiveUser++
+                                          [_vm._v("Предыдущий")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-sm btn-outline-secondary ml-4",
+                                            attrs: {
+                                              disabled:
+                                                _vm.indexActiveUser ===
+                                                _vm.dataUser.length - 1
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.indexActiveUser++
+                                              }
                                             }
-                                          }
-                                        },
-                                        [_vm._v("Следующий")]
-                                      )
-                                    ]
-                                  )
+                                          },
+                                          [_vm._v("Следующий")]
+                                        )
+                                      ]
+                                    )
+                                  ])
                                 ]
                               ),
                               _vm._v(" "),
@@ -41389,21 +41687,27 @@ var render = function() {
                               _c("hr")
                             ]),
                             _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "row" },
-                              [
-                                _vm._l(
-                                  _vm.dataObject.contracts_active,
-                                  function(cont) {
-                                    return _c(
-                                      "div",
-                                      { staticClass: "col-md-6 mt-3" },
-                                      [
-                                        _vm._l(cont, function(co) {
-                                          return _c(
+                            _c("div", { staticClass: "row" }, [
+                              _vm.dataObject.contracts_active.length > 0
+                                ? _c(
+                                    "div",
+                                    { staticClass: "col-md-6 mt-3" },
+                                    [
+                                      _c(
+                                        "transition",
+                                        {
+                                          attrs: {
+                                            name: "fade",
+                                            mode: "out-in"
+                                          }
+                                        },
+                                        [
+                                          _c(
                                             "div",
-                                            { staticClass: "table-responsive" },
+                                            {
+                                              key: _vm.indexActiveUser,
+                                              staticClass: "table-responsive"
+                                            },
                                             [
                                               _c(
                                                 "p",
@@ -41413,7 +41717,11 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    '"' + _vm._s(co.name) + '"'
+                                                    '"' +
+                                                      _vm._s(
+                                                        _vm.activeUser.name
+                                                      ) +
+                                                      '"'
                                                   )
                                                 ]
                                               ),
@@ -41432,7 +41740,11 @@ var render = function() {
                                                       ]),
                                                       _vm._v(" "),
                                                       _c("td", [
-                                                        _vm._v(_vm._s(co.start))
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            _vm.activeUser.start
+                                                          )
+                                                        )
                                                       ])
                                                     ]),
                                                     _vm._v(" "),
@@ -41442,7 +41754,11 @@ var render = function() {
                                                       ]),
                                                       _vm._v(" "),
                                                       _c("td", [
-                                                        _vm._v(_vm._s(co.end))
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            _vm.activeUser.end
+                                                          )
+                                                        )
                                                       ])
                                                     ]),
                                                     _vm._v(" "),
@@ -41456,122 +41772,135 @@ var render = function() {
                                                       _c("td", [
                                                         _vm._v(
                                                           _vm._s(
-                                                            co.end_actually
+                                                            _vm.activeUser
+                                                              .end_actually
                                                           )
                                                         )
                                                       ])
                                                     ]),
                                                     _vm._v(" "),
-                                                    _vm._m(9, true),
+                                                    _c("tr", [
+                                                      _c("td", [
+                                                        _vm._v("Заморозки:")
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _vm._v("24 | 15 | 9")
+                                                      ])
+                                                    ]),
                                                     _vm._v(" "),
-                                                    _vm._m(10, true)
+                                                    _c("tr", [
+                                                      _c("td", [
+                                                        _vm._v("Тренировки:")
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _vm._v("81 | 28 | 53")
+                                                      ])
+                                                    ])
                                                   ])
                                                 ]
                                               )
                                             ]
                                           )
-                                        }),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _vm._v(
+                                          "Оплаты: \n                    "
+                                        ),
+                                        _c(
+                                          "span",
+                                          {
+                                            staticClass: "text-muted ml-2",
+                                            attrs: {
+                                              "data-toggle": "tooltip",
+                                              "data-placement": "bottom",
+                                              title: "Дата оплаты - 23.05.2015"
+                                            }
+                                          },
+                                          [_vm._v("4212")]
+                                        ),
                                         _vm._v(" "),
-                                        _c("p", [
-                                          _vm._v(
-                                            "Оплаты: \n                    "
-                                          ),
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass: "text-muted ml-2",
-                                              attrs: {
-                                                "data-toggle": "tooltip",
-                                                "data-placement": "bottom",
-                                                title:
-                                                  "Дата оплаты - 23.05.2015"
-                                              }
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "text-success ml-2",
+                                            attrs: {
+                                              href: "javascript:void(0)"
                                             },
-                                            [_vm._v("4212")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "a",
-                                            {
-                                              staticClass: "text-success ml-2",
-                                              attrs: {
-                                                href: "javascript:void(0)"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.getModalSale()
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.getModalSale()
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("3159")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-danger ml-2" },
+                                          [_vm._v("3348")]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._m(6)
+                                    ],
+                                    1
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6 mt-3" },
+                                _vm._l(
+                                  _vm.dataObject.contracts_not_active,
+                                  function(cont) {
+                                    return _c(
+                                      "div",
+                                      { staticClass: "form-group" },
+                                      [
+                                        _c(
+                                          "p",
+                                          {
+                                            staticClass: "card-text text-center"
+                                          },
+                                          [_vm._v("Прошлые контракты")]
+                                        ),
+                                        _vm._v(" "),
+                                        _vm._l(cont, function(co) {
+                                          return _c("p", [
+                                            _c(
+                                              "a",
+                                              {
+                                                staticClass: "text-muted",
+                                                attrs: {
+                                                  href: "javascript:void(0)"
                                                 }
-                                              }
-                                            },
-                                            [_vm._v("3159")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            { staticClass: "text-danger ml-2" },
-                                            [_vm._v("3348")]
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _vm._m(11, true)
+                                              },
+                                              [
+                                                _vm._v(
+                                                  '"' +
+                                                    _vm._s(co.name) +
+                                                    '"    ' +
+                                                    _vm._s(co.start) +
+                                                    " - " +
+                                                    _vm._s(co.end)
+                                                )
+                                              ]
+                                            )
+                                          ])
+                                        })
                                       ],
                                       2
                                     )
                                   }
                                 ),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "col-md-6 mt-3" },
-                                  _vm._l(
-                                    _vm.dataObject.contracts_not_active,
-                                    function(cont) {
-                                      return _c(
-                                        "div",
-                                        { staticClass: "form-group" },
-                                        [
-                                          _c(
-                                            "p",
-                                            {
-                                              staticClass:
-                                                "card-text text-center"
-                                            },
-                                            [_vm._v("Прошлые контракты")]
-                                          ),
-                                          _vm._v(" "),
-                                          _vm._l(cont, function(co) {
-                                            return _c("p", [
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass: "text-muted",
-                                                  attrs: {
-                                                    href: "javascript:void(0)"
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    '"' +
-                                                      _vm._s(co.name) +
-                                                      '"    ' +
-                                                      _vm._s(co.start) +
-                                                      " - " +
-                                                      _vm._s(co.end)
-                                                  )
-                                                ]
-                                              )
-                                            ])
-                                          })
-                                        ],
-                                        2
-                                      )
-                                    }
-                                  ),
-                                  0
-                                )
-                              ],
-                              2
-                            )
+                                0
+                              )
+                            ])
                           ])
                         ]
                       ),
@@ -41601,7 +41930,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(12)
+                _vm._m(7)
               ])
             ]
           )
@@ -41708,7 +42037,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Возраст")]),
         _vm._v(" "),
-        _c("th", [_vm._v("?")])
+        _c("th", { staticClass: "text-center" }, [_vm._v("?")])
       ])
     ])
   },
@@ -41846,71 +42175,6 @@ var staticRenderFns = [
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("Примечания:")]),
-        _vm._v(" "),
-        _c("textarea", {
-          staticClass: "form-control",
-          attrs: { id: "mother_notes", rows: "3" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("Примечания:")]),
-        _vm._v(" "),
-        _c("textarea", {
-          staticClass: "form-control",
-          attrs: { id: "mother_notes", rows: "3" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("Примечания:")]),
-        _vm._v(" "),
-        _c("textarea", {
-          staticClass: "form-control",
-          attrs: { id: "mother_notes", rows: "3" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Заморозки:")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("24 | 15 | 9")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Тренировки:")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("81 | 28 | 53")])
-    ])
   },
   function() {
     var _vm = this
