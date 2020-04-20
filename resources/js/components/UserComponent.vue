@@ -313,7 +313,7 @@
         <div class="row">
             <div class="col-md-6 border-bottom">
                 <div class="row">
-                    <div class="btn-group btn-group-sm mb-3 text-center mx-auto">
+                    <div class="btn-group btn-group-sm mb-3 text-center mx-auto" v-if="dataObject.contracts_active_count > 0">
                         <button class="btn btn-sm btn-outline-secondary mr-4" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
                         <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexActiveUser++" :disabled="indexActiveUser >= 3">Следующий</button>
                     </div>
@@ -334,7 +334,7 @@
 
             <div class="col-md-6 mt-3">
                 <transition name="fade" mode="out-in">
-                <div  v-if="dataObject.contracts_active_count > 0" class="table-responsive" :key="indexActiveUser">
+                <div v-if="dataObject.contracts_active_count > 0" class="table-responsive" :key="indexActiveUser">
                     <p class="card-text text-center">"{{ activeUser.name }}"</p>
                     <table class=" table table-bordered table-hover datatable datatable-User">
                         <tbody>
@@ -418,7 +418,7 @@ Vue.component('inputForm', {
     <span>
     <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
     <span>
-      <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
+      <span v-if="!keyInputForm" class="card-title" @dblclick="keyInputForm = true">{{ value }}</span>
       <input v-else type="text" :value="value" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false" v-on:keyup.enter="keyInputForm = false;$emit('edit-field', $event)">
       </div>
     </div>

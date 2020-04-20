@@ -2308,7 +2308,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         base_id: this.user_id,
         name: this.contracts_name,
         name_vm: this.contracts_vm,
-        start: this.start,
+        start: this.dataVm.date,
         end: this.dataVm.date,
         end_actually: this.dataVm.date,
         price: this.dataVm.price,
@@ -2938,7 +2938,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
       thisValue: this.value
     };
   },
-  template: "\n\n    <span>\n    <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false\" v-on:keyup.enter=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
+  template: "\n\n    <span>\n    <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @dblclick=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false\" v-on:keyup.enter=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
 });
 
 
@@ -40384,18 +40384,22 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.start,
-                                expression: "start"
+                                value: _vm.dataVm.date,
+                                expression: "dataVm.date"
                               }
                             ],
                             staticClass: "line",
-                            domProps: { value: _vm.start },
+                            domProps: { value: _vm.dataVm.date },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.start = $event.target.value
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "date",
+                                  $event.target.value
+                                )
                               }
                             }
                           })
@@ -42581,48 +42585,52 @@ var render = function() {
                                 { staticClass: "col-md-6 border-bottom" },
                                 [
                                   _c("div", { staticClass: "row" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "btn-group btn-group-sm mb-3 text-center mx-auto"
-                                      },
-                                      [
-                                        _c(
-                                          "button",
+                                    _vm.dataObject.contracts_active_count > 0
+                                      ? _c(
+                                          "div",
                                           {
                                             staticClass:
-                                              "btn btn-sm btn-outline-secondary mr-4",
-                                            attrs: {
-                                              disabled: _vm.indexActiveUser <= 0
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.indexActiveUser--
-                                              }
-                                            }
+                                              "btn-group btn-group-sm mb-3 text-center mx-auto"
                                           },
-                                          [_vm._v("Предыдущий")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-sm btn-outline-secondary ml-4",
-                                            attrs: {
-                                              disabled: _vm.indexActiveUser >= 3
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.indexActiveUser++
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("Следующий")]
+                                          [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-sm btn-outline-secondary mr-4",
+                                                attrs: {
+                                                  disabled:
+                                                    _vm.indexActiveUser <= 0
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.indexActiveUser--
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Предыдущий")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-sm btn-outline-secondary ml-4",
+                                                attrs: {
+                                                  disabled:
+                                                    _vm.indexActiveUser >= 3
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.indexActiveUser++
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Следующий")]
+                                            )
+                                          ]
                                         )
-                                      ]
-                                    )
+                                      : _vm._e()
                                   ])
                                 ]
                               ),
