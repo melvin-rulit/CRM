@@ -13,5 +13,6 @@ class Contract extends Model
         'end',
         'end_actually',
         'active',
+        'date',
     ];
 }

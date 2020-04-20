@@ -1908,50 +1908,8 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2266,48 +2224,113 @@ __webpack_require__.r(__webpack_exports__);
     user_id: {}
   },
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       dataVm: {},
-      options: [{
-        text: 'Зирка лева',
-        value: 'А'
+      dayselect: [{
+        day: 'Пн:Ср'
       }, {
-        text: 'Народження зирки',
-        value: 'Б'
-      }],
-      vmContract: true,
-      contractSelected: false
-    };
+        day: 'Вт:Чт'
+      }, {
+        day: 'Сб:Вс'
+      }]
+    }, _defineProperty(_ref, "dataVm", {}), _defineProperty(_ref, "timeselect", [{
+      time: '08:00'
+    }, {
+      time: '09:00'
+    }, {
+      time: '10:00'
+    }, {
+      time: '11:00'
+    }, {
+      time: '12:00'
+    }, {
+      time: '13:00'
+    }, {
+      time: '14:00'
+    }, {
+      time: '15:00'
+    }, {
+      time: '16:00'
+    }, {
+      time: '17:00'
+    }, {
+      time: '18:00'
+    }, {
+      time: '19:00'
+    }, {
+      time: '20:00'
+    }, {
+      time: '21:00'
+    }]), _defineProperty(_ref, "options", [{
+      text: 'Зирка лева',
+      value: 'А'
+    }, {
+      text: 'Народження зирки',
+      value: 'Б'
+    }]), _defineProperty(_ref, "contracts", [{
+      name: 'Вперед до зiрок'
+    }, {
+      name: 'Народження Зiрки'
+    }, {
+      name: 'Зiрка Лева'
+    }, {
+      name: 'Лiдер Прайду'
+    }, {
+      name: 'Супер Зiрка'
+    }, {
+      name: 'Школа футболу'
+    }]), _defineProperty(_ref, "contracts_vm", 'Відкрий можливості'), _defineProperty(_ref, "vmContract", true), _defineProperty(_ref, "contractSelected", false), _defineProperty(_ref, "form_size", ''), _defineProperty(_ref, "classes_week", ''), _defineProperty(_ref, "days", ''), _defineProperty(_ref, "time", ''), _defineProperty(_ref, "contract_name", ''), _ref;
   },
   methods: {
-    vmModal: function vmModal() {
+    contract: function contract(contract_type) {
       var _this = this;
 
       axios.post('api/v2/getvmcontract', {
-        id: this.user_id
+        id: this.user_id,
+        contract_type: contract_type
       }).then(function (response) {
         _this.dataVm = response.data.data;
       });
-      $('#vmModal').modal('show');
-      $('#selectModal').modal('hide');
+
+      if (contract_type == 'vm') {
+        $('#vmModal').modal('show');
+        $('#selectModal').modal('hide');
+      } else {
+        $('#osnModal').modal('show');
+        $('#selectModal').modal('hide');
+      }
     },
-    osnModal: function osnModal() {
-      $('#osnModal').modal('show');
-      $('#selectModal').modal('hide');
-    },
-    sendVm: function sendVm() {
-      axios.post('get', {
+    sendVm: function sendVm(contract_type) {
+      axios.post('api/v2/savecontract', {
+        contract_type: contract_type,
         base_id: this.user_id,
-        name: this.dataVm.contract_name,
+        name: this.contracts_name,
+        name_vm: this.contracts_vm,
         start: this.dataVm.date,
         end: this.dataVm.date,
+        end_actually: this.dataVm.date,
+        price: this.dataVm.price,
         child_surname: this.dataVm.child_surname,
         child_name: this.dataVm.child_name,
         child_middle_name: this.dataVm.child_middle_name,
+        child_birthday: this.dataVm.child_birthday,
         parent_surname: this.dataVm.parent_surname,
         parent_name: this.dataVm.parent_name,
         parent_middle_name: this.dataVm.parent_middle_name,
-        active: true
+        parent_phone: this.dataVm.parent_phone,
+        parent_viber: this.dataVm.parent_viber,
+        parent_email: this.dataVm.parent_email,
+        parent_facebook: this.dataVm.parent_facebook,
+        parent_instagram: this.dataVm.parent_instagram,
+        form_size: this.form_size,
+        classes_week: this.dataVm.classes_week,
+        classes_total: this.dataVm.classes_total,
+        freezing_total: this.dataVm.freezing_total,
+        freezing_kolvo: this.dataVm.freezing_kolvo,
+        days: this.days,
+        time: this.time
       });
     }
   }
@@ -2502,6 +2525,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
 /* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1__);
+//
 //
 //
 //
@@ -7510,7 +7534,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.table td, .table th {\n    padding: 10px;\n    font-size: 14px;\n}\n.center{\n     display: block;\n     margin: 0 auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: all .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n  transform: translateY(20px);\n}\n", ""]);
+exports.push([module.i, "\n.table td, .table th {\n        padding: 10px;\n        font-size: 14px;\n}\n.center{\n         display: block;\n         margin: 0 auto;\n}\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active до версии 2.1.8 */ {\n  transform: translateX(10px);\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -39117,7 +39141,7 @@ var render = function() {
                         attrs: { href: "javascript:void(0)" },
                         on: {
                           click: function($event) {
-                            return _vm.vmModal()
+                            return _vm.contract("vm")
                           }
                         }
                       },
@@ -39146,7 +39170,7 @@ var render = function() {
                         attrs: { href: "javascript:void(0)" },
                         on: {
                           click: function($event) {
-                            return _vm.osnModal()
+                            return _vm.contract("osn")
                           }
                         }
                       },
@@ -39276,7 +39300,7 @@ var render = function() {
                     staticClass: "modal-title",
                     attrs: { id: "exampleModalLongTitle" }
                   },
-                  [_vm._v(_vm._s(_vm.dataVm.contract_name))]
+                  [_vm._v(_vm._s(_vm.contracts_vm))]
                 ),
                 _vm._v(" "),
                 _vm._m(2)
@@ -39293,18 +39317,12 @@ var render = function() {
                     _c("h1", [
                       _vm._v("Договір"),
                       _c("br"),
-                      _vm._v("\n            про надання послуг"),
+                      _vm._v("про надання послуг"),
                       _c("br"),
-                      _vm._v(
-                        "\n            за програмою «" +
-                          _vm._s(_vm.dataVm.contract_name) +
-                          "»\n          "
-                      )
+                      _vm._v("за програмою «" + _vm._s(_vm.contracts_vm) + "»")
                     ]),
                     _vm._v(" "),
                     _c("table", { attrs: { border: "0", width: "100%" } }, [
-                      _c("tr"),
-                      _vm._v(" "),
                       _c("td", { staticClass: "tdleft" }, [
                         _vm._v(_vm._s(_vm.dataVm.town))
                       ]),
@@ -39314,11 +39332,11 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("p"),
+                    _c("br"),
                     _vm._v(" "),
                     _c("p", [
                       _vm._v(
-                        "\n            Фізична особо-підприємець " +
+                        "Фізична особо-підприємець " +
                           _vm._s(_vm.dataVm.ip) +
                           "."
                       ),
@@ -39419,7 +39437,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("br"),
-                      _vm._v("\n            ПІП, надалі - «Замовник»,"),
+                      _vm._v("ПІП, надалі - «Замовник»,"),
                       _c("br"),
                       _vm._v(" "),
                       _c("table", { staticClass: "tabs" }, [
@@ -39522,105 +39540,183 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n\n            ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»"
+                        "\n              ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            а разом «Сторони», уклали цей Договір, про наступне:"
+                        "\n              а разом «Сторони», уклали цей Договір, про наступне:"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            1. Предметом Договору є надання Виконавцем, Замовнику послуг з фізичної підготовкиза програмою«Відкрий\n            можливості» (надалі – «Програма») на визначених цим Договором умовах."
+                        "\n              1. Предметом Договору є надання Виконавцем, Замовнику послуг з фізичної підготовкиза програмою«Відкрий\n              можливості» (надалі – «Програма») на визначених цим Договором умовах."
                       ),
                       _c("br"),
-                      _vm._v("\n            2. Умови Програми:"),
+                      _vm._v("\n              2. Умови Програми:"),
                       _c("br"),
                       _vm._v(
-                        "\n            2.1. Програма складається з двох тренувань, тривалістю 45 хвилинкожне;"
+                        "\n              2.1. Програма складається з двох тренувань, тривалістю 45 хвилинкожне;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            2.2. Тренування відбуваються у спеціальному спортивному залі за адресою: " +
+                        "\n              2.2. Тренування відбуваються у спеціальному спортивному залі за адресою: " +
                           _vm._s(_vm.dataVm.branch_adress) +
                           ";"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            2.3. Заняття Програми проводять два тренери одночасно;"
+                        "\n              2.3. Заняття Програми проводять два тренери одночасно;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            2.4. Заняття проводяться без присутності батьків в спортивному залі;"
+                        "\n              2.4. Заняття проводяться без присутності батьків в спортивному залі;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без\n            повного комплекту форми та змінного спортивного взуття."
+                        "\n              2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без\n              повного комплекту форми та змінного спортивного взуття."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            2.6. Вартість Програми складає " +
-                          _vm._s(_vm.dataVm.programm_price) +
+                        "\n              2.6. Вартість Програми складає " +
+                          _vm._s(_vm.dataVm.price) +
                           " (" +
-                          _vm._s(_vm.dataVm.programm_price_title) +
+                          _vm._s(_vm.dataVm.price_title) +
                           ".)."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті\n            п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:"
+                        "\n              2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті\n              п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:"
                       ),
                       _c("br"),
                       _vm._v(" "),
-                      _vm._m(3),
-                      _vm._v("\n            3. Права та обов’язки Замовника"),
+                      _c("table", { staticClass: "tabs" }, [
+                        _c("tr", [
+                          _c("td", [_vm._v("дні занять")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.days,
+                                    expression: "days"
+                                  }
+                                ],
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.days = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              _vm._l(_vm.dayselect, function(day) {
+                                return _c("option", [_vm._v(_vm._s(day.day))])
+                              }),
+                              0
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(", час занять")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.time,
+                                    expression: "time"
+                                  }
+                                ],
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.time = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              _vm._l(_vm.timeselect, function(time) {
+                                return _c("option", [_vm._v(_vm._s(time.time))])
+                              }),
+                              0
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              ", а Вихованець закріплюється за конкретною групою."
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v("\n              3. Права та обов’язки Замовника"),
                       _c("br"),
                       _vm._v(
-                        "\n            3.1. Замовник має право сплатити послуги за акційною ціною " +
-                          _vm._s(_vm.dataVm.programm_price_stock) +
+                        "\n              3.1. Замовник має право сплатити послуги за акційною ціною " +
+                          _vm._s(_vm.dataVm.price_stock) +
                           " (" +
-                          _vm._s(_vm.dataVm.programm_price_stock_title) +
-                          ") грн. у випадку оплати"
-                      ),
-                      _vm._v(
-                        "\n            Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні\n            занять Програми протягом наступних, семи днів після оплати;"
+                          _vm._s(_vm.dataVm.price_stock_title) +
+                          ") грн. у випадку оплати\n              Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні\n              занять Програми протягом наступних, семи днів після оплати;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            3.2. Замовник має право з поважних причин змінити час та групу для тренування лише в період дії акційної ціни\n            та наявності вільних місць в групах в перші 7 днів після оплати. Переважне право прийняття остаточного\n            рішення належить Виконавцю."
+                        "\n              3.2. Замовник має право з поважних причин змінити час та групу для тренування лише в період дії акційної ціни\n              та наявності вільних місць в групах в перші 7 днів після оплати. Переважне право прийняття остаточного\n              рішення належить Виконавцю."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            3.3. У випадку переносу занять на більш пізній термін без поважної причини, Замовник зобов’язується оплатити\n            повну вартість Програми;"
+                        "\n              3.3. У випадку переносу занять на більш пізній термін без поважної причини, Замовник зобов’язується оплатити\n              повну вартість Програми;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            3.4. Замовник має право спостерігати за заняттями на екрані телевізора в кімнаті батьків;"
+                        "\n              3.4. Замовник має право спостерігати за заняттями на екрані телевізора в кімнаті батьків;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            4. Якщо Вихованцем було пропущено одне з двох навчально-тренувальних занять, Програма вважається\n            завершеною. Вартість пропущеного заняття Виконавцем не повертається."
+                        "\n              4. Якщо Вихованцем було пропущено одне з двох навчально-тренувальних занять, Програма вважається\n              завершеною. Вартість пропущеного заняття Виконавцем не повертається."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            5.Замовник вносить заставу за форму в розмірі " +
-                          _vm._s(_vm.dataVm.programm_price_pledge) +
+                        "\n              5.Замовник вносить заставу за форму в розмірі " +
+                          _vm._s(_vm.dataVm.price_pledge) +
                           " (" +
-                          _vm._s(_vm.dataVm.programm_price_pledge_title) +
-                          ") грн."
-                      ),
-                      _vm._v(
-                        " до початку першого тренування. Форма повинна\n            бути повернена Виконавцю після другого заняття. Якщо Замовником не повертається форма в день закінчення\n            Програми, застава за форму вважається її оплатою. У випадку продовження тренувань Вихованця забазовими\n            програмами «Відкрий можливості» чи «Народження Зірки», застава в розмірі 400 (чотириста) грн. зараховується в\n            оплату вартості подальшогонавчання.\n            "
+                          _vm._s(_vm.dataVm.price_pledge_title) +
+                          ") грн. до початку першого тренування. Форма повинна\n              бути повернена Виконавцю після другого заняття. Якщо Замовником не повертається форма в день закінчення\n              Програми, застава за форму вважається її оплатою. У випадку продовження тренувань Вихованця забазовими\n              програмами «Відкрий можливості» чи «Народження Зірки», застава в розмірі 400 (чотириста) грн. зараховується в\n              оплату вартості подальшогонавчання."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            6. Підписуючи даний Договір, Замовник дає згоду на проведення Виконавцем фото та відео зйомки тренувань з\n            подальшим використанням цих матеріалів в рекламних і маркетингових цілях."
+                        "\n              6. Підписуючи даний Договір, Замовник дає згоду на проведення Виконавцем фото та відео зйомки тренувань з\n              подальшим використанням цих матеріалів в рекламних і маркетингових цілях."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            7. Підписуючи Договір, Замовник підтверджує факт відсутності обмежень, чи будь-яких протипоказань до занять\n            спортом у Вихованця."
+                        "\n              7. Підписуючи Договір, Замовник підтверджує факт відсутності обмежень, чи будь-яких протипоказань до занять\n              спортом у Вихованця."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            8. Договір підписується у 2-х примірниках, маючих однакову юридичну силу.\n          "
+                        "\n              8. Договір підписується у 2-х примірниках, маючих однакову юридичну силу.\n          "
                       )
                     ]),
                     _vm._v(" "),
@@ -39658,7 +39754,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(4)
+                        _vm._m(3)
                       ])
                     ])
                   ])
@@ -39680,7 +39776,11 @@ var render = function() {
                   {
                     staticClass: "btn btn-success",
                     attrs: { type: "button", "data-dismiss": "modal" },
-                    on: { click: _vm.sendVm }
+                    on: {
+                      click: function($event) {
+                        return _vm.sendVm("vm")
+                      }
+                    }
                   },
                   [_vm._v("Сохранить и распечатать")]
                 )
@@ -39709,7 +39809,7 @@ var render = function() {
           { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(5),
+              _vm._m(4),
               _vm._v(" "),
               _c(
                 "div",
@@ -39719,17 +39819,416 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "Section1" }, [
-                    _vm._m(6),
+                    _c("h1", [
+                      _vm._v(
+                        "ЗАЯВА № " +
+                          _vm._s(_vm.user_id) +
+                          " від  «" +
+                          _vm._s(_vm.dataVm.date) +
+                          "»  р."
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "hide" }, [
+                        _vm._v(
+                          "(публічний договір розташований на офіційномусайті clubleva.ua)"
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
-                    _vm._m(7),
+                    _c("table", { staticClass: "tabs" }, [
+                      _c("tr", [
+                        _c("td", { attrs: { width: "25%" } }, [
+                          _vm._v("Я, законний представник")
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.parent_surname,
+                                expression: "dataVm.parent_surname"
+                              }
+                            ],
+                            staticClass: "line",
+                            attrs: { placeholder: "Фамилия" },
+                            domProps: { value: _vm.dataVm.parent_surname },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "parent_surname",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.parent_name,
+                                expression: "dataVm.parent_name"
+                              }
+                            ],
+                            staticClass: "line",
+                            attrs: { placeholder: "Имя" },
+                            domProps: { value: _vm.dataVm.parent_name },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "parent_name",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.parent_middle_name,
+                                expression: "dataVm.parent_middle_name"
+                              }
+                            ],
+                            staticClass: "line",
+                            attrs: { placeholder: "Отчество" },
+                            domProps: { value: _vm.dataVm.parent_middle_name },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "parent_middle_name",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]),
                     _vm._v(" "),
-                    _vm._m(8),
+                    _c("table", { staticClass: "tabs" }, [
+                      _c("tr", [
+                        _c("td", { attrs: { width: "25%" } }, [
+                          _vm._v("неповнолітньої дитини")
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.child_name,
+                                expression: "dataVm.child_name"
+                              }
+                            ],
+                            staticClass: "line",
+                            attrs: { placeholder: "Имя" },
+                            domProps: { value: _vm.dataVm.child_name },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "child_name",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.child_surname,
+                                expression: "dataVm.child_surname"
+                              }
+                            ],
+                            staticClass: "line",
+                            attrs: { placeholder: "Фамилия" },
+                            domProps: { value: _vm.dataVm.child_surname },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "child_surname",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(", дата народження")]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.child_birthday,
+                                expression: "dataVm.child_birthday"
+                              }
+                            ],
+                            staticClass: "line",
+                            domProps: { value: _vm.dataVm.child_birthday },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "child_birthday",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v("надалі «Замовник»")])
+                      ])
+                    ]),
                     _vm._v(" "),
-                    _vm._m(9),
+                    _c("table", { staticClass: "tabs" }, [
+                      _c("tr", [
+                        _c("td", { staticClass: "gray" }, [
+                          _vm._v("Телефон Замовника")
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.parent_phone,
+                                expression: "dataVm.parent_phone"
+                              }
+                            ],
+                            staticClass: "line",
+                            attrs: {
+                              required: "",
+                              "data-mask": "+0 (000) 000-00-00",
+                              placeholder: "+_ (___) ___ __ __"
+                            },
+                            domProps: { value: _vm.dataVm.parent_phone },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "parent_phone",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "gray" }, [
+                          _vm._v("Viber/Telegram Замовника")
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.parent_viber,
+                                expression: "dataVm.parent_viber"
+                              }
+                            ],
+                            staticClass: "line",
+                            attrs: {
+                              required: "",
+                              "data-mask": "+0 (000) 000-00-00",
+                              placeholder: "+_ (___) ___ __ __"
+                            },
+                            domProps: { value: _vm.dataVm.parent_viber },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "parent_viber",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", { staticClass: "gray" }, [
+                          _vm._v("Email Замовника")
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.parent_email,
+                                expression: "dataVm.parent_email"
+                              }
+                            ],
+                            staticClass: "line",
+                            domProps: { value: _vm.dataVm.parent_email },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "parent_email",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "gray" }, [
+                          _vm._v("Facebook/Instagram Замовника")
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.parent_facebook,
+                                expression: "dataVm.parent_facebook"
+                              }
+                            ],
+                            staticClass: "line",
+                            domProps: { value: _vm.dataVm.parent_facebook },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "parent_facebook",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.parent_instagram,
+                                expression: "dataVm.parent_instagram"
+                              }
+                            ],
+                            staticClass: "line",
+                            domProps: { value: _vm.dataVm.parent_instagram },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "parent_instagram",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]),
                     _vm._v(
-                      "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання \n          "
+                      "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n          "
                     ),
-                    _vm._m(10),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.contracts_name,
+                            expression: "contracts_name"
+                          }
+                        ],
+                        staticStyle: { "font-weight": "bold", border: "0" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.contracts_name = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.contracts, function(con) {
+                        return _c("option", [_vm._v(_vm._s(con.name))])
+                      }),
+                      0
+                    ),
                     _vm._v(" з наступними умовами:"),
                     _c("br"),
                     _vm._v(" "),
@@ -39738,21 +40237,21 @@ var render = function() {
                         _c(
                           "td",
                           { staticClass: "gray", attrs: { width: "25%" } },
-                          [_vm._v("Дата початку\n              договору")]
+                          [_vm._v("Дата початку договору")]
                         ),
+                        _vm._v(" "),
                         _c("td", { attrs: { width: "25%" } }, [
                           _c("input", {
                             directives: [
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.dataVm.data,
-                                expression: "dataVm.data"
+                                value: _vm.dataVm.start,
+                                expression: "dataVm.start"
                               }
                             ],
                             staticClass: "line",
-                            attrs: { type: "date", name: "" },
-                            domProps: { value: _vm.dataVm.data },
+                            domProps: { value: _vm.dataVm.start },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
@@ -39760,7 +40259,7 @@ var render = function() {
                                 }
                                 _vm.$set(
                                   _vm.dataVm,
-                                  "data",
+                                  "start",
                                   $event.target.value
                                 )
                               }
@@ -39771,30 +40270,216 @@ var render = function() {
                         _c(
                           "td",
                           { staticClass: "gray", attrs: { width: "25%" } },
-                          [_vm._v("Дата закінчення\n              договору")]
+                          [_vm._v("Дата закінчення договору")]
                         ),
-                        _vm._m(11)
+                        _vm._v(" "),
+                        _vm._m(5)
                       ]),
                       _vm._v(" "),
-                      _vm._m(12)
+                      _c("tr", [
+                        _c(
+                          "td",
+                          { staticClass: "gray", attrs: { width: "25%" } },
+                          [_vm._v("Загальна кількість занять за договором")]
+                        ),
+                        _vm._v(" "),
+                        _c("td", { attrs: { width: "25%" } }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dataVm.classes_total,
+                                expression: "dataVm.classes_total"
+                              }
+                            ],
+                            staticClass: "line",
+                            domProps: { value: _vm.dataVm.classes_total },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.dataVm,
+                                  "classes_total",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticClass: "gray", attrs: { width: "25%" } },
+                          [_vm._v("Кількість занятьна тиждень")]
+                        ),
+                        _vm._v(" "),
+                        _c("td", { attrs: { width: "25%" } }, [
+                          _c("table", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.classes_week,
+                                  expression: "classes_week"
+                                }
+                              ],
+                              attrs: { type: "radio", id: "one", value: "1" },
+                              domProps: {
+                                checked: _vm._q(_vm.classes_week, "1")
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.classes_week = "1"
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "one" } }, [
+                              _vm._v("Один")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.classes_week,
+                                  expression: "classes_week"
+                                }
+                              ],
+                              attrs: { type: "radio", id: "two", value: "2" },
+                              domProps: {
+                                checked: _vm._q(_vm.classes_week, "2")
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.classes_week = "2"
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "two" } }, [
+                              _vm._v("Два")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.classes_week,
+                                  expression: "classes_week"
+                                }
+                              ],
+                              attrs: { type: "radio", id: "two", value: "3" },
+                              domProps: {
+                                checked: _vm._q(_vm.classes_week, "3")
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.classes_week = "3"
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "two" } }, [
+                              _vm._v("Три")
+                            ])
+                          ])
+                        ])
+                      ])
                     ]),
                     _vm._v(
-                      "\n          Адреса надання послуг: Добровольського 122/2."
+                      "\n          Адреса надання послуг: " +
+                        _vm._s(_vm.dataVm.branch_adress) +
+                        "\n          Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n          "
                     ),
+                    _c("table", { staticClass: "tabs" }, [
+                      _c("td", { attrs: { width: "15%" } }, [
+                        _vm._v(_vm._s(_vm.dataVm.price))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(" грн.")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v("(" + _vm._s(_vm.dataVm.price_title) + ") грн.")
+                      ])
+                    ]),
                     _vm._v(
-                      "\n          Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n          "
-                    ),
-                    _vm._m(13),
-                    _vm._v(
-                      "\n            Вказана\n            ціна діє для категорії часу занять « » (вказується категорія від 1 до 4)"
+                      "\n            Вказана ціна діє для категорії часу занять « » (вказується категорія від 1 до 4)"
                     ),
                     _c("br"),
                     _vm._v("\n            Графік оплати:"),
                     _c("br"),
                     _vm._v(" "),
-                    _vm._m(14),
+                    _c("table", [
+                      _c("tr", [
+                        _c("td", [
+                          _vm._v(
+                            "Кількість акційних заморозок (" +
+                              _vm._s(_vm.dataVm.freezing_total) +
+                              ")"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "Включаються заморозки по: (" +
+                              _vm._s(_vm.dataVm.freezing_kolvo) +
+                              ") тренування"
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v("Форма включена увартість занять.")]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v("Розмiр")]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_size,
+                                  expression: "form_size"
+                                }
+                              ],
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.form_size = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            [
+                              _c("option", [_vm._v("31")]),
+                              _vm._v(" "),
+                              _c("option", [_vm._v("32")]),
+                              _vm._v(" "),
+                              _c("option", [_vm._v("33")])
+                            ]
+                          )
+                        ])
+                      ])
+                    ]),
                     _vm._v(
-                      "\n\n            Підписанням цієї Заяви я підтверджую, що:"
+                      "\n            Підписанням цієї Заяви я підтверджую, що:"
                     ),
                     _c("br"),
                     _vm._v(
@@ -39824,7 +40509,7 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _vm._m(15)
+                    _vm._m(6)
                   ])
                 ]
               ),
@@ -39843,6 +40528,20 @@ var render = function() {
                     }
                   },
                   [_vm._v("Закрыть")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        return _vm.sendVm("osn")
+                      }
+                    }
+                  },
+                  [_vm._v("Сохранить и распечатать")]
                 )
               ])
             ])
@@ -39907,61 +40606,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "tabs" }, [
-      _c("tr", [
-        _c("td", [_vm._v("дні занять")]),
-        _vm._v(" "),
-        _c("td", [
-          _c("select", { staticClass: "line", attrs: { name: "" } }, [
-            _c("option", [_vm._v("Пн:Ср")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("Вт:Чт")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("Сб:Вс")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("td", [_vm._v(", час занять")]),
-        _c("td", [
-          _c("select", { staticClass: "line", attrs: { type: "", name: "" } }, [
-            _c("option", [_vm._v("08:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("09:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("10:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("11:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("12:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("13:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("14:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("15:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("16:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("17:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("18:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("19:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("20:00")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("21:00")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("td", [_vm._v(", а Вихованець закріплюється за конкретною групою.")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("td", [
       _c("b", [_vm._v("Замовник")]),
       _c("br"),
@@ -40010,232 +40654,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h1", [
-      _vm._v("ЗАЯВА № _________ від «___» ____________ ____ р."),
-      _c("br"),
-      _vm._v(
-        "\n            до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
-      ),
-      _c("br"),
-      _vm._v(" "),
-      _c("span", { staticClass: "hide" }, [
-        _vm._v(
-          "(публічний договір розташований на офіційномусайті clubleva.ua)"
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "tabs" }, [
-      _c("tr", [
-        _c("td", { attrs: { width: "25%" } }, [
-          _vm._v("Я, законний представник")
-        ]),
-        _c("td", [
-          _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "tabs" }, [
-      _c("tr", [
-        _c("td", { attrs: { width: "25%" } }, [
-          _vm._v("неповнолітньої дитини")
-        ]),
-        _vm._v(" "),
-        _c("td", [
-          _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
-        ]),
-        _vm._v(" "),
-        _c("td", [_vm._v(", дата народження")]),
-        _c("td", [
-          _c("input", {
-            staticClass: "line",
-            attrs: { type: "date", name: "" }
-          })
-        ]),
-        _c("td", [_vm._v("надалі «Замовник»")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "tabs" }, [
-      _c("tr", [
-        _c("td", { staticClass: "gray" }, [_vm._v("Телефон Замовника")]),
-        _vm._v(" "),
-        _c("td", [
-          _c("input", {
-            staticClass: "line",
-            attrs: {
-              type: "",
-              name: "",
-              required: "",
-              "data-mask": "+0 (000) 000-00-00",
-              placeholder: "+_ (___) ___ __ __"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "gray" }, [_vm._v("Viber/Telegram Замовника")]),
-        _vm._v(" "),
-        _c("td", [
-          _c("input", {
-            staticClass: "line",
-            attrs: {
-              type: "",
-              name: "",
-              required: "",
-              "data-mask": "+0 (000) 000-00-00",
-              placeholder: "+_ (___) ___ __ __"
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("tr", [
-        _c("td", { staticClass: "gray" }, [_vm._v("Email Замовника")]),
-        _vm._v(" "),
-        _c("td", [
-          _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "gray" }, [
-          _vm._v("Facebok/Instagram Замовника")
-        ]),
-        _vm._v(" "),
-        _c("td", [
-          _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "select",
-      { staticStyle: { "font-weight": "bold", border: "0" } },
-      [
-        _c("option", [_vm._v("«Вперед до зiрок»")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("«Народження Зiрки»")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("«Зiрка Лева»")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("«Лiдер Прайду»")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("«Супер Зiрка»")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("«Школа футболу»")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("td", { attrs: { width: "25%" } }, [
       _c("b", [_vm._v("___________")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "gray", attrs: { width: "25%" } }, [
-        _vm._v("Загальна кількість\n              занять за договором")
-      ]),
-      _c("td", { attrs: { width: "25%" } }, [
-        _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
-      ]),
-      _vm._v(" "),
-      _c("td", { staticClass: "gray", attrs: { width: "25%" } }, [
-        _vm._v("Кількість занять\n              на тиждень")
-      ]),
-      _vm._v(" "),
-      _c("td", { attrs: { width: "25%" } }, [
-        _c("table", [
-          _c("tr", [
-            _c("td", [
-              _vm._v("Одне:"),
-              _c("input", {
-                staticClass: "line",
-                attrs: { type: "checkbox", name: "" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _vm._v("Два:"),
-              _c("input", {
-                staticClass: "line",
-                attrs: { type: "checkbox", name: "" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _vm._v("Три:"),
-              _c("input", {
-                staticClass: "line",
-                attrs: { type: "checkbox", name: "" }
-              })
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "tabs" }, [
-      _c("tr"),
-      _vm._v(" "),
-      _c("td", { attrs: { width: "15%" } }, [
-        _c("input", { staticClass: "line", attrs: { type: "", name: "" } })
-      ]),
-      _c("td", [_vm._v(" грн.")]),
-      _c("td", [_vm._v("(____________________________"), _vm._v(") грн.")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", [
-      _c("tr", [
-        _c("td", [_vm._v("Кількість акційних заморозок (____"), _vm._v(")")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Включаються заморозки по: (____) тренування")]),
-        _c("td", [
-          _vm._v("Форма включена у\n                вартість занять.")
-        ]),
-        _c("td", [_vm._v("Розмiр")]),
-        _vm._v(" "),
-        _c("td", [
-          _c("select", [
-            _c("option", [_vm._v("31")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("31")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("31")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("31")])
-          ])
-        ])
-      ])
     ])
   },
   function() {
@@ -41641,9 +42061,7 @@ var render = function() {
                                             staticClass:
                                               "btn btn-sm btn-outline-secondary ml-4",
                                             attrs: {
-                                              disabled:
-                                                _vm.indexActiveUser ===
-                                                _vm.dataUser.length - 1
+                                              disabled: _vm.indexActiveUser >= 3
                                             },
                                             on: {
                                               click: function($event) {
@@ -41852,54 +42270,53 @@ var render = function() {
                                   )
                                 : _vm._e(),
                               _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "col-md-6 mt-3" },
-                                _vm._l(
-                                  _vm.dataObject.contracts_not_active,
-                                  function(cont) {
-                                    return _c(
-                                      "div",
-                                      { staticClass: "form-group" },
-                                      [
-                                        _c(
-                                          "p",
-                                          {
-                                            staticClass: "card-text text-center"
-                                          },
-                                          [_vm._v("Прошлые контракты")]
-                                        ),
-                                        _vm._v(" "),
-                                        _vm._l(cont, function(co) {
-                                          return _c("p", [
-                                            _c(
-                                              "a",
-                                              {
-                                                staticClass: "text-muted",
-                                                attrs: {
-                                                  href: "javascript:void(0)"
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  '"' +
-                                                    _vm._s(co.name) +
-                                                    '"    ' +
-                                                    _vm._s(co.start) +
-                                                    " - " +
-                                                    _vm._s(co.end)
-                                                )
-                                              ]
-                                            )
-                                          ])
-                                        })
-                                      ],
-                                      2
+                              _c("div", { staticClass: "col-md-6 mt-3" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "form-group" },
+                                  [
+                                    _c(
+                                      "p",
+                                      { staticClass: "card-text text-center" },
+                                      [_vm._v("Прошлые контракты")]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._l(
+                                      _vm.dataObject.contracts_not_active,
+                                      function(contracts_not_active) {
+                                        return _c("p", [
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "text-muted",
+                                              attrs: {
+                                                href: "javascript:void(0)"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                '"' +
+                                                  _vm._s(
+                                                    contracts_not_active.name
+                                                  ) +
+                                                  '"    ' +
+                                                  _vm._s(
+                                                    contracts_not_active.start
+                                                  ) +
+                                                  " - " +
+                                                  _vm._s(
+                                                    contracts_not_active.end
+                                                  )
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      }
                                     )
-                                  }
-                                ),
-                                0
-                              )
+                                  ],
+                                  2
+                                )
+                              ])
                             ])
                           ])
                         ]

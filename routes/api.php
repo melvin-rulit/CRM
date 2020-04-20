@@ -9,6 +9,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     Route::post('getvmcontract', 'BaseController@getVmContract');
     Route::post('getcontract', 'ContractController@getContract');
     Route::post('getcontracts', 'ContractController@getContracts');
+    Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
 });
 
 

@@ -18,6 +18,7 @@
       </div>
     </div>
 
+
 <dogovor-component :user_id="dataObject.id"></dogovor-component>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -196,7 +197,7 @@
                 <div class="row">
                     <div class="btn-group btn-group-sm mb-3 text-center mx-auto">
                         <button class="btn btn-sm btn-outline-secondary mr-4" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
-                        <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexActiveUser++" :disabled="indexActiveUser === dataUser.length - 1">Следующий</button>
+                        <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexActiveUser++" :disabled="indexActiveUser >= 3">Следующий</button>
                     </div>
                 </div>
             </div>
@@ -252,9 +253,9 @@
             </div>
 
             <div class="col-md-6 mt-3">
-                <div class="form-group" v-for="cont in dataObject.contracts_not_active">
+                <div class="form-group">
                     <p class="card-text text-center">Прошлые контракты</p>
-                    <p  v-for="co in cont"><a href="javascript:void(0)" class="text-muted">"{{co.name}}"  &nbsp {{co.start}} - {{co.end}}</a></p>
+                    <p v-for="contracts_not_active in dataObject.contracts_not_active"><a href="javascript:void(0)" class="text-muted">"{{contracts_not_active.name}}"  &nbsp {{contracts_not_active.start}} - {{contracts_not_active.end}}</a></p>
                 </div>
             </div>
         </div>
@@ -458,11 +459,16 @@ Vue.use(VueHtmlToPaper, options);
          display: block;
          margin: 0 auto;
     }
-    .fade-enter-active, .fade-leave-active {
-      transition: all .5s;
-    }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-      opacity: 0;
-      transform: translateY(20px);
-    }
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active до версии 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
 </style>
