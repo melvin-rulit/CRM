@@ -6,6 +6,7 @@
 Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], function () {
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');
+    Route::post('addnewuser', 'BaseController@addNewUser');
     Route::post('getvmcontract', 'BaseController@getVmContract');
     Route::post('getcontract', 'ContractController@getContract');
     Route::post('getcontracts', 'ContractController@getContracts');

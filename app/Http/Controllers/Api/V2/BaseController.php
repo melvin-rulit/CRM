@@ -17,6 +17,11 @@ class BaseController extends Controller
 		return new BaseCurrentUser(Base::all());
 	}
 
+	public function addNewUser(Request $request){
+
+        $base = Base::create($request->all());
+    }
+
     public function getInfo(Request $request){
 
         $base = Base::find($request['id']);

@@ -19,7 +19,8 @@ class ArticleResource extends JsonResource
         return [
             'type'          => 'base-info',
             'id'            => (string)$this->id,
-            'contracts_active' => new ContractsResource($this->contracts->where('active',1)),
+            'contracts_active_count' => $this->contracts->where('active',1)->count(),
+            'contracts_active' => $this->contracts->where('active',1),
             'contracts_not_active' => $this->contracts->where('active',0),
             'attributes'    => [
                 'child_name' => $this->child_name,

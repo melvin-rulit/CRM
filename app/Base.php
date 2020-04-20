@@ -11,9 +11,8 @@ class Base extends Model
 
     protected $fillable = [
         'child_name',
-        'mother_phone',
-        'source',
-        'notes',
+        'child_surname',
+        'child_middle_name',
     ];
 
     public function contracts(){

@@ -2281,7 +2281,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       name: 'Супер Зiрка'
     }, {
       name: 'Школа футболу'
-    }]), _defineProperty(_ref, "contracts_vm", 'Відкрий можливості'), _defineProperty(_ref, "vmContract", true), _defineProperty(_ref, "contractSelected", false), _defineProperty(_ref, "form_size", ''), _defineProperty(_ref, "classes_week", ''), _defineProperty(_ref, "days", ''), _defineProperty(_ref, "time", ''), _defineProperty(_ref, "contract_name", ''), _ref;
+    }]), _defineProperty(_ref, "contracts_vm", 'Відкрий можливості'), _defineProperty(_ref, "vmContract", true), _defineProperty(_ref, "contractSelected", false), _defineProperty(_ref, "form_size", ''), _defineProperty(_ref, "classes_week", ''), _defineProperty(_ref, "days", ''), _defineProperty(_ref, "time", ''), _defineProperty(_ref, "start", ''), _defineProperty(_ref, "contract_name", ''), _ref;
   },
   methods: {
     contract: function contract(contract_type) {
@@ -2308,7 +2308,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         base_id: this.user_id,
         name: this.contracts_name,
         name_vm: this.contracts_vm,
-        start: this.dataVm.date,
+        start: this.start,
         end: this.dataVm.date,
         end_actually: this.dataVm.date,
         price: this.dataVm.price,
@@ -2802,6 +2802,125 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
   props: {
     value: {
@@ -2819,7 +2938,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
       thisValue: this.value
     };
   },
-  template: "\n\n\n\n    <span>\n    <i v-if=\"!value && !keyInputForm\" @click=\"keyInputForm=true;thisValue=''\" class=\"fe fe-plus-circle ml-2\" style=\"color: green; font-size: 20px;\"></i>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false\" v-on:keyup.enter=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
+  template: "\n\n    <span>\n    <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false\" v-on:keyup.enter=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
 });
 
 
@@ -2844,7 +2963,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       dataObject: {
         attributes: {},
         contracts_not_active: {},
-        contracts_active: []
+        contracts_active: {}
       },
       dataUser: [{
         name: 'Alex',
@@ -2856,12 +2975,18 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         name: 'Olga',
         time: '8.02.2020'
       }],
+      motherFields: [{
+        title: 'Фамилия:',
+        data: 'dataObject.attributes.mother_name',
+        name: 'mother_name'
+      }],
       contract: {},
       indexActiveUser: 0,
       vmContract: true,
       contractSelected: false,
       getURL: "api/v2/getinfo",
       postURL: "getone",
+      URLaddNewUser: "api/v2/addnewuser",
       showInput: false,
       articles: [],
       users: [],
@@ -2873,7 +2998,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       },
       article_id: '',
       pagination: {},
-      edit: false
+      edit: false,
+      new_child_surname: '',
+      new_child_name: '',
+      new_child_middle_name: ''
     };
   },
   created: function created() {
@@ -2881,7 +3009,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
   },
   computed: {
     activeUser: function activeUser() {
-      return this.dataObject.contracts_active[0][this.indexActiveUser]; // return this.dataUser[this.indexActiveUser]
+      return this.dataObject.contracts_active[this.indexActiveUser]; // return this.dataUser[this.indexActiveUser]
     }
   },
   methods: {
@@ -2914,6 +3042,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       }).then(function (response) {
         _this2.dataObject = response.data.data;
       });
+      console.log("Количесто элементов в массиве" + this.dataObject.contracts_active.length);
     },
     fetchArticles: function fetchArticles() {
       var _this3 = this;
@@ -2966,6 +3095,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     closeModal: function closeModal() {
       $('#addNew').modal('hide');
       $('#selectModal').modal('show');
+    },
+    addNewUser: function addNewUser() {
+      $('#addNewUser').modal('hide');
+      axios.post(this.URLaddNewUser, {
+        child_surname: this.new_child_surname,
+        child_name: this.new_child_name,
+        child_middle_name: this.new_child_middle_name
+      });
+      this.fetchArticles();
     }
   }
 });
@@ -40246,22 +40384,18 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.dataVm.start,
-                                expression: "dataVm.start"
+                                value: _vm.start,
+                                expression: "start"
                               }
                             ],
                             staticClass: "line",
-                            domProps: { value: _vm.dataVm.start },
+                            domProps: { value: _vm.start },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "start",
-                                  $event.target.value
-                                )
+                                _vm.start = $event.target.value
                               }
                             }
                           })
@@ -40960,6 +41094,153 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "addNewUser",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "exampleModalCenterTitle",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "modal-dialog modal-dialog-centered",
+              attrs: { role: "document" }
+            },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      { staticClass: "col-sm-3 col-form-label required" },
+                      [_vm._v("Фамилия")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-9" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.new_child_surname,
+                            expression: "new_child_surname"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { required: "" },
+                        domProps: { value: _vm.new_child_surname },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.new_child_surname = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      { staticClass: "col-sm-3 col-form-label required" },
+                      [_vm._v("Имя")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-9" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.new_child_name,
+                            expression: "new_child_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { required: "" },
+                        domProps: { value: _vm.new_child_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.new_child_name = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      { staticClass: "col-sm-3 col-form-label required" },
+                      [_vm._v("Отчество")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-9" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.new_child_middle_name,
+                            expression: "new_child_middle_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { required: "" },
+                        domProps: { value: _vm.new_child_middle_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.new_child_middle_name = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Закрыть")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button", "data-dismiss": "modal" },
+                      on: { click: _vm.addNewUser }
+                    },
+                    [_vm._v("Добавить")]
+                  )
+                ])
+              ])
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
       _c("dogovor-component", { attrs: { user_id: _vm.dataObject.id } }),
       _vm._v(" "),
       _c(
@@ -40969,7 +41250,7 @@ var render = function() {
           attrs: { id: "myTab", role: "tablist" }
         },
         [
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _c("li", { staticClass: "nav-item" }, [
             _c(
@@ -41017,7 +41298,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(2)
+          _vm._m(3)
         ]
       ),
       _vm._v(" "),
@@ -41043,7 +41324,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-body pb-0" }, [
                 _c("div", { staticClass: "table-responsive" }, [
                   _c(
                     "table",
@@ -41052,7 +41333,7 @@ var render = function() {
                         " table table-bordered table-hover datatable datatable-User"
                     },
                     [
-                      _vm._m(3),
+                      _vm._m(4),
                       _vm._v(" "),
                       _vm._l(_vm.articles, function(article) {
                         return _c(
@@ -41167,7 +41448,7 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm._m(4)
+                  _vm._m(5)
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
@@ -41303,10 +41584,6 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c("h4", { staticClass: "card-title mb-3" }, [
-                            _vm._v('"Зирка Лева"')
-                          ]),
-                          _vm._v(" "),
                           _c(
                             "h6",
                             { staticClass: "text-uppercase text-muted mb-2" },
@@ -41315,11 +41592,11 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4 border-left" })
+                      _vm._m(6)
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(5),
+                  _vm._m(7),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -41340,168 +41617,257 @@ var render = function() {
                           }
                         },
                         [
-                          _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "card-body pb-0 pb-0" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-6" }, [
                                 _c(
-                                  "p",
-                                  { staticClass: "card-text" },
+                                  "table",
+                                  { staticClass: " table table-bordered" },
                                   [
-                                    _vm._v("Фамилия: "),
-                                    _c("input-form", {
-                                      attrs: { name: "mother_surname" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .mother_surname,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "mother_surname",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.mother_surname"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Имя: "),
-                                    _c("input-form", {
-                                      attrs: { name: "mother_name" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes.mother_name,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "mother_name",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.mother_name"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Отчество: "),
-                                    _c("input-form", {
-                                      attrs: { name: "mother_middle_name" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .mother_middle_name,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "mother_middle_name",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.mother_middle_name"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Телефон: "),
-                                    _c("input-form", {
-                                      attrs: { name: "mother_phone" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .mother_phone,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "mother_phone",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.mother_phone"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Доп Телефон: "),
-                                    _c("input-form", {
-                                      attrs: { name: "mother_dop_phone" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .mother_dop_phone,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "mother_dop_phone",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.mother_dop_phone"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Почта: "),
-                                    _c("input-form", {
-                                      attrs: { name: "mother_email" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .mother_email,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "mother_email",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.mother_email"
-                                      }
-                                    })
-                                  ],
-                                  1
+                                    _c("tbody", [
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Фамилия")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "mother_surname" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .mother_surname,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "mother_surname",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.mother_surname"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Имя")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "mother_name" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .mother_name,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "mother_name",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.mother_name"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Отчество")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "mother_middle_name"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .mother_middle_name,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "mother_middle_name",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.mother_middle_name"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Телефон")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "mother_phone" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .mother_phone,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "mother_phone",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.mother_phone"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Телефон")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "mother_dop_phone"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .mother_dop_phone,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "mother_dop_phone",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.mother_dop_phone"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Viber")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "mother_viber" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .mother_viber,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "mother_viber",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.mother_viber"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Почта")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "mother_email" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .mother_email,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "mother_email",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.mother_email"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ])
+                                    ])
+                                  ]
                                 )
                               ]),
                               _vm._v(" "),
@@ -41566,168 +41932,257 @@ var render = function() {
                           }
                         },
                         [
-                          _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "card-body pb-0" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-6" }, [
                                 _c(
-                                  "p",
-                                  { staticClass: "card-text" },
+                                  "table",
+                                  { staticClass: " table table-bordered" },
                                   [
-                                    _vm._v("Фамилия: "),
-                                    _c("input-form", {
-                                      attrs: { name: "father_surname" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .father_surname,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "father_surname",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.father_surname"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Имя: "),
-                                    _c("input-form", {
-                                      attrs: { name: "father_name" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes.father_name,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "father_name",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.father_name"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Отчество: "),
-                                    _c("input-form", {
-                                      attrs: { name: "father_middle_name" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .father_middle_name,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "father_middle_name",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.father_middle_name"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Телефон: "),
-                                    _c("input-form", {
-                                      attrs: { name: "father_phone" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .father_phone,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "father_phone",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.father_phone"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Доп Телефон: "),
-                                    _c("input-form", {
-                                      attrs: { name: "father_dop_phone" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .father_dop_phone,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "father_dop_phone",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.father_dop_phone"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Почта: "),
-                                    _c("input-form", {
-                                      attrs: { name: "father_email" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .father_email,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "father_email",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.father_email"
-                                      }
-                                    })
-                                  ],
-                                  1
+                                    _c("tbody", [
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Фамилия")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "father_surname" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .father_surname,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "father_surname",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.father_surname"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Имя")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "father_name" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .father_name,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "father_name",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.father_name"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Отчество")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "father_middle_name"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .father_middle_name,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "father_middle_name",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.father_middle_name"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Телефон")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "father_phone" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .father_phone,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "father_phone",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.father_phone"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Телефон")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "father_dop_phone"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .father_dop_phone,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "father_dop_phone",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.father_dop_phone"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Viber")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "father_viber" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .father_viber,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "father_viber",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.father_viber"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Почта")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: { name: "father_email" },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .father_email,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "father_email",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.father_email"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ])
+                                    ])
+                                  ]
                                 )
                               ]),
                               _vm._v(" "),
@@ -41792,173 +42247,268 @@ var render = function() {
                           }
                         },
                         [
-                          _c("div", { staticClass: "card-body" }, [
+                          _c("div", { staticClass: "card-body pb-0" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-6" }, [
                                 _c(
-                                  "p",
-                                  { staticClass: "card-text" },
+                                  "table",
+                                  { staticClass: " table table-bordered" },
                                   [
-                                    _vm._v("Фамилия: "),
-                                    _c("input-form", {
-                                      attrs: { name: "other_relative_surname" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .other_relative_surname,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "other_relative_surname",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.other_relative_surname"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Имя: "),
-                                    _c("input-form", {
-                                      attrs: { name: "other_relative_name" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .other_relative_name,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "other_relative_name",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.other_relative_name"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Отчество: "),
-                                    _c("input-form", {
-                                      attrs: {
-                                        name: "other_relative_middle_name"
-                                      },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .other_relative_middle_name,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "other_relative_middle_name",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.other_relative_middle_name"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Телефон: "),
-                                    _c("input-form", {
-                                      attrs: { name: "other_relative_phone" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .other_relative_phone,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "other_relative_phone",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.other_relative_phone"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Доп Телефон: "),
-                                    _c("input-form", {
-                                      attrs: {
-                                        name: "other_relative_dop_phone"
-                                      },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .other_relative_dop_phone,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "other_relative_dop_phone",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.other_relative_dop_phone"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "p",
-                                  { staticClass: "card-text" },
-                                  [
-                                    _vm._v("Почта: "),
-                                    _c("input-form", {
-                                      attrs: { name: "other_relative_email" },
-                                      on: { "edit-field": _vm.editField },
-                                      model: {
-                                        value:
-                                          _vm.dataObject.attributes
-                                            .other_relative_email,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.dataObject.attributes,
-                                            "other_relative_email",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "dataObject.attributes.other_relative_email"
-                                      }
-                                    })
-                                  ],
-                                  1
+                                    _c("tbody", [
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Фамилия")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "other_relative_surname"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .other_relative_surname,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "other_relative_surname",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.other_relative_surname"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Имя")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "other_relative_name"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .other_relative_name,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "other_relative_name",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.other_relative_name"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Отчество")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name:
+                                                  "other_relative_middle_name"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .other_relative_middle_name,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "other_relative_middle_name",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.other_relative_middle_name"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Телефон")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "other_relative_phone"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .other_relative_phone,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "other_relative_phone",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.other_relative_phone"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Телефон")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "other_relative_dop_phone"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .other_relative_dop_phone,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "other_relative_dop_phone",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.other_relative_dop_phone"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Viber")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "other_relative_viber"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .other_relative_viber,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "other_relative_viber",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.other_relative_viber"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("tr", [
+                                        _c("td", { staticClass: "w-25" }, [
+                                          _vm._v("Почта")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "w-75" },
+                                          [
+                                            _c("input-form", {
+                                              attrs: {
+                                                name: "other_relative_email"
+                                              },
+                                              on: {
+                                                "edit-field": _vm.editField
+                                              },
+                                              model: {
+                                                value:
+                                                  _vm.dataObject.attributes
+                                                    .other_relative_email,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.dataObject.attributes,
+                                                    "other_relative_email",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression:
+                                                  "dataObject.attributes.other_relative_email"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ])
+                                    ])
+                                  ]
                                 )
                               ]),
                               _vm._v(" "),
@@ -42024,7 +42574,7 @@ var render = function() {
                           }
                         },
                         [
-                          _c("div", { staticClass: "card-body pt-3" }, [
+                          _c("div", { staticClass: "card-body pb-0 pt-3" }, [
                             _c("div", { staticClass: "row" }, [
                               _c(
                                 "div",
@@ -42106,21 +42656,16 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "row" }, [
-                              _vm.dataObject.contracts_active.length > 0
-                                ? _c(
-                                    "div",
-                                    { staticClass: "col-md-6 mt-3" },
+                              _c(
+                                "div",
+                                { staticClass: "col-md-6 mt-3" },
+                                [
+                                  _c(
+                                    "transition",
+                                    { attrs: { name: "fade", mode: "out-in" } },
                                     [
-                                      _c(
-                                        "transition",
-                                        {
-                                          attrs: {
-                                            name: "fade",
-                                            mode: "out-in"
-                                          }
-                                        },
-                                        [
-                                          _c(
+                                      _vm.dataObject.contracts_active_count > 0
+                                        ? _c(
                                             "div",
                                             {
                                               key: _vm.indexActiveUser,
@@ -42221,54 +42766,57 @@ var render = function() {
                                               )
                                             ]
                                           )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v(
-                                          "Оплаты: \n                    "
-                                        ),
-                                        _c(
-                                          "span",
-                                          {
-                                            staticClass: "text-muted ml-2",
-                                            attrs: {
-                                              "data-toggle": "tooltip",
-                                              "data-placement": "bottom",
-                                              title: "Дата оплаты - 23.05.2015"
-                                            }
-                                          },
-                                          [_vm._v("4212")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "text-success ml-2",
-                                            attrs: {
-                                              href: "javascript:void(0)"
+                                        : _c(
+                                            "p",
+                                            {
+                                              staticClass:
+                                                "text-center font-weight-bold"
                                             },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.getModalSale()
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("3159")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-danger ml-2" },
-                                          [_vm._v("3348")]
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _vm._m(6)
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
+                                            [_vm._v("Нет активных контрактов")]
+                                          )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm._v("Оплаты: \n                    "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "text-muted ml-2",
+                                        attrs: {
+                                          "data-toggle": "tooltip",
+                                          "data-placement": "bottom",
+                                          title: "Дата оплаты - 23.05.2015"
+                                        }
+                                      },
+                                      [_vm._v("4212")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "text-success ml-2",
+                                        attrs: { href: "javascript:void(0)" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.getModalSale()
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("3159")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticClass: "text-danger ml-2" },
+                                      [_vm._v("3348")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._m(8)
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-6 mt-3" }, [
                                 _c(
@@ -42347,7 +42895,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(7)
+                _vm._m(9)
               ])
             ]
           )
@@ -42374,24 +42922,44 @@ var staticRenderFns = [
                   "a",
                   {
                     staticClass: "btn btn-sm btn-success",
-                    attrs: { href: "javascript:void(0)" }
+                    attrs: {
+                      href: "javascript:void(0)",
+                      "data-toggle": "modal",
+                      "data-target": "#addNewUser"
+                    }
                   },
                   [_vm._v("Добавить клиента")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-sm btn-info",
-                    attrs: { href: "javascript:void(0)" }
-                  },
-                  [_vm._v("Фильтр")]
                 )
               ])
             ])
           ])
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h4",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
+        [_vm._v("Добавление нового клиента")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   },
   function() {
@@ -42474,6 +43042,16 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4 border-left" }, [
+      _c("div", { staticClass: "card-body" }, [
+        _c("h4", { staticClass: "text-center" }, [_vm._v("Документы")])
+      ])
+    ])
   },
   function() {
     var _vm = this
@@ -42606,7 +43184,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
+    return _c("div", { staticClass: "modal-footer pt-3 pb-3" }, [
       _c(
         "button",
         {

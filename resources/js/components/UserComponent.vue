@@ -9,14 +9,53 @@
               <div class="col">
               </div>
               <div class="col-auto">
-                <a class="btn btn-sm btn-success" href="javascript:void(0)">Добавить клиента</a>
-                <a class="btn btn-sm btn-info" href="javascript:void(0)">Фильтр</a>
+                <a class="btn btn-sm btn-success" href="javascript:void(0)" data-toggle="modal" data-target="#addNewUser">Добавить клиента</a>
+                <!-- <a class="btn btn-sm btn-info" href="javascript:void(0)">Фильтр</a> -->
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+
+    <!-- Модальное окно с выбором контрактом -->
+<div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового клиента</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label required">Фамилия</label>
+                <div class="col-sm-9">
+                    <input v-model="new_child_surname" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label required">Имя</label>
+                <div class="col-sm-9">
+                    <input v-model="new_child_name" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label required">Отчество</label>
+                <div class="col-sm-9">
+                    <input v-model="new_child_middle_name" class="form-control" required>
+                </div>
+            </div>
+        </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button @click="addNewUser" type="button" class="btn btn-success" data-dismiss="modal">Добавить</button>
+              </div>
+            </div>
+          </div>
+</div>
 
 
 <dogovor-component :user_id="dataObject.id"></dogovor-component>
@@ -41,7 +80,7 @@
   <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">666</div>
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body pb-0">
                 <div class="table-responsive">
                     <table class=" table table-bordered table-hover datatable datatable-User">
                         <thead>
@@ -98,12 +137,13 @@
                         <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
                         <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
                         <p class="card-text"><input-form v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> ({{ dataObject.attributes['age'] }} лет)</p>
-                        <h4 class="card-title mb-3">"Зирка Лева"</h4>
                         <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
                     </div>
                 </div>
                 <div class="col-md-4 border-left">
-                    
+                    <div class="card-body">
+                        <h4 class="text-center">Документы</h4>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,15 +171,41 @@
 
 <div class="tab-content" id="infoContent" style="min-height: 150px">
   <div class="tab-pane fade show active" id="mother" role="tabpanel" aria-labelledby="mother-tab">
-    <div class="card-body">
+    <div class="card-body pb-0 pb-0">
         <div class="row">
             <div class="col-md-6">
-                <p class="card-text">Фамилия: <input-form v-model="dataObject.attributes.mother_surname" name="mother_surname" @edit-field="editField"></input-form></p>
-                <p class="card-text">Имя: <input-form v-model="dataObject.attributes.mother_name" name="mother_name" @edit-field="editField"></input-form></p>
-                <p class="card-text">Отчество: <input-form v-model="dataObject.attributes.mother_middle_name" name="mother_middle_name" @edit-field="editField"></input-form></p>
-                <p class="card-text">Телефон: <input-form v-model="dataObject.attributes.mother_phone" name="mother_phone" @edit-field="editField"></input-form></p>
-                <p class="card-text">Доп Телефон: <input-form v-model="dataObject.attributes.mother_dop_phone" name="mother_dop_phone" @edit-field="editField"></input-form></p>
-                <p class="card-text">Почта: <input-form v-model="dataObject.attributes.mother_email" name="mother_email" @edit-field="editField"></input-form></p>
+                    <table class=" table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="w-25">Фамилия</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_surname" name="mother_surname" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Имя</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_name" name="mother_name" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Отчество</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_middle_name" name="mother_middle_name" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Телефон</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_phone" name="mother_phone" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Телефон</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_dop_phone" name="mother_dop_phone" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Viber</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_viber" name="mother_viber" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Почта</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_email" name="mother_email" @edit-field="editField"></input-form></td>
+                            </tr>
+                        </tbody>
+                    </table>
             </div>
             <div class="col-md-6">
                  <div class="form-group">
@@ -151,15 +217,41 @@
     </div>
   </div>
   <div class="tab-pane fade" id="father" role="tabpanel" aria-labelledby="father-tab">
-        <div class="card-body">
+        <div class="card-body pb-0">
         <div class="row">
             <div class="col-md-6">
-             <p class="card-text">Фамилия: <input-form v-model="dataObject.attributes.father_surname" name="father_surname" @edit-field="editField"></input-form></p>
-                <p class="card-text">Имя: <input-form v-model="dataObject.attributes.father_name" name="father_name" @edit-field="editField"></input-form></p>
-                <p class="card-text">Отчество: <input-form v-model="dataObject.attributes.father_middle_name" name="father_middle_name" @edit-field="editField"></input-form></p>
-                <p class="card-text">Телефон: <input-form v-model="dataObject.attributes.father_phone" name="father_phone" @edit-field="editField"></input-form></p>
-                <p class="card-text">Доп Телефон: <input-form v-model="dataObject.attributes.father_dop_phone" name="father_dop_phone" @edit-field="editField"></input-form></p>
-                <p class="card-text">Почта: <input-form v-model="dataObject.attributes.father_email" name="father_email" @edit-field="editField"></input-form></p>
+                    <table class=" table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="w-25">Фамилия</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.father_surname" name="father_surname" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Имя</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.father_name" name="father_name" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Отчество</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.father_middle_name" name="father_middle_name" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Телефон</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.father_phone" name="father_phone" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Телефон</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.father_dop_phone" name="father_dop_phone" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Viber</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.father_viber" name="father_viber" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Почта</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.father_email" name="father_email" @edit-field="editField"></input-form></td>
+                            </tr>
+                        </tbody>
+                    </table>
             </div>
             <div class="col-md-6">
                  <div class="form-group">
@@ -171,15 +263,41 @@
     </div>
   </div>
   <div class="tab-pane fade" id="other_relative" role="tabpanel" aria-labelledby="other_relative-tab">
-        <div class="card-body">
+        <div class="card-body pb-0">
             <div class="row">
                 <div class="col-md-6">
-                 <p class="card-text">Фамилия: <input-form v-model="dataObject.attributes.other_relative_surname" name="other_relative_surname" @edit-field="editField"></input-form></p>
-                    <p class="card-text">Имя: <input-form v-model="dataObject.attributes.other_relative_name" name="other_relative_name" @edit-field="editField"></input-form></p>
-                    <p class="card-text">Отчество: <input-form v-model="dataObject.attributes.other_relative_middle_name" name="other_relative_middle_name" @edit-field="editField"></input-form></p>
-                    <p class="card-text">Телефон: <input-form v-model="dataObject.attributes.other_relative_phone" name="other_relative_phone" @edit-field="editField"></input-form></p>
-                    <p class="card-text">Доп Телефон: <input-form v-model="dataObject.attributes.other_relative_dop_phone" name="other_relative_dop_phone" @edit-field="editField"></input-form></p>
-                    <p class="card-text">Почта: <input-form v-model="dataObject.attributes.other_relative_email" name="other_relative_email" @edit-field="editField"></input-form></p>
+                    <table class=" table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="w-25">Фамилия</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_surname" name="other_relative_surname" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Имя</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_name" name="other_relative_name" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Отчество</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_middle_name" name="other_relative_middle_name" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Телефон</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_phone" name="other_relative_phone" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Телефон</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_dop_phone" name="other_relative_dop_phone" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Viber</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_viber" name="other_relative_viber" @edit-field="editField"></input-form></td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Почта</td>
+                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_email" name="other_relative_email" @edit-field="editField"></input-form></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="col-md-6">
                    <div class="form-group">
@@ -191,7 +309,7 @@
         </div>
   </div>
   <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="contract-tab">
-    <div class="card-body pt-3">
+    <div class="card-body pb-0 pt-3">
         <div class="row">
             <div class="col-md-6 border-bottom">
                 <div class="row">
@@ -214,9 +332,9 @@
 
         <div class="row">
 
-            <div class="col-md-6 mt-3" v-if="dataObject.contracts_active.length > 0">
+            <div class="col-md-6 mt-3">
                 <transition name="fade" mode="out-in">
-                <div class="table-responsive" :key="indexActiveUser">
+                <div  v-if="dataObject.contracts_active_count > 0" class="table-responsive" :key="indexActiveUser">
                     <p class="card-text text-center">"{{ activeUser.name }}"</p>
                     <table class=" table table-bordered table-hover datatable datatable-User">
                         <tbody>
@@ -243,6 +361,7 @@
                         </tbody>
                     </table>
                 </div>
+                <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>
                 </transition>
                 <p>Оплаты: 
                     <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">4212</span>
@@ -265,7 +384,7 @@
   <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab">Интересы</div>
 </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer pt-3 pb-3">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
       </div>
     </div>
@@ -296,10 +415,8 @@ Vue.component('inputForm', {
   },
   template: `
 
-
-
     <span>
-    <i v-if="!value && !keyInputForm" @click="keyInputForm=true;thisValue=''" class="fe fe-plus-circle ml-2" style="color: green; font-size: 20px;"></i>
+    <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
     <span>
       <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
       <input v-else type="text" :value="value" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false" v-on:keyup.enter="keyInputForm = false;$emit('edit-field', $event)">
@@ -341,7 +458,7 @@ Vue.use(VueHtmlToPaper, options);
                 dataObject: {
                      attributes: {},
                      contracts_not_active: {},
-                     contracts_active: [],
+                     contracts_active: {},
                 },
                 dataUser: [{
                     name: 'Alex',
@@ -353,12 +470,18 @@ Vue.use(VueHtmlToPaper, options);
                     name: 'Olga',
                     time: '8.02.2020'
                   }],
+                motherFields: [{
+                    title: 'Фамилия:',
+                    data: 'dataObject.attributes.mother_name',
+                    name: 'mother_name',
+                  }],
                 contract:{},
                 indexActiveUser: 0,
                 vmContract: true,
                 contractSelected: false,
                 getURL: "api/v2/getinfo",
                 postURL: "getone",
+                URLaddNewUser: "api/v2/addnewuser",
                 showInput: false,
                 articles: [],
                 users: [],
@@ -370,7 +493,10 @@ Vue.use(VueHtmlToPaper, options);
                 },
                 article_id: '',
                 pagination: {},
-                edit: false
+                edit: false,
+                new_child_surname: '',
+                new_child_name: '',
+                new_child_middle_name: '',
             }
         },
         created(){
@@ -379,7 +505,7 @@ Vue.use(VueHtmlToPaper, options);
 
         computed: {
             activeUser() {
-              return this.dataObject.contracts_active[0][this.indexActiveUser]
+              return this.dataObject.contracts_active[this.indexActiveUser]
               // return this.dataUser[this.indexActiveUser]
             }
           },
@@ -404,6 +530,7 @@ Vue.use(VueHtmlToPaper, options);
                 axios.post('api/v2/getinfo', {id : id}).then(response => {
                     this.dataObject = response.data.data
                 })
+                console.log("Количесто элементов в массиве" + this.dataObject.contracts_active.length);
             },
             fetchArticles(){
                 axios.
@@ -444,6 +571,11 @@ Vue.use(VueHtmlToPaper, options);
             closeModal(){
                 $('#addNew').modal('hide');
                 $('#selectModal').modal('show');
+            },
+            addNewUser(){
+                $('#addNewUser').modal('hide');
+                axios.post(this.URLaddNewUser, {child_surname: this.new_child_surname, child_name: this.new_child_name, child_middle_name: this.new_child_middle_name})
+                this.fetchArticles();
             },
         }
     }

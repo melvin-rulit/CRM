@@ -222,7 +222,7 @@
           <table class="tabs">
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>
-              <td width="25%"><input v-model="dataVm.start" class="line"></td>
+              <td width="25%"><input v-model="start" class="line"></td>
               <td class="gray" width="25%">Дата закінчення договору</td>
               <td width="25%"><b>___________</b></td>
             </tr>
@@ -357,6 +357,7 @@
                 classes_week: '',
                 days: '',
                 time: '',
+                start: '',
                 contract_name: '',
             }
         },
@@ -380,7 +381,7 @@
                   base_id: this.user_id , 
                   name: this.contracts_name, 
                   name_vm: this.contracts_vm, 
-                  start: this.dataVm.date, 
+                  start: this.start, 
                   end: this.dataVm.date, 
                   end_actually: this.dataVm.date, 
                   price: this.dataVm.price, 
