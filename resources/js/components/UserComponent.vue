@@ -55,6 +55,7 @@
               </div>
             </div>
           </div>
+
 </div>
 
 
@@ -116,7 +117,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="addNew" data-backdrop="static" data-keyboard="false" ref="vuemodals" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -313,9 +314,9 @@
         <div class="row">
             <div class="col-md-6 border-bottom">
                 <div class="row">
-                    <div class="btn-group btn-group-sm mb-3 text-center mx-auto" v-if="dataObject.contracts_active_count > 0">
+                    <div class="btn-group btn-group-sm mb-3 text-center mx-auto" v-if="dataObject.contracts_active.length > 0">
                         <button class="btn btn-sm btn-outline-secondary mr-4" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
-                        <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexActiveUser++" :disabled="indexActiveUser >= 3">Следующий</button>
+                        <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexActiveUser++" :disabled="indexActiveUser === dataObject.contracts_active.length - 1">Следующий</button>
                     </div>
                 </div>
             </div>
@@ -334,7 +335,7 @@
 
             <div class="col-md-6 mt-3">
                 <transition name="fade" mode="out-in">
-                <div v-if="dataObject.contracts_active_count > 0" class="table-responsive" :key="indexActiveUser">
+                <div v-if="dataObject.contracts_active.length > 0" class="table-responsive" :key="indexActiveUser">
                     <p class="card-text text-center">"{{ activeUser.name }}"</p>
                     <table class=" table table-bordered table-hover datatable datatable-User">
                         <tbody>
@@ -381,11 +382,11 @@
     </div>
   </div>
   <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab"></div>
-  <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab">Интересы</div>
+  <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab"></div>
 </div>
       </div>
       <div class="modal-footer pt-3 pb-3">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button @click="this.fetchArticles" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
       </div>
     </div>
   </div>
@@ -395,6 +396,7 @@
 </template>
 
 <script>
+
 
 Vue.component('inputForm', {
   props: {
@@ -497,6 +499,7 @@ Vue.use(VueHtmlToPaper, options);
                 new_child_surname: '',
                 new_child_name: '',
                 new_child_middle_name: '',
+                rep: [],
             }
         },
         created(){
@@ -506,11 +509,13 @@ Vue.use(VueHtmlToPaper, options);
         computed: {
             activeUser() {
               return this.dataObject.contracts_active[this.indexActiveUser]
-              // return this.dataUser[this.indexActiveUser]
             }
           },
 
         methods: {
+                doSomethingOnHidden(){
+      alert('hidden')
+    },
             print() {
                 this.$htmlToPaper('printVM');
             },
@@ -530,7 +535,7 @@ Vue.use(VueHtmlToPaper, options);
                 axios.post('api/v2/getinfo', {id : id}).then(response => {
                     this.dataObject = response.data.data
                 })
-                console.log("Количесто элементов в массиве" + this.dataObject.contracts_active.length);
+                // $(this.$refs.vuemodals).on("hidden.bs.modal", this.fetchArticles)
             },
             fetchArticles(){
                 axios.
@@ -566,7 +571,7 @@ Vue.use(VueHtmlToPaper, options);
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
                 axios.post(this.postURL, { user_id: this.dataObject.id, field_name: name ? name : key, field_value: value })
-                key ? this.fetchArticles(): null;
+                // key ? this.fetchArticles(): null;
             },
             closeModal(){
                 $('#addNew').modal('hide');
@@ -575,7 +580,7 @@ Vue.use(VueHtmlToPaper, options);
             addNewUser(){
                 $('#addNewUser').modal('hide');
                 axios.post(this.URLaddNewUser, {child_surname: this.new_child_surname, child_name: this.new_child_name, child_middle_name: this.new_child_middle_name})
-                this.fetchArticles();
+                .then(response => this.getModal(response.data));
             },
         }
     }

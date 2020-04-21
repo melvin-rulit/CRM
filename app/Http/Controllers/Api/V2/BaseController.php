@@ -20,6 +20,7 @@ class BaseController extends Controller
 	public function addNewUser(Request $request){
 
         $base = Base::create($request->all());
+        return $base->id;
     }
 
     public function getInfo(Request $request){

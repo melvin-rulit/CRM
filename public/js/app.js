@@ -2921,6 +2921,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('inputForm', {
   props: {
     value: {
@@ -3001,7 +3002,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       edit: false,
       new_child_surname: '',
       new_child_name: '',
-      new_child_middle_name: ''
+      new_child_middle_name: '',
+      rep: []
     };
   },
   created: function created() {
@@ -3009,10 +3011,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
   },
   computed: {
     activeUser: function activeUser() {
-      return this.dataObject.contracts_active[this.indexActiveUser]; // return this.dataUser[this.indexActiveUser]
+      return this.dataObject.contracts_active[this.indexActiveUser];
     }
   },
   methods: {
+    doSomethingOnHidden: function doSomethingOnHidden() {
+      alert('hidden');
+    },
     print: function print() {
       this.$htmlToPaper('printVM');
     },
@@ -3041,8 +3046,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         id: id
       }).then(function (response) {
         _this2.dataObject = response.data.data;
-      });
-      console.log("Количесто элементов в массиве" + this.dataObject.contracts_active.length);
+      }); // $(this.$refs.vuemodals).on("hidden.bs.modal", this.fetchArticles)
     },
     fetchArticles: function fetchArticles() {
       var _this3 = this;
@@ -3089,21 +3093,23 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         user_id: this.dataObject.id,
         field_name: name ? name : key,
         field_value: value
-      });
-      key ? this.fetchArticles() : null;
+      }); // key ? this.fetchArticles(): null;
     },
     closeModal: function closeModal() {
       $('#addNew').modal('hide');
       $('#selectModal').modal('show');
     },
     addNewUser: function addNewUser() {
+      var _this6 = this;
+
       $('#addNewUser').modal('hide');
       axios.post(this.URLaddNewUser, {
         child_surname: this.new_child_surname,
         child_name: this.new_child_name,
         child_middle_name: this.new_child_middle_name
+      }).then(function (response) {
+        return _this6.getModal(response.data);
       });
-      this.fetchArticles();
     }
   }
 });
@@ -41417,9 +41423,12 @@ var render = function() {
       _c(
         "div",
         {
+          ref: "vuemodals",
           staticClass: "modal fade bd-example-modal-lg",
           attrs: {
             id: "addNew",
+            "data-backdrop": "static",
+            "data-keyboard": "false",
             tabindex: "-1",
             role: "dialog",
             "aria-labelledby": "exampleModalCenterTitle",
@@ -42585,7 +42594,7 @@ var render = function() {
                                 { staticClass: "col-md-6 border-bottom" },
                                 [
                                   _c("div", { staticClass: "row" }, [
-                                    _vm.dataObject.contracts_active_count > 0
+                                    _vm.dataObject.contracts_active.length > 0
                                       ? _c(
                                           "div",
                                           {
@@ -42618,7 +42627,10 @@ var render = function() {
                                                   "btn btn-sm btn-outline-secondary ml-4",
                                                 attrs: {
                                                   disabled:
-                                                    _vm.indexActiveUser >= 3
+                                                    _vm.indexActiveUser ===
+                                                    _vm.dataObject
+                                                      .contracts_active.length -
+                                                      1
                                                 },
                                                 on: {
                                                   click: function($event) {
@@ -42672,7 +42684,7 @@ var render = function() {
                                     "transition",
                                     { attrs: { name: "fade", mode: "out-in" } },
                                     [
-                                      _vm.dataObject.contracts_active_count > 0
+                                      _vm.dataObject.contracts_active.length > 0
                                         ? _c(
                                             "div",
                                             {
@@ -42887,23 +42899,29 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "tab-pane fade",
-                          attrs: {
-                            id: "interests",
-                            role: "tabpanel",
-                            "aria-labelledby": "interests-tab"
-                          }
-                        },
-                        [_vm._v("Интересы")]
-                      )
+                      _c("div", {
+                        staticClass: "tab-pane fade",
+                        attrs: {
+                          id: "interests",
+                          role: "tabpanel",
+                          "aria-labelledby": "interests-tab"
+                        }
+                      })
                     ]
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(9)
+                _c("div", { staticClass: "modal-footer pt-3 pb-3" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button", "data-dismiss": "modal" },
+                      on: { click: this.fetchArticles }
+                    },
+                    [_vm._v("Закрыть")]
+                  )
+                ])
               ])
             ]
           )
@@ -43186,21 +43204,6 @@ var staticRenderFns = [
     return _c("p", [
       _vm._v("Сумма и остаток: "),
       _c("span", { staticClass: "ml-2" }, [_vm._v("10530 (3159)")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer pt-3 pb-3" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Закрыть")]
-      )
     ])
   }
 ]
