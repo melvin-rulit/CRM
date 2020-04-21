@@ -196,16 +196,16 @@
               <td><input v-model="dataVm.child_name" class="line" placeholder="Имя"></td>
               <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
               <td>, дата народження</td>
-              <td><input v-model="dataVm.child_birthday" class="line"></td>
+              <td><input placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataVm.child_birthday" class="line"></td>
               <td>надалі «Замовник»</td>
             </tr> 
           </table>
           <table class="tabs">
             <tr>
               <td class="gray">Телефон Замовника</td>
-              <td><input v-model="dataVm.parent_phone" class="line" required data-mask="+0 (000) 000-00-00" placeholder="+_ (___) ___ __ __"></td>
+              <td><input v-model="dataVm.parent_phone" class="line" placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'"></td>
               <td class="gray">Viber/Telegram Замовника</td>
-              <td><input v-model="dataVm.parent_viber" class="line" required data-mask="+0 (000) 000-00-00" placeholder="+_ (___) ___ __ __"></td>
+              <td><input v-model="dataVm.parent_viber" class="line" placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'"></td>
             </tr>
             <tr>
               <td class="gray">Email Замовника</td>
@@ -222,13 +222,13 @@
           <table class="tabs">
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>
-              <td width="25%"><input v-model="dataVm.date" class="line"></td>
+              <td width="25%"><input placeholder="12.05.2020" v-mask="'##.##.####'" v-model="dataVm.date" class="line"></td>
               <td class="gray" width="25%">Дата закінчення договору</td>
-              <td width="25%"><b>___________</b></td>
+              <td width="25%"><input placeholder="12.05.2020" v-mask="'##.##.####'" v-model="end" class="line"></td>
             </tr>
             <tr>
               <td class="gray" width="25%">Загальна кількість занять за договором</td>
-              <td width="25%"><input v-model="dataVm.classes_total" class="line"></td>
+              <td width="25%"><input placeholder="10" v-mask="'##'" v-model="dataVm.classes_total" class="line"></td>
               <td class="gray" width="25%">Кількість занятьна тиждень</td>
               <td width="25%">
                   <table>

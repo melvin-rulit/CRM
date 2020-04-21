@@ -18,6 +18,7 @@
       </div>
     </div>
 
+<!-- <input v-model="dataObject.attributes.child_surname" type="tel" v-mask="'SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS'" /> -->
 
     <!-- Модальное окно с выбором контрактом -->
 <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -137,7 +138,7 @@
                         <h4><input-form v-model="dataObject.attributes.child_surname" name="child_surname" @edit-field="editField"></input-form></h4>
                         <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
                         <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
-                        <p class="card-text"><input-form v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> ({{ dataObject.attributes['age'] }} лет)</p>
+                        <p class="card-text"><input-form placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> <span>({{ dataObject.attributes.age }} лет)</span></p>
                         <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
                     </div>
                 </div>
@@ -191,15 +192,15 @@
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_phone" name="mother_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.mother_phone" name="mother_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_dop_phone" name="mother_dop_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.mother_dop_phone" name="mother_dop_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Viber</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.mother_viber" name="mother_viber" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.mother_viber" name="mother_viber" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Почта</td>
@@ -237,15 +238,15 @@
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.father_phone" name="father_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.father_phone" name="father_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.father_dop_phone" name="father_dop_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.father_dop_phone" name="father_dop_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Viber</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.father_viber" name="father_viber" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.father_viber" name="father_viber" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Почта</td>
@@ -283,15 +284,15 @@
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_phone" name="other_relative_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.other_relative_phone" name="other_relative_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_dop_phone" name="other_relative_dop_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.other_relative_dop_phone" name="other_relative_dop_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Viber</td>
-                                <td class="w-75"><input-form v-model="dataObject.attributes.other_relative_viber" name="other_relative_viber" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.other_relative_viber" name="other_relative_viber" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Почта</td>
@@ -398,6 +399,10 @@
 <script>
 
 
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask)
+
+
 Vue.component('inputForm', {
   props: {
     value: {
@@ -407,6 +412,8 @@ Vue.component('inputForm', {
     name: {
       type: String,
       required: true
+    },
+    placeholder: {
     }
   },
   data() {
@@ -421,7 +428,7 @@ Vue.component('inputForm', {
     <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
     <span>
       <span v-if="!keyInputForm" class="card-title" @dblclick="keyInputForm = true">{{ value }}</span>
-      <input v-else type="text" :value="value" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false" v-on:keyup.enter="keyInputForm = false;$emit('edit-field', $event)">
+      <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false" v-on:keyup.enter="keyInputForm = false;$emit('edit-field', $event)">
       </div>
     </div>
 
@@ -500,6 +507,7 @@ Vue.use(VueHtmlToPaper, options);
                 new_child_name: '',
                 new_child_middle_name: '',
                 rep: [],
+                telephone: '4565456',
             }
         },
         created(){
