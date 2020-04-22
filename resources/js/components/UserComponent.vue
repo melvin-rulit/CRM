@@ -18,7 +18,6 @@
       </div>
     </div>
 
-<!-- <input v-model="dataObject.attributes.child_surname" type="tel" v-mask="'SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS'" /> -->
 
     <!-- Модальное окно с выбором контрактом -->
 <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -123,9 +122,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка  &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
       </div>
       <div class="modal-body">
         <div class="card mb-3">
@@ -192,15 +188,15 @@
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.mother_phone" name="mother_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.mother_phone" name="mother_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.mother_dop_phone" name="mother_dop_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.mother_dop_phone" name="mother_dop_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Viber</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.mother_viber" name="mother_viber" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.mother_viber" name="mother_viber" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Почта</td>
@@ -238,15 +234,15 @@
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.father_phone" name="father_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.father_phone" name="father_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.father_dop_phone" name="father_dop_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.father_dop_phone" name="father_dop_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Viber</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.father_viber" name="father_viber" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.father_viber" name="father_viber" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Почта</td>
@@ -284,15 +280,15 @@
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.other_relative_phone" name="other_relative_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.other_relative_phone" name="other_relative_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.other_relative_dop_phone" name="other_relative_dop_phone" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.other_relative_dop_phone" name="other_relative_dop_phone" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Viber</td>
-                                <td class="w-75"><input-form placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'" v-model="dataObject.attributes.other_relative_viber" name="other_relative_viber" @edit-field="editField"></input-form></td>
+                                <td class="w-75"><input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="dataObject.attributes.other_relative_viber" name="other_relative_viber" @edit-field="editField"></input-form></td>
                             </tr>
                             <tr>
                                 <td class="w-25">Почта</td>
@@ -362,15 +358,15 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>
-                </transition>
-                <p>Оплаты: 
+                                    <p>Оплаты: 
                     <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">4212</span>
                     <a href="javascript:void(0)" class="text-success ml-2" v-on:click="getModalSale()">3159</a>
                     <span class="text-danger ml-2">3348</span>
                 </p>
                 <p>Сумма и остаток: <span class="ml-2">10530 (3159)</span></p>
+                </div>
+                <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>
+                </transition>
             </div>
 
             <div class="col-md-6 mt-3">
@@ -398,9 +394,14 @@
 
 <script>
 
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+Vue.use(VueToast);
+
 
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
+
 
 
 Vue.component('inputForm', {
@@ -427,8 +428,8 @@ Vue.component('inputForm', {
     <span>
     <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
     <span>
-      <span v-if="!keyInputForm" class="card-title" @dblclick="keyInputForm = true">{{ value }}</span>
-      <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false" v-on:keyup.enter="keyInputForm = false;$emit('edit-field', $event)">
+      <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
+      <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
       </div>
     </div>
 
@@ -512,6 +513,7 @@ Vue.use(VueHtmlToPaper, options);
         },
         created(){
             this.fetchArticles();
+
         },
 
         computed: {
@@ -521,9 +523,6 @@ Vue.use(VueHtmlToPaper, options);
           },
 
         methods: {
-                doSomethingOnHidden(){
-      alert('hidden')
-    },
             print() {
                 this.$htmlToPaper('printVM');
             },
@@ -543,6 +542,12 @@ Vue.use(VueHtmlToPaper, options);
                 axios.post('api/v2/getinfo', {id : id}).then(response => {
                     this.dataObject = response.data.data
                 })
+                // Vue.$toast.open({
+                //     message: 'У вас нет доступа',
+                //     type: 'info',
+                //     duration: 50000,
+                //     position: 'top-right'
+                // });
                 // $(this.$refs.vuemodals).on("hidden.bs.modal", this.fetchArticles)
             },
             fetchArticles(){

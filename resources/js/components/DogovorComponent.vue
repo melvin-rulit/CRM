@@ -13,25 +13,10 @@
       </div>
       <div class="row modal-body">
         <div v-show="vmContract" class="col-md-6"><a href="javascript:void(0)" @click="contract('vm')">Контракт на пробное занятие</a></div>
-        <!-- <div v-show="vmContract" class="col-md-6"><a href="javascript:void(0)" @click="vmContract = !vmContract, contractSelected = !contractSelected">Контракт основной программы</a></div> -->
-
         <div v-show="vmContract" class="col-md-6"><a href="javascript:void(0)" @click="contract('osn')">Контракт основной программы</a></div>
-        <form v-show="contractSelected" class="form-inline" style="margin: 0 auto;">
-          <div class="form-group mb-2">
-            <label>Выберите программу</label>
-          </div>
-          <div class="form-group mx-sm-3 mb-2">
-            <select v-model="selected">
-              <option v-for="option in options" v-bind:value="option.value">
-                {{ option.text }}
-              </option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-sm btn-primary mb-2">Выбрать</button>
-        </form>
       </div>
       <div class="modal-footer">
-        <button @click="vmContract = !vmContract, contractSelected = !contractSelected" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button @click="vmContract = !vmContract" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
       </div>
     </div>
   </div>
@@ -176,7 +161,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body modal-lg" id="printVM">
+      <div class="modal-body modal-lg" id="printOSN">
         <div class="Section1"> 
           <h1>ЗАЯВА № {{ user_id }} від  «{{ dataVm.date }}»  р.<br>
             до Публічної пропозиції Договору надання послуг фізичного виховання дітей<br>
@@ -297,7 +282,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button @click="vmContract = !vmContract, contractSelected = !contractSelected" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+          <button @click="vmContract = !vmContract" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
           <button @click="sendVm('osn')" type="button" class="btn btn-success" data-dismiss="modal">Сохранить и распечатать</button>
         </div>
       </div>
@@ -352,7 +337,6 @@
                 ],
                 contracts_vm: 'Відкрий можливості',
                 vmContract: true,
-                contractSelected: false,
                 form_size: '',
                 classes_week: '',
                 days: '',
@@ -405,6 +389,7 @@
                   days: this.days,
                   time: this.time,
                 })
+                contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
              },
         }
 }

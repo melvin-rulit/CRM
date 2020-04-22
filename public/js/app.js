@@ -2204,21 +2204,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     user_id: {}
@@ -2281,7 +2266,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       name: 'Супер Зiрка'
     }, {
       name: 'Школа футболу'
-    }]), _defineProperty(_ref, "contracts_vm", 'Відкрий можливості'), _defineProperty(_ref, "vmContract", true), _defineProperty(_ref, "contractSelected", false), _defineProperty(_ref, "form_size", ''), _defineProperty(_ref, "classes_week", ''), _defineProperty(_ref, "days", ''), _defineProperty(_ref, "time", ''), _defineProperty(_ref, "start", ''), _defineProperty(_ref, "contract_name", ''), _ref;
+    }]), _defineProperty(_ref, "contracts_vm", 'Відкрий можливості'), _defineProperty(_ref, "vmContract", true), _defineProperty(_ref, "form_size", ''), _defineProperty(_ref, "classes_week", ''), _defineProperty(_ref, "days", ''), _defineProperty(_ref, "time", ''), _defineProperty(_ref, "start", ''), _defineProperty(_ref, "contract_name", ''), _ref;
   },
   methods: {
     contract: function contract(contract_type) {
@@ -2332,6 +2317,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         days: this.days,
         time: this.time
       });
+      contract_type == 'vm' ? this.$htmlToPaper('printVM') : this.$htmlToPaper('printOSN');
     }
   }
 });
@@ -2521,16 +2507,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
-/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
-/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_2__);
-//
-//
-//
-//
+/* harmony import */ var vue_toast_notification__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-toast-notification */ "./node_modules/vue-toast-notification/dist/index.min.js");
+/* harmony import */ var vue_toast_notification__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-toast-notification/dist/theme-sugar.css */ "./node_modules/vue-toast-notification/dist/theme-sugar.css");
+/* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_4__);
 //
 //
 //
@@ -2926,8 +2912,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_the_mask__WEBPACK_IMPORTED_MODULE_0___default.a);
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('inputForm', {
+
+vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_toast_notification__WEBPACK_IMPORTED_MODULE_0___default.a);
+
+vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_the_mask__WEBPACK_IMPORTED_MODULE_2___default.a);
+vue__WEBPACK_IMPORTED_MODULE_3___default.a.component('inputForm', {
   props: {
     value: {
       type: String,
@@ -2945,7 +2934,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('inputForm', {
       thisValue: this.value
     };
   },
-  template: "\n\n    <span>\n    <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @dblclick=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :placeholder=\"placeholder\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false\" v-on:keyup.enter=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
+  template: "\n\n    <span>\n    <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :placeholder=\"placeholder\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
 });
 
 
@@ -2954,7 +2943,7 @@ var options = {
   specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
   styles: ['https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', 'https://unpkg.com/kidlat-css/css/kidlat.css']
 };
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_2___default.a, options);
+vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_4___default.a, options);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3022,9 +3011,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     }
   },
   methods: {
-    doSomethingOnHidden: function doSomethingOnHidden() {
-      alert('hidden');
-    },
     print: function print() {
       this.$htmlToPaper('printVM');
     },
@@ -3053,7 +3039,13 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         id: id
       }).then(function (response) {
         _this2.dataObject = response.data.data;
-      }); // $(this.$refs.vuemodals).on("hidden.bs.modal", this.fetchArticles)
+      }); // Vue.$toast.open({
+      //     message: 'У вас нет доступа',
+      //     type: 'info',
+      //     duration: 50000,
+      //     position: 'top-right'
+      // });
+      // $(this.$refs.vuemodals).on("hidden.bs.modal", this.fetchArticles)
     },
     fetchArticles: function fetchArticles() {
       var _this3 = this;
@@ -7650,6 +7642,25 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
 
 })));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-toast-notification/dist/theme-sugar.css":
+/*!**************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-toast-notification/dist/theme-sugar.css ***!
+  \**************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "@-webkit-keyframes fadeOut{from{opacity:1}to{opacity:0}}@keyframes fadeOut{from{opacity:1}to{opacity:0}}.fadeOut{-webkit-animation-name:fadeOut;animation-name:fadeOut}@-webkit-keyframes fadeInDown{from{opacity:0;transform:translate3d(0, -100%, 0)}to{opacity:1;transform:none}}@keyframes fadeInDown{from{opacity:0;transform:translate3d(0, -100%, 0)}to{opacity:1;transform:none}}.fadeInDown{-webkit-animation-name:fadeInDown;animation-name:fadeInDown}@-webkit-keyframes fadeInUp{from{opacity:0;transform:translate3d(0, 100%, 0)}to{opacity:1;transform:none}}@keyframes fadeInUp{from{opacity:0;transform:translate3d(0, 100%, 0)}to{opacity:1;transform:none}}.fadeInUp{-webkit-animation-name:fadeInUp;animation-name:fadeInUp}.fade-enter-active,.fade-leave-active{transition:opacity 150ms ease-out}.fade-enter,.fade-leave-to{opacity:0}.notices{position:fixed;display:flex;top:0;bottom:0;left:0;right:0;padding:2em;overflow:hidden;z-index:1052;pointer-events:none}.notices .toast{display:inline-flex;align-items:center;-webkit-animation-duration:150ms;animation-duration:150ms;margin:.5em 0;box-shadow:0 1px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius:.25em;pointer-events:auto;opacity:.92;color:#fff;min-height:3em;cursor:pointer}.notices .toast .toast-text{margin:0;padding:.5em 1em;word-break:break-all}.notices .toast .toast-icon{display:none}.notices .toast-success{background-color:#47d78a}.notices .toast-info{background-color:#1c85d5}.notices .toast-warning{background-color:#febc22}.notices .toast-error{background-color:#f7471c}.notices .toast-default{background-color:#343a40}.notices .toast.is-top,.notices .toast.is-bottom{align-self:center}.notices .toast.is-top-right,.notices .toast.is-bottom-right{align-self:flex-end}.notices .toast.is-top-left,.notices .toast.is-bottom-left{align-self:flex-start}.notices.is-top{flex-direction:column}.notices.is-bottom{flex-direction:column-reverse}.notices.is-custom-parent{position:absolute}@media screen and (max-width: 768px){.notices{padding:0;position:fixed !important}}.notices .toast{opacity:1;min-height:4em}.notices .toast .toast-text{padding:1.5em 1em}.notices .toast .toast-icon{display:block;width:27px;min-width:27px;height:27px;margin-left:1em;background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 45.999 45.999'%3E %3Cpath fill='%23fff' d='M39.264 6.736c-8.982-8.981-23.545-8.982-32.528 0-8.982 8.982-8.981 23.545 0 32.528 8.982 8.98 23.545 8.981 32.528 0 8.981-8.983 8.98-23.545 0-32.528zM25.999 33a3 3 0 11-6 0V21a3 3 0 116 0v12zm-3.053-17.128c-1.728 0-2.88-1.224-2.844-2.735-.036-1.584 1.116-2.771 2.879-2.771 1.764 0 2.88 1.188 2.917 2.771-.001 1.511-1.152 2.735-2.952 2.735z'/%3E %3C/svg%3E\") no-repeat}.notices .toast.toast-success .toast-icon{background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E %3Cpath fill='%23fff' d='M26 0C11.664 0 0 11.663 0 26s11.664 26 26 26 26-11.663 26-26S40.336 0 26 0zm14.495 17.329l-16 18a1.997 1.997 0 01-2.745.233l-10-8a2 2 0 012.499-3.124l8.517 6.813L37.505 14.67a2.001 2.001 0 012.99 2.659z'/%3E %3C/svg%3E\") no-repeat}.notices .toast.toast-error .toast-icon{background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 51.976 51.976'%3E %3Cpath fill='%23fff' d='M44.373 7.603c-10.137-10.137-26.632-10.138-36.77 0-10.138 10.138-10.137 26.632 0 36.77s26.632 10.138 36.77 0c10.137-10.138 10.137-26.633 0-36.77zm-8.132 28.638a2 2 0 01-2.828 0l-7.425-7.425-7.778 7.778a2 2 0 11-2.828-2.828l7.778-7.778-7.425-7.425a2 2 0 112.828-2.828l7.425 7.425 7.071-7.071a2 2 0 112.828 2.828l-7.071 7.071 7.425 7.425a2 2 0 010 2.828z'/%3E %3C/svg%3E\") no-repeat}.notices .toast.toast-warning .toast-icon{background:url(\"data:image/svg+xml,%3Csvg viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23fff' d='M49.466 41.26L29.216 6.85c-.69-1.16-1.89-1.85-3.22-1.85-1.32 0-2.53.69-3.21 1.85L2.536 41.26c-.71 1.2-.72 2.64-.03 3.85.68 1.18 1.89 1.89 3.24 1.89h40.51c1.35 0 2.56-.71 3.23-1.89.7-1.21.69-2.65-.02-3.85zm-25.53-21.405h3.381v3.187l-.724 8.92H24.66l-.725-8.92v-3.187zm2.97 17.344a1.712 1.712 0 01-1.267.543c-.491 0-.914-.181-1.268-.543a1.788 1.788 0 01-.531-1.297c0-.502.176-.935.53-1.297a1.712 1.712 0 011.269-.544c.49 0 .914.181 1.268.544s.53.795.53 1.297c0 .503-.176.934-.53 1.297z'/%3E %3C/svg%3E\") no-repeat}\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -39328,79 +39339,6 @@ var render = function() {
                       [_vm._v("Контракт основной программы")]
                     )
                   ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "form",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.contractSelected,
-                        expression: "contractSelected"
-                      }
-                    ],
-                    staticClass: "form-inline",
-                    staticStyle: { margin: "0 auto" }
-                  },
-                  [
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group mx-sm-3 mb-2" }, [
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.selected,
-                              expression: "selected"
-                            }
-                          ],
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.selected = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
-                          }
-                        },
-                        _vm._l(_vm.options, function(option) {
-                          return _c(
-                            "option",
-                            { domProps: { value: option.value } },
-                            [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(option.text) +
-                                  "\n              "
-                              )
-                            ]
-                          )
-                        }),
-                        0
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-primary mb-2",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Выбрать")]
-                    )
-                  ]
                 )
               ]),
               _vm._v(" "),
@@ -39412,8 +39350,7 @@ var render = function() {
                     attrs: { type: "button", "data-dismiss": "modal" },
                     on: {
                       click: function($event) {
-                        ;(_vm.vmContract = !_vm.vmContract),
-                          (_vm.contractSelected = !_vm.contractSelected)
+                        _vm.vmContract = !_vm.vmContract
                       }
                     }
                   },
@@ -39454,7 +39391,7 @@ var render = function() {
                   [_vm._v(_vm._s(_vm.contracts_vm))]
                 ),
                 _vm._v(" "),
-                _vm._m(2)
+                _vm._m(1)
               ]),
               _vm._v(" "),
               _c(
@@ -39905,7 +39842,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(3)
+                        _vm._m(2)
                       ])
                     ])
                   ])
@@ -39960,13 +39897,13 @@ var render = function() {
           { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(4),
+              _vm._m(3),
               _vm._v(" "),
               _c(
                 "div",
                 {
                   staticClass: "modal-body modal-lg",
-                  attrs: { id: "printVM" }
+                  attrs: { id: "printOSN" }
                 },
                 [
                   _c("div", { staticClass: "Section1" }, [
@@ -40713,7 +40650,7 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _vm._m(5)
+                    _vm._m(4)
                   ])
                 ]
               ),
@@ -40726,8 +40663,7 @@ var render = function() {
                     attrs: { type: "button", "data-dismiss": "modal" },
                     on: {
                       click: function($event) {
-                        ;(_vm.vmContract = !_vm.vmContract),
-                          (_vm.contractSelected = !_vm.contractSelected)
+                        _vm.vmContract = !_vm.vmContract
                       }
                     }
                   },
@@ -40779,14 +40715,6 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group mb-2" }, [
-      _c("label", [_vm._v("Выберите программу")])
     ])
   },
   function() {
@@ -41511,9 +41439,7 @@ var render = function() {
                           _vm._s(_vm.dataObject.attributes["child_name"])
                       )
                     ]
-                  ),
-                  _vm._v(" "),
-                  _vm._m(5)
+                  )
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
@@ -41671,11 +41597,11 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _vm._m(6)
+                      _vm._m(5)
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(7),
+                  _vm._m(6),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -41822,14 +41748,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "mother_phone"
                                               },
                                               on: {
@@ -41869,14 +41795,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "mother_dop_phone"
                                               },
                                               on: {
@@ -41916,14 +41842,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "mother_viber"
                                               },
                                               on: {
@@ -42174,14 +42100,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "father_phone"
                                               },
                                               on: {
@@ -42221,14 +42147,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "father_dop_phone"
                                               },
                                               on: {
@@ -42268,14 +42194,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "father_viber"
                                               },
                                               on: {
@@ -42531,14 +42457,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "other_relative_phone"
                                               },
                                               on: {
@@ -42578,14 +42504,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "other_relative_dop_phone"
                                               },
                                               on: {
@@ -42625,14 +42551,14 @@ var render = function() {
                                                 {
                                                   name: "mask",
                                                   rawName: "v-mask",
-                                                  value: "+# (###) ###-##-##",
+                                                  value: "+## (###) ###-##-##",
                                                   expression:
-                                                    "'+# (###) ###-##-##'"
+                                                    "'+## (###) ###-##-##'"
                                                 }
                                               ],
                                               attrs: {
                                                 placeholder:
-                                                  "+3 (926) 123-45-67",
+                                                  "+38 (926) 123-45-67",
                                                 name: "other_relative_viber"
                                               },
                                               on: {
@@ -42956,7 +42882,63 @@ var render = function() {
                                                     ])
                                                   ])
                                                 ]
-                                              )
+                                              ),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "Оплаты: \n                    "
+                                                ),
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticClass:
+                                                      "text-muted ml-2",
+                                                    attrs: {
+                                                      "data-toggle": "tooltip",
+                                                      "data-placement":
+                                                        "bottom",
+                                                      title:
+                                                        "Дата оплаты - 23.05.2015"
+                                                    }
+                                                  },
+                                                  [_vm._v("4212")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    staticClass:
+                                                      "text-success ml-2",
+                                                    attrs: {
+                                                      href: "javascript:void(0)"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.getModalSale()
+                                                      }
+                                                    }
+                                                  },
+                                                  [_vm._v("3159")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticClass:
+                                                      "text-danger ml-2"
+                                                  },
+                                                  [_vm._v("3348")]
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v("Сумма и остаток: "),
+                                                _c(
+                                                  "span",
+                                                  { staticClass: "ml-2" },
+                                                  [_vm._v("10530 (3159)")]
+                                                )
+                                              ])
                                             ]
                                           )
                                         : _c(
@@ -42968,45 +42950,7 @@ var render = function() {
                                             [_vm._v("Нет активных контрактов")]
                                           )
                                     ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("p", [
-                                    _vm._v("Оплаты: \n                    "),
-                                    _c(
-                                      "span",
-                                      {
-                                        staticClass: "text-muted ml-2",
-                                        attrs: {
-                                          "data-toggle": "tooltip",
-                                          "data-placement": "bottom",
-                                          title: "Дата оплаты - 23.05.2015"
-                                        }
-                                      },
-                                      [_vm._v("4212")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "a",
-                                      {
-                                        staticClass: "text-success ml-2",
-                                        attrs: { href: "javascript:void(0)" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.getModalSale()
-                                          }
-                                        }
-                                      },
-                                      [_vm._v("3159")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "span",
-                                      { staticClass: "text-danger ml-2" },
-                                      [_vm._v("3348")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _vm._m(8)
+                                  )
                                 ],
                                 1
                               ),
@@ -43229,23 +43173,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "modal",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-4 border-left" }, [
       _c("div", { staticClass: "card-body" }, [
         _c("h4", { staticClass: "text-center" }, [_vm._v("Документы")])
@@ -43369,15 +43296,6 @@ var staticRenderFns = [
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _vm._v("Сумма и остаток: "),
-      _c("span", { staticClass: "ml-2" }, [_vm._v("10530 (3159)")])
-    ])
   }
 ]
 render._withStripped = true
@@ -43589,6 +43507,47 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 (function(e,t){ true?module.exports=t():undefined})(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var a=n[r]={i:r,l:!1,exports:{}};return e[r].call(a.exports,a,a.exports,t),a.l=!0,a.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p=".",t(t.s=10)}([function(e,t){e.exports={"#":{pattern:/\d/},X:{pattern:/[0-9a-zA-Z]/},S:{pattern:/[a-zA-Z]/},A:{pattern:/[a-zA-Z]/,transform:function(e){return e.toLocaleUpperCase()}},a:{pattern:/[a-zA-Z]/,transform:function(e){return e.toLocaleLowerCase()}},"!":{escape:!0}}},function(e,t,n){"use strict";function r(e){var t=document.createEvent("Event");return t.initEvent(e,!0,!0),t}var a=n(2),o=n(0),i=n.n(o);t.a=function(e,t){var o=t.value;if((Array.isArray(o)||"string"==typeof o)&&(o={mask:o,tokens:i.a}),"INPUT"!==e.tagName.toLocaleUpperCase()){var u=e.getElementsByTagName("input");if(1!==u.length)throw new Error("v-mask directive requires 1 input, found "+u.length);e=u[0]}e.oninput=function(t){if(t.isTrusted){var i=e.selectionEnd,u=e.value[i-1];for(e.value=n.i(a.a)(e.value,o.mask,!0,o.tokens);i<e.value.length&&e.value.charAt(i-1)!==u;)i++;e===document.activeElement&&(e.setSelectionRange(i,i),setTimeout(function(){e.setSelectionRange(i,i)},0)),e.dispatchEvent(r("input"))}};var s=n.i(a.a)(e.value,o.mask,!0,o.tokens);s!==e.value&&(e.value=s,e.dispatchEvent(r("input")))}},function(e,t,n){"use strict";var r=n(6),a=n(5);t.a=function(e,t){var o=!(arguments.length>2&&void 0!==arguments[2])||arguments[2],i=arguments[3];return Array.isArray(t)?n.i(a.a)(r.a,t,i)(e,t,o,i):n.i(r.a)(e,t,o,i)}},function(e,t,n){"use strict";function r(e){e.component(s.a.name,s.a),e.directive("mask",i.a)}Object.defineProperty(t,"__esModule",{value:!0});var a=n(0),o=n.n(a),i=n(1),u=n(7),s=n.n(u);n.d(t,"TheMask",function(){return s.a}),n.d(t,"mask",function(){return i.a}),n.d(t,"tokens",function(){return o.a}),n.d(t,"version",function(){return c});var c="0.11.1";t.default=r,"undefined"!=typeof window&&window.Vue&&window.Vue.use(r)},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),a=n(0),o=n.n(a),i=n(2);t.default={name:"TheMask",props:{value:[String,Number],mask:{type:[String,Array],required:!0},masked:{type:Boolean,default:!1},tokens:{type:Object,default:function(){return o.a}}},directives:{mask:r.a},data:function(){return{lastValue:null,display:this.value}},watch:{value:function(e){e!==this.lastValue&&(this.display=e)},masked:function(){this.refresh(this.display)}},computed:{config:function(){return{mask:this.mask,tokens:this.tokens,masked:this.masked}}},methods:{onInput:function(e){e.isTrusted||this.refresh(e.target.value)},refresh:function(e){this.display=e;var e=n.i(i.a)(e,this.mask,this.masked,this.tokens);e!==this.lastValue&&(this.lastValue=e,this.$emit("input",e))}}}},function(e,t,n){"use strict";function r(e,t,n){return t=t.sort(function(e,t){return e.length-t.length}),function(r,a){for(var o=!(arguments.length>2&&void 0!==arguments[2])||arguments[2],i=0;i<t.length;){var u=t[i];i++;var s=t[i];if(!(s&&e(r,s,!0,n).length>u.length))return e(r,u,o,n)}return""}}t.a=r},function(e,t,n){"use strict";function r(e,t){var n=!(arguments.length>2&&void 0!==arguments[2])||arguments[2],r=arguments[3];e=e||"",t=t||"";for(var a=0,o=0,i="";a<t.length&&o<e.length;){var u=t[a],s=r[u],c=e[o];s&&!s.escape?(s.pattern.test(c)&&(i+=s.transform?s.transform(c):c,a++),o++):(s&&s.escape&&(a++,u=t[a]),n&&(i+=u),c===u&&o++,a++)}for(var f="";a<t.length&&n;){var u=t[a];if(r[u]){f="";break}f+=u,a++}return i+f}t.a=r},function(e,t,n){var r=n(8)(n(4),n(9),null,null);e.exports=r.exports},function(e,t){e.exports=function(e,t,n,r){var a,o=e=e||{},i=typeof e.default;"object"!==i&&"function"!==i||(a=e,o=e.default);var u="function"==typeof o?o.options:o;if(t&&(u.render=t.render,u.staticRenderFns=t.staticRenderFns),n&&(u._scopeId=n),r){var s=u.computed||(u.computed={});Object.keys(r).forEach(function(e){var t=r[e];s[e]=function(){return t}})}return{esModule:a,exports:o,options:u}}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement;return(e._self._c||t)("input",{directives:[{name:"mask",rawName:"v-mask",value:e.config,expression:"config"}],attrs:{type:"text"},domProps:{value:e.display},on:{input:e.onInput}})},staticRenderFns:[]}},function(e,t,n){e.exports=n(3)}])});
+
+/***/ }),
+
+/***/ "./node_modules/vue-toast-notification/dist/index.min.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/vue-toast-notification/dist/index.min.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e(__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js")):undefined}("undefined"!=typeof self?self:this,(function(t){return function(t){var e={};function n(o){if(e[o])return e[o].exports;var i=e[o]={i:o,l:!1,exports:{}};return t[o].call(i.exports,i,i.exports,n),i.l=!0,i.exports}return n.m=t,n.c=e,n.d=function(t,e,o){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:o})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)n.d(o,i,function(e){return t[e]}.bind(null,i));return o},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=3)}([function(e,n){e.exports=t},,,function(t,e,n){"use strict";n.r(e);var o=function(t){void 0!==t.remove?t.remove():t.parentNode.removeChild(t)},i="undefined"!=typeof window?window.HTMLElement:Object,s=n(0),r=new(n.n(s).a);var a=function(t,e,n,o,i,s,r,a){var u,c="function"==typeof t?t.options:t;if(e&&(c.render=e,c.staticRenderFns=n,c._compiled=!0),o&&(c.functional=!0),s&&(c._scopeId="data-v-"+s),r?(u=function(t){(t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),i&&i.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(r)},c._ssrRegister=u):i&&(u=a?function(){i.call(this,this.$root.$options.shadowRoot)}:i),u)if(c.functional){c._injectStyles=u;var l=c.render;c.render=function(t,e){return u.call(e),l(t,e)}}else{var p=c.beforeCreate;c.beforeCreate=p?[].concat(p,u):[u]}return{exports:t,options:c}}({name:"toast",props:{message:{type:String,required:!0},type:{type:String,default:"success"},position:{type:String,default:"bottom-right"},duration:{type:Number,default:3e3},dismissible:{type:Boolean,default:!0},onClose:{type:Function,default:function(){}},onClick:{type:Function,default:function(){}},queue:Boolean,container:{type:[Object,Function,i],default:null}},data:function(){return{isActive:!1,parentTop:null,parentBottom:null}},beforeMount:function(){this.setupContainer()},mounted:function(){this.showNotice(),r.$on("toast.clear",this.close)},methods:{setupContainer:function(){if(this.parentTop=document.querySelector(".notices.is-top"),this.parentBottom=document.querySelector(".notices.is-bottom"),!this.parentTop||!this.parentBottom){this.parentTop||(this.parentTop=document.createElement("div"),this.parentTop.className="notices is-top"),this.parentBottom||(this.parentBottom=document.createElement("div"),this.parentBottom.className="notices is-bottom");var t=this.container||document.body;t.appendChild(this.parentTop),t.appendChild(this.parentBottom);this.container&&(this.parentTop.classList.add("is-custom-parent"),this.parentBottom.classList.add("is-custom-parent"))}},shouldQueue:function(){return!!this.queue&&(this.parentTop.childElementCount>0||this.parentBottom.childElementCount>0)},close:function(){var t=arguments,e=this;clearTimeout(this.timer),this.isActive=!1,setTimeout((function(){e.onClose.apply(null,t),e.$destroy(),o(e.$el)}),150)},showNotice:function(){var t=this;this.shouldQueue()?setTimeout((function(){return t.showNotice()}),250):(this.correctParent.insertAdjacentElement("afterbegin",this.$el),this.isActive=!0,this.timer=setTimeout((function(){return t.close()}),this.duration))},whenClicked:function(){this.dismissible&&(this.onClick.apply(null,arguments),this.close())}},computed:{correctParent:function(){switch(this.position){case"top-right":case"top":case"top-left":return this.parentTop;case"bottom-right":case"bottom":case"bottom-left":return this.parentBottom}},transition:function(){switch(this.position){case"top-right":case"top":case"top-left":return{enter:"fadeInDown",leave:"fadeOut"};case"bottom-right":case"bottom":case"bottom-left":return{enter:"fadeInUp",leave:"fadeOut"}}}}},(function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("transition",{attrs:{"enter-active-class":t.transition.enter,"leave-active-class":t.transition.leave}},[n("div",{directives:[{name:"show",rawName:"v-show",value:t.isActive,expression:"isActive"}],staticClass:"toast",class:["toast-"+t.type,"is-"+t.position],attrs:{role:"alert"},on:{click:t.whenClicked}},[n("div",{staticClass:"toast-icon"}),t._v(" "),n("p",{staticClass:"toast-text"},[t._v(t._s(t.message))])])])}),[],!1,null,null,null).exports,u=function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{open:function(n){var o;"string"==typeof n&&(o=n);var i={message:o},s=Object.assign({},i,e,n);return new(t.extend(a))({el:document.createElement("div"),propsData:s})},clear:function(){r.$emit("toast.clear")},success:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return this.open(Object.assign({},{message:t,type:"success"},e))},error:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return this.open(Object.assign({},{message:t,type:"error"},e))},info:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return this.open(Object.assign({},{message:t,type:"info"},e))},warning:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return this.open(Object.assign({},{message:t,type:"warning"},e))},default:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return this.open(Object.assign({},{message:t,type:"default"},e))}}};a.install=function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},n=u(t,e);t.$toast=n,t.prototype.$toast=n};e.default=a}]).default}));
+
+/***/ }),
+
+/***/ "./node_modules/vue-toast-notification/dist/theme-sugar.css":
+/*!******************************************************************!*\
+  !*** ./node_modules/vue-toast-notification/dist/theme-sugar.css ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../postcss-loader/src??ref--6-2!./theme-sugar.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-toast-notification/dist/theme-sugar.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
