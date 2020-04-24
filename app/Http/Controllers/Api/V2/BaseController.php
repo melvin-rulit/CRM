@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Resources\ArticleResource;
+use App\Http\Resources\BranchesResource;
 use App\Http\Resources\BaseCurrentUser;
 use App\Http\Resources\VmContractResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Base;
+use App\Branch;
 
 class BaseController extends Controller
 {
@@ -33,6 +35,11 @@ class BaseController extends Controller
 
         $base = Base::find($request['id']);
         return new VmContractResource($base);
+    }
+
+    public function getBranches(){
+
+        return new BranchesResource(Branch::all());
     }
 
 }

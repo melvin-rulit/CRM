@@ -61,6 +61,7 @@ class ArticleResource extends JsonResource
                 'other_relative_viber' => $this->other_relative_viber,
                 'other_relative_notes' => $this->other_relative_notes,
             ],
+                'base_branch' => $this->base_branch,
         ];
     }
 }

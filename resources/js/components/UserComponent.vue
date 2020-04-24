@@ -9,7 +9,7 @@
               <div class="col">
               </div>
               <div class="col-auto">
-                <a class="btn btn-sm btn-success" href="javascript:void(0)" data-toggle="modal" data-target="#addNewUser">Добавить клиента</a>
+                <a class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches" data-target="#addNewUser">Добавить клиента</a>
                 <!-- <a class="btn btn-sm btn-info" href="javascript:void(0)">Фильтр</a> -->
               </div>
             </div>
@@ -17,7 +17,6 @@
         </div>
       </div>
     </div>
-
 
     <!-- Модальное окно с выбором контрактом -->
 <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -46,6 +45,17 @@
                 <label class="col-sm-3 col-form-label required">Отчество</label>
                 <div class="col-sm-9">
                     <input v-model="new_child_middle_name" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label required">Филиал</label>
+                <div class="col-sm-9">
+                    <dynamic-select 
+                        :options="branches"
+                        option-value="id"
+                        option-text="name"
+                        placeholder="Введите для поиска"
+                        v-model="branch" />
                 </div>
             </div>
         </div>
@@ -97,7 +107,7 @@
                         <tbody v-for="article in articles">
                             <tr v-for="ar in article">
                                 <td></td>
-                                <td><a href="javascript:void(0)" v-on:click="getModal(ar.id)">{{ ar.attributes.child_surname }}</a></td>
+                                <td><a href="#" @click.prevent="getModal(ar.id)">{{ ar.attributes.child_surname }}</a></td>
                                 <td>{{ ar.attributes.child_name }}</td>
                                 <td>{{ ar.attributes.child_middle_name }}</td>
                                 <td>{{ ar.attributes.age }} лет</td>
@@ -135,7 +145,7 @@
                         <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
                         <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
                         <p class="card-text"><input-form placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> <span>({{ dataObject.attributes.age }} лет)</span></p>
-                        <h6 class="text-uppercase text-muted mb-2">Люберецкий филиал</h6>
+                        <h6 class="text-uppercase text-muted mb-2">{{dataObject.base_branch['name']}}</h6>
                     </div>
                 </div>
                 <div class="col-md-4 border-left">
@@ -394,10 +404,20 @@
 
 <script>
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
+
+import willvalidate from 'willvalidate'
+Vue.use(willvalidate)
+
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 Vue.use(VueToast);
 
+
+import DynamicSelect from 'vue-dynamic-select'
+Vue.use(DynamicSelect)
 
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
@@ -460,6 +480,7 @@ Vue.use(VueHtmlToPaper, options);
         data() {
             return{
                 dataVm: {},
+                branches: [],
                 name:'',
                 options: [
                   { text: 'Зирка лева', value: 'А' },
@@ -469,6 +490,7 @@ Vue.use(VueHtmlToPaper, options);
                      attributes: {},
                      contracts_not_active: {},
                      contracts_active: {},
+                     base_branch: {},
                 },
                 dataUser: [{
                     name: 'Alex',
@@ -507,12 +529,14 @@ Vue.use(VueHtmlToPaper, options);
                 new_child_surname: '',
                 new_child_name: '',
                 new_child_middle_name: '',
+                branch: '',
                 rep: [],
                 telephone: '4565456',
             }
         },
         created(){
             this.fetchArticles();
+            this.getBranch();
 
         },
 
@@ -592,8 +616,12 @@ Vue.use(VueHtmlToPaper, options);
             },
             addNewUser(){
                 $('#addNewUser').modal('hide');
-                axios.post(this.URLaddNewUser, {child_surname: this.new_child_surname, child_name: this.new_child_name, child_middle_name: this.new_child_middle_name})
+                axios.post(this.URLaddNewUser, {child_surname: this.new_child_surname, child_name: this.new_child_name, child_middle_name: this.new_child_middle_name, branch: this.branch.id})
                 .then(response => this.getModal(response.data));
+            },
+            getBranches(){
+                axios.get('api/v2/getbranches')
+                .then(response => this.branches = response.data.data)
             },
         }
     }
@@ -620,5 +648,9 @@ Vue.use(VueHtmlToPaper, options);
 /* .slide-fade-leave-active до версии 2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
+}
+
+.toast{
+    max-width: 1200px;
 }
 </style>

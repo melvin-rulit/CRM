@@ -26,4 +26,9 @@ class PagesController extends Controller
         return view('pages.vue');
     }
 
+    public function product(){
+
+        return view('pages.product');
+    }
+
 }

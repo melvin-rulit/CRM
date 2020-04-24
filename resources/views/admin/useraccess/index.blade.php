@@ -16,7 +16,7 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.useraccess.fields.id') }}
+                            {{ trans('cruds.useraccess.fields.surname') }}
                         </th>
                         <th>
                             {{ trans('cruds.useraccess.title_sing') }}
@@ -37,7 +37,7 @@
 
                             </td>
                             <td>
-                                {{ $user->id }}
+                                {{ $user->surname }}
                             </td>
                             <td>
                                 {{ $user->name }}

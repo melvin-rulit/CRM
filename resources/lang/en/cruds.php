@@ -68,6 +68,8 @@ return [
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
+            'surname'                 => 'Фамилия',
+            'surname_helper'          => '',
             'title'              => 'Имя должности',
             'title_helper'       => '',
             'permissions'        => 'Доступы',

@@ -13,9 +13,14 @@ class Base extends Model
         'child_name',
         'child_surname',
         'child_middle_name',
+        'branch',
     ];
 
     public function contracts(){
     	return $this->hasMany(Contract::class);
+    }
+
+    public function base_branch(){
+    	return $this->hasOne('App\Branch', 'id', 'branch');
     }
 }
