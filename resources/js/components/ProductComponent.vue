@@ -148,3 +148,9 @@ import { required, minLength } from 'vuelidate/lib/validators'
         },
 	}
 </script>
+
+<style type="text/css">
+	tr {
+    cursor: pointer;
+}
+</style>

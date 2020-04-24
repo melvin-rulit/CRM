@@ -18,6 +18,7 @@
       </div>
     </div>
 
+
     <!-- Модальное окно с выбором контрактом -->
 <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -93,10 +94,9 @@
         <div class="card">
             <div class="card-body pb-0">
                 <div class="table-responsive">
-                    <table class=" table table-bordered table-hover datatable datatable-User">
+                    <table class="table table-bordered table-hover datatable datatable-User table-collection">
                         <thead>
                             <tr>
-                                <th width="10"></th>
                                 <th>Фамилия</th>
                                 <th>Имя</th>
                                 <th>Отчество</th>
@@ -105,12 +105,11 @@
                             </tr>
                         </thead>
                         <tbody v-for="article in articles">
-                            <tr v-for="ar in article">
-                                <td></td>
-                                <td><a href="#" @click.prevent="getModal(ar.id)">{{ ar.attributes.child_surname }}</a></td>
-                                <td>{{ ar.attributes.child_name }}</td>
-                                <td>{{ ar.attributes.child_middle_name }}</td>
-                                <td>{{ ar.attributes.age }} лет</td>
+                            <tr @click="getModal(article.id)">
+                                <td>{{ article.child_surname }}</td>
+                                <td>{{ article.child_name }}</td>
+                                <td>{{ article.child_middle_name }}</td>
+                                <td>{{ article.age }} лет</td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -578,7 +577,7 @@ Vue.use(VueHtmlToPaper, options);
                 axios.
                 get('api/v2/collection')
                  //.then(response => console.log(response.data));
-                .then(response => this.articles = response.data)
+                .then(response => this.articles = response.data.data)
                 .finally(() => console.log('Посты успешно загружены'));
 
             },
@@ -653,4 +652,9 @@ Vue.use(VueHtmlToPaper, options);
 .toast{
     max-width: 1200px;
 }
+
+    .table-collection tr {
+    cursor: pointer;
+}
+
 </style>

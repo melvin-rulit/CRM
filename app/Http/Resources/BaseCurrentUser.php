@@ -18,7 +18,7 @@ class BaseCurrentUser extends ResourceCollection
         // return parent::toArray($request);
 
         return [
-            'data'  => ArticleResource::collection($this->collection),
+            'data'  => BaseAllResource::collection($this->collection),
         ];
     }
 }
