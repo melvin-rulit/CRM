@@ -4,6 +4,13 @@
 // Route::post('getinfo', 'Api\V2\BaseController@getInfo');
 
 Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], function () {
+
+    // Regions
+    Route::apiResource('regions', 'RegionController');
+
+    // Branches
+    Route::apiResource('branches', 'BranchController');
+
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');
     Route::get('products', 'ProductController@index');

@@ -9,13 +9,13 @@
               </div>
               <div class="col-auto">
                 <a class="btn btn-sm btn-success" data-toggle="modal" href="#" data-target="#addNewProduct">Добавить новый продукт</a>
+                <a class="btn btn-sm btn-success" href="#" @click="api">Посмотреть api</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- Модальное окно добавлением нового продукта -->
     <div class="modal fade" id="addNewProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -119,6 +119,9 @@ import { required, minLength } from 'vuelidate/lib/validators'
             this.getProducts();
         },
         methods: {
+            api(){
+                axios.get('api/v2/regions')
+            },
         	getProducts(){
         		axios.get('api/v2/products')
                 .then(response => this.productsData = response.data.data)

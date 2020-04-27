@@ -13,4 +13,8 @@ class Branch extends Model
         'geolocation',
         'region_id',
     ];
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
 }

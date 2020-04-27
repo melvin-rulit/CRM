@@ -1,88 +1,13 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="card mb-2">
-      <div class="card-header">
-        <div class="row align-items-center">
-          <div class="col">
-            <h4 class="card-header-title">Регионы и филиалы</h4>
-          </div>
-          <div class="col-auto">
-            <a class="btn btn-sm btn-success" href="{{ route('admin.region.create') }}">{{ trans('cruds.region.add_region') }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<div id="app">
 
-<div class="row flex-nowrap test">
+<region-component :canupdate="true"></region-component>
 
-  @foreach($regions as $region)
-  <div class="col-4 col-lg-4">
-    <div class="card">
-      <div class="card-header">
-        <div class="row align-items-center">
-          <div class="col">
-              {{ $region->name }}
-          </div>
-          <div class="col-auto">
-            <a href="/region/{{ $region->id }}/edit" style="color: #e6b00d" class="btn h2 fe fe-edit mb-0"></a>
-
-            @if(count($region->branches))
-                <form action="{{ route('admin.region.destroy', $region->id) }}" method="POST" onsubmit=" confirm('{{ trans('global.notDelete') }}'); return false;" style="display: inline-block;">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn"><i class="h2 fe fe-trash-2 mb-0" style="color: red"></i></button>
-                </form>
-            @else
-                <form action="{{ route('admin.region.destroy', $region->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn"><i class="h2 fe fe-trash-2 mb-0" style="color: red"></i></button>
-                </form>
-            @endif
-
-          </div>
-        </div>
-      </div>
-
-@if(count($region->branches))
-      <div class="card-body">
-        @foreach($region->branches as $branch)
-
-          <div class="card card-sm mb-2">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-12 col-md">
-                  <a href="branch/{{ $branch->id }}" class="mb-md-0">
-                    {{ $branch->name }}
-                  </a>
-                </div>
-                <div class="col-auto">
-                <a href="/branch/{{ $branch->id }}/edit" style="color: #e6b00d" class="h2 fe fe-edit mb-0"></a>
-              </div>
-              </div>
-            </div>
-          </div>
-        @endforeach
-      </div>
-@else
-  <p class="text-center pt-3">{{ trans('cruds.region.count') }}</p>
-  <div class="col-auto mb-4">
-    <div class="text-center">
-      <a class="btn btn-sm btn-success center-block" href="{{ route('admin.branch.create') }}">{{ trans('cruds.branch.add_branch') }}</a>
-    </div>
-  </div>
-@endif
-    </div>
-  </div>
-@endforeach
 
 </div>
-
+<script src="{{ asset('js/app.js') }}"></script>
 
 <div class="row">
           <div class="col-12 col-lg-6 col-xl">

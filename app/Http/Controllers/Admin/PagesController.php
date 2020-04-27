@@ -31,4 +31,10 @@ class PagesController extends Controller
         return view('pages.product');
     }
 
+    public function regions(){
+
+        return view('pages.region');
+    }
+
+
 }
