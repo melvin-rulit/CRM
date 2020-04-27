@@ -48,6 +48,7 @@ class VmContractResource extends JsonResource
 
 
         return [
+            'branch' => new BranchResource($this->base_branch),
             'date' =>  Carbon::now()->format('d.m.Y'),
             'start' =>  Carbon::now()->format('d.m.Y'),
             'child_surname' =>  $this->child_surname,
@@ -63,9 +64,6 @@ class VmContractResource extends JsonResource
             'parent_facebook' => $parent_facebook,
             'parent_instagram' => $parent_instagram,
             'contract_name' =>  'Відкрий можливості',
-            'town' =>  'м.Одесса',
-            'branch_adress' =>  'м.Одеса, пр-т Добровольського, 122/2',
-            'phone' =>  '+3 (067) 654 16 94',
             'ip' =>  'Булик І.В.',
             'requisites' =>  'ЮЖНЕ ГРУ АТ КБ «Приватбанк», МФО 328704',
             'price' =>  '400',

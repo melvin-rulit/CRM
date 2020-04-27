@@ -1908,8 +1908,6 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -2209,64 +2207,75 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     user_id: {}
   },
   data: function data() {
-    var _ref;
-
-    return _ref = {
-      dataVm: {},
+    return {
+      dataVm: {
+        branch: []
+      },
       dayselect: [{
         day: 'Пн:Ср'
       }, {
         day: 'Вт:Чт'
       }, {
         day: 'Сб:Вс'
-      }]
-    }, _defineProperty(_ref, "dataVm", {}), _defineProperty(_ref, "timeselect", [{
-      time: '08:00'
-    }, {
-      time: '09:00'
-    }, {
-      time: '10:00'
-    }, {
-      time: '11:00'
-    }, {
-      time: '12:00'
-    }, {
-      time: '13:00'
-    }, {
-      time: '14:00'
-    }, {
-      time: '15:00'
-    }, {
-      time: '16:00'
-    }, {
-      time: '17:00'
-    }, {
-      time: '18:00'
-    }, {
-      time: '19:00'
-    }, {
-      time: '20:00'
-    }, {
-      time: '21:00'
-    }]), _defineProperty(_ref, "options", [{
-      text: 'Зирка лева',
-      value: 'А'
-    }, {
-      text: 'Народження зирки',
-      value: 'Б'
-    }]), _defineProperty(_ref, "contracts", [{
-      name: 'Вперед до зiрок'
-    }, {
-      name: 'Народження Зiрки'
-    }, {
-      name: 'Зiрка Лева'
-    }, {
-      name: 'Лiдер Прайду'
-    }, {
-      name: 'Супер Зiрка'
-    }, {
-      name: 'Школа футболу'
-    }]), _defineProperty(_ref, "contracts_vm", 'Відкрий можливості'), _defineProperty(_ref, "vmContract", true), _defineProperty(_ref, "form_size", ''), _defineProperty(_ref, "classes_week", ''), _defineProperty(_ref, "days", ''), _defineProperty(_ref, "time", ''), _defineProperty(_ref, "start", ''), _defineProperty(_ref, "contract_name", ''), _ref;
+      }],
+      timeselect: [{
+        time: '08:00'
+      }, {
+        time: '09:00'
+      }, {
+        time: '10:00'
+      }, {
+        time: '11:00'
+      }, {
+        time: '12:00'
+      }, {
+        time: '13:00'
+      }, {
+        time: '14:00'
+      }, {
+        time: '15:00'
+      }, {
+        time: '16:00'
+      }, {
+        time: '17:00'
+      }, {
+        time: '18:00'
+      }, {
+        time: '19:00'
+      }, {
+        time: '20:00'
+      }, {
+        time: '21:00'
+      }],
+      options: [{
+        text: 'Зирка лева',
+        value: 'А'
+      }, {
+        text: 'Народження зирки',
+        value: 'Б'
+      }],
+      contracts: [{
+        name: 'Вперед до зiрок'
+      }, {
+        name: 'Народження Зiрки'
+      }, {
+        name: 'Зiрка Лева'
+      }, {
+        name: 'Лiдер Прайду'
+      }, {
+        name: 'Супер Зiрка'
+      }, {
+        name: 'Школа футболу'
+      }],
+      contracts_vm: 'Відкрий можливості',
+      vmContract: true,
+      form_size: '',
+      classes_week: '',
+      days: '',
+      time: '',
+      start: '',
+      contract_name: ''
+    };
   },
   methods: {
     contract: function contract(contract_type) {
@@ -40473,7 +40482,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("table", { attrs: { border: "0", width: "100%" } }, [
                       _c("td", { staticClass: "tdleft" }, [
-                        _vm._v(_vm._s(_vm.dataVm.town))
+                        _vm._v(_vm._s(_vm.dataVm.branch.geolocation))
                       ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "tdright" }, [
@@ -40708,7 +40717,9 @@ var render = function() {
                       _c("br"),
                       _vm._v(
                         "\n              2.2. Тренування відбуваються у спеціальному спортивному залі за адресою: " +
-                          _vm._s(_vm.dataVm.branch_adress) +
+                          _vm._s(_vm.dataVm.branch.geolocation) +
+                          ", " +
+                          _vm._s(_vm.dataVm.branch.adress) +
                           ";"
                       ),
                       _c("br"),
@@ -40890,11 +40901,14 @@ var render = function() {
                           _c("br"),
                           _vm._v(
                             "\n                " +
-                              _vm._s(_vm.dataVm.branch_adress)
+                              _vm._s(_vm.dataVm.branch.geolocation) +
+                              ", " +
+                              _vm._s(_vm.dataVm.branch.adress)
                           ),
                           _c("br"),
                           _vm._v(
-                            "\n                Тел. " + _vm._s(_vm.dataVm.phone)
+                            "\n                Тел. " +
+                              _vm._s(_vm.dataVm.branch.phone)
                           ),
                           _c("br"),
                           _c("br"),
@@ -41597,7 +41611,9 @@ var render = function() {
                     ]),
                     _vm._v(
                       "\n          Адреса надання послуг: " +
-                        _vm._s(_vm.dataVm.branch_adress) +
+                        _vm._s(_vm.dataVm.branch.geolocation) +
+                        ", " +
+                        _vm._s(_vm.dataVm.branch.adress) +
                         "\n          Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n          "
                     ),
                     _c("table", { staticClass: "tabs" }, [
@@ -42966,7 +42982,18 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(5),
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLongTitle" }
+                  },
+                  [_vm._v("Карточка филиала " + _vm._s(_vm.branch.name))]
+                ),
+                _vm._v(" "),
+                _vm._m(5)
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "card container" }, [
@@ -43226,26 +43253,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h4",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
-        [_vm._v("Карточка филиала")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   },
   function() {
     var _vm = this
