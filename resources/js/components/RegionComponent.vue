@@ -82,10 +82,9 @@
     	</div>
     </div>
 
-
     <!-- Модальное окно добавлением нового региона -->
     <div class="modal fade" id="getbranch" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    	<div class="modal-dialog modal-dialog-centered" role="document">
+    	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     		<div class="modal-content">
     			<div class="modal-header">
     				<h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
@@ -94,32 +93,39 @@
     				</button>
     			</div>
     			<div class="modal-body">
-    				<div class="card container">
-    					<p>{{ branch.name}}</p>
-    					<p>{{ branch.geolocation}}</p>
-    					<p>{{ branch.adress}}</p>
-    					<p>{{ branch.phone}}</p>
-    				</div>
+                  <div class="col ml-n2">
+                        <h4 class="mb-3 name">
+                          <a href="#!">{{ branch.name}}</a>
+                      </h4>
+                      <p class="mb-1 ml-3">Город: <span class="card-text text-muted mb-1 ml-2">{{ branch.geolocation}}</span></p>
+                      <p class="mb-1 ml-3">Адрес: <span class="card-text text-muted mb-1 ml-2">{{ branch.adress}}</span></p>
+                      <p class="mb-1 ml-3">Телефон: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
+                      <p class="mb-1 ml-3">Реквизиты: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
+                      <p class="mb-3 ml-3">ИП: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
+                </div>
     						<div class="table-responsive">
     							<table class=" table table-bordered table-hover datatable datatable-User">
     								<thead>
     									<tr>
     										<th>Название</th>
-    										<th class="text-center"><span class="fe fe-dollar-sign h3 text-danger"></span></th>
+    										<th v-title="price" class="text-center"><span class="fe fe-dollar-sign h3 text-danger"></span></th>
     										<th class="text-center"><span class="fe fe-users h3 text-success"></span></th>
     										<th class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
     										<th class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
     										<th class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
+                                            <th v-show="buttonAdd" class="text-center bg-success" @click="addRow(), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
     									</tr>
     								</thead>
     								<tbody>
-    									<tr v-for="product in branch.products">
+    									<tr v-for="(product, index) in branch.products">
     										<td>{{ product.name }}</td>
     										<td class="text-center">{{ product.price }}</td>
     										<td class="text-center">{{ product.classes_total }}</td>
     										<td class="text-center">{{ product.classes_week }}</td>
     										<td class="text-center">{{ product.category_time }}</td>
     										<td class="text-center">{{ product.freezing_total }}</td>
+                                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm"><span class="fe fe-check h3 text-success"></span></td>
+                                            <td v-else="" class="text-center" v-on:click="removeRow(index)"><span class="fe fe-trash-2 h3 text-danger"></span></td>
     									</tr>
     								</tbody>
     							</table>
@@ -179,6 +185,15 @@
 
 <script>
 
+import VTitle from 'v-title';
+
+Vue.use(VTitle);
+
+
+import VueSimpleAlert from "vue-simple-alert";
+
+Vue.use(VueSimpleAlert);
+
 	export default{
 	  props: {
 	    canupdate: {
@@ -186,6 +201,9 @@
 	  },
 		data() {
             return{
+                rowNew: '',
+                buttonAdd: true,
+                price: 'Базовая цена продукта',
             	regions: {
                      branches: [],
                 },
@@ -197,6 +215,20 @@
             this.getRegion();
         },
         methods: {
+            saveProgramm(){
+                this.branch.products[this.branch.products.length - 1].rowNew = '';
+                this.buttonAdd = true
+                this.$alert("Программа добавлена");
+            },
+            addRow(){
+               this.branch.products.push({rowNew: true, name: 'Название продукта', price: 0, classes_total: 0, classes_week: 0, category_time: 0, freezing_total: 0});
+            },
+            removeRow(index){
+                this.$confirm("Удалить программу ?").then(() => {
+                    this.branch.products.splice(index,1);
+            });
+               
+            },
         	getModalBranch(region_id){
         		$('#addNewBranch').modal('show');
         		this.region_id = region_id;

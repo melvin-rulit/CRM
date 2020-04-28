@@ -17,6 +17,19 @@
       </div>
     </div>
 
+{{rows}}
+
+    <p>
+        <input type="text" v-model="newPhone" />
+        <button v-on:click="phones.push(newPhone)">Добавить</button>
+    </p>
+    <ul>
+      <li v-for="(phone, index) in phones">
+      <p>{{ phone }} <button v-on:click="phones.splice(index, 1)">Удалить</button></p>
+  </li>
+    </ul>
+
+    <button @click="addRow"> Add Row </button>
 
     <!-- Модальное окно добавлением нового продукта -->
     <div class="modal fade" id="addNewProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -113,10 +126,13 @@ import { required, minLength } from 'vuelidate/lib/validators'
 	export default{
 		data() {
             return{
+            	rows: [],
             	productsData:[],
             	products:[],
             	responsesuccess: [],
             	image: '',
+            	newPhone: '',
+            phones: ['iPhone 7', 'Galaxy S8', 'Nokia N8', 'Xiaomi Mi6'],
             }
         },
         components: {
@@ -126,6 +142,9 @@ import { required, minLength } from 'vuelidate/lib/validators'
             this.getProducts();
         },
         methods: {
+        	    addRow(){
+       this.rows.push({description: '', unitprice: '' , code: ''});
+    },
         	fileInput(){
         		let form = new FormData();
         		form.append('image');

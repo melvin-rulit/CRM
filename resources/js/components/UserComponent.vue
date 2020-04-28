@@ -674,7 +674,7 @@ Vue.use(VueHtmlToPaper, options);
              axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
                     this.dataObject = response.data.data
                 })
-                }, 500)
+                }, 300)
 
          },
         }
