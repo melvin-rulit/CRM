@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Region;
+use Illuminate\Support\Facades\Auth;
+use App\Log;
 
 class PagesController extends Controller
 {
@@ -28,7 +30,9 @@ class PagesController extends Controller
 
     public function product(){
 
+        // Log::create(array('user_id' => Auth::id(), 'level_name' => 'success', 'message' => 'Добавлен новый регион'));
         return view('pages.product');
+
     }
 
     public function regions(){

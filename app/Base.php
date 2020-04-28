@@ -14,6 +14,7 @@ class Base extends Model
         'child_surname',
         'child_middle_name',
         'branch',
+        'avatar',
     ];
 
     public function contracts(){

@@ -15,6 +15,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     Route::get('collection', 'BaseController@index');
     Route::get('products', 'ProductController@index');
     Route::post('addnewproduct', 'ProductController@addNewProduct');
+    Route::post('image', 'BaseController@upload');
     Route::get('getbranches', 'BaseController@getBranches');
     Route::post('addnewuser', 'BaseController@addNewUser');
     Route::post('getvmcontract', 'BaseController@getVmContract');

@@ -136,7 +136,15 @@
         <div class="card mb-3">
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
+
+    <input type="file" ref="avatar" @change="onFileChange" style="display: none;">
+
+  <div v-if="!dataObject.attributes.avatar">
+    <div @click="$refs.avatar.click()" style="display: flex; width: 250px; height: 250px; border-radius: 0px; font: 100px / 250px Helvetica, Arial, sans-serif; align-items: center; justify-content: center; text-align: center; user-select: none; background-color: rgb(255, 193, 7); color: rgb(255, 255, 255);"><span>?</span></div>
+  </div>
+  <div v-else>
+<img @click="$refs.avatar.click()" class="hoverim" :src="siteURL+dataObject.attributes.avatar" style="display: flex; width: 250px; height: 250px; border-radius: 0px;" />
+  </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card-body">
@@ -403,6 +411,8 @@
 
 <script>
 
+import Avatar from 'vue-avatar'
+
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 
@@ -481,6 +491,8 @@ Vue.use(VueHtmlToPaper, options);
                 dataVm: {},
                 branches: [],
                 name:'',
+                ids: 9,
+                image: '',
                 options: [
                   { text: 'Зирка лева', value: 'А' },
                   { text: 'Народження зирки', value: 'Б' },
@@ -513,6 +525,7 @@ Vue.use(VueHtmlToPaper, options);
                 getURL: "api/v2/getinfo",
                 postURL: "getone",
                 URLaddNewUser: "api/v2/addnewuser",
+                siteURL: "http://83.220.172.19/",
                 showInput: false,
                 articles: [],
                 users: [],
@@ -537,6 +550,10 @@ Vue.use(VueHtmlToPaper, options);
             this.fetchArticles();
             this.getBranch();
 
+        },
+
+        components:{
+            Avatar
         },
 
         computed: {
@@ -622,6 +639,41 @@ Vue.use(VueHtmlToPaper, options);
                 axios.get('api/v2/getbranches')
                 .then(response => this.branches = response.data.data)
             },
+            onFileChange(e) {
+              var files = e.target.files || e.dataTransfer.files;
+              if (!files.length)
+                return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+              var image = new Image();
+              var reader = new FileReader();
+              var vm = this;
+
+              reader.onload = (e) => {
+                vm.image = e.target.result;
+            };
+                reader.readAsDataURL(file);
+                this.upload(event);
+            },
+            upload(event){
+                let data = new FormData();
+                let file = event.target.files[0];
+
+                data.append('file', file)
+                data.append('id', this.dataObject['id'])
+
+                let config = {
+                  header : {
+                     'Content-Type' : 'multipart/form-data'
+                 }
+             }
+             axios.post('api/v2/image', data, config)
+
+             axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
+                    this.dataObject = response.data.data
+                })
+         },
         }
     }
 </script>
@@ -653,7 +705,12 @@ Vue.use(VueHtmlToPaper, options);
     max-width: 1200px;
 }
 
-    .table-collection tr {
+.table-collection tr {
+    cursor: pointer;
+}
+
+.hoverim:hover{
+    opacity: 0.5;
     cursor: pointer;
 }
 

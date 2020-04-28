@@ -17,6 +17,7 @@
       </div>
     </div>
 
+
     <!-- Модальное окно добавлением нового продукта -->
     <div class="modal fade" id="addNewProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -105,6 +106,8 @@
 
 <script>
 
+import Avatar from 'vue-avatar'
+
 import { required, minLength } from 'vuelidate/lib/validators'
 
 	export default{
@@ -113,12 +116,24 @@ import { required, minLength } from 'vuelidate/lib/validators'
             	productsData:[],
             	products:[],
             	responsesuccess: [],
+            	image: '',
             }
         },
+        components: {
+    		Avatar
+  		},
         created(){
             this.getProducts();
         },
         methods: {
+        	fileInput(){
+        		let form = new FormData();
+        		form.append('image');
+        		axios.post('api/v2/image', form)
+        	},
+        	alert(){
+        		alert("OK");
+        	},
             api(){
                 axios.get('api/v2/regions')
             },
@@ -156,4 +171,5 @@ import { required, minLength } from 'vuelidate/lib/validators'
 	tr {
     cursor: pointer;
 }
+
 </style>

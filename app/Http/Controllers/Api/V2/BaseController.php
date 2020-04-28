@@ -20,7 +20,6 @@ class BaseController extends Controller
 	}
 
 	public function addNewUser(Request $request){
-
         $base = Base::create($request->all());
         return $base->id;
     }
@@ -40,6 +39,18 @@ class BaseController extends Controller
     public function getBranches(){
 
         return new BranchesResource(Branch::all());
+    }
+
+    public function upload(Request $request){
+
+        $path = $request['file']->store('public/avatars');
+        $path = str_replace("public","storage", $path); 
+
+        $base = Base::find($request['id']);
+        $base->avatar = $path;
+        $base->save();
+
+        return $path;
     }
 
 }
