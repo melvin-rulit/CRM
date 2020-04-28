@@ -140,7 +140,7 @@
     <input type="file" ref="avatar" @change="onFileChange" style="display: none;">
 
   <div v-if="!dataObject.attributes.avatar">
-    <div @click="$refs.avatar.click()" style="display: flex; width: 250px; height: 250px; border-radius: 0px; font: 100px / 250px Helvetica, Arial, sans-serif; align-items: center; justify-content: center; text-align: center; user-select: none; background-color: rgb(255, 193, 7); color: rgb(255, 255, 255);"><span>?</span></div>
+    <div @click="$refs.avatar.click()" class="hoverim" style="display: flex; width: 250px; height: 250px; border-radius: 0px; font: 100px / 250px Helvetica, Arial, sans-serif; align-items: center; justify-content: center; text-align: center; user-select: none; background-color: rgb(255, 193, 7); color: rgb(255, 255, 255);"><span>?</span></div>
   </div>
   <div v-else>
 <img @click="$refs.avatar.click()" class="hoverim" :src="siteURL+dataObject.attributes.avatar" style="display: flex; width: 250px; height: 250px; border-radius: 0px;" />
@@ -669,6 +669,8 @@ Vue.use(VueHtmlToPaper, options);
                  }
              }
              axios.post('api/v2/image', data, config)
+
+             this.dataObject.attributes.avatar = '',
 
              axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
                     this.dataObject = response.data.data

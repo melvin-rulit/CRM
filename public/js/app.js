@@ -3679,7 +3679,7 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         }
       };
       axios.post('api/v2/image', data, config);
-      axios.post('api/v2/getinfo', {
+      this.dataObject.attributes.avatar = '', axios.post('api/v2/getinfo', {
         id: this.dataObject['id']
       }).then(function (response) {
         _this8.dataObject = response.data.data;
@@ -43851,6 +43851,7 @@ var render = function() {
                               _c(
                                 "div",
                                 {
+                                  staticClass: "hoverim",
                                   staticStyle: {
                                     display: "flex",
                                     width: "250px",
