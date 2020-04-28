@@ -3679,11 +3679,13 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         }
       };
       axios.post('api/v2/image', data, config);
-      this.dataObject.attributes.avatar = '', axios.post('api/v2/getinfo', {
-        id: this.dataObject['id']
-      }).then(function (response) {
-        _this8.dataObject = response.data.data;
-      });
+      setTimeout(function () {
+        axios.post('api/v2/getinfo', {
+          id: _this8.dataObject['id']
+        }).then(function (response) {
+          _this8.dataObject = response.data.data;
+        });
+      }, 500);
     }
   }
 });
