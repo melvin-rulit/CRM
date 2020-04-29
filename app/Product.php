@@ -16,6 +16,6 @@ class Product extends Model
     	'category_time',
     	'freezing_total',
     	'active',
-        'branch',
+        'branch_id',
     ];
 }

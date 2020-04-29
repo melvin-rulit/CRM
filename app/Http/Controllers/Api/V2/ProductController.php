@@ -3,24 +3,78 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductsResource;
-use App\Http\Resources\ProductResource;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Product;
 
 class ProductController extends Controller
 {
-   	public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
 
-		return new ProductsResource(Product::all());
-	}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
-	public function addNewProduct(Request $request){
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
 
-		Product::create($request->all());
+        Product::create($request->all());
+    }
 
-		return [
-			'success' => 'ok'
-		];
-	}
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $field_name = $request['field_name'];
+        $product->$field_name = $request['field_value'];
+        $product->save();
+    }
+
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }

@@ -17,6 +17,7 @@
 			</div>
 		</div>
 
+
     <!-- Модальное окно добавлением нового региона -->
     <div class="modal fade" id="addNewRegion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -93,43 +94,48 @@
     				</button>
     			</div>
     			<div class="modal-body">
-                  <div class="col ml-n2">
-                        <h4 class="mb-3 name">
-                          <a href="#!">{{ branch.name}}</a>
-                      </h4>
-                      <p class="mb-1 ml-3">Город: <span class="card-text text-muted mb-1 ml-2">{{ branch.geolocation}}</span></p>
-                      <p class="mb-1 ml-3">Адрес: <span class="card-text text-muted mb-1 ml-2">{{ branch.adress}}</span></p>
-                      <p class="mb-1 ml-3">Телефон: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
-                      <p class="mb-1 ml-3">Реквизиты: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
-                      <p class="mb-3 ml-3">ИП: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
-                </div>
-    						<div class="table-responsive">
-    							<table class=" table table-bordered table-hover datatable datatable-User">
-    								<thead>
-    									<tr>
-    										<th>Название</th>
-    										<th v-title="price" class="text-center"><span class="fe fe-dollar-sign h3 text-danger"></span></th>
-    										<th class="text-center"><span class="fe fe-users h3 text-success"></span></th>
-    										<th class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
-    										<th class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
-    										<th class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
-                                            <th v-show="buttonAdd" class="text-center bg-success" @click="addRow(), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
-    									</tr>
-    								</thead>
-    								<tbody>
-    									<tr v-for="(product, index) in branch.products">
-    										<td>{{ product.name }}</td>
-    										<td class="text-center">{{ product.price }}</td>
-    										<td class="text-center">{{ product.classes_total }}</td>
-    										<td class="text-center">{{ product.classes_week }}</td>
-    										<td class="text-center">{{ product.category_time }}</td>
-    										<td class="text-center">{{ product.freezing_total }}</td>
-                                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm"><span class="fe fe-check h3 text-success"></span></td>
-                                            <td v-else="" class="text-center" v-on:click="removeRow(index)"><span class="fe fe-trash-2 h3 text-danger"></span></td>
-    									</tr>
-    								</tbody>
-    							</table>
-    						</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="mb-3 name">{{ branch.name}}</a></h4>
+                          <p class="mb-1 ml-3">Город: <span class="card-text text-muted mb-1 ml-2">{{ branch.geolocation}}</span></p>
+                          <p class="mb-1 ml-3">Адрес: <span class="card-text text-muted mb-1 ml-2">{{ branch.adress}}</span></p>
+                          <p class="mb-1 ml-3">Телефон: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
+
+                        </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                          <p class="mb-1 ml-3">Реквизиты: <span class="card-text text-muted mb-1 ml-2">{{ branch.requisites}}</span></p>
+                          <p class="mb-3 ml-3">ИП: <span class="card-text text-muted mb-1 ml-2">{{ branch.organization}}</span></p>
+                        </div>
+                  </div>
+              </div>
+					<div class="table-responsive">
+						<table class=" table table-bordered table-hover datatable datatable-User">
+							<thead>
+								<tr>
+									<th>Название</th>
+									<th v-title="price" class="text-center"><span class="fe fe-dollar-sign h3 text-danger"></span></th>
+									<th class="text-center"><span class="fe fe-users h3 text-success"></span></th>
+									<th class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
+									<th class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
+									<th class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
+                                    <th v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(product, index) in branch.products">
+									<td><input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form></td>
+                                    <td class="text-center"><input-form v-model="product.price" name="price" :id="product.id" @edit-field="editField"></input-form></td>
+                                    <td class="text-center"><input-form v-model="product.classes_total" name="classes_total" :id="product.id" @edit-field="editField"></input-form></td>
+                                    <td class="text-center"><input-form v-model="product.classes_week" name="classes_week" :id="product.id" @edit-field="editField"></input-form></td>
+                                    <td class="text-center"><input-form v-model="product.category_time" name="category_time" :id="product.id" @edit-field="editField"></input-form></td>
+                                    <td class="text-center"><input-form v-model="product.freezing_total" name="freezing_total" :id="product.id" @edit-field="editField"></input-form></td>
+                                    <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)"><span class="fe fe-save h3 text-success"></span></td>
+                                    <td v-else="" class="text-center" v-on:click="removeRow(index, product.id)"><span class="fe fe-trash-2 h3 text-danger"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
     			</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
@@ -185,6 +191,40 @@
 
 <script>
 
+Vue.component('inputForm', {
+  props: {
+    value: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    id: {
+    },
+    placeholder: {
+    }
+  },
+  data() {
+    return {
+      keyInputForm: null,
+      thisValue: this.value,
+    }
+  },
+  template: `
+    <span>
+        <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
+    <span>
+      <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
+      <input v-else type="text" :value="value" :placeholder="placeholder" :id="id" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
+      </div>
+    </div>
+
+  `
+})
+
+
 import VTitle from 'v-title';
 
 Vue.use(VTitle);
@@ -215,19 +255,27 @@ Vue.use(VueSimpleAlert);
             this.getRegion();
         },
         methods: {
-            saveProgramm(){
+            saveProgramm(id){
                 this.branch.products[this.branch.products.length - 1].rowNew = '';
                 this.buttonAdd = true
+                axios.post('api/v2/products',this.branch.products[this.branch.products.length - 1])
                 this.$alert("Программа добавлена");
+                this.getBranch(id);
             },
-            addRow(){
-               this.branch.products.push({rowNew: true, name: 'Название продукта', price: 0, classes_total: 0, classes_week: 0, category_time: 0, freezing_total: 0});
+            addRow(branch){
+               this.branch.products.push({rowNew: true, name: 'Название продукта', price: 0, classes_total: 0, classes_week: 0, category_time: 0, freezing_total: 0, active: true ,price_title: 'Цена прописью' ,branch_id: branch});
             },
-            removeRow(index){
+            removeRow(index, id){
                 this.$confirm("Удалить программу ?").then(() => {
                     this.branch.products.splice(index,1);
-            });
-               
+                    axios.delete('api/v2/products/'+ id);
+                });
+            },
+            editField(e, name) {
+                const id = e.target.id;
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.put('api/v2/products/'+ id, {field_name: key, field_value: value })
             },
         	getModalBranch(region_id){
         		$('#addNewBranch').modal('show');

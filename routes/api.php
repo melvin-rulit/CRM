@@ -11,10 +11,11 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     // Branches
     Route::apiResource('branches', 'BranchController');
 
+    // Products
+    Route::apiResource('products', 'ProductController');
+
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');
-    Route::get('products', 'ProductController@index');
-    Route::post('addnewproduct', 'ProductController@addNewProduct');
     Route::post('image', 'BaseController@upload');
     Route::get('getbranches', 'BaseController@getBranches');
     Route::post('addnewuser', 'BaseController@addNewUser');
@@ -22,6 +23,8 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     Route::post('getcontract', 'ContractController@getContract');
     Route::post('getcontracts', 'ContractController@getContracts');
     Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
+
+    Route::post('test', 'BaseController@test');
 });
 
 

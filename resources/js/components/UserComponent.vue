@@ -152,7 +152,10 @@
                         <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
                         <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
                         <p class="card-text"><input-form placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> <span>({{ dataObject.attributes.age }} лет)</span></p>
-                        <h6 class="text-uppercase text-muted mb-2">{{dataObject.base_branch['name']}}</h6>
+                        <h5 class="text-muted mb-2">Менеджер: <span class="text-dark"> Вадим Юхимчук</span></h5>
+                        <h5 class="text-muted mb-2">Тренер: <span class="text-dark"> Олег Шпур</span></h5>
+                        <h6 class="text-uppercase text-muted mb-2 mt-4">{{dataObject.base_branch['name']}}</h6>
+
                     </div>
                 </div>
                 <div class="col-md-4 border-left">

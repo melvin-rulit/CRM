@@ -2202,14 +2202,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     user_id: {}
   },
   data: function data() {
     return {
+      users: [{
+        name: 'Tom',
+        age: 22
+      }, {
+        name: 'Bob',
+        age: 25
+      }, {
+        name: 'Sam',
+        age: 28
+      }, {
+        name: 'Alice',
+        age: 26
+      }],
+      product: null,
       dataVm: {
-        branch: []
+        branch: [],
+        products: []
       },
       dayselect: [{
         day: 'Пн:Ср'
@@ -2254,19 +2278,6 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Народження зирки',
         value: 'Б'
       }],
-      contracts: [{
-        name: 'Вперед до зiрок'
-      }, {
-        name: 'Народження Зiрки'
-      }, {
-        name: 'Зiрка Лева'
-      }, {
-        name: 'Лiдер Прайду'
-      }, {
-        name: 'Супер Зiрка'
-      }, {
-        name: 'Школа футболу'
-      }],
       contracts_vm: 'Відкрий можливості',
       vmContract: true,
       form_size: '',
@@ -2274,7 +2285,8 @@ __webpack_require__.r(__webpack_exports__);
       days: '',
       time: '',
       start: '',
-      contract_name: ''
+      contract_name: '',
+      user: ''
     };
   },
   methods: {
@@ -2300,12 +2312,12 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('api/v2/savecontract', {
         contract_type: contract_type,
         base_id: this.user_id,
-        name: this.contracts_name,
+        name: this.product.name,
         name_vm: this.contracts_vm,
         start: this.dataVm.date,
         end: this.dataVm.date,
         end_actually: this.dataVm.date,
-        price: this.dataVm.price,
+        price: this.product.price,
         child_surname: this.dataVm.child_surname,
         child_name: this.dataVm.child_name,
         child_middle_name: this.dataVm.child_middle_name,
@@ -2321,8 +2333,8 @@ __webpack_require__.r(__webpack_exports__);
         form_size: this.form_size,
         classes_week: this.dataVm.classes_week,
         classes_total: this.dataVm.classes_total,
-        freezing_total: this.dataVm.freezing_total,
-        freezing_kolvo: this.dataVm.freezing_kolvo,
+        freezing_total: this.product.freezing_total,
+        freezing_kolvo: this.product.freezing_kolvo,
         days: this.days,
         time: this.time
       });
@@ -2927,6 +2939,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+Vue.component('inputForm', {
+  props: {
+    value: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    id: {},
+    placeholder: {}
+  },
+  data: function data() {
+    return {
+      keyInputForm: null,
+      thisValue: this.value
+    };
+  },
+  template: "\n    <span>\n        <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :placeholder=\"placeholder\" :id=\"id\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
+});
 
 Vue.use(v_title__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -2951,12 +2990,14 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
     this.getRegion();
   },
   methods: {
-    saveProgramm: function saveProgramm() {
+    saveProgramm: function saveProgramm(id) {
       this.branch.products[this.branch.products.length - 1].rowNew = '';
       this.buttonAdd = true;
+      axios.post('api/v2/products', this.branch.products[this.branch.products.length - 1]);
       this.$alert("Программа добавлена");
+      this.getBranch(id);
     },
-    addRow: function addRow() {
+    addRow: function addRow(branch) {
       this.branch.products.push({
         rowNew: true,
         name: 'Название продукта',
@@ -2964,14 +3005,28 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
         classes_total: 0,
         classes_week: 0,
         category_time: 0,
-        freezing_total: 0
+        freezing_total: 0,
+        active: true,
+        price_title: 'Цена прописью',
+        branch_id: branch
       });
     },
-    removeRow: function removeRow(index) {
+    removeRow: function removeRow(index, id) {
       var _this = this;
 
       this.$confirm("Удалить программу ?").then(function () {
         _this.branch.products.splice(index, 1);
+
+        axios["delete"]('api/v2/products/' + id);
+      });
+    },
+    editField: function editField(e, name) {
+      var id = e.target.id;
+      var value = e.target.value;
+      var key = e.currentTarget.getAttribute('name');
+      axios.put('api/v2/products/' + id, {
+        field_name: key,
+        field_value: value
       });
     },
     getModalBranch: function getModalBranch(region_id) {
@@ -3075,6 +3130,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
 /* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8__);
+//
+//
+//
 //
 //
 //
@@ -45243,7 +45301,7 @@ var render = function() {
                     _c("p", [
                       _vm._v(
                         "Фізична особо-підприємець " +
-                          _vm._s(_vm.dataVm.ip) +
+                          _vm._s(_vm.dataVm.organization) +
                           "."
                       ),
                       _vm._v(
@@ -45635,7 +45693,7 @@ var render = function() {
                           _c("br"),
                           _vm._v(
                             "\n                ФОП " +
-                              _vm._s(_vm.dataVm.ip) +
+                              _vm._s(_vm.dataVm.organization) +
                               "."
                           ),
                           _c("br"),
@@ -46115,9 +46173,7 @@ var render = function() {
                         ])
                       ])
                     ]),
-                    _vm._v(
-                      "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n          "
-                    ),
+                    _vm._v(" "),
                     _c(
                       "select",
                       {
@@ -46125,11 +46181,10 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.contracts_name,
-                            expression: "contracts_name"
+                            value: _vm.product,
+                            expression: "product"
                           }
                         ],
-                        staticStyle: { "font-weight": "bold", border: "0" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -46140,17 +46195,23 @@ var render = function() {
                                 var val = "_value" in o ? o._value : o.value
                                 return val
                               })
-                            _vm.contracts_name = $event.target.multiple
+                            _vm.product = $event.target.multiple
                               ? $$selectedVal
                               : $$selectedVal[0]
                           }
                         }
                       },
-                      _vm._l(_vm.contracts, function(con) {
-                        return _c("option", [_vm._v(_vm._s(con.name))])
+                      _vm._l(_vm.dataVm.products, function(user) {
+                        return _c("option", { domProps: { value: user } }, [
+                          _vm._v(_vm._s(user.name))
+                        ])
                       }),
                       0
                     ),
+                    _vm._v(
+                      "\n\n\n\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n"
+                    ),
+                    _vm._v(" "),
                     _vm._v(" з наступними умовами:"),
                     _c("br"),
                     _vm._v(" "),
@@ -46366,7 +46427,9 @@ var render = function() {
                     ),
                     _c("table", { staticClass: "tabs" }, [
                       _c("td", { attrs: { width: "15%" } }, [
-                        _vm._v(_vm._s(_vm.dataVm.price))
+                        _vm.product
+                          ? _c("span", [_vm._v(_vm._s(_vm.product.price))])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(" грн.")]),
@@ -46385,19 +46448,23 @@ var render = function() {
                     _c("table", [
                       _c("tr", [
                         _c("td", [
-                          _vm._v(
-                            "Кількість акційних заморозок (" +
-                              _vm._s(_vm.dataVm.freezing_total) +
-                              ")"
-                          )
+                          _vm._v("Кількість акційних заморозок ("),
+                          _vm.product
+                            ? _c("span", [
+                                _vm._v(_vm._s(_vm.product.freezing_total))
+                              ])
+                            : _vm._e(),
+                          _vm._v(")")
                         ]),
                         _vm._v(" "),
                         _c("td", [
-                          _vm._v(
-                            "Включаються заморозки по: (" +
-                              _vm._s(_vm.dataVm.freezing_kolvo) +
-                              ") тренування"
-                          )
+                          _vm._v("Включаються заморозки по: ("),
+                          _vm.product
+                            ? _c("span", [
+                                _vm._v(_vm._s(_vm.product.freezing_kolvo))
+                              ])
+                            : _vm._e(),
+                          _vm._v(") тренування")
                         ]),
                         _vm._v(" "),
                         _c("td", [_vm._v("Форма включена увартість занять.")]),
@@ -47804,56 +47871,60 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "col ml-n2" }, [
-                  _c("h4", { staticClass: "mb-3 name" }, [
-                    _c("a", { attrs: { href: "#!" } }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("h4", { staticClass: "mb-3 name" }, [
                       _vm._v(_vm._s(_vm.branch.name))
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "mb-1 ml-3" }, [
+                      _vm._v("Город: "),
+                      _c(
+                        "span",
+                        { staticClass: "card-text text-muted mb-1 ml-2" },
+                        [_vm._v(_vm._s(_vm.branch.geolocation))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "mb-1 ml-3" }, [
+                      _vm._v("Адрес: "),
+                      _c(
+                        "span",
+                        { staticClass: "card-text text-muted mb-1 ml-2" },
+                        [_vm._v(_vm._s(_vm.branch.adress))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "mb-1 ml-3" }, [
+                      _vm._v("Телефон: "),
+                      _c(
+                        "span",
+                        { staticClass: "card-text text-muted mb-1 ml-2" },
+                        [_vm._v(_vm._s(_vm.branch.phone))]
+                      )
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("p", { staticClass: "mb-1 ml-3" }, [
-                    _vm._v("Город: "),
-                    _c(
-                      "span",
-                      { staticClass: "card-text text-muted mb-1 ml-2" },
-                      [_vm._v(_vm._s(_vm.branch.geolocation))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mb-1 ml-3" }, [
-                    _vm._v("Адрес: "),
-                    _c(
-                      "span",
-                      { staticClass: "card-text text-muted mb-1 ml-2" },
-                      [_vm._v(_vm._s(_vm.branch.adress))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mb-1 ml-3" }, [
-                    _vm._v("Телефон: "),
-                    _c(
-                      "span",
-                      { staticClass: "card-text text-muted mb-1 ml-2" },
-                      [_vm._v(_vm._s(_vm.branch.phone))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mb-1 ml-3" }, [
-                    _vm._v("Реквизиты: "),
-                    _c(
-                      "span",
-                      { staticClass: "card-text text-muted mb-1 ml-2" },
-                      [_vm._v(_vm._s(_vm.branch.phone))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mb-3 ml-3" }, [
-                    _vm._v("ИП: "),
-                    _c(
-                      "span",
-                      { staticClass: "card-text text-muted mb-1 ml-2" },
-                      [_vm._v(_vm._s(_vm.branch.phone))]
-                    )
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("p", { staticClass: "mb-1 ml-3" }, [
+                        _vm._v("Реквизиты: "),
+                        _c(
+                          "span",
+                          { staticClass: "card-text text-muted mb-1 ml-2" },
+                          [_vm._v(_vm._s(_vm.branch.requisites))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "mb-3 ml-3" }, [
+                        _vm._v("ИП: "),
+                        _c(
+                          "span",
+                          { staticClass: "card-text text-muted mb-1 ml-2" },
+                          [_vm._v(_vm._s(_vm.branch.organization))]
+                        )
+                      ])
+                    ])
                   ])
                 ]),
                 _vm._v(" "),
@@ -47911,7 +47982,8 @@ var render = function() {
                               staticClass: "text-center bg-success",
                               on: {
                                 click: function($event) {
-                                  _vm.addRow(), (_vm.buttonAdd = !_vm.buttonAdd)
+                                  _vm.addRow(_vm.branch.id),
+                                    (_vm.buttonAdd = !_vm.buttonAdd)
                                 }
                               }
                             },
@@ -47928,38 +48000,145 @@ var render = function() {
                         "tbody",
                         _vm._l(_vm.branch.products, function(product, index) {
                           return _c("tr", [
-                            _c("td", [_vm._v(_vm._s(product.name))]),
+                            _c(
+                              "td",
+                              [
+                                _c("input-form", {
+                                  attrs: { name: "name", id: product.id },
+                                  on: { "edit-field": _vm.editField },
+                                  model: {
+                                    value: product.name,
+                                    callback: function($$v) {
+                                      _vm.$set(product, "name", $$v)
+                                    },
+                                    expression: "product.name"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
                             _vm._v(" "),
-                            _c("td", { staticClass: "text-center" }, [
-                              _vm._v(_vm._s(product.price))
-                            ]),
+                            _c(
+                              "td",
+                              { staticClass: "text-center" },
+                              [
+                                _c("input-form", {
+                                  attrs: { name: "price", id: product.id },
+                                  on: { "edit-field": _vm.editField },
+                                  model: {
+                                    value: product.price,
+                                    callback: function($$v) {
+                                      _vm.$set(product, "price", $$v)
+                                    },
+                                    expression: "product.price"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
                             _vm._v(" "),
-                            _c("td", { staticClass: "text-center" }, [
-                              _vm._v(_vm._s(product.classes_total))
-                            ]),
+                            _c(
+                              "td",
+                              { staticClass: "text-center" },
+                              [
+                                _c("input-form", {
+                                  attrs: {
+                                    name: "classes_total",
+                                    id: product.id
+                                  },
+                                  on: { "edit-field": _vm.editField },
+                                  model: {
+                                    value: product.classes_total,
+                                    callback: function($$v) {
+                                      _vm.$set(product, "classes_total", $$v)
+                                    },
+                                    expression: "product.classes_total"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
                             _vm._v(" "),
-                            _c("td", { staticClass: "text-center" }, [
-                              _vm._v(_vm._s(product.classes_week))
-                            ]),
+                            _c(
+                              "td",
+                              { staticClass: "text-center" },
+                              [
+                                _c("input-form", {
+                                  attrs: {
+                                    name: "classes_week",
+                                    id: product.id
+                                  },
+                                  on: { "edit-field": _vm.editField },
+                                  model: {
+                                    value: product.classes_week,
+                                    callback: function($$v) {
+                                      _vm.$set(product, "classes_week", $$v)
+                                    },
+                                    expression: "product.classes_week"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
                             _vm._v(" "),
-                            _c("td", { staticClass: "text-center" }, [
-                              _vm._v(_vm._s(product.category_time))
-                            ]),
+                            _c(
+                              "td",
+                              { staticClass: "text-center" },
+                              [
+                                _c("input-form", {
+                                  attrs: {
+                                    name: "category_time",
+                                    id: product.id
+                                  },
+                                  on: { "edit-field": _vm.editField },
+                                  model: {
+                                    value: product.category_time,
+                                    callback: function($$v) {
+                                      _vm.$set(product, "category_time", $$v)
+                                    },
+                                    expression: "product.category_time"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
                             _vm._v(" "),
-                            _c("td", { staticClass: "text-center" }, [
-                              _vm._v(_vm._s(product.freezing_total))
-                            ]),
+                            _c(
+                              "td",
+                              { staticClass: "text-center" },
+                              [
+                                _c("input-form", {
+                                  attrs: {
+                                    name: "freezing_total",
+                                    id: product.id
+                                  },
+                                  on: { "edit-field": _vm.editField },
+                                  model: {
+                                    value: product.freezing_total,
+                                    callback: function($$v) {
+                                      _vm.$set(product, "freezing_total", $$v)
+                                    },
+                                    expression: "product.freezing_total"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
                             _vm._v(" "),
                             product.rowNew
                               ? _c(
                                   "td",
                                   {
                                     staticClass: "text-center",
-                                    on: { click: _vm.saveProgramm }
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.saveProgramm(_vm.branch.id)
+                                      }
+                                    }
                                   },
                                   [
                                     _c("span", {
-                                      staticClass: "fe fe-check h3 text-success"
+                                      staticClass: "fe fe-save h3 text-success"
                                     })
                                   ]
                                 )
@@ -47969,7 +48148,7 @@ var render = function() {
                                     staticClass: "text-center",
                                     on: {
                                       click: function($event) {
-                                        return _vm.removeRow(index)
+                                        return _vm.removeRow(index, product.id)
                                       }
                                     }
                                   },
@@ -48865,19 +49044,25 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
+                          _vm._m(4),
+                          _vm._v(" "),
+                          _vm._m(5),
+                          _vm._v(" "),
                           _c(
                             "h6",
-                            { staticClass: "text-uppercase text-muted mb-2" },
+                            {
+                              staticClass: "text-uppercase text-muted mb-2 mt-4"
+                            },
                             [_vm._v(_vm._s(_vm.dataObject.base_branch["name"]))]
                           )
                         ])
                       ]),
                       _vm._v(" "),
-                      _vm._m(4)
+                      _vm._m(6)
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(5),
+                  _vm._m(7),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -50410,6 +50595,24 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v("?")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "text-muted mb-2" }, [
+      _vm._v("Менеджер: "),
+      _c("span", { staticClass: "text-dark" }, [_vm._v(" Вадим Юхимчук")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "text-muted mb-2" }, [
+      _vm._v("Тренер: "),
+      _c("span", { staticClass: "text-dark" }, [_vm._v(" Олег Шпур")])
     ])
   },
   function() {

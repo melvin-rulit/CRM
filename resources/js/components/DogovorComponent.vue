@@ -42,7 +42,7 @@
             <td class="tdleft">{{ dataVm.branch.geolocation }}</td> <!-- Переменная города филиала с настройки филиала -->
             <td class="tdright">{{ dataVm.date }} рік</td> <!-- Вставляем переменные с текущей датой -->
           </table> <br>
-          <p>Фізична особо-підприємець {{ dataVm.ip }}.<!-- переменная с настройки филиала. Юр. лицо -->, надалі іменується «Виконавець», з одного боку, та законні представники
+          <p>Фізична особо-підприємець {{ dataVm.organization }}.<!-- переменная с настройки филиала. Юр. лицо -->, надалі іменується «Виконавець», з одного боку, та законні представники
             (опікуни, піклувальники)
           </p>
           <form>
@@ -120,7 +120,7 @@
             <tr>
               <td width="50%">
                 <b>Виконавець</b><br>
-                ФОП {{ dataVm.ip }}.<br>
+                ФОП {{ dataVm.organization }}.<br>
                 Реквізити для оплати:<br>
                 {{ dataVm.requisites }}<br>
                 Адреса надання послуг:<br>
@@ -200,9 +200,18 @@
               <td><input v-model="dataVm.parent_instagram" class="line"></td>
             </tr>
           </table>
+
+
+    <select v-model="product">
+        <option v-for="user in dataVm.products" v-bind:value="user">{{user.name}}</option>
+    </select>
+
+
+
           Прошуприйняти вище вказану дитину на навчання за програмою навчання
-          <select style="font-weight: bold; border: 0;" v-model="contracts_name">
-            <option v-for="con in contracts">{{ con.name }}</option>
+<!--           <select style="font-weight: bold; border: 0;" v-model="contracts_name">
+            <option v-for="product in dataVm.products">{{ product.name }}</option>
+             <span v-if="selectedUser!==null">Выбрано: {{contracts_name.price}}</span> -->
           </select> з наступними умовами:<br>
           <table class="tabs">
             <tr>
@@ -230,7 +239,7 @@
           Адреса надання послуг: {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }}
           Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає
           <table class="tabs">   
-            <td width="15%">{{ dataVm.price }}</td>
+            <td width="15%"><span v-if="product">{{product.price}}</span></td>
             <td> грн.</td>
             <td>({{ dataVm.price_title }}) грн.</td>
           </table>
@@ -238,8 +247,8 @@
             Графік оплати:<br>
             <table>
               <tr>
-                <td>Кількість акційних заморозок ({{ dataVm.freezing_total }})</td>
-                <td>Включаються заморозки по: ({{ dataVm.freezing_kolvo }}) тренування</td>
+                <td>Кількість акційних заморозок (<span v-if="product">{{product.freezing_total}}</span>)</td>
+                <td>Включаються заморозки по: (<span v-if="product">{{product.freezing_kolvo}}</span>) тренування</td>
                 <td>Форма включена увартість занять.</td>
                 <td>Розмiр</td>
                 <td>
@@ -300,7 +309,14 @@
         },
         data() {
             return{
-              dataVm: {branch:[],},
+            users:[
+                {name:'Tom', age:22},
+                {name:'Bob', age:25},
+                {name:'Sam', age:28},
+                {name:'Alice', age:26}
+            ],
+            product:null,
+              dataVm: {branch:[],products: [],},
               dayselect: [
                   {day: 'Пн:Ср'},
                   {day: 'Вт:Чт'},
@@ -326,14 +342,6 @@
                   { text: 'Зирка лева', value: 'А' },
                   { text: 'Народження зирки', value: 'Б' },
                 ],
-                contracts: [
-                  { name: 'Вперед до зiрок'},
-                  { name: 'Народження Зiрки'},
-                  { name: 'Зiрка Лева'},
-                  { name: 'Лiдер Прайду'},
-                  { name: 'Супер Зiрка'},
-                  { name: 'Школа футболу'},
-                ],
                 contracts_vm: 'Відкрий можливості',
                 vmContract: true,
                 form_size: '',
@@ -342,6 +350,7 @@
                 time: '',
                 start: '',
                 contract_name: '',
+                user:''
             }
         },
 
@@ -362,12 +371,12 @@
                 axios.post('api/v2/savecontract', {
                   contract_type: contract_type, 
                   base_id: this.user_id , 
-                  name: this.contracts_name, 
+                  name: this.product.name, 
                   name_vm: this.contracts_vm, 
                   start: this.dataVm.date,
                   end: this.dataVm.date, 
                   end_actually: this.dataVm.date, 
-                  price: this.dataVm.price, 
+                  price: this.product.price, 
                   child_surname: this.dataVm.child_surname, 
                   child_name: this.dataVm.child_name, 
                   child_middle_name: this.dataVm.child_middle_name, 
@@ -383,8 +392,8 @@
                   form_size: this.form_size, 
                   classes_week: this.dataVm.classes_week,
                   classes_total: this.dataVm.classes_total,          
-                  freezing_total: this.dataVm.freezing_total,  
-                  freezing_kolvo: this.dataVm.freezing_kolvo,
+                  freezing_total: this.product.freezing_total,  
+                  freezing_kolvo: this.product.freezing_kolvo,
                   days: this.days,
                   time: this.time,
                 })

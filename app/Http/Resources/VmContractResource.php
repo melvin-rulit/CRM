@@ -48,6 +48,7 @@ class VmContractResource extends JsonResource
 
 
         return [
+            'products'               => $this->base_branch->products,
             'branch' => new BranchResource($this->base_branch),
             'date' =>  Carbon::now()->format('d.m.Y'),
             'start' =>  Carbon::now()->format('d.m.Y'),
@@ -64,7 +65,7 @@ class VmContractResource extends JsonResource
             'parent_facebook' => $parent_facebook,
             'parent_instagram' => $parent_instagram,
             'contract_name' =>  'Відкрий можливості',
-            'ip' =>  'Булик І.В.',
+            'organization' =>  'Булик І.В.',
             'requisites' =>  'ЮЖНЕ ГРУ АТ КБ «Приватбанк», МФО 328704',
             'price' =>  '400',
             'price_title' =>  'чотириста',

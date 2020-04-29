@@ -6,6 +6,7 @@ use App\Http\Resources\ArticleResource;
 use App\Http\Resources\BranchesResource;
 use App\Http\Resources\BaseCurrentUser;
 use App\Http\Resources\VmContractResource;
+use App\Http\Resources\TestResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Base;
@@ -13,6 +14,13 @@ use App\Branch;
 
 class BaseController extends Controller
 {
+
+    public function test(Request $request){
+
+        $base = Base::find($request['id']);
+
+        return new TestResource($base->load(['base_branch']));
+    }
 
 	public function index(){
 
@@ -33,7 +41,7 @@ class BaseController extends Controller
    	public function getVmContract(Request $request){
 
         $base = Base::find($request['id']);
-        return new VmContractResource($base);
+        return new VmContractResource($base->load(['base_branch']));
     }
 
     public function getBranches(){
