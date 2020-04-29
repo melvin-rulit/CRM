@@ -56,7 +56,7 @@
 	php artisan migrate
 	php artisan clear-compiled --env=production;
 	php artisan optimize --env=production;
-	<!-- php artisan storage:link -->
+	php artisan storage:link
 
 	echo "#3 - Production dependencies have been instalied "
 @endtask

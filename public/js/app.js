@@ -2938,13 +2938,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 Vue.component('inputForm', {
   props: {
     value: {
@@ -2993,7 +2986,11 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
     saveProgramm: function saveProgramm(id) {
       this.branch.products[this.branch.products.length - 1].rowNew = '';
       this.buttonAdd = true;
-      axios.post('api/v2/products', this.branch.products[this.branch.products.length - 1]);
+      axios.post('api/v2/products', this.branch.products[this.branch.products.length - 1])["catch"](function (error) {
+        if (error.response) {
+          alert("Ошибка, не заполнено название программы");
+        }
+      });
       this.$alert("Программа добавлена");
       this.getBranch(id);
     },
@@ -47871,7 +47868,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "card-body row" }, [
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("h4", { staticClass: "mb-3 name" }, [
                       _vm._v(_vm._s(_vm.branch.name))
@@ -48168,7 +48165,21 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(10)
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.buttonAdd = true
+                      }
+                    }
+                  },
+                  [_vm._v("Закрыть")]
+                )
+              ])
             ])
           ]
         )
@@ -48185,13 +48196,9 @@ var render = function() {
               _c("div", { staticClass: "row align-items-center" }, [
                 _c("div", { staticClass: "col" }, [
                   _vm._v(
-                    "\n    \t\t\t\t\t\t" +
-                      _vm._s(region.name) +
-                      "\n    \t\t\t\t\t"
+                    "\n\t\t\t\t\t\t" + _vm._s(region.name) + "\n\t\t\t\t\t"
                   )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-auto" })
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -48219,15 +48226,13 @@ var render = function() {
                               { staticClass: "mb-md-0", attrs: { href: "#" } },
                               [
                                 _vm._v(
-                                  "\n    \t\t\t\t\t\t\t\t\t" +
+                                  "\n\t\t\t\t\t\t\t\t\t" +
                                     _vm._s(branch.name) +
-                                    "\n    \t\t\t\t\t\t\t\t"
+                                    "\n\t\t\t\t\t\t\t\t"
                                 )
                               ]
                             )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-auto" })
+                          ])
                         ])
                       ])
                     ]
@@ -48414,21 +48419,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("th", { staticClass: "text-center" }, [
       _c("span", { staticClass: "fe fe-battery-charging h3 text-danger" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Закрыть")]
-      )
     ])
   }
 ]

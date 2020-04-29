@@ -83,106 +83,99 @@
     	</div>
     </div>
 
-    <!-- Модальное окно добавлением нового региона -->
-    <div class="modal fade" id="getbranch" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    		<div class="modal-content">
-    			<div class="modal-header">
-    				<h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
-    				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-    					<span aria-hidden="true">&times;</span>
-    				</button>
-    			</div>
-    			<div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h4 class="mb-3 name">{{ branch.name}}</a></h4>
-                          <p class="mb-1 ml-3">Город: <span class="card-text text-muted mb-1 ml-2">{{ branch.geolocation}}</span></p>
-                          <p class="mb-1 ml-3">Адрес: <span class="card-text text-muted mb-1 ml-2">{{ branch.adress}}</span></p>
-                          <p class="mb-1 ml-3">Телефон: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
-
-                        </div>
+<!-- Модальное окно открытия карточки филиала -->
+<div class="modal fade" id="getbranch" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+                <div class="card-body row">
                     <div class="col-md-6">
-                        <div class="card-body">
-                          <p class="mb-1 ml-3">Реквизиты: <span class="card-text text-muted mb-1 ml-2">{{ branch.requisites}}</span></p>
-                          <p class="mb-3 ml-3">ИП: <span class="card-text text-muted mb-1 ml-2">{{ branch.organization}}</span></p>
-                        </div>
-                  </div>
+                        <h4 class="mb-3 name">{{ branch.name}}</h4>
+                      <p class="mb-1 ml-3">Город: <span class="card-text text-muted mb-1 ml-2">{{ branch.geolocation}}</span></p>
+                      <p class="mb-1 ml-3">Адрес: <span class="card-text text-muted mb-1 ml-2">{{ branch.adress}}</span></p>
+                      <p class="mb-1 ml-3">Телефон: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
+                    </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                      <p class="mb-1 ml-3">Реквизиты: <span class="card-text text-muted mb-1 ml-2">{{ branch.requisites}}</span></p>
+                      <p class="mb-3 ml-3">ИП: <span class="card-text text-muted mb-1 ml-2">{{ branch.organization}}</span></p>
+                    </div>
               </div>
-					<div class="table-responsive">
-						<table class=" table table-bordered table-hover datatable datatable-User">
-							<thead>
-								<tr>
-									<th>Название</th>
-									<th v-title="price" class="text-center"><span class="fe fe-dollar-sign h3 text-danger"></span></th>
-									<th class="text-center"><span class="fe fe-users h3 text-success"></span></th>
-									<th class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
-									<th class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
-									<th class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
-                                    <th v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="(product, index) in branch.products">
-									<td><input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form></td>
-                                    <td class="text-center"><input-form v-model="product.price" name="price" :id="product.id" @edit-field="editField"></input-form></td>
-                                    <td class="text-center"><input-form v-model="product.classes_total" name="classes_total" :id="product.id" @edit-field="editField"></input-form></td>
-                                    <td class="text-center"><input-form v-model="product.classes_week" name="classes_week" :id="product.id" @edit-field="editField"></input-form></td>
-                                    <td class="text-center"><input-form v-model="product.category_time" name="category_time" :id="product.id" @edit-field="editField"></input-form></td>
-                                    <td class="text-center"><input-form v-model="product.freezing_total" name="freezing_total" :id="product.id" @edit-field="editField"></input-form></td>
-                                    <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)"><span class="fe fe-save h3 text-success"></span></td>
-                                    <td v-else="" class="text-center" v-on:click="removeRow(index, product.id)"><span class="fe fe-trash-2 h3 text-danger"></span></td>
-								</tr>
-							</tbody>
-						</table>
+          </div>
+    		<div class="table-responsive">
+    			<table class=" table table-bordered table-hover datatable datatable-User">
+    				<thead>
+    					<tr>
+    						<th>Название</th>
+    						<th v-title="price" class="text-center"><span class="fe fe-dollar-sign h3 text-danger"></span></th>
+    						<th class="text-center"><span class="fe fe-users h3 text-success"></span></th>
+    						<th class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
+    						<th class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
+    						<th class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
+                            <th v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<tr v-for="(product, index) in branch.products">
+    						<td><input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form></td>
+                            <td class="text-center"><input-form v-model="product.price" name="price" :id="product.id" @edit-field="editField"></input-form></td>
+                            <td class="text-center"><input-form v-model="product.classes_total" name="classes_total" :id="product.id" @edit-field="editField"></input-form></td>
+                            <td class="text-center"><input-form v-model="product.classes_week" name="classes_week" :id="product.id" @edit-field="editField"></input-form></td>
+                            <td class="text-center"><input-form v-model="product.category_time" name="category_time" :id="product.id" @edit-field="editField"></input-form></td>
+                            <td class="text-center"><input-form v-model="product.freezing_total" name="freezing_total" :id="product.id" @edit-field="editField"></input-form></td>
+                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)"><span class="fe fe-save h3 text-success"></span></td>
+                            <td v-else="" class="text-center" v-on:click="removeRow(index, product.id)"><span class="fe fe-trash-2 h3 text-danger"></span></td>
+    					</tr>
+    				</tbody>
+    			</table>
+    		</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" @click="buttonAdd = true" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row flex-nowrap test">
+	<div class="col-4 col-lg-4" v-for="region in regions">
+		<div class="card">
+			<div class="card-header">
+				<div class="row align-items-center">
+					<div class="col">
+						{{ region.name }}
 					</div>
-    			</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
 				</div>
-    		</div>
-    	</div>
-    </div>
+			</div>
 
-
-
-    <div class="row flex-nowrap test">
-    	<div class="col-4 col-lg-4" v-for="region in regions">
-    		<div class="card">
-    			<div class="card-header">
-    				<div class="row align-items-center">
-    					<div class="col">
-    						{{ region.name }}
-    					</div>
-    					<div class="col-auto">
-    						<!-- <a href="#" style="color: #e6b00d" class="btn h2 fe fe-edit mb-0"></a> -->
-    					</div>
-    				</div>
-    			</div>
-
-    			<div class="card-body">
-    				<div class="card card-sm mb-2 pointer" @click="getBranch(branch.id)" v-for="branch in region.branches">
-    					<div class="card-body">
-    						<div class="row align-items-center">
-    							<div class="col-12 col-md">
-    								<a href="#" class="mb-md-0">
-    									{{ branch.name }}
-    								</a>
-    							</div>
-    							<div class="col-auto">
-    								<!-- <a href="#" style="color: #e6b00d" class="h2 fe fe-edit mb-0"></a> -->
-    							</div>
-    						</div>
-    					</div>    		   
-    				</div>
-    				<p v-if="region.branches.length == 0" class="text-center pt-3">В регионе нет филиалов</p>
-    				<div class="text-center pt-2">    				
-    					<button class="btn btn-sm btn-success center-block" @click="getModalBranch(region.id)">Добавить филиал</button>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </div>
+			<div class="card-body">
+				<div class="card card-sm mb-2 pointer" @click="getBranch(branch.id)" v-for="branch in region.branches">
+					<div class="card-body">
+						<div class="row align-items-center">
+							<div class="col-12 col-md">
+								<a href="#" class="mb-md-0">
+									{{ branch.name }}
+								</a>
+							</div>
+						</div>
+					</div>    		   
+				</div>
+				<p v-if="region.branches.length == 0" class="text-center pt-3">В регионе нет филиалов</p>
+				<div class="text-center pt-2">    				
+					<button class="btn btn-sm btn-success center-block" @click="getModalBranch(region.id)">Добавить филиал</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 	</div>
@@ -259,6 +252,11 @@ Vue.use(VueSimpleAlert);
                 this.branch.products[this.branch.products.length - 1].rowNew = '';
                 this.buttonAdd = true
                 axios.post('api/v2/products',this.branch.products[this.branch.products.length - 1])
+                  .catch(function (error) {
+                    if (error.response) {
+                      alert("Ошибка, не заполнено название программы");
+                    }
+                  });
                 this.$alert("Программа добавлена");
                 this.getBranch(id);
             },
