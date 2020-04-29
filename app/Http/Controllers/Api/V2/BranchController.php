@@ -63,16 +63,11 @@ class BranchController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Branch $branch)
     {
-        //
+        $field_name = $request['field_name'];
+        $branch->$field_name = $request['field_value'];
+        $branch->save();
     }
 
     /**

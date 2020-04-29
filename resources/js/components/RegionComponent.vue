@@ -97,14 +97,34 @@
                 <div class="card-body row">
                     <div class="col-md-6">
                         <h4 class="mb-3 name">{{ branch.name}}</h4>
-                      <p class="mb-1 ml-3">Город: <span class="card-text text-muted mb-1 ml-2">{{ branch.geolocation}}</span></p>
-                      <p class="mb-1 ml-3">Адрес: <span class="card-text text-muted mb-1 ml-2">{{ branch.adress}}</span></p>
-                      <p class="mb-1 ml-3">Телефон: <span class="card-text text-muted mb-1 ml-2">{{ branch.phone}}</span></p>
+                        <p class="mb-1 ml-3">Город: 
+                            <span class="card-text text-muted mb-1 ml-2">
+                                <input-form v-model="branch.geolocation" name="geolocation" :id="branch.id" @edit-field="editFieldBranch"></input-form>
+                            </span>
+                        </p>
+                        <p class="mb-1 ml-3">Адрес: 
+                            <span class="card-text text-muted mb-1 ml-2">
+                                <input-form v-model="branch.adress" name="adress" :id="branch.id" @edit-field="editFieldBranch"></input-form>
+                            </span>
+                        </p>
+                        <p class="mb-1 ml-3">Телефон: 
+                            <span class="card-text text-muted mb-1 ml-2">
+                                <input-form placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model="branch.phone" name="phone" :id="branch.id" @edit-field="editFieldBranch"></input-form>
+                            </span>
+                        </p>
                     </div>
                 <div class="col-md-6">
                     <div class="card-body">
-                      <p class="mb-1 ml-3">Реквизиты: <span class="card-text text-muted mb-1 ml-2">{{ branch.requisites}}</span></p>
-                      <p class="mb-3 ml-3">ИП: <span class="card-text text-muted mb-1 ml-2">{{ branch.organization}}</span></p>
+                        <p class="mb-1 ml-3">Реквизиты: 
+                            <span class="card-text text-muted mb-1 ml-2">
+                                <input-form v-model="branch.requisites" name="requisites" :id="branch.id" @edit-field="editFieldBranch"></input-form>
+                            </span>
+                        </p>
+                        <p class="mb-1 ml-3">Организация: 
+                            <span class="card-text text-muted mb-1 ml-2">
+                                <input-form v-model="branch.organization" name="organization" :id="branch.id" @edit-field="editFieldBranch"></input-form>
+                            </span>
+                        </p>
                     </div>
               </div>
           </div>
@@ -114,23 +134,39 @@
     					<tr>
     						<th>Название</th>
     						<th v-title="price" class="text-center"><span class="fe fe-dollar-sign h3 text-danger"></span></th>
-    						<th class="text-center"><span class="fe fe-users h3 text-success"></span></th>
-    						<th class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
-    						<th class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
-    						<th class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
-                            <th v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+    						<th v-title="classes_total" class="text-center"><span class="fe fe-users h3 text-success"></span></th>
+    						<th v-title="classes_week" class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
+    						<th v-title="category_time" class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
+    						<th v-title="freezing_total" class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
+                            <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
     					</tr>
     				</thead>
     				<tbody>
     					<tr v-for="(product, index) in branch.products">
-    						<td><input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form></td>
-                            <td class="text-center"><input-form v-model="product.price" name="price" :id="product.id" @edit-field="editField"></input-form></td>
-                            <td class="text-center"><input-form v-model="product.classes_total" name="classes_total" :id="product.id" @edit-field="editField"></input-form></td>
-                            <td class="text-center"><input-form v-model="product.classes_week" name="classes_week" :id="product.id" @edit-field="editField"></input-form></td>
-                            <td class="text-center"><input-form v-model="product.category_time" name="category_time" :id="product.id" @edit-field="editField"></input-form></td>
-                            <td class="text-center"><input-form v-model="product.freezing_total" name="freezing_total" :id="product.id" @edit-field="editField"></input-form></td>
-                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)"><span class="fe fe-save h3 text-success"></span></td>
-                            <td v-else="" class="text-center" v-on:click="removeRow(index, product.id)"><span class="fe fe-trash-2 h3 text-danger"></span></td>
+    						<td>
+                                <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td class="text-center">
+                                <input-form v-model="product.price" name="price" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td class="text-center">
+                                <input-form v-mask="'###'" v-model="product.classes_total" name="classes_total" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td class="text-center">
+                                <input-form v-mask="'###'" v-model="product.classes_week" name="classes_week" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td class="text-center">
+                                <input-form v-mask="'###'" v-model="product.category_time" name="category_time" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td class="text-center">
+                                <input-form v-mask="'###'" v-model="product.freezing_total" name="freezing_total" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
+                                <span class="fe fe-save h3 text-success"></span>
+                            </td>
+                            <td v-else="" class="text-center" v-on:click="removeRow(index, product.id)">
+                                <span class="fe fe-trash-2 h3 text-danger"></span>
+                            </td>
     					</tr>
     				</tbody>
     			</table>
@@ -237,6 +273,11 @@ Vue.use(VueSimpleAlert);
                 rowNew: '',
                 buttonAdd: true,
                 price: 'Базовая цена продукта',
+                classes_total: 'Общее количество тренировок в контракте',
+                classes_week: 'Количество тренировок в неделю',
+                category_time: 'Категория времени',
+                freezing_total: 'Количество заморозок',
+                add_product: 'Добавить продукт',
             	regions: {
                      branches: [],
                 },
@@ -274,6 +315,12 @@ Vue.use(VueSimpleAlert);
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
                 axios.put('api/v2/products/'+ id, {field_name: key, field_value: value })
+            },
+            editFieldBranch(e, name) {
+                const id = e.target.id;
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.put('api/v2/branches/'+ id, {field_name: key, field_value: value })
             },
         	getModalBranch(region_id){
         		$('#addNewBranch').modal('show');

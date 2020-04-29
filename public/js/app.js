@@ -2938,6 +2938,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 Vue.component('inputForm', {
   props: {
     value: {
@@ -2972,6 +3008,11 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
       rowNew: '',
       buttonAdd: true,
       price: 'Базовая цена продукта',
+      classes_total: 'Общее количество тренировок в контракте',
+      classes_week: 'Количество тренировок в неделю',
+      category_time: 'Категория времени',
+      freezing_total: 'Количество заморозок',
+      add_product: 'Добавить продукт',
       regions: {
         branches: []
       },
@@ -3022,6 +3063,15 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
       var value = e.target.value;
       var key = e.currentTarget.getAttribute('name');
       axios.put('api/v2/products/' + id, {
+        field_name: key,
+        field_value: value
+      });
+    },
+    editFieldBranch: function editFieldBranch(e, name) {
+      var id = e.target.id;
+      var value = e.target.value;
+      var key = e.currentTarget.getAttribute('name');
+      axios.put('api/v2/branches/' + id, {
         field_name: key,
         field_value: value
       });
@@ -47875,29 +47925,80 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Город: "),
+                      _vm._v("Город: \n                            "),
                       _c(
                         "span",
                         { staticClass: "card-text text-muted mb-1 ml-2" },
-                        [_vm._v(_vm._s(_vm.branch.geolocation))]
+                        [
+                          _c("input-form", {
+                            attrs: { name: "geolocation", id: _vm.branch.id },
+                            on: { "edit-field": _vm.editFieldBranch },
+                            model: {
+                              value: _vm.branch.geolocation,
+                              callback: function($$v) {
+                                _vm.$set(_vm.branch, "geolocation", $$v)
+                              },
+                              expression: "branch.geolocation"
+                            }
+                          })
+                        ],
+                        1
                       )
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Адрес: "),
+                      _vm._v("Адрес: \n                            "),
                       _c(
                         "span",
                         { staticClass: "card-text text-muted mb-1 ml-2" },
-                        [_vm._v(_vm._s(_vm.branch.adress))]
+                        [
+                          _c("input-form", {
+                            attrs: { name: "adress", id: _vm.branch.id },
+                            on: { "edit-field": _vm.editFieldBranch },
+                            model: {
+                              value: _vm.branch.adress,
+                              callback: function($$v) {
+                                _vm.$set(_vm.branch, "adress", $$v)
+                              },
+                              expression: "branch.adress"
+                            }
+                          })
+                        ],
+                        1
                       )
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Телефон: "),
+                      _vm._v("Телефон: \n                            "),
                       _c(
                         "span",
                         { staticClass: "card-text text-muted mb-1 ml-2" },
-                        [_vm._v(_vm._s(_vm.branch.phone))]
+                        [
+                          _c("input-form", {
+                            directives: [
+                              {
+                                name: "mask",
+                                rawName: "v-mask",
+                                value: "+## (###) ###-##-##",
+                                expression: "'+## (###) ###-##-##'"
+                              }
+                            ],
+                            attrs: {
+                              placeholder: "+38 (926) 123-45-67",
+                              name: "phone",
+                              id: _vm.branch.id
+                            },
+                            on: { "edit-field": _vm.editFieldBranch },
+                            model: {
+                              value: _vm.branch.phone,
+                              callback: function($$v) {
+                                _vm.$set(_vm.branch, "phone", $$v)
+                              },
+                              expression: "branch.phone"
+                            }
+                          })
+                        ],
+                        1
                       )
                     ])
                   ]),
@@ -47905,20 +48006,49 @@ var render = function() {
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("div", { staticClass: "card-body" }, [
                       _c("p", { staticClass: "mb-1 ml-3" }, [
-                        _vm._v("Реквизиты: "),
+                        _vm._v("Реквизиты: \n                            "),
                         _c(
                           "span",
                           { staticClass: "card-text text-muted mb-1 ml-2" },
-                          [_vm._v(_vm._s(_vm.branch.requisites))]
+                          [
+                            _c("input-form", {
+                              attrs: { name: "requisites", id: _vm.branch.id },
+                              on: { "edit-field": _vm.editFieldBranch },
+                              model: {
+                                value: _vm.branch.requisites,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.branch, "requisites", $$v)
+                                },
+                                expression: "branch.requisites"
+                              }
+                            })
+                          ],
+                          1
                         )
                       ]),
                       _vm._v(" "),
-                      _c("p", { staticClass: "mb-3 ml-3" }, [
-                        _vm._v("ИП: "),
+                      _c("p", { staticClass: "mb-1 ml-3" }, [
+                        _vm._v("Организация: \n                            "),
                         _c(
                           "span",
                           { staticClass: "card-text text-muted mb-1 ml-2" },
-                          [_vm._v(_vm._s(_vm.branch.organization))]
+                          [
+                            _c("input-form", {
+                              attrs: {
+                                name: "organization",
+                                id: _vm.branch.id
+                              },
+                              on: { "edit-field": _vm.editFieldBranch },
+                              model: {
+                                value: _vm.branch.organization,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.branch, "organization", $$v)
+                                },
+                                expression: "branch.organization"
+                              }
+                            })
+                          ],
+                          1
                         )
                       ])
                     ])
@@ -47957,18 +48087,97 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _vm._m(6),
-                          _vm._v(" "),
-                          _vm._m(7),
-                          _vm._v(" "),
-                          _vm._m(8),
-                          _vm._v(" "),
-                          _vm._m(9),
+                          _c(
+                            "th",
+                            {
+                              directives: [
+                                {
+                                  name: "title",
+                                  rawName: "v-title",
+                                  value: _vm.classes_total,
+                                  expression: "classes_total"
+                                }
+                              ],
+                              staticClass: "text-center"
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "fe fe-users h3 text-success"
+                              })
+                            ]
+                          ),
                           _vm._v(" "),
                           _c(
                             "th",
                             {
                               directives: [
+                                {
+                                  name: "title",
+                                  rawName: "v-title",
+                                  value: _vm.classes_week,
+                                  expression: "classes_week"
+                                }
+                              ],
+                              staticClass: "text-center"
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "fe fe-calendar h3 text-info"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "th",
+                            {
+                              directives: [
+                                {
+                                  name: "title",
+                                  rawName: "v-title",
+                                  value: _vm.category_time,
+                                  expression: "category_time"
+                                }
+                              ],
+                              staticClass: "text-center"
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "fe fe-clock h3 text-primary"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "th",
+                            {
+                              directives: [
+                                {
+                                  name: "title",
+                                  rawName: "v-title",
+                                  value: _vm.freezing_total,
+                                  expression: "freezing_total"
+                                }
+                              ],
+                              staticClass: "text-center"
+                            },
+                            [
+                              _c("span", {
+                                staticClass:
+                                  "fe fe-battery-charging h3 text-danger"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "th",
+                            {
+                              directives: [
+                                {
+                                  name: "title",
+                                  rawName: "v-title",
+                                  value: _vm.add_product,
+                                  expression: "add_product"
+                                },
                                 {
                                   name: "show",
                                   rawName: "v-show",
@@ -48039,6 +48248,14 @@ var render = function() {
                               { staticClass: "text-center" },
                               [
                                 _c("input-form", {
+                                  directives: [
+                                    {
+                                      name: "mask",
+                                      rawName: "v-mask",
+                                      value: "###",
+                                      expression: "'###'"
+                                    }
+                                  ],
                                   attrs: {
                                     name: "classes_total",
                                     id: product.id
@@ -48061,6 +48278,14 @@ var render = function() {
                               { staticClass: "text-center" },
                               [
                                 _c("input-form", {
+                                  directives: [
+                                    {
+                                      name: "mask",
+                                      rawName: "v-mask",
+                                      value: "###",
+                                      expression: "'###'"
+                                    }
+                                  ],
                                   attrs: {
                                     name: "classes_week",
                                     id: product.id
@@ -48083,6 +48308,14 @@ var render = function() {
                               { staticClass: "text-center" },
                               [
                                 _c("input-form", {
+                                  directives: [
+                                    {
+                                      name: "mask",
+                                      rawName: "v-mask",
+                                      value: "###",
+                                      expression: "'###'"
+                                    }
+                                  ],
                                   attrs: {
                                     name: "category_time",
                                     id: product.id
@@ -48105,6 +48338,14 @@ var render = function() {
                               { staticClass: "text-center" },
                               [
                                 _c("input-form", {
+                                  directives: [
+                                    {
+                                      name: "mask",
+                                      rawName: "v-mask",
+                                      value: "###",
+                                      expression: "'###'"
+                                    }
+                                  ],
                                   attrs: {
                                     name: "freezing_total",
                                     id: product.id
@@ -48388,38 +48629,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "text-center" }, [
-      _c("span", { staticClass: "fe fe-users h3 text-success" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "text-center" }, [
-      _c("span", { staticClass: "fe fe-calendar h3 text-info" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "text-center" }, [
-      _c("span", { staticClass: "fe fe-clock h3 text-primary" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { staticClass: "text-center" }, [
-      _c("span", { staticClass: "fe fe-battery-charging h3 text-danger" })
-    ])
   }
 ]
 render._withStripped = true
