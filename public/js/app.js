@@ -2195,28 +2195,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     user_id: {}
   },
   data: function data() {
     return {
+      stopContract: '00.00.0000',
       users: [{
         name: 'Tom',
         age: 22
@@ -2290,6 +2275,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    stopDate: function stopDate() {
+      var D = new Date(Date.now());
+      D.setDate(D.getDate() + this.product.days);
+      this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+    },
     contract: function contract(contract_type) {
       var _this = this;
 
@@ -2974,6 +2964,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 Vue.component('inputForm', {
   props: {
     value: {
@@ -2993,7 +2988,7 @@ Vue.component('inputForm', {
       thisValue: this.value
     };
   },
-  template: "\n    <span>\n        <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :placeholder=\"placeholder\" :id=\"id\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
+  template: "\n    <span>\n        <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input class=\"form-control\" size=\"1\" v-else type=\"text\" :value=\"value\" :placeholder=\"placeholder\" :id=\"id\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
 });
 
 Vue.use(v_title__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -3012,6 +3007,8 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
       classes_week: 'Количество тренировок в неделю',
       category_time: 'Категория времени',
       freezing_total: 'Количество заморозок',
+      months: 'Количество месяцев',
+      days: 'Количество дней',
       add_product: 'Добавить продукт',
       regions: {
         branches: []
@@ -3044,6 +3041,8 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
         classes_week: 0,
         category_time: 0,
         freezing_total: 0,
+        months: 0,
+        days: 0,
         active: true,
         price_title: 'Цена прописью',
         branch_id: branch
@@ -3177,6 +3176,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
 /* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3633,9 +3664,14 @@ var options = {
 vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8___default.a, options);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
+      selected: null,
+      products: null,
       dataVm: {},
       branches: [],
+      users: [],
       name: '',
       ids: 9,
       image: '',
@@ -3676,28 +3712,15 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       URLaddNewUser: "api/v2/addnewuser",
       siteURL: "http://83.220.172.19/",
       showInput: false,
-      articles: [],
-      users: [],
-      apis: null,
-      article: {
-        id: '',
-        title: '',
-        body: ''
-      },
-      article_id: '',
-      pagination: {},
-      edit: false,
-      new_child_surname: '',
-      new_child_name: '',
-      new_child_middle_name: '',
-      branch: '',
-      rep: [],
-      telephone: '4565456'
-    };
+      articles: []
+    }, _defineProperty(_ref, "users", []), _defineProperty(_ref, "apis", null), _defineProperty(_ref, "article", {
+      id: '',
+      title: '',
+      body: ''
+    }), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "pagination", {}), _defineProperty(_ref, "edit", false), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "new_child_surname", ''), _defineProperty(_ref, "new_child_name", ''), _defineProperty(_ref, "new_child_middle_name", ''), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "rep", []), _defineProperty(_ref, "telephone", '4565456'), _ref;
   },
   created: function created() {
     this.fetchArticles();
-    this.getBranch();
   },
   components: {
     Avatar: vue_avatar__WEBPACK_IMPORTED_MODULE_0___default.a
@@ -3782,6 +3805,19 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     //         axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
     //     }
     // },
+    editBranch: function editBranch() {
+      this.showBranch = true;
+      this.getBranches();
+    },
+    saveBranch: function saveBranch() {
+      axios.post(this.postURL, {
+        user_id: this.dataObject.id,
+        field_name: 'branch',
+        field_value: this.dataObject.base_branch.id
+      });
+      this.showBranch = false;
+      this.dataObject.base_branch = this.dataObject.base_branch.name;
+    },
     editField: function editField(e, name) {
       var value = e.target.value;
       var key = e.currentTarget.getAttribute('name');
@@ -3803,6 +3839,8 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         child_surname: this.new_child_surname,
         child_name: this.new_child_name,
         child_middle_name: this.new_child_middle_name,
+        manager: this.manager.id,
+        instructor: this.instructor.id,
         branch: this.branch.id
       }).then(function (response) {
         return _this6.getModal(response.data);
@@ -3813,6 +3851,13 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
 
       axios.get('api/v2/getbranches').then(function (response) {
         return _this7.branches = response.data.data;
+      });
+    },
+    getUsers: function getUsers() {
+      var _this8 = this;
+
+      axios.get('api/v2/getusers').then(function (response) {
+        return _this8.users = response.data.data;
       });
     },
     onFileChange: function onFileChange(e) {
@@ -3833,7 +3878,7 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       this.upload(event);
     },
     upload: function upload(event) {
-      var _this8 = this;
+      var _this9 = this;
 
       var data = new FormData();
       var file = event.target.files[0];
@@ -3847,9 +3892,9 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       axios.post('api/v2/image', data, config);
       setTimeout(function () {
         axios.post('api/v2/getinfo', {
-          id: _this8.dataObject['id']
+          id: _this9.dataObject['id']
         }).then(function (response) {
-          _this8.dataObject = response.data.data;
+          _this9.dataObject = response.data.data;
         });
       }, 300);
     }
@@ -46220,7 +46265,9 @@ var render = function() {
                         ])
                       ])
                     ]),
-                    _vm._v(" "),
+                    _vm._v(
+                      "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n          "
+                    ),
                     _c(
                       "select",
                       {
@@ -46232,33 +46279,33 @@ var render = function() {
                             expression: "product"
                           }
                         ],
+                        staticStyle: { "font-weight": "bold", border: "0" },
                         on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.product = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.product = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            _vm.stopDate
+                          ]
                         }
                       },
-                      _vm._l(_vm.dataVm.products, function(user) {
-                        return _c("option", { domProps: { value: user } }, [
-                          _vm._v(_vm._s(user.name))
+                      _vm._l(_vm.dataVm.products, function(product) {
+                        return _c("option", { domProps: { value: product } }, [
+                          _vm._v(_vm._s(product.name))
                         ])
                       }),
                       0
                     ),
-                    _vm._v(
-                      "\n\n\n\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n"
-                    ),
-                    _vm._v(" "),
                     _vm._v(" з наступними умовами:"),
                     _c("br"),
                     _vm._v(" "),
@@ -46349,37 +46396,39 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c("td", { attrs: { width: "25%" } }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "mask",
-                                rawName: "v-mask",
-                                value: "##",
-                                expression: "'##'"
-                              },
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.classes_total,
-                                expression: "dataVm.classes_total"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "10" },
-                            domProps: { value: _vm.dataVm.classes_total },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                          _vm.product
+                            ? _c("input", {
+                                directives: [
+                                  {
+                                    name: "mask",
+                                    rawName: "v-mask",
+                                    value: "##",
+                                    expression: "'##'"
+                                  },
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.product.classes_total,
+                                    expression: "product.classes_total"
+                                  }
+                                ],
+                                staticClass: "line",
+                                attrs: { placeholder: "10" },
+                                domProps: { value: _vm.product.classes_total },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.product,
+                                      "classes_total",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "classes_total",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
+                              })
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c(
@@ -46389,79 +46438,39 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c("td", { attrs: { width: "25%" } }, [
-                          _c("table", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.classes_week,
-                                  expression: "classes_week"
+                          _vm.product
+                            ? _c("input", {
+                                directives: [
+                                  {
+                                    name: "mask",
+                                    rawName: "v-mask",
+                                    value: "##",
+                                    expression: "'##'"
+                                  },
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.product.classes_week,
+                                    expression: "product.classes_week"
+                                  }
+                                ],
+                                staticClass: "line",
+                                attrs: { placeholder: "10" },
+                                domProps: { value: _vm.product.classes_week },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.product,
+                                      "classes_week",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
-                              ],
-                              attrs: { type: "radio", id: "one", value: "1" },
-                              domProps: {
-                                checked: _vm._q(_vm.classes_week, "1")
-                              },
-                              on: {
-                                change: function($event) {
-                                  _vm.classes_week = "1"
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("label", { attrs: { for: "one" } }, [
-                              _vm._v("Один")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.classes_week,
-                                  expression: "classes_week"
-                                }
-                              ],
-                              attrs: { type: "radio", id: "two", value: "2" },
-                              domProps: {
-                                checked: _vm._q(_vm.classes_week, "2")
-                              },
-                              on: {
-                                change: function($event) {
-                                  _vm.classes_week = "2"
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("label", { attrs: { for: "two" } }, [
-                              _vm._v("Два")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.classes_week,
-                                  expression: "classes_week"
-                                }
-                              ],
-                              attrs: { type: "radio", id: "two", value: "3" },
-                              domProps: {
-                                checked: _vm._q(_vm.classes_week, "3")
-                              },
-                              on: {
-                                change: function($event) {
-                                  _vm.classes_week = "3"
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("label", { attrs: { for: "two" } }, [
-                              _vm._v("Три")
-                            ])
-                          ])
+                              })
+                            : _vm._e()
                         ])
                       ])
                     ]),
@@ -46486,8 +46495,12 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(
-                      "\n            Вказана ціна діє для категорії часу занять « » (вказується категорія від 1 до 4)"
+                      "\n\n            Вказана ціна діє для категорії часу занять « "
                     ),
+                    _vm.product
+                      ? _c("span", [_vm._v(_vm._s(_vm.product.category_time))])
+                      : _vm._e(),
+                    _vm._v(" » (вказується категорія від 1 до 4)"),
                     _c("br"),
                     _vm._v("\n            Графік оплати:"),
                     _c("br"),
@@ -46588,7 +46601,10 @@ var render = function() {
                         "Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення\n            договору."
                       )
                     ]),
-                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v("\n            Дата закінчення договору «"),
+                    _c("b", [_vm._v(_vm._s(_vm.stopContract))]),
+                    _vm._v("»\n            "),
                     _vm._m(4)
                   ])
                 ]
@@ -48175,6 +48191,46 @@ var render = function() {
                                 {
                                   name: "title",
                                   rawName: "v-title",
+                                  value: _vm.months,
+                                  expression: "months"
+                                }
+                              ],
+                              staticClass: "text-center"
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "fe fe-calendar h3 text-success"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "th",
+                            {
+                              directives: [
+                                {
+                                  name: "title",
+                                  rawName: "v-title",
+                                  value: _vm.days,
+                                  expression: "days"
+                                }
+                              ],
+                              staticClass: "text-center"
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "fe fe-clock h3 text-info"
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "th",
+                            {
+                              directives: [
+                                {
+                                  name: "title",
+                                  rawName: "v-title",
                                   value: _vm.add_product,
                                   expression: "add_product"
                                 },
@@ -48357,6 +48413,60 @@ var render = function() {
                                       _vm.$set(product, "freezing_total", $$v)
                                     },
                                     expression: "product.freezing_total"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticClass: "text-center" },
+                              [
+                                _c("input-form", {
+                                  directives: [
+                                    {
+                                      name: "mask",
+                                      rawName: "v-mask",
+                                      value: "###",
+                                      expression: "'###'"
+                                    }
+                                  ],
+                                  attrs: { name: "months", id: product.id },
+                                  on: { "edit-field": _vm.editField },
+                                  model: {
+                                    value: product.months,
+                                    callback: function($$v) {
+                                      _vm.$set(product, "months", $$v)
+                                    },
+                                    expression: "product.months"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticClass: "text-center" },
+                              [
+                                _c("input-form", {
+                                  directives: [
+                                    {
+                                      name: "mask",
+                                      rawName: "v-mask",
+                                      value: "###",
+                                      expression: "'###'"
+                                    }
+                                  ],
+                                  attrs: { name: "days", id: product.id },
+                                  on: { "edit-field": _vm.editField },
+                                  model: {
+                                    value: product.days,
+                                    callback: function($$v) {
+                                      _vm.$set(product, "days", $$v)
+                                    },
+                                    expression: "product.days"
                                   }
                                 })
                               ],
@@ -48576,19 +48686,6 @@ var staticRenderFns = [
         "h4",
         { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
         [_vm._v("Добавление нового филиала")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
     ])
   },
@@ -48675,7 +48772,7 @@ var render = function() {
                       on: {
                         click: function($event) {
                           $event.preventDefault()
-                          return _vm.getBranches($event)
+                          _vm.getBranches(), _vm.getUsers()
                         }
                       }
                     },
@@ -48832,6 +48929,68 @@ var render = function() {
                               _vm.branch = $$v
                             },
                             expression: "branch"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      { staticClass: "col-sm-3 col-form-label required" },
+                      [_vm._v("Менеджер")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-9" },
+                      [
+                        _c("dynamic-select", {
+                          attrs: {
+                            options: _vm.users,
+                            "option-value": "id",
+                            "option-text": "surname",
+                            placeholder: "Введите для поиска"
+                          },
+                          model: {
+                            value: _vm.manager,
+                            callback: function($$v) {
+                              _vm.manager = $$v
+                            },
+                            expression: "manager"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      { staticClass: "col-sm-3 col-form-label required" },
+                      [_vm._v("Тренер")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-9" },
+                      [
+                        _c("dynamic-select", {
+                          attrs: {
+                            options: _vm.users,
+                            "option-value": "id",
+                            "option-text": "surname",
+                            placeholder: "Введите для поиска"
+                          },
+                          model: {
+                            value: _vm.instructor,
+                            callback: function($$v) {
+                              _vm.instructor = $$v
+                            },
+                            expression: "instructor"
                           }
                         })
                       ],
@@ -49243,25 +49402,155 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm._m(4),
+                          _c("h5", { staticClass: "text-muted mb-2" }, [
+                            _vm._v("Менеджер: "),
+                            _vm.dataObject.manager
+                              ? _c("span", { staticClass: "text-dark" }, [
+                                  _vm._v(_vm._s(_vm.dataObject.manager))
+                                ])
+                              : _vm._e()
+                          ]),
                           _vm._v(" "),
-                          _vm._m(5),
+                          _c("h5", { staticClass: "text-muted mb-2" }, [
+                            _vm._v("Тренер: "),
+                            _vm.dataObject.instructor
+                              ? _c("span", { staticClass: "text-dark" }, [
+                                  _vm._v(_vm._s(_vm.dataObject.instructor))
+                                ])
+                              : _vm._e()
+                          ]),
                           _vm._v(" "),
                           _c(
                             "h6",
                             {
                               staticClass: "text-uppercase text-muted mb-2 mt-4"
                             },
-                            [_vm._v(_vm._s(_vm.dataObject.base_branch["name"]))]
+                            [
+                              _c(
+                                "a",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: !_vm.showBranch,
+                                      expression: "!showBranch"
+                                    }
+                                  ],
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.editBranch($event)
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.dataObject.base_branch))]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.showBranch,
+                                      expression: "showBranch"
+                                    }
+                                  ],
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.editBranch($event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.dataObject.base_branch.name)
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("a", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.showBranch,
+                                    expression: "showBranch"
+                                  }
+                                ],
+                                staticClass: "fe fe-save h3 text-success",
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.saveBranch($event)
+                                  }
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.showBranch,
+                                  expression: "showBranch"
+                                },
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataObject.base_branch,
+                                  expression: "dataObject.base_branch"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.dataObject,
+                                    "base_branch",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            _vm._l(_vm.branches, function(branch) {
+                              return _c(
+                                "option",
+                                { domProps: { value: branch } },
+                                [_vm._v(_vm._s(branch.name))]
+                              )
+                            }),
+                            0
                           )
                         ])
                       ]),
                       _vm._v(" "),
-                      _vm._m(6)
+                      _vm._m(4)
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(7),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -50794,24 +51083,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v("?")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h5", { staticClass: "text-muted mb-2" }, [
-      _vm._v("Менеджер: "),
-      _c("span", { staticClass: "text-dark" }, [_vm._v(" Вадим Юхимчук")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h5", { staticClass: "text-muted mb-2" }, [
-      _vm._v("Тренер: "),
-      _c("span", { staticClass: "text-dark" }, [_vm._v(" Олег Шпур")])
     ])
   },
   function() {

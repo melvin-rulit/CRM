@@ -200,18 +200,9 @@
               <td><input v-model="dataVm.parent_instagram" class="line"></td>
             </tr>
           </table>
-
-
-    <select v-model="product">
-        <option v-for="user in dataVm.products" v-bind:value="user">{{user.name}}</option>
-    </select>
-
-
-
           Прошуприйняти вище вказану дитину на навчання за програмою навчання
-<!--           <select style="font-weight: bold; border: 0;" v-model="contracts_name">
-            <option v-for="product in dataVm.products">{{ product.name }}</option>
-             <span v-if="selectedUser!==null">Выбрано: {{contracts_name.price}}</span> -->
+          <select style="font-weight: bold; border: 0;" v-model="product" @change="stopDate">
+            <option v-for="product in dataVm.products" v-bind:value="product">{{ product.name }}</option>
           </select> з наступними умовами:<br>
           <table class="tabs">
             <tr>
@@ -222,18 +213,9 @@
             </tr>
             <tr>
               <td class="gray" width="25%">Загальна кількість занять за договором</td>
-              <td width="25%"><input placeholder="10" v-mask="'##'" v-model="dataVm.classes_total" class="line"></td>
+              <td width="25%"><input v-if="product" placeholder="10" v-mask="'##'" v-model="product.classes_total" class="line"></td>
               <td class="gray" width="25%">Кількість занятьна тиждень</td>
-              <td width="25%">
-                  <table>
-                    <input type="radio" id="one" value="1" v-model="classes_week">
-                    <label for="one">Один</label>
-                    <input type="radio" id="two" value="2" v-model="classes_week">
-                    <label for="two">Два</label>
-                    <input type="radio" id="two" value="3" v-model="classes_week">
-                    <label for="two">Три</label>
-                  </table>
-              </td>
+              <td width="25%"><input v-if="product" placeholder="10" v-mask="'##'" v-model="product.classes_week" class="line"></td>
             </tr>
           </table>
           Адреса надання послуг: {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }}
@@ -243,7 +225,8 @@
             <td> грн.</td>
             <td>({{ dataVm.price_title }}) грн.</td>
           </table>
-            Вказана ціна діє для категорії часу занять « » (вказується категорія від 1 до 4)<br>
+
+            Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
             Графік оплати:<br>
             <table>
               <tr>
@@ -271,7 +254,8 @@
             4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання
             послуг фізичного виховання дітей.<br>
             <b>Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення
-            договору.</b>
+            договору.</b><br>
+            Дата закінчення договору «<b>{{ stopContract }}</b>»
             <table style="margin-top: 0.5in; border-spacing: 0.2in;" class="tabs">
               <tr>
                 <td>«Виконавець» ФОП</td>
@@ -309,6 +293,7 @@
         },
         data() {
             return{
+              stopContract: '00.00.0000',
             users:[
                 {name:'Tom', age:22},
                 {name:'Bob', age:25},
@@ -355,6 +340,11 @@
         },
 
         methods: {
+          stopDate() {
+            var D = new Date(Date.now());
+            D.setDate(D.getDate() + this.product.days);
+            this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+          },
         	contract(contract_type){
                 axios.post('api/v2/getvmcontract', {id : this.user_id, contract_type: contract_type}).then(response => {
                     this.dataVm = response.data.data

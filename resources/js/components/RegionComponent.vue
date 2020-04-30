@@ -51,9 +51,6 @@
     		<div class="modal-content">
     			<div class="modal-header">
     				<h4 class="modal-title" id="exampleModalLongTitle">Добавление нового филиала</h4>
-    				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-    					<span aria-hidden="true">&times;</span>
-    				</button>
     			</div>
     			<div class="modal-body pb-0">
 					<form @submit.prevent="addNewBranch">
@@ -138,6 +135,8 @@
     						<th v-title="classes_week" class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
     						<th v-title="category_time" class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
     						<th v-title="freezing_total" class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
+                            <th v-title="months" class="text-center"><span class="fe fe-calendar h3 text-success"></span></th>
+                            <th v-title="days" class="text-center"><span class="fe fe-clock h3 text-info"></span></th>
                             <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
     					</tr>
     				</thead>
@@ -160,6 +159,12 @@
                             </td>
                             <td class="text-center">
                                 <input-form v-mask="'###'" v-model="product.freezing_total" name="freezing_total" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td class="text-center">
+                                <input-form v-mask="'###'" v-model="product.months" name="months" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td class="text-center">
+                                <input-form v-mask="'###'" v-model="product.days" name="days" :id="product.id" @edit-field="editField"></input-form>
                             </td>
                             <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
                                 <span class="fe fe-save h3 text-success"></span>
@@ -246,7 +251,7 @@ Vue.component('inputForm', {
         <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
     <span>
       <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
-      <input v-else type="text" :value="value" :placeholder="placeholder" :id="id" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
+      <input class="form-control" size="1" v-else type="text" :value="value" :placeholder="placeholder" :id="id" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
       </div>
     </div>
 
@@ -277,6 +282,8 @@ Vue.use(VueSimpleAlert);
                 classes_week: 'Количество тренировок в неделю',
                 category_time: 'Категория времени',
                 freezing_total: 'Количество заморозок',
+                months: 'Количество месяцев',
+                days: 'Количество дней',
                 add_product: 'Добавить продукт',
             	regions: {
                      branches: [],
@@ -302,7 +309,7 @@ Vue.use(VueSimpleAlert);
                 this.getBranch(id);
             },
             addRow(branch){
-               this.branch.products.push({rowNew: true, name: 'Название продукта', price: 0, classes_total: 0, classes_week: 0, category_time: 0, freezing_total: 0, active: true ,price_title: 'Цена прописью' ,branch_id: branch});
+               this.branch.products.push({rowNew: true, name: 'Название продукта', price: 0, classes_total: 0, classes_week: 0, category_time: 0, freezing_total: 0, months: 0, days: 0, active: true ,price_title: 'Цена прописью' ,branch_id: branch});
             },
             removeRow(index, id){
                 this.$confirm("Удалить программу ?").then(() => {

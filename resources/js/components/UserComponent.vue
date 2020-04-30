@@ -9,7 +9,7 @@
               <div class="col">
               </div>
               <div class="col-auto">
-                <a class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches" data-target="#addNewUser">Добавить клиента</a>
+                <a class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches() , getUsers()" data-target="#addNewUser">Добавить клиента</a>
                 <!-- <a class="btn btn-sm btn-info" href="javascript:void(0)">Фильтр</a> -->
               </div>
             </div>
@@ -17,7 +17,6 @@
         </div>
       </div>
     </div>
-
 
     <!-- Модальное окно с выбором контрактом -->
 <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -59,6 +58,30 @@
                         v-model="branch" />
                 </div>
             </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label required">Менеджер</label>
+                <div class="col-sm-9">
+                    <dynamic-select 
+                        :options="users"
+                        option-value="id"
+                        option-text="surname"
+                        placeholder="Введите для поиска"
+                        v-model="manager" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label required">Тренер</label>
+                <div class="col-sm-9">
+                    <dynamic-select 
+                        :options="users"
+                        option-value="id"
+                        option-text="surname"
+                        placeholder="Введите для поиска"
+                        v-model="instructor" />
+                </div>
+            </div>
+
         </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -152,10 +175,17 @@
                         <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
                         <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
                         <p class="card-text"><input-form placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> <span>({{ dataObject.attributes.age }} лет)</span></p>
-                        <h5 class="text-muted mb-2">Менеджер: <span class="text-dark"> Вадим Юхимчук</span></h5>
-                        <h5 class="text-muted mb-2">Тренер: <span class="text-dark"> Олег Шпур</span></h5>
-                        <h6 class="text-uppercase text-muted mb-2 mt-4">{{dataObject.base_branch['name']}}</h6>
+                        <h5 class="text-muted mb-2">Менеджер: <span v-if="dataObject.manager" class="text-dark">{{ dataObject.manager }}</span></h5>
+                        <h5 class="text-muted mb-2">Тренер: <span v-if="dataObject.instructor" class="text-dark">{{ dataObject.instructor }}</span></h5>
+                        <h6 class="text-uppercase text-muted mb-2 mt-4">
+                            <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>
+                            <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>
+                            <a href="#" @click.prevent="saveBranch" v-show="showBranch" class="fe fe-save h3 text-success"></a>
+                        </h6>
 
+        <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">
+            <option v-for="branch in branches" v-bind:value="branch">{{ branch.name }}</option>
+        </select>
                     </div>
                 </div>
                 <div class="col-md-4 border-left">
@@ -491,8 +521,11 @@ Vue.use(VueHtmlToPaper, options);
     export default {
         data() {
             return{
+                selected: null,
+                products: null,
                 dataVm: {},
                 branches: [],
+                users: [],
                 name:'',
                 ids: 9,
                 image: '',
@@ -541,6 +574,7 @@ Vue.use(VueHtmlToPaper, options);
                 article_id: '',
                 pagination: {},
                 edit: false,
+                showBranch: false,
                 new_child_surname: '',
                 new_child_name: '',
                 new_child_middle_name: '',
@@ -551,8 +585,6 @@ Vue.use(VueHtmlToPaper, options);
         },
         created(){
             this.fetchArticles();
-            this.getBranch();
-
         },
 
         components:{
@@ -623,6 +655,15 @@ Vue.use(VueHtmlToPaper, options);
             //         axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
             //     }
             // },
+            editBranch(){
+                this.showBranch = true
+                this.getBranches()
+            },
+            saveBranch(){
+                axios.post(this.postURL, { user_id: this.dataObject.id, field_name: 'branch' , field_value: this.dataObject.base_branch.id })
+                this.showBranch = false
+                this.dataObject.base_branch = this.dataObject.base_branch.name
+            },
             editField(e, name) {
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
@@ -635,12 +676,16 @@ Vue.use(VueHtmlToPaper, options);
             },
             addNewUser(){
                 $('#addNewUser').modal('hide');
-                axios.post(this.URLaddNewUser, {child_surname: this.new_child_surname, child_name: this.new_child_name, child_middle_name: this.new_child_middle_name, branch: this.branch.id})
+                axios.post(this.URLaddNewUser, {child_surname: this.new_child_surname, child_name: this.new_child_name, child_middle_name: this.new_child_middle_name, manager: this.manager.id, instructor: this.instructor.id, branch: this.branch.id})
                 .then(response => this.getModal(response.data));
             },
             getBranches(){
                 axios.get('api/v2/getbranches')
                 .then(response => this.branches = response.data.data)
+            },
+            getUsers(){
+                axios.get('api/v2/getusers')
+                .then(response => this.users = response.data.data)
             },
             onFileChange(e) {
               var files = e.target.files || e.dataTransfer.files;

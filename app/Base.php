@@ -14,6 +14,8 @@ class Base extends Model
         'child_surname',
         'child_middle_name',
         'branch',
+        'manager',
+        'instructor',
         'avatar',
     ];
 
@@ -23,5 +25,13 @@ class Base extends Model
 
     public function base_branch(){
     	return $this->hasOne('App\Branch', 'id', 'branch');
+    }
+
+    public function base_manager(){
+        return $this->hasOne('App\User', 'id', 'manager');
+    }
+
+    public function base_instructor(){
+        return $this->hasOne('App\User', 'id', 'instructor');
     }
 }

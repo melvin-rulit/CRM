@@ -47,11 +47,17 @@ class VmContractResource extends JsonResource
 
 
 
+// $date = Carbon::now();
+// $date->addHours(72);
+
+
+
         return [
             'products'               => $this->base_branch->products,
             'branch' => new BranchResource($this->base_branch),
             'date' =>  Carbon::now()->format('d.m.Y'),
             'start' =>  Carbon::now()->format('d.m.Y'),
+            'stop' =>  Carbon::now()->addWeekdays(100)->format('d.m.Y'),
             'child_surname' =>  $this->child_surname,
             'child_name' =>  $this->child_name,
             'child_middle_name' =>  $this->child_middle_name,

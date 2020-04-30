@@ -25,7 +25,7 @@
 
                 <div class="form-group">
                     <label class="required" for="mother_phone">{{ trans('cruds.promoter.fields.mother_phone') }}</label>
-                    <input class="form-control {{ $errors->has('mother_phone') ? 'is-invalid' : '' }}" type="text" name="mother_phone" id="mother_phone" value="{{ old('mother_phone', '') }}" required data-mask="+0 (000) 000-00-00" placeholder="+_ (___) ___ __ __">
+                    <input class="form-control {{ $errors->has('mother_phone') ? 'is-invalid' : '' }}" type="text" name="mother_phone" id="mother_phone" value="{{ old('mother_phone', '') }}" required data-mask="+00 (000) 000-00-00" placeholder="+_ (___) ___ __ __">
                     @if($errors->has('mother_phone'))
                         <div class="invalid-feedback">
                             {{ $errors->first('mother_phone') }}
