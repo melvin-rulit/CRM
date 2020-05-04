@@ -45,19 +45,11 @@ class VmContractResource extends JsonResource
             $parent_instagram = $this->other_relative_instagram;
         }
 
-
-
-// $date = Carbon::now();
-// $date->addHours(72);
-
-
-
         return [
             'products'               => $this->base_branch->products,
             'branch' => new BranchResource($this->base_branch),
             'date' =>  Carbon::now()->format('d.m.Y'),
             'start' =>  Carbon::now()->format('d.m.Y'),
-            'stop' =>  Carbon::now()->addWeekdays(100)->format('d.m.Y'),
             'child_surname' =>  $this->child_surname,
             'child_name' =>  $this->child_name,
             'child_middle_name' =>  $this->child_middle_name,
@@ -73,16 +65,10 @@ class VmContractResource extends JsonResource
             'contract_name' =>  'Відкрий можливості',
             'organization' =>  'Булик І.В.',
             'requisites' =>  'ЮЖНЕ ГРУ АТ КБ «Приватбанк», МФО 328704',
-            'price' =>  '400',
-            'price_title' =>  'чотириста',
             'price_stock' =>  '250',
             'price_stock_title' =>  'двісті п’ятдесят',
             'price_pledge' =>  '400',
-            'price_pledge_title' =>  'чотириста',      
-            'classes_total' =>  '10',      
-            'classes_week' =>  '3',      
-            'freezing_total' =>  '10',      
-            'freezing_kolvo' =>  '3',     
+            'price_pledge_title' =>  'чотириста',       
         ];
     }
 }

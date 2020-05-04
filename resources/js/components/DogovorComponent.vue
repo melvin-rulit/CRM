@@ -163,7 +163,7 @@
       </div>
       <div class="modal-body modal-lg" id="printOSN">
         <div class="Section1"> 
-          <h1>ЗАЯВА № {{ user_id }} від  «{{ dataVm.date }}»  р.<br>
+          <h1>ЗАЯВА № {{ user_id }} від  «<input style="width: 86px" v-mask="'##.##.####'" placeholder="20.05.2015" v-model="dataVm.date" class="line">»  р.<br>
             до Публічної пропозиції Договору надання послуг фізичного виховання дітей<br>
             <span class="hide">(публічний договір розташований на офіційномусайті clubleva.ua)</span>
           </h1>
@@ -207,9 +207,9 @@
           <table class="tabs">
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>
-              <td width="25%"><input placeholder="12.05.2020" v-mask="'##.##.####'" v-model="dataVm.date" class="line"></td>
+              <td width="25%"><input placeholder="12.05.2020" v-mask="'##.##.####'" v-model="dataVm.start" class="line"></td>
               <td class="gray" width="25%">Дата закінчення договору</td>
-              <td width="25%"><input placeholder="12.05.2020" v-mask="'##.##.####'" v-model="end" class="line"></td>
+              <td width="25%">{{ stopContract }}</td>
             </tr>
             <tr>
               <td class="gray" width="25%">Загальна кількість занять за договором</td>
@@ -222,8 +222,7 @@
           Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає
           <table class="tabs">   
             <td width="15%"><span v-if="product">{{product.price}}</span></td>
-            <td> грн.</td>
-            <td>({{ dataVm.price_title }}) грн.</td>
+            <td>(<span v-if="product">{{ product.price_title }}</span>) грн.</td>
           </table>
 
             Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
@@ -255,7 +254,6 @@
             послуг фізичного виховання дітей.<br>
             <b>Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення
             договору.</b><br>
-            Дата закінчення договору «<b>{{ stopContract }}</b>»
             <table style="margin-top: 0.5in; border-spacing: 0.2in;" class="tabs">
               <tr>
                 <td>«Виконавець» ФОП</td>
@@ -363,9 +361,10 @@
                   base_id: this.user_id , 
                   name: this.product.name, 
                   name_vm: this.contracts_vm, 
-                  start: this.dataVm.date,
-                  end: this.dataVm.date, 
-                  end_actually: this.dataVm.date, 
+                  date: this.dataVm.date,
+                  start: this.dataVm.start,
+                  end: this.stopContract, 
+                  end_actually: this.stopContract, 
                   price: this.product.price, 
                   child_surname: this.dataVm.child_surname, 
                   child_name: this.dataVm.child_name, 
@@ -384,8 +383,6 @@
                   classes_total: this.dataVm.classes_total,          
                   freezing_total: this.product.freezing_total,  
                   freezing_kolvo: this.product.freezing_kolvo,
-                  days: this.days,
-                  time: this.time,
                 })
                 contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
              },

@@ -17,5 +17,6 @@ class Product extends Model
     	'freezing_total',
     	'active',
         'branch_id',
+        'old_id',
     ];
 }

@@ -85,6 +85,18 @@ class ContractController extends Controller
 	if ($request['contract_type'] == 'osn') {
     	$contract = new Contract;
 		$contract->base_id = $request['base_id'];
+        $contract->child_surname = $request['child_surname'];
+        $contract->child_name = $request['child_name'];
+        $contract->child_middle_name = $request['child_middle_name'];
+        $contract->child_birthday = $request['child_birthday'];
+        $contract->parent_surname = $request['parent_surname'];
+        $contract->parent_name = $request['parent_name'];
+        $contract->parent_middle_name = $request['parent_middle_name'];
+        $contract->parent_phone = $request['parent_phone'];
+        $contract->parent_viber = $request['parent_viber'];
+        $contract->parent_email = $request['parent_email'];
+        $contract->parent_facebook = $request['parent_facebook'];
+        $contract->parent_instagram = $request['parent_instagram'];
 		$contract->name = $request['name'];
 		$contract->price = $request['price'];
 		$contract->start = $request['start'];
@@ -98,11 +110,7 @@ class ContractController extends Controller
         $contract->freezing_total =  $request['freezing_total'];      
         $contract->freezing_kolvo = $request['freezing_kolvo'];    
 		$contract->save();
-	}
-
-
-            // 'price_stock' =>  '250',
-            // 'price_pledge' =>  '400',   
+	} 
 
     	return [
     		'success' => "ok",

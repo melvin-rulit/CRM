@@ -14,5 +14,17 @@ class Contract extends Model
         'end_actually',
         'active',
         'date',
+        'child_surname',
+        'child_name', 
+        'child_middle_name', 
+        'child_birthday', 
+        'parent_surname', 
+        'parent_name',
+        'parent_middle_name', 
+        'parent_phone', 
+        'parent_viber', 
+        'parent_email', 
+        'parent_facebook', 
+        'parent_instagram', 
     ];
 }

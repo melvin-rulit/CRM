@@ -140,8 +140,8 @@
                             <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
     					</tr>
     				</thead>
-    				<tbody>
-    					<tr v-for="(product, index) in branch.products">
+    				<tbody v-for="(product, index) in branch.products">
+    					<tr data-toggle="collapse" :data-target="'#' + product.id" class="accordion-toggle" >
     						<td>
                                 <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
                             </td>
@@ -172,6 +172,30 @@
                             <td v-else="" class="text-center" v-on:click="removeRow(index, product.id)">
                                 <span class="fe fe-trash-2 h3 text-danger"></span>
                             </td>
+                            <tr>
+                                <td colspan="12" class="hiddenRow">
+                                    <div class="accordian-body collapse p-3" :id="product.id">
+                                        <div class="row">
+                                            <div class="card-body col-md-6">
+                                                <p>Платёж 1 : <span>256</span> + дней <span>5</span></p>                                         
+                                                <p>Платёж 2 : <span>256</span> + дней <span>5</span></p>                                         
+                                                <p>Платёж 3 : <span>256</span> + дней <span>5</span></p>                                         
+                                            </div>
+                                            <div class="card-body col-md-6 border-left">
+                                                <p>Сумма прописью : <input-form v-model="product.price_title" name="price_title" :id="product.id" @edit-field="editField"></input-form></p>
+                                                <p>Заморозки по : 
+                                                    <select v-model="product.freezing_kolvo" @change="editProduct(product.id, product.freezing_kolvo)">
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                    </select>
+                                                </p>
+                                                <p>Старый ID : <input-form v-model="product.old_id" name="old_id" :id="product.id" @edit-field="editField"></input-form></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td> 
+                            </tr>
     					</tr>
     				</tbody>
     			</table>
@@ -225,6 +249,12 @@
 
 <script>
 
+
+    $('.accordion-toggle').click(function(){
+    // $('.hiddenRow').hide();
+    $(this).next('tr').find('.hiddenRow').show();
+});
+
 Vue.component('inputForm', {
   props: {
     value: {
@@ -276,6 +306,7 @@ Vue.use(VueSimpleAlert);
 		data() {
             return{
                 rowNew: '',
+                freezing_kolvo: '',
                 buttonAdd: true,
                 price: 'Базовая цена продукта',
                 classes_total: 'Общее количество тренировок в контракте',
@@ -322,6 +353,9 @@ Vue.use(VueSimpleAlert);
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
                 axios.put('api/v2/products/'+ id, {field_name: key, field_value: value })
+            },
+            editProduct(id, freezing) {
+                axios.put('api/v2/products/'+ id, {field_name: 'freezing_kolvo', field_value: freezing })
             },
             editFieldBranch(e, name) {
                 const id = e.target.id;
@@ -384,4 +418,18 @@ Vue.use(VueSimpleAlert);
 .pointer {
     cursor: pointer;
 }
+
+.main-section{
+    margin-top: 120px;
+}
+.hiddenRow {
+    cursor: default;
+    padding: 0 4px !important;
+    /*background-color: #eeeeee;*/
+    font-size: 13px;
+}
+.accordian-body span{
+    color:#a2a2a2 !important;
+}
+
 </style>

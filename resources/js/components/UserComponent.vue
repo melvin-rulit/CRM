@@ -10,13 +10,31 @@
               </div>
               <div class="col-auto">
                 <a class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches() , getUsers()" data-target="#addNewUser">Добавить клиента</a>
-                <!-- <a class="btn btn-sm btn-info" href="javascript:void(0)">Фильтр</a> -->
+                <a class="btn btn-sm btn-info" href="javascript:void(0)" data-toggle="modal" data-target="#filter">Фильтр</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+        <!-- Модальное окно фильтра -->
+    <div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLongTitle">Фильтр клиентов</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pb-3">
+                    <h3 class="text-center text-danger">Фильтр находится в разработке</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Модальное окно с выбором контрактом -->
 <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -400,20 +418,20 @@
                             </tr>
                             <tr>
                                 <td>Заморозки:</td>
-                                <td>24 | 15 | 9</td>
+                                <td>0 | 0 | 0</td>
                             </tr>
                             <tr>
                                 <td>Тренировки:</td>
-                                <td>81 | 28 | 53</td>
+                                <td>0 | 0 | 0</td>
                             </tr>
                         </tbody>
                     </table>
                                     <p>Оплаты: 
-                    <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">4212</span>
-                    <a href="javascript:void(0)" class="text-success ml-2" v-on:click="getModalSale()">3159</a>
-                    <span class="text-danger ml-2">3348</span>
+                    <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">0</span>
+                    <a href="javascript:void(0)" class="text-success ml-2" v-on:click="getModalSale()">0</a>
+                    <span class="text-danger ml-2">0</span>
                 </p>
-                <p>Сумма и остаток: <span class="ml-2">10530 (3159)</span></p>
+                <p>Сумма и остаток: <span class="ml-2">0 (0)</span></p>
                 </div>
                 <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>
                 </transition>
