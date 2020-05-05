@@ -14,6 +14,9 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     // Products
     Route::apiResource('products', 'ProductController');
 
+    // Users
+    Route::apiResource('users', 'UserController');
+
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');
     Route::post('image', 'BaseController@upload');

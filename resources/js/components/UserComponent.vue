@@ -10,7 +10,7 @@
               </div>
               <div class="col-auto">
                 <a class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches() , getUsers()" data-target="#addNewUser">Добавить клиента</a>
-                <a class="btn btn-sm btn-info" data-toggle="collapse" href="#filter" role="button" aria-expanded="false" aria-controls="filter">Фильтр</a>
+                <button class="btn btn-sm btn-info" @click="showCollapse(), filter = !filter">Фильтр</button>
               </div>
             </div>
           </div>
@@ -18,29 +18,29 @@
       </div>
     </div>
 
+
 <div class="collapse" id="filter">
     <div class="card card-body">
         <div class="row mb-3">
             <div class="col-12">
                 <form class="d-flex justify-content-around">
                     <div class="filter">
-                        <input v-model="surname" type="text" class="form-control" placeholder="Фамилия">
+                        <input v-model="surname" class="form-control" placeholder="Фамилия">
                     </div>
                     <div class="filter">
-                        <input v-model="name" type="text" class="form-control" placeholder="Имя">
+                        <input v-model="name" class="form-control" placeholder="Имя">
                     </div>
                     <div class="filter">
-                        <input v-model="birthday" type="text" class="form-control" placeholder="Год рождения">
+                        <input v-model="birthday" class="form-control" placeholder="Год рождения">
                     </div>
                     <div class="submit">
-                        <button type="submit" @click.prevent="fetch" class="btn btn-primary" :disabled="busy">
+                        <button type="submit" @click.prevent="fetch" class="btn btn-success" :disabled="busy">
                             <i v-if="busy" class="fa fa-spin fa-spinner"></i>
                             Фильтр
                         </button>
                     </div>
-
                     <div class="submit">
-                        <button type="submit" @click.prevent="reset" class="btn btn-default" :disabled="busy">
+                        <button type="submit" @click.prevent="reset" class="btn btn-primary" :disabled="busy">
                             Сброс
                         </button>
                     </div>
@@ -51,7 +51,7 @@
 </div>
 
 
-    <!-- Модальное окно с выбором контрактом -->
+    <!-- Модальное окно с добавление нового клиента -->
 <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -145,7 +145,7 @@
 
 
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">666</div>
+  <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab"></div>
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="card">
             <div class="card-body pb-0">
@@ -174,9 +174,7 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <p v-for="user in users">{{ user }}</p>
-    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"></div>
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"></div>
 </div>
 
@@ -618,6 +616,7 @@ Vue.use(VueHtmlToPaper, options);
                 branch: '',
                 rep: [],
                 telephone: '4565456',
+                filter: false,
             }
         },
         created(){
@@ -635,6 +634,9 @@ Vue.use(VueHtmlToPaper, options);
           },
 
         methods: {
+            showCollapse(){
+                this.filter  ? $('#filter').collapse('hide') : $('#filter').collapse('show');
+            },
             fetch() {
                 this.busy = true;
                 axios.get(`api/v2/filter`, {

@@ -169,7 +169,7 @@
                             <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
                                 <span class="fe fe-save h3 text-success"></span>
                             </td>
-                            <td v-else="" class="text-center" v-on:click="removeRow(index, product.id)">
+                            <td v-else="" class="text-center" v-on:click="removeRow(index, product.id, product.name)">
                                 <span class="fe fe-trash-2 h3 text-danger"></span>
                             </td>
                             <tr>
@@ -342,8 +342,8 @@ Vue.use(VueSimpleAlert);
             addRow(branch){
                this.branch.products.push({rowNew: true, name: 'Название продукта', price: 0, classes_total: 0, classes_week: 0, category_time: 0, freezing_total: 0, months: 0, days: 0, active: true ,price_title: 'Цена прописью' ,branch_id: branch});
             },
-            removeRow(index, id){
-                this.$confirm("Удалить программу ?").then(() => {
+            removeRow(index, id, name){
+                this.$confirm("Удалить программу " + name + " ?").then(() => {
                     this.branch.products.splice(index,1);
                     axios.delete('api/v2/products/'+ id);
                 });

@@ -4,7 +4,7 @@
 <div id="app">
 	
 <!-- <product-component></product-component> -->
-<users-component></users-component>
+<users2-component></users2-component>
 
 @foreach($users as $user)
 	<h3>{{ $user->surname }}</h3>

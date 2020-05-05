@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\User;
 use App\Product;
 use App\Base;
-use App\UsersFilter;
+use App\Filters\UsersFilter;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
