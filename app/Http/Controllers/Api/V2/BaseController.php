@@ -10,6 +10,7 @@ use App\Http\Resources\VmContractResource;
 use App\Http\Resources\TestResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Filters\UsersFilter;
 use App\Base;
 use App\Branch;
 use App\User;
@@ -68,6 +69,18 @@ class BaseController extends Controller
         $base->save();
 
         return $path;
+    }
+
+    public function filter(Request $request, UsersFilter $filters)
+    {
+
+        $users = Base::filter($filters)->get();
+
+        if ($request->expectsJson()) {
+            return response()->json($users->toArray());
+        }
+
+        return view('pages.product', compact('users'));
     }
 
 }

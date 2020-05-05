@@ -109,4 +109,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Branch', 'user_branches');
     }
+
+    public function scopeFilter($builder, $filters)
+    {
+        return $filters->apply($builder);
+    }
 }

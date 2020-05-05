@@ -10,7 +10,7 @@
               </div>
               <div class="col-auto">
                 <a class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches() , getUsers()" data-target="#addNewUser">Добавить клиента</a>
-                <a class="btn btn-sm btn-info" href="javascript:void(0)" data-toggle="modal" data-target="#filter">Фильтр</a>
+                <a class="btn btn-sm btn-info" data-toggle="collapse" href="#filter" role="button" aria-expanded="false" aria-controls="filter">Фильтр</a>
               </div>
             </div>
           </div>
@@ -18,22 +18,37 @@
       </div>
     </div>
 
-        <!-- Модальное окно фильтра -->
-    <div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLongTitle">Фильтр клиентов</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body pb-3">
-                    <h3 class="text-center text-danger">Фильтр находится в разработке</h3>
-                </div>
+<div class="collapse" id="filter">
+    <div class="card card-body">
+        <div class="row mb-3">
+            <div class="col-12">
+                <form class="d-flex justify-content-around">
+                    <div class="filter">
+                        <input v-model="surname" type="text" class="form-control" placeholder="Фамилия">
+                    </div>
+                    <div class="filter">
+                        <input v-model="name" type="text" class="form-control" placeholder="Имя">
+                    </div>
+                    <div class="filter">
+                        <input v-model="birthday" type="text" class="form-control" placeholder="Год рождения">
+                    </div>
+                    <div class="submit">
+                        <button type="submit" @click.prevent="fetch" class="btn btn-primary" :disabled="busy">
+                            <i v-if="busy" class="fa fa-spin fa-spinner"></i>
+                            Фильтр
+                        </button>
+                    </div>
+
+                    <div class="submit">
+                        <button type="submit" @click.prevent="reset" class="btn btn-default" :disabled="busy">
+                            Сброс
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 
     <!-- Модальное окно с выбором контрактом -->
@@ -539,6 +554,10 @@ Vue.use(VueHtmlToPaper, options);
     export default {
         data() {
             return{
+                surname: null,
+                birthday: null,
+                users: [],
+                busy: false,
                 selected: null,
                 products: null,
                 dataVm: {},
@@ -616,6 +635,26 @@ Vue.use(VueHtmlToPaper, options);
           },
 
         methods: {
+            fetch() {
+                this.busy = true;
+                axios.get(`api/v2/filter`, {
+                    params: {
+                        surname: this.surname,
+                        name: this.name,
+                        birthday: this.birthday,
+                    }
+                })
+                    .then(response => {
+                        this.articles = response.data;
+                        this.busy = false;
+                    })
+            },
+            reset() {
+                this.surname = null;
+                this.name = null;
+                this.birthday = null;
+                this.fetchArticles();
+            },
             print() {
                 this.$htmlToPaper('printVM');
             },

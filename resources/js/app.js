@@ -27,6 +27,7 @@ Vue.component('vmdogovor-component', require('./components/VmDogovor.vue').defau
 Vue.component('editfield-component', require('./components/EditFieldComponent.vue').default);
 Vue.component('product-component', require('./components/ProductComponent.vue').default);
 Vue.component('region-component', require('./components/RegionComponent.vue').default);
+Vue.component('users-component', require('./components/UsersList.vue').default);
 
 
 /**

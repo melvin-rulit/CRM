@@ -34,4 +34,9 @@ class Base extends Model
     public function base_instructor(){
         return $this->hasOne('App\User', 'id', 'instructor');
     }
+
+    public function scopeFilter($builder, $filters)
+    {
+        return $filters->apply($builder);
+    }
 }

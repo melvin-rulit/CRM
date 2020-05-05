@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Product;
+use App\User;
+use DB;
+use App\Filters\UsersFilter;
 
 class ProductController extends Controller
 {
@@ -14,9 +17,17 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, UsersFilter $filters)
     {
-        //
+
+        $users = DB::table('users')->where('name', 'like', 1)->get();
+        // dd($users);
+            // $users = User::filter($filters)->get();
+
+            // return $users;
+
+        $users = (new UsersFilter($users))->apply()->get();
+
     }
 
     /**
