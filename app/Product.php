@@ -19,4 +19,8 @@ class Product extends Model
         'branch_id',
         'old_id',
     ];
+
+    public function pays(){
+        return $this->hasMany(Product_pay::class);
+    }
 }

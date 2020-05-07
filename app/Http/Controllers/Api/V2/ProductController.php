@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\BranchResource;
 use Illuminate\Http\Request;
 use App\Product;
 use App\User;
@@ -58,9 +59,12 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+
+        return (new BranchResource($product->load(['pays'])))
+                    ->response()
+                    ->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**

@@ -63,8 +63,8 @@ class ArticleResource extends JsonResource
                 'avatar' => $this->avatar,
             ],
                 'base_branch' => $this->base_branch->name,
-                'manager' => $this->base_manager->surname . ' '.$this->base_manager->name,
-                'instructor' => $this->base_instructor->surname . ' ' .$this->base_instructor->name,
+                'manager' => $this->base_manager ?  $this->base_manager->surname . ' ' .$this->base_manager->name : 'Нет' ,
+                'instructor' => $this->base_instructor ? $this->base_instructor->surname . ' ' .$this->base_instructor->name : 'Нет',
         ];
     }
 }

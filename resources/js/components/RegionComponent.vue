@@ -54,22 +54,10 @@
     			</div>
     			<div class="modal-body pb-0">
 					<form @submit.prevent="addNewBranch">
-			    		<div class="col-md form-group">
-						  <label class="form-control-label required">Название филиала</label>
-						  <input class="form-control" v-model.trim="name" required>
-						</div>
-						<div class="col-md form-group">
-						  <label class="form-control-label required">Город</label>
-						  <input class="form-control" v-model.trim="town" required>
-						</div>
-						<div class="col-md form-group">
-						  <label class="form-control-label required">Адресс</label>
-						  <input class="form-control" v-model.trim="adress" required>
-						</div>
-						<div class="col-md form-group">
-						  <label class="form-control-label required">Телефон</label>
-						  <input class="form-control" placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'" v-model.trim="phone" required>
-						</div>
+                        <div class="col-md form-group" v-for="item in newBranchFields">
+                          <label class="form-control-label required">{{ item.label }}</label>
+                          <input class="form-control" v-model="addNewBranchFields[item['v-model']]" :placeholder="item.placeholder" v-mask="item.mask" required>
+                        </div>
 						<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
 						<button type="submit" class="btn btn-success">Добавить</button>
@@ -140,7 +128,7 @@
                             <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
     					</tr>
     				</thead>
-    				<tbody v-for="(product, index) in branch.products">
+    				<tbody v-for="(product, int) in branch.products">
     					<tr data-toggle="collapse" :data-target="'#' + product.id" class="accordion-toggle" >
     						<td>
                                 <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
@@ -169,19 +157,21 @@
                             <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
                                 <span class="fe fe-save h3 text-success"></span>
                             </td>
-                            <td v-else="" class="text-center" v-on:click="removeRow(index, product.id, product.name)">
+                            <td v-else="" class="text-center" v-on:click="removeRow(int, product.id, product.name)">
                                 <span class="fe fe-trash-2 h3 text-danger"></span>
                             </td>
                             <tr>
                                 <td colspan="12" class="hiddenRow">
                                     <div class="accordian-body collapse p-3" :id="product.id">
                                         <div class="row">
-                                            <div class="card-body col-md-6">
-                                                <p>Платёж 1 : <span>256</span> + дней <span>5</span></p>                                         
-                                                <p>Платёж 2 : <span>256</span> + дней <span>5</span></p>                                         
-                                                <p>Платёж 3 : <span>256</span> + дней <span>5</span></p>                                         
+                                            <div class="card-body col-md-6 pt-1 pb-1">
+                                                <button class="btn btn-sm btn-success pb-2" @click="addRowPay(int, product.id)" :disabled="busy">Добавить платеж</button>
+                                                <p v-for="(pay, index) in product.pays">Платёж {{ index+1 }} : <input-form v-mask="'###'" v-model="pay.pay" name="pay" :id="pay.id" @edit-field="editFieldProductPay"></input-form> + дней <input-form v-mask="'###'" v-model="pay.day" name="day" :id="pay.id" @edit-field="editFieldProductPay"></input-form>
+                    <span v-if="pay.rowNewPay" v-on:click="savePay(int, index, branch.id)" class="fe fe-save h3 text-success"></span>
+                    <span v-else="" v-on:click="removePay(int, index, pay.id)" class="fe fe-trash-2 h3 text-danger pl-2"></span>
+</p>                                    
                                             </div>
-                                            <div class="card-body col-md-6 border-left">
+                                            <div class="card-body col-md-6 pt-1 pb-1 border-left">
                                                 <p>Сумма прописью : <input-form v-model="product.price_title" name="price_title" :id="product.id" @edit-field="editField"></input-form></p>
                                                 <p>Заморозки по : 
                                                     <select v-model="product.freezing_kolvo" @change="editProduct(product.id, product.freezing_kolvo)">
@@ -202,7 +192,7 @@
     		</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" @click="buttonAdd = true" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+				<button type="button" @click="buttonAdd = true, busy = false" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
 			</div>
 		</div>
 	</div>
@@ -215,20 +205,15 @@
 		<div class="card">
 			<div class="card-header">
 				<div class="row align-items-center">
-					<div class="col">
-						{{ region.name }}
-					</div>
+					<div class="col">{{ region.name }}</div>
 				</div>
 			</div>
-
 			<div class="card-body">
 				<div class="card card-sm mb-2 pointer" @click="getBranch(branch.id)" v-for="branch in region.branches">
 					<div class="card-body">
 						<div class="row align-items-center">
 							<div class="col-12 col-md">
-								<a href="#" class="mb-md-0">
-									{{ branch.name }}
-								</a>
+								<a href="#" class="mb-md-0">{{ branch.name }}</a>
 							</div>
 						</div>
 					</div>    		   
@@ -251,7 +236,6 @@
 
 
     $('.accordion-toggle').click(function(){
-    // $('.hiddenRow').hide();
     $(this).next('tr').find('.hiddenRow').show();
 });
 
@@ -289,11 +273,6 @@ Vue.component('inputForm', {
 })
 
 
-import VTitle from 'v-title';
-
-Vue.use(VTitle);
-
-
 import VueSimpleAlert from "vue-simple-alert";
 
 Vue.use(VueSimpleAlert);
@@ -305,9 +284,13 @@ Vue.use(VueSimpleAlert);
 	  },
 		data() {
             return{
-                rowNew: '',
-                freezing_kolvo: '',
-                buttonAdd: true,
+                addNewBranchFields: {},
+                newBranchFields: [
+                    {label: 'Название филиала', 'v-model': 'name'}, 
+                    {label: 'Город', 'v-model': 'town'}, 
+                    {label: 'Адресс', 'v-model': 'adress'}, 
+                    {label: 'Телефон', 'v-model': 'phone', 'placeholder': '+38 (926) 123-45-67', 'mask': '+## (###) ###-##-##'}, 
+                 ],
                 price: 'Базовая цена продукта',
                 classes_total: 'Общее количество тренировок в контракте',
                 classes_week: 'Количество тренировок в неделю',
@@ -316,10 +299,19 @@ Vue.use(VueSimpleAlert);
                 months: 'Количество месяцев',
                 days: 'Количество дней',
                 add_product: 'Добавить продукт',
+                busy: false,
+                rowNew: '',
+                rowNewPay: '',
+                freezing_kolvo: '',
+                buttonAdd: true,
             	regions: {
                      branches: [],
                 },
-                branch: {},
+                branch: {
+                    products: {
+                        pays: [],
+                    }, 
+                },
                 region_id: '',
             }
         },
@@ -340,12 +332,49 @@ Vue.use(VueSimpleAlert);
                 this.getBranch(id);
             },
             addRow(branch){
-               this.branch.products.push({rowNew: true, name: 'Название продукта', price: 0, classes_total: 0, classes_week: 0, category_time: 0, freezing_total: 0, months: 0, days: 0, active: true ,price_title: 'Цена прописью' ,branch_id: branch});
+               this.branch.products.push({
+                    rowNew: true, 
+                    name: 'Название продукта', 
+                    price: 0, 
+                    classes_total: 0, 
+                    classes_week: 0, 
+                    category_time: 0, 
+                    freezing_total: 0, 
+                    months: 0, 
+                    days: 0, 
+                    active: true ,
+                    price_title: 'Цена прописью' ,
+                    branch_id: branch
+                });
+            },
+            addRowPay(int, product_id){
+               this.busy = true
+               this.branch.products[int].pays.push({
+                    rowNewPay: true, 
+                    pay: 0, 
+                    day: 0, 
+                    product_id: product_id
+                });
+            },
+            savePay(int, index, id){
+                this.busy = false
+                this.branch.products[int].pays[index].rowNewPay = '';
+                axios.post('api/v2/product_pay',this.branch.products[int].pays[index])
+                this.$alert("Платёж добавлен");
+                this.getBranch(id);
             },
             removeRow(index, id, name){
                 this.$confirm("Удалить программу " + name + " ?").then(() => {
                     this.branch.products.splice(index,1);
                     axios.delete('api/v2/products/'+ id);
+                    this.$alert("Программа удалена");
+                });
+            },
+            removePay(int, index, id){
+                this.$confirm("Удалить платеж ?").then(() => {
+                    axios.delete('api/v2/product_pay/'+ id);
+                    this.branch.products[int].pays.splice(index,1);
+                    this.$alert("Платёж удален");
                 });
             },
             editField(e, name) {
@@ -354,14 +383,20 @@ Vue.use(VueSimpleAlert);
                 const key = e.currentTarget.getAttribute('name');
                 axios.put('api/v2/products/'+ id, {field_name: key, field_value: value })
             },
-            editProduct(id, freezing) {
-                axios.put('api/v2/products/'+ id, {field_name: 'freezing_kolvo', field_value: freezing })
-            },
             editFieldBranch(e, name) {
                 const id = e.target.id;
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
                 axios.put('api/v2/branches/'+ id, {field_name: key, field_value: value })
+            },
+            editFieldProductPay(e, name) {
+                const id = e.target.id;
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.put('api/v2/product_pay/'+ id, {field_name: key, field_value: value })
+            },
+            editProduct(id, freezing) {
+                axios.put('api/v2/products/'+ id, {field_name: 'freezing_kolvo', field_value: freezing })
             },
         	getModalBranch(region_id){
         		$('#addNewBranch').modal('show');
@@ -371,20 +406,16 @@ Vue.use(VueSimpleAlert);
         		$('#getbranch').modal('show');
         		axios.get('api/v2/branches/' + id)
                 .then(response => this.branch = response.data.data)
-                .finally(() => console.log('Филиал успешно загружен'));
         	},
         	getRegion(){
         		axios.get('api/v2/regions')
                 .then(response => this.regions = response.data.data)
-                .finally(() => console.log('Регионы успешно загружены'));
         	},
         	addNewRegion(){
         		$('#addNewRegion').modal('hide');
         		$(document.body).removeClass("modal-open");
 				$(".modal-backdrop.show").hide();
-        		axios.post('api/v2/regions',{
-        			name: this.name,
-        		})
+        		axios.post('api/v2/regions',{name: this.name,})
         		.then(response => this.responsesuccess = response.data)
         		.finally(() => (this.getRegion()))
         		setTimeout(() => {
@@ -397,10 +428,10 @@ Vue.use(VueSimpleAlert);
         		$(document.body).removeClass("modal-open");
 				$(".modal-backdrop.show").hide();
         		axios.post('api/v2/branches',{
-        			name: this.name,
-        			geolocation: this.town,
-        			adress: this.adress,
-        			phone: this.phone,
+        			name: this.addNewBranchFields.name,
+        			geolocation: this.addNewBranchFields.town,
+        			adress: this.addNewBranchFields.adress,
+        			phone: this.addNewBranchFields.phone,
         			region_id: this.region_id,
         		})
         		.then(response => this.responsesuccess = response.data)

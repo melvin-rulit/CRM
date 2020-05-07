@@ -72,3 +72,4 @@ class VmContractResource extends JsonResource
         ];
     }
 }
+

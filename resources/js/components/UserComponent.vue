@@ -18,6 +18,7 @@
       </div>
     </div>
 
+<!-- <filter-component></filter-component> -->
 
 <div class="collapse" id="filter">
     <div class="card card-body">
@@ -190,33 +191,43 @@
         <div class="card mb-3">
             <div class="row no-gutters">
                 <div class="col-md-4">
-
-    <input type="file" ref="avatar" @change="onFileChange" style="display: none;">
-
-  <div v-if="!dataObject.attributes.avatar">
-    <div @click="$refs.avatar.click()" class="hoverim" style="display: flex; width: 250px; height: 250px; border-radius: 0px; font: 100px / 250px Helvetica, Arial, sans-serif; align-items: center; justify-content: center; text-align: center; user-select: none; background-color: rgb(255, 193, 7); color: rgb(255, 255, 255);"><span>?</span></div>
-  </div>
-  <div v-else>
-<img @click="$refs.avatar.click()" class="hoverim" :src="siteURL+dataObject.attributes.avatar" style="display: flex; width: 250px; height: 250px; border-radius: 0px;" />
-  </div>
+                    <input type="file" ref="avatar" @change="onFileChange" style="display: none;">
+                    <div v-if="!dataObject.attributes.avatar">
+                        <div @click="$refs.avatar.click()" class="hoverim not-photo"><span>?</span></div>
+                    </div>
+                    <div v-else>
+                        <img @click="$refs.avatar.click()" class="hoverim photo" :src="siteURL+dataObject.attributes.avatar"/>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card-body">
-                        <h4><input-form v-model="dataObject.attributes.child_surname" name="child_surname" @edit-field="editField"></input-form></h4>
-                        <h4><input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form></h4>
-                        <h4><input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form></h4>
-                        <p class="card-text"><input-form placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form> <span>({{ dataObject.attributes.age }} лет)</span></p>
-                        <h5 class="text-muted mb-2">Менеджер: <span v-if="dataObject.manager" class="text-dark">{{ dataObject.manager }}</span></h5>
-                        <h5 class="text-muted mb-2">Тренер: <span v-if="dataObject.instructor" class="text-dark">{{ dataObject.instructor }}</span></h5>
+                        <h4>
+                            <input-form v-model="dataObject.attributes.child_surname" name="child_surname" @edit-field="editField"></input-form>
+                        </h4>
+                        <h4>
+                            <input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form>
+                        </h4>
+                        <h4>
+                            <input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form>
+                        </h4>
+                        <p class="card-text">
+                            <input-form placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form>
+                            <span>({{ dataObject.attributes.age }} лет)</span>
+                        </p>
+                        <h5 class="text-muted mb-2">Менеджер: 
+                            <span v-if="dataObject.manager" class="text-dark">{{ dataObject.manager }}</span>
+                        </h5>
+                        <h5 class="text-muted mb-2">Тренер: 
+                            <span v-if="dataObject.instructor" class="text-dark">{{ dataObject.instructor }}</span>
+                        </h5>
                         <h6 class="text-uppercase text-muted mb-2 mt-4">
                             <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>
                             <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>
                             <a href="#" @click.prevent="saveBranch" v-show="showBranch" class="fe fe-save h3 text-success"></a>
                         </h6>
-
-        <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">
-            <option v-for="branch in branches" v-bind:value="branch">{{ branch.name }}</option>
-        </select>
+                        <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">
+                            <option v-for="branch in branches" v-bind:value="branch">{{ branch.name }}</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-4 border-left">
@@ -228,23 +239,8 @@
         </div>
 
 <ul class="nav nav-tabs" id="info" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="mother-tab" data-toggle="tab" href="#mother" role="tab" aria-controls="mother" aria-selected="true">Мать</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="father-tab" data-toggle="tab" href="#father" role="tab" aria-controls="father" aria-selected="false">Отец</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="other_relative-tab" data-toggle="tab" href="#other_relative" role="tab" aria-controls="other_relative" aria-selected="false">Родственник</a>
-  </li>
-    <li class="nav-item">
-    <a class="nav-link" id="contract-tab" data-toggle="tab" href="#contract" role="tab" aria-controls="contract" aria-selected="false">Контракт</a>
-  </li>
-    <li class="nav-item">
-    <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">История</a>
-  </li>
-    <li class="nav-item">
-    <a class="nav-link" id="interests-tab" data-toggle="tab" href="#interests" role="tab" aria-controls="interests" aria-selected="false">Интересы</a>
+  <li class="nav-item" v-for="tabs in tabsInCard">
+    <a class="nav-link" :id="tabs.id + '-tab'" data-toggle="tab" :href="'#' + tabs.id" role="tab" :aria-controls="tabs.id" :aria-selected="tabs.selected">{{tabs.name}}</a>
   </li>
 </ul>
 
@@ -408,14 +404,12 @@
             </div>
             <hr>
         </div>
-
         <div class="row">
-
             <div class="col-md-6 mt-3">
                 <transition name="fade" mode="out-in">
                 <div v-if="dataObject.contracts_active.length > 0" class="table-responsive" :key="indexActiveUser">
                     <p class="card-text text-center">"{{ activeUser.name }}"</p>
-                    <table class=" table table-bordered table-hover datatable datatable-User">
+                    <table class="table table-bordered table-hover datatable datatable-User">
                         <tbody>
                             <tr>
                                 <td>Начало:</td>
@@ -439,9 +433,9 @@
                             </tr>
                         </tbody>
                     </table>
-                                    <p>Оплаты: 
+                <p>Оплаты: 
                     <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">0</span>
-                    <a href="javascript:void(0)" class="text-success ml-2" v-on:click="getModalSale()">0</a>
+                    <a href="#" class="text-success ml-2" @click.prevent="null">0</a>
                     <span class="text-danger ml-2">0</span>
                 </p>
                 <p>Сумма и остаток: <span class="ml-2">0 (0)</span></p>
@@ -449,11 +443,12 @@
                 <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>
                 </transition>
             </div>
-
             <div class="col-md-6 mt-3">
                 <div class="form-group">
                     <p class="card-text text-center">Прошлые контракты</p>
-                    <p v-for="contracts_not_active in dataObject.contracts_not_active"><a href="javascript:void(0)" class="text-muted">"{{contracts_not_active.name}}"  &nbsp {{contracts_not_active.start}} - {{contracts_not_active.end}}</a></p>
+                    <p v-for="contracts_not_active in dataObject.contracts_not_active">
+                        <a @click.prevent="null" href="#" class="text-muted">"{{contracts_not_active.name}}"  &nbsp {{contracts_not_active.start}} - {{contracts_not_active.end}}</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -492,42 +487,40 @@ Vue.use(VueToast);
 import DynamicSelect from 'vue-dynamic-select'
 Vue.use(DynamicSelect)
 
-import VueTheMask from 'vue-the-mask'
-Vue.use(VueTheMask)
 
 
 
-Vue.component('inputForm', {
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    placeholder: {
-    }
-  },
-  data() {
-    return {
-      keyInputForm: null,
-      thisValue: this.value,
-    }
-  },
-  template: `
+// Vue.component('inputForm', {
+//   props: {
+//     value: {
+//       type: String,
+//       required: true
+//     },
+//     name: {
+//       type: String,
+//       required: true
+//     },
+//     placeholder: {
+//     }
+//   },
+//   data() {
+//     return {
+//       keyInputForm: null,
+//       thisValue: this.value,
+//     }
+//   },
+//   template: `
 
-    <span>
-    <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
-    <span>
-      <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
-      <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
-      </div>
-    </div>
+//     <span>
+//     <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
+//     <span>
+//       <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
+//       <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
+//       </div>
+//     </div>
 
-  `
-})
+//   `
+// })
 
 
 import Vue from 'vue';
@@ -552,6 +545,14 @@ Vue.use(VueHtmlToPaper, options);
     export default {
         data() {
             return{
+                tabsInCard: [
+                    {name: 'Мать', id: 'mother', selected: 'true'}, 
+                    {name: 'Отец', id: 'father'}, 
+                    {name: 'Родственник', id: 'other_relative'},
+                    {name: 'Контракт', id: 'contract'}, 
+                    {name: 'История', id: 'history'}, 
+                    {name: 'Интересы', id: 'interests'} 
+                 ],
                 surname: null,
                 birthday: null,
                 users: [],
@@ -573,6 +574,8 @@ Vue.use(VueHtmlToPaper, options);
                      contracts_not_active: {},
                      contracts_active: {},
                      base_branch: {},
+                     manager: {},
+                     instructor: {},
                 },
                 dataUser: [{
                     name: 'Alex',
@@ -824,4 +827,24 @@ Vue.use(VueHtmlToPaper, options);
     cursor: pointer;
 }
 
+.not-photo{
+    display: flex; 
+    width: 250px; 
+    height: 250px; 
+    border-radius: 0px; 
+    font: 100px / 250px Helvetica, Arial, sans-serif; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    user-select: none; 
+    background-color: rgb(255, 193, 7); 
+    color: rgb(255, 255, 255);
+}
+
+.photo{
+    display: flex;
+    width: 250px; 
+    height: 250px; 
+    border-radius: 0px; 
+}
 </style>

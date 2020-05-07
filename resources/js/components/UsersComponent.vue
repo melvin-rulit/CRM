@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body pb-0">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Имя</th>

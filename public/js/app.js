@@ -2054,6 +2054,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
 //
 //
 //
@@ -2344,7 +2349,9 @@ __webpack_require__.r(__webpack_exports__);
     user_id: {}
   },
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       stopContract: '00.00.0000',
       users: [{
         name: 'Tom',
@@ -2359,6 +2366,7 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Alice',
         age: 26
       }],
+      pays: [],
       product: null,
       dataVm: {
         branch: [],
@@ -2416,22 +2424,32 @@ __webpack_require__.r(__webpack_exports__);
       start: '',
       contract_name: '',
       user: ''
-    };
+    }, _defineProperty(_ref, "time", 1), _defineProperty(_ref, "message", 1), _defineProperty(_ref, "messdate", '2020,05,10'), _defineProperty(_ref, "resultMessage", ''), _defineProperty(_ref, "end_actualy", ''), _ref;
   },
   methods: {
-    stopDate: function stopDate() {
+    reversedMessage: function reversedMessage(days) {
+      var D = new Date(this.end_actualy);
+      D.setDate(D.getDate() + days);
+      return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+    },
+    stopDate: function stopDate(id) {
+      var _this = this;
+
+      axios.get('api/v2/products/' + id).then(function (response) {
+        _this.pays = response.data.data;
+      });
       var D = new Date(Date.now());
       D.setDate(D.getDate() + this.product.days);
       this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
     },
     contract: function contract(contract_type) {
-      var _this = this;
+      var _this2 = this;
 
       axios.post('api/v2/getvmcontract', {
         id: this.user_id,
         contract_type: contract_type
       }).then(function (response) {
-        _this.dataVm = response.data.data;
+        _this2.dataVm = response.data.data;
       });
 
       if (contract_type == 'vm') {
@@ -2649,6 +2667,96 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   // },
 
 }), _data$data$created$me);
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Filter/FilterComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Filter/FilterComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['onLogin'],
+  data: function data() {
+    return {
+      articles: [],
+      name: null,
+      is_active: null,
+      birthday: null,
+      manager: null,
+      users: [],
+      busy: false
+    };
+  },
+  methods: {
+    reset: function reset() {
+      this.name = null;
+      this.is_active = null;
+      this.birthday = null;
+      this.manager = null;
+      this.fetch();
+    },
+    fetch: function fetch() {
+      var _this = this;
+
+      this.busy = true;
+      axios.get("api/v2/filter", {
+        params: {
+          surname: this.surname,
+          name: this.name,
+          birthday: this.birthday
+        }
+      }).then(function (response) {
+        _this.articles = response.data;
+        _this.busy = false;
+
+        _this.onLogin(_this.articles);
+      });
+    }
+  },
+  mounted: function mounted() {// this.fetch();
+  }
+});
 
 /***/ }),
 
@@ -2885,23 +2993,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var v_title__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-title */ "./node_modules/v-title/lib/index.js");
-/* harmony import */ var vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-simple-alert */ "./node_modules/vue-simple-alert/lib/index.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-simple-alert */ "./node_modules/vue-simple-alert/lib/index.js");
 //
 //
 //
@@ -3137,7 +3229,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 $('.accordion-toggle').click(function () {
-  // $('.hiddenRow').hide();
   $(this).next('tr').find('.hiddenRow').show();
 });
 Vue.component('inputForm', {
@@ -3162,18 +3253,29 @@ Vue.component('inputForm', {
   template: "\n    <span>\n        <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input class=\"form-control\" size=\"1\" v-else type=\"text\" :value=\"value\" :placeholder=\"placeholder\" :id=\"id\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
 });
 
-Vue.use(v_title__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     canupdate: {}
   },
   data: function data() {
     return {
-      rowNew: '',
-      freezing_kolvo: '',
-      buttonAdd: true,
+      addNewBranchFields: {},
+      newBranchFields: [{
+        label: 'Название филиала',
+        'v-model': 'name'
+      }, {
+        label: 'Город',
+        'v-model': 'town'
+      }, {
+        label: 'Адресс',
+        'v-model': 'adress'
+      }, {
+        label: 'Телефон',
+        'v-model': 'phone',
+        'placeholder': '+38 (926) 123-45-67',
+        'mask': '+## (###) ###-##-##'
+      }],
       price: 'Базовая цена продукта',
       classes_total: 'Общее количество тренировок в контракте',
       classes_week: 'Количество тренировок в неделю',
@@ -3182,10 +3284,19 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
       months: 'Количество месяцев',
       days: 'Количество дней',
       add_product: 'Добавить продукт',
+      busy: false,
+      rowNew: '',
+      rowNewPay: '',
+      freezing_kolvo: '',
+      buttonAdd: true,
       regions: {
         branches: []
       },
-      branch: {},
+      branch: {
+        products: {
+          pays: []
+        }
+      },
       region_id: ''
     };
   },
@@ -3220,6 +3331,23 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
         branch_id: branch
       });
     },
+    addRowPay: function addRowPay(_int, product_id) {
+      this.busy = true;
+
+      this.branch.products[_int].pays.push({
+        rowNewPay: true,
+        pay: 0,
+        day: 0,
+        product_id: product_id
+      });
+    },
+    savePay: function savePay(_int2, index, id) {
+      this.busy = false;
+      this.branch.products[_int2].pays[index].rowNewPay = '';
+      axios.post('api/v2/product_pay', this.branch.products[_int2].pays[index]);
+      this.$alert("Платёж добавлен");
+      this.getBranch(id);
+    },
     removeRow: function removeRow(index, id, name) {
       var _this = this;
 
@@ -3227,6 +3355,19 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
         _this.branch.products.splice(index, 1);
 
         axios["delete"]('api/v2/products/' + id);
+
+        _this.$alert("Программа удалена");
+      });
+    },
+    removePay: function removePay(_int3, index, id) {
+      var _this2 = this;
+
+      this.$confirm("Удалить платеж ?").then(function () {
+        axios["delete"]('api/v2/product_pay/' + id);
+
+        _this2.branch.products[_int3].pays.splice(index, 1);
+
+        _this2.$alert("Платёж удален");
       });
     },
     editField: function editField(e, name) {
@@ -3238,12 +3379,6 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
         field_value: value
       });
     },
-    editProduct: function editProduct(id, freezing) {
-      axios.put('api/v2/products/' + id, {
-        field_name: 'freezing_kolvo',
-        field_value: freezing
-      });
-    },
     editFieldBranch: function editFieldBranch(e, name) {
       var id = e.target.id;
       var value = e.target.value;
@@ -3253,31 +3388,42 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
         field_value: value
       });
     },
+    editFieldProductPay: function editFieldProductPay(e, name) {
+      var id = e.target.id;
+      var value = e.target.value;
+      var key = e.currentTarget.getAttribute('name');
+      axios.put('api/v2/product_pay/' + id, {
+        field_name: key,
+        field_value: value
+      });
+    },
+    editProduct: function editProduct(id, freezing) {
+      axios.put('api/v2/products/' + id, {
+        field_name: 'freezing_kolvo',
+        field_value: freezing
+      });
+    },
     getModalBranch: function getModalBranch(region_id) {
       $('#addNewBranch').modal('show');
       this.region_id = region_id;
     },
     getBranch: function getBranch(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       $('#getbranch').modal('show');
       axios.get('api/v2/branches/' + id).then(function (response) {
-        return _this2.branch = response.data.data;
-      })["finally"](function () {
-        return console.log('Филиал успешно загружен');
+        return _this3.branch = response.data.data;
       });
     },
     getRegion: function getRegion() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('api/v2/regions').then(function (response) {
-        return _this3.regions = response.data.data;
-      })["finally"](function () {
-        return console.log('Регионы успешно загружены');
+        return _this4.regions = response.data.data;
       });
     },
     addNewRegion: function addNewRegion() {
-      var _this4 = this;
+      var _this5 = this;
 
       $('#addNewRegion').modal('hide');
       $(document.body).removeClass("modal-open");
@@ -3285,9 +3431,9 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
       axios.post('api/v2/regions', {
         name: this.name
       }).then(function (response) {
-        return _this4.responsesuccess = response.data;
+        return _this5.responsesuccess = response.data;
       })["finally"](function () {
-        return _this4.getRegion();
+        return _this5.getRegion();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3299,21 +3445,21 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_1__["default"]);
       }, 500);
     },
     addNewBranch: function addNewBranch() {
-      var _this5 = this;
+      var _this6 = this;
 
       $('#addNewBranch').modal('hide');
       $(document.body).removeClass("modal-open");
       $(".modal-backdrop.show").hide();
       axios.post('api/v2/branches', {
-        name: this.name,
-        geolocation: this.town,
-        adress: this.adress,
-        phone: this.phone,
+        name: this.addNewBranchFields.name,
+        geolocation: this.addNewBranchFields.town,
+        adress: this.addNewBranchFields.adress,
+        phone: this.addNewBranchFields.phone,
         region_id: this.region_id
       }).then(function (response) {
-        return _this5.responsesuccess = response.data;
+        return _this6.responsesuccess = response.data;
       })["finally"](function () {
-        return _this5.getRegion();
+        return _this6.getRegion();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3348,12 +3494,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-toast-notification/dist/theme-sugar.css */ "./node_modules/vue-toast-notification/dist/theme-sugar.css");
 /* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-dynamic-select */ "./node_modules/vue-dynamic-select/dist/vue-dynamic-select.esm.js");
-/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
-/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
-/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_7__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -3826,43 +3970,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 
-vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
+vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
 
-vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(willvalidate__WEBPACK_IMPORTED_MODULE_2__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(willvalidate__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
 
-vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_toast_notification__WEBPACK_IMPORTED_MODULE_3___default.a);
+vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_toast_notification__WEBPACK_IMPORTED_MODULE_3___default.a);
 
-vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]); // Vue.component('inputForm', {
+//   props: {
+//     value: {
+//       type: String,
+//       required: true
+//     },
+//     name: {
+//       type: String,
+//       required: true
+//     },
+//     placeholder: {
+//     }
+//   },
+//   data() {
+//     return {
+//       keyInputForm: null,
+//       thisValue: this.value,
+//     }
+//   },
+//   template: `
+//     <span>
+//     <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
+//     <span>
+//       <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
+//       <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
+//       </div>
+//     </div>
+//   `
+// })
 
-vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_the_mask__WEBPACK_IMPORTED_MODULE_6___default.a);
-vue__WEBPACK_IMPORTED_MODULE_7___default.a.component('inputForm', {
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    placeholder: {}
-  },
-  data: function data() {
-    return {
-      keyInputForm: null,
-      thisValue: this.value
-    };
-  },
-  template: "\n\n    <span>\n    <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :placeholder=\"placeholder\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
-});
 
 
 var options = {
@@ -3870,12 +4016,32 @@ var options = {
   specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
   styles: ['https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', 'https://unpkg.com/kidlat-css/css/kidlat.css']
 };
-vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_8___default.a, options);
+vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_7___default.a, options);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
 
     return _ref = {
+      tabsInCard: [{
+        name: 'Мать',
+        id: 'mother',
+        selected: 'true'
+      }, {
+        name: 'Отец',
+        id: 'father'
+      }, {
+        name: 'Родственник',
+        id: 'other_relative'
+      }, {
+        name: 'Контракт',
+        id: 'contract'
+      }, {
+        name: 'История',
+        id: 'history'
+      }, {
+        name: 'Интересы',
+        id: 'interests'
+      }],
       surname: null,
       birthday: null,
       users: [],
@@ -3894,7 +4060,9 @@ vue__WEBPACK_IMPORTED_MODULE_7___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       attributes: {},
       contracts_not_active: {},
       contracts_active: {},
-      base_branch: {}
+      base_branch: {},
+      manager: {},
+      instructor: {}
     }), _defineProperty(_ref, "dataUser", [{
       name: 'Alex',
       time: '8.09.2020'
@@ -8934,7 +9102,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.table td, .table th {\n        padding: 10px;\n        font-size: 14px;\n}\n.center{\n         display: block;\n         margin: 0 auto;\n}\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active до версии 2.1.8 */ {\n  transform: translateX(10px);\n  opacity: 0;\n}\n.toast{\n    max-width: 1200px;\n}\n.table-collection tr {\n    cursor: pointer;\n}\n.hoverim:hover{\n    opacity: 0.5;\n    cursor: pointer;\n}\n\n", ""]);
+exports.push([module.i, "\n.table td, .table th {\n        padding: 10px;\n        font-size: 14px;\n}\n.center{\n         display: block;\n         margin: 0 auto;\n}\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active до версии 2.1.8 */ {\n  transform: translateX(10px);\n  opacity: 0;\n}\n.toast{\n    max-width: 1200px;\n}\n.table-collection tr {\n    cursor: pointer;\n}\n.hoverim:hover{\n    opacity: 0.5;\n    cursor: pointer;\n}\n.not-photo{\n    display: flex; \n    width: 250px; \n    height: 250px; \n    border-radius: 0px; \n    font: 100px / 250px Helvetica, Arial, sans-serif; \n    align-items: center; \n    justify-content: center; \n    text-align: center; \n    -webkit-user-select: none; \n       -moz-user-select: none; \n        -ms-user-select: none; \n            user-select: none; \n    background-color: rgb(255, 193, 7); \n    color: rgb(255, 255, 255);\n}\n.photo{\n    display: flex;\n    width: 250px; \n    height: 250px; \n    border-radius: 0px;\n}\n", ""]);
 
 // exports
 
@@ -46620,733 +46788,763 @@ var render = function() {
                   attrs: { id: "printOSN" }
                 },
                 [
-                  _c("div", { staticClass: "Section1" }, [
-                    _c("h1", [
-                      _vm._v("ЗАЯВА № " + _vm._s(_vm.user_id) + " від  «"),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "mask",
-                            rawName: "v-mask",
-                            value: "##.##.####",
-                            expression: "'##.##.####'"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.dataVm.date,
-                            expression: "dataVm.date"
-                          }
-                        ],
-                        staticClass: "line",
-                        staticStyle: { width: "86px" },
-                        attrs: { placeholder: "20.05.2015" },
-                        domProps: { value: _vm.dataVm.date },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.dataVm, "date", $event.target.value)
-                          }
-                        }
-                      }),
-                      _vm._v("»  р."),
-                      _c("br"),
-                      _vm._v(
-                        "\n            до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
-                      ),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "hide" }, [
-                        _vm._v(
-                          "(публічний договір розташований на офіційномусайті clubleva.ua)"
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("table", { staticClass: "tabs" }, [
-                      _c("tr", [
-                        _c("td", { attrs: { width: "25%" } }, [
-                          _vm._v("Я, законний представник")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.parent_surname,
-                                expression: "dataVm.parent_surname"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "Фамилия" },
-                            domProps: { value: _vm.dataVm.parent_surname },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "parent_surname",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.parent_name,
-                                expression: "dataVm.parent_name"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "Имя" },
-                            domProps: { value: _vm.dataVm.parent_name },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "parent_name",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.parent_middle_name,
-                                expression: "dataVm.parent_middle_name"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "Отчество" },
-                            domProps: { value: _vm.dataVm.parent_middle_name },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "parent_middle_name",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("table", { staticClass: "tabs" }, [
-                      _c("tr", [
-                        _c("td", { attrs: { width: "25%" } }, [
-                          _vm._v("неповнолітньої дитини")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.child_name,
-                                expression: "dataVm.child_name"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "Имя" },
-                            domProps: { value: _vm.dataVm.child_name },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "child_name",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.child_surname,
-                                expression: "dataVm.child_surname"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "Фамилия" },
-                            domProps: { value: _vm.dataVm.child_surname },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "child_surname",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(", дата народження")]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "mask",
-                                rawName: "v-mask",
-                                value: "##.##.####",
-                                expression: "'##.##.####'"
-                              },
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.child_birthday,
-                                expression: "dataVm.child_birthday"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "12.05.1988" },
-                            domProps: { value: _vm.dataVm.child_birthday },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "child_birthday",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v("надалі «Замовник»")])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("table", { staticClass: "tabs" }, [
-                      _c("tr", [
-                        _c("td", { staticClass: "gray" }, [
-                          _vm._v("Телефон Замовника")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.parent_phone,
-                                expression: "dataVm.parent_phone"
-                              },
-                              {
-                                name: "mask",
-                                rawName: "v-mask",
-                                value: "+# (###) ###-##-##",
-                                expression: "'+# (###) ###-##-##'"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "+3 (926) 123-45-67" },
-                            domProps: { value: _vm.dataVm.parent_phone },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "parent_phone",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "gray" }, [
-                          _vm._v("Viber/Telegram Замовника")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.parent_viber,
-                                expression: "dataVm.parent_viber"
-                              },
-                              {
-                                name: "mask",
-                                rawName: "v-mask",
-                                value: "+# (###) ###-##-##",
-                                expression: "'+# (###) ###-##-##'"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "+3 (926) 123-45-67" },
-                            domProps: { value: _vm.dataVm.parent_viber },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "parent_viber",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { staticClass: "gray" }, [
-                          _vm._v("Email Замовника")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.parent_email,
-                                expression: "dataVm.parent_email"
-                              }
-                            ],
-                            staticClass: "line",
-                            domProps: { value: _vm.dataVm.parent_email },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "parent_email",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "gray" }, [
-                          _vm._v("Facebook/Instagram Замовника")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.parent_facebook,
-                                expression: "dataVm.parent_facebook"
-                              }
-                            ],
-                            staticClass: "line",
-                            domProps: { value: _vm.dataVm.parent_facebook },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "parent_facebook",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.parent_instagram,
-                                expression: "dataVm.parent_instagram"
-                              }
-                            ],
-                            staticClass: "line",
-                            domProps: { value: _vm.dataVm.parent_instagram },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "parent_instagram",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ])
-                      ])
-                    ]),
-                    _vm._v(
-                      "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n          "
-                    ),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.product,
-                            expression: "product"
-                          }
-                        ],
-                        staticStyle: { "font-weight": "bold", border: "0" },
-                        on: {
-                          change: [
-                            function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.product = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            },
-                            _vm.stopDate
-                          ]
-                        }
-                      },
-                      _vm._l(_vm.dataVm.products, function(product) {
-                        return _c("option", { domProps: { value: product } }, [
-                          _vm._v(_vm._s(product.name))
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" з наступними умовами:"),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("table", { staticClass: "tabs" }, [
-                      _c("tr", [
-                        _c(
-                          "td",
-                          { staticClass: "gray", attrs: { width: "25%" } },
-                          [_vm._v("Дата початку договору")]
-                        ),
-                        _vm._v(" "),
-                        _c("td", { attrs: { width: "25%" } }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "mask",
-                                rawName: "v-mask",
-                                value: "##.##.####",
-                                expression: "'##.##.####'"
-                              },
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dataVm.start,
-                                expression: "dataVm.start"
-                              }
-                            ],
-                            staticClass: "line",
-                            attrs: { placeholder: "12.05.2020" },
-                            domProps: { value: _vm.dataVm.start },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.dataVm,
-                                  "start",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          { staticClass: "gray", attrs: { width: "25%" } },
-                          [_vm._v("Дата закінчення договору")]
-                        ),
-                        _vm._v(" "),
-                        _c("td", { attrs: { width: "25%" } }, [
-                          _vm._v(_vm._s(_vm.stopContract))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c(
-                          "td",
-                          { staticClass: "gray", attrs: { width: "25%" } },
-                          [_vm._v("Загальна кількість занять за договором")]
-                        ),
-                        _vm._v(" "),
-                        _c("td", { attrs: { width: "25%" } }, [
-                          _vm.product
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "mask",
-                                    rawName: "v-mask",
-                                    value: "##",
-                                    expression: "'##'"
-                                  },
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.product.classes_total,
-                                    expression: "product.classes_total"
-                                  }
-                                ],
-                                staticClass: "line",
-                                attrs: { placeholder: "10" },
-                                domProps: { value: _vm.product.classes_total },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.product,
-                                      "classes_total",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          { staticClass: "gray", attrs: { width: "25%" } },
-                          [_vm._v("Кількість занятьна тиждень")]
-                        ),
-                        _vm._v(" "),
-                        _c("td", { attrs: { width: "25%" } }, [
-                          _vm.product
-                            ? _c("input", {
-                                directives: [
-                                  {
-                                    name: "mask",
-                                    rawName: "v-mask",
-                                    value: "##",
-                                    expression: "'##'"
-                                  },
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.product.classes_week,
-                                    expression: "product.classes_week"
-                                  }
-                                ],
-                                staticClass: "line",
-                                attrs: { placeholder: "10" },
-                                domProps: { value: _vm.product.classes_week },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.product,
-                                      "classes_week",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            : _vm._e()
-                        ])
-                      ])
-                    ]),
-                    _vm._v(
-                      "\n          Адреса надання послуг: " +
-                        _vm._s(_vm.dataVm.branch.geolocation) +
-                        ", " +
-                        _vm._s(_vm.dataVm.branch.adress) +
-                        "\n          Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n          "
-                    ),
-                    _c("table", { staticClass: "tabs" }, [
-                      _c("td", { attrs: { width: "15%" } }, [
-                        _vm.product
-                          ? _c("span", [_vm._v(_vm._s(_vm.product.price))])
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v("("),
-                        _vm.product
-                          ? _c("span", [
-                              _vm._v(_vm._s(_vm.product.price_title))
-                            ])
-                          : _vm._e(),
-                        _vm._v(") грн.")
-                      ])
-                    ]),
-                    _vm._v(
-                      "\n\n            Вказана ціна діє для категорії часу занять « "
-                    ),
-                    _vm.product
-                      ? _c("span", [_vm._v(_vm._s(_vm.product.category_time))])
-                      : _vm._e(),
-                    _vm._v(" » (вказується категорія від 1 до 4)"),
-                    _c("br"),
-                    _vm._v("\n            Графік оплати:"),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("table", [
-                      _c("tr", [
-                        _c("td", [
-                          _vm._v("Кількість акційних заморозок ("),
-                          _vm.product
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.product.freezing_total))
-                              ])
-                            : _vm._e(),
-                          _vm._v(")")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v("Включаються заморозки по: ("),
-                          _vm.product
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.product.freezing_kolvo))
-                              ])
-                            : _vm._e(),
-                          _vm._v(") тренування")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v("Форма включена увартість занять.")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v("Розмiр")]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "select",
+                  _c(
+                    "div",
+                    { staticClass: "Section1" },
+                    [
+                      _c("h1", [
+                        _vm._v("ЗАЯВА № " + _vm._s(_vm.user_id) + " від  «"),
+                        _c("input", {
+                          directives: [
                             {
+                              name: "mask",
+                              rawName: "v-mask",
+                              value: "##.##.####",
+                              expression: "'##.##.####'"
+                            },
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.dataVm.date,
+                              expression: "dataVm.date"
+                            }
+                          ],
+                          staticClass: "line",
+                          staticStyle: { width: "86px" },
+                          attrs: { placeholder: "20.05.2015" },
+                          domProps: { value: _vm.dataVm.date },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.dataVm, "date", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v("»  р."),
+                        _c("br"),
+                        _vm._v(
+                          "\n            до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "hide" }, [
+                          _vm._v(
+                            "(публічний договір розташований на офіційномусайті clubleva.ua)"
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("table", { staticClass: "tabs" }, [
+                        _c("tr", [
+                          _c("td", { attrs: { width: "25%" } }, [
+                            _vm._v("Я, законний представник")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
                               directives: [
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.form_size,
-                                  expression: "form_size"
+                                  value: _vm.dataVm.parent_surname,
+                                  expression: "dataVm.parent_surname"
                                 }
                               ],
+                              staticClass: "line",
+                              attrs: { placeholder: "Фамилия" },
+                              domProps: { value: _vm.dataVm.parent_surname },
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.form_size = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_surname",
+                                    $event.target.value
+                                  )
                                 }
                               }
-                            },
-                            [
-                              _c("option", [_vm._v("31")]),
-                              _vm._v(" "),
-                              _c("option", [_vm._v("32")]),
-                              _vm._v(" "),
-                              _c("option", [_vm._v("33")])
-                            ]
-                          )
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_name,
+                                  expression: "dataVm.parent_name"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "Имя" },
+                              domProps: { value: _vm.dataVm.parent_name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_middle_name,
+                                  expression: "dataVm.parent_middle_name"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "Отчество" },
+                              domProps: {
+                                value: _vm.dataVm.parent_middle_name
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_middle_name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
                         ])
-                      ])
-                    ]),
-                    _vm._v(
-                      "\n            Підписанням цієї Заяви я підтверджую, що:"
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n            1. приймаю в повному обсязі умови Публічної пропозиції Академії футболу для дошкільнят «Клуб Лева»"
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n            на укладення Договору надання послуг фізичного виховання дітей, яка розміщена на офіційному сайті:\n            clubleva.ua;"
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n            2. надаю право на обробку персональних даних, склад та зміст зібраних персональних даних, права\n            суб’єкта персональних даних та іншу інформацію згідно Закону України «Про захист персональних\n            даних»;"
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n            3. вчасно та в повному обсязі сплачувати послуги за цим договором;"
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n            4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання\n            послуг фізичного виховання дітей."
-                    ),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("b", [
+                      ]),
+                      _vm._v(" "),
+                      _c("table", { staticClass: "tabs" }, [
+                        _c("tr", [
+                          _c("td", { attrs: { width: "25%" } }, [
+                            _vm._v("неповнолітньої дитини")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.child_name,
+                                  expression: "dataVm.child_name"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "Имя" },
+                              domProps: { value: _vm.dataVm.child_name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "child_name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.child_surname,
+                                  expression: "dataVm.child_surname"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "Фамилия" },
+                              domProps: { value: _vm.dataVm.child_surname },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "child_surname",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(", дата народження")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "mask",
+                                  rawName: "v-mask",
+                                  value: "##.##.####",
+                                  expression: "'##.##.####'"
+                                },
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.child_birthday,
+                                  expression: "dataVm.child_birthday"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "12.05.1988" },
+                              domProps: { value: _vm.dataVm.child_birthday },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "child_birthday",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("надалі «Замовник»")])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("table", { staticClass: "tabs" }, [
+                        _c("tr", [
+                          _c("td", { staticClass: "gray" }, [
+                            _vm._v("Телефон Замовника")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_phone,
+                                  expression: "dataVm.parent_phone"
+                                },
+                                {
+                                  name: "mask",
+                                  rawName: "v-mask",
+                                  value: "+# (###) ###-##-##",
+                                  expression: "'+# (###) ###-##-##'"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "+3 (926) 123-45-67" },
+                              domProps: { value: _vm.dataVm.parent_phone },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_phone",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "gray" }, [
+                            _vm._v("Viber/Telegram Замовника")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_viber,
+                                  expression: "dataVm.parent_viber"
+                                },
+                                {
+                                  name: "mask",
+                                  rawName: "v-mask",
+                                  value: "+# (###) ###-##-##",
+                                  expression: "'+# (###) ###-##-##'"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "+3 (926) 123-45-67" },
+                              domProps: { value: _vm.dataVm.parent_viber },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_viber",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { staticClass: "gray" }, [
+                            _vm._v("Email Замовника")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_email,
+                                  expression: "dataVm.parent_email"
+                                }
+                              ],
+                              staticClass: "line",
+                              domProps: { value: _vm.dataVm.parent_email },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_email",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "gray" }, [
+                            _vm._v("Facebook/Instagram Замовника")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_facebook,
+                                  expression: "dataVm.parent_facebook"
+                                }
+                              ],
+                              staticClass: "line",
+                              domProps: { value: _vm.dataVm.parent_facebook },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_facebook",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataVm.parent_instagram,
+                                  expression: "dataVm.parent_instagram"
+                                }
+                              ],
+                              staticClass: "line",
+                              domProps: { value: _vm.dataVm.parent_instagram },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataVm,
+                                    "parent_instagram",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ]),
                       _vm._v(
-                        "Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення\n            договору."
-                      )
-                    ]),
-                    _c("br"),
-                    _vm._v(" "),
-                    _vm._m(4)
-                  ])
+                        "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n          "
+                      ),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.product,
+                              expression: "product"
+                            }
+                          ],
+                          staticStyle: { "font-weight": "bold", border: "0" },
+                          on: {
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.product = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              function($event) {
+                                return _vm.stopDate(_vm.product.id)
+                              }
+                            ]
+                          }
+                        },
+                        _vm._l(_vm.dataVm.products, function(product) {
+                          return _c(
+                            "option",
+                            { domProps: { value: product } },
+                            [_vm._v(_vm._s(product.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" з наступними умовами:"),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("table", { staticClass: "tabs" }, [
+                        _c("tr", [
+                          _c(
+                            "td",
+                            { staticClass: "gray", attrs: { width: "25%" } },
+                            [_vm._v("Дата початку договору")]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { attrs: { width: "25%" } }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "mask",
+                                  rawName: "v-mask",
+                                  value: "####,##,##",
+                                  expression: "'####,##,##'"
+                                },
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.end_actualy,
+                                  expression: "end_actualy"
+                                }
+                              ],
+                              staticClass: "line",
+                              attrs: { placeholder: "2020.12.24" },
+                              domProps: { value: _vm.end_actualy },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.end_actualy = $event.target.value
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "gray", attrs: { width: "25%" } },
+                            [_vm._v("Дата закінчення договору")]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { attrs: { width: "25%" } }, [
+                            _vm._v(_vm._s(_vm.stopContract))
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c(
+                            "td",
+                            { staticClass: "gray", attrs: { width: "25%" } },
+                            [_vm._v("Загальна кількість занять за договором")]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { attrs: { width: "25%" } }, [
+                            _vm.product
+                              ? _c("input", {
+                                  directives: [
+                                    {
+                                      name: "mask",
+                                      rawName: "v-mask",
+                                      value: "##",
+                                      expression: "'##'"
+                                    },
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.product.classes_total,
+                                      expression: "product.classes_total"
+                                    }
+                                  ],
+                                  staticClass: "line",
+                                  attrs: { placeholder: "10" },
+                                  domProps: {
+                                    value: _vm.product.classes_total
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.product,
+                                        "classes_total",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "gray", attrs: { width: "25%" } },
+                            [_vm._v("Кількість занятьна тиждень")]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { attrs: { width: "25%" } }, [
+                            _vm.product
+                              ? _c("input", {
+                                  directives: [
+                                    {
+                                      name: "mask",
+                                      rawName: "v-mask",
+                                      value: "##",
+                                      expression: "'##'"
+                                    },
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.product.classes_week,
+                                      expression: "product.classes_week"
+                                    }
+                                  ],
+                                  staticClass: "line",
+                                  attrs: { placeholder: "10" },
+                                  domProps: { value: _vm.product.classes_week },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.product,
+                                        "classes_week",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              : _vm._e()
+                          ])
+                        ])
+                      ]),
+                      _vm._v(
+                        "\n          Адреса надання послуг: " +
+                          _vm._s(_vm.dataVm.branch.geolocation) +
+                          ", " +
+                          _vm._s(_vm.dataVm.branch.adress) +
+                          "\n          Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n          "
+                      ),
+                      _c("table", { staticClass: "tabs" }, [
+                        _c("td", { attrs: { width: "15%" } }, [
+                          _vm.product
+                            ? _c("span", [_vm._v(_vm._s(_vm.product.price))])
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v("("),
+                          _vm.product
+                            ? _c("span", [
+                                _vm._v(_vm._s(_vm.product.price_title))
+                              ])
+                            : _vm._e(),
+                          _vm._v(") грн.")
+                        ])
+                      ]),
+                      _vm._v(
+                        "\n\n            Вказана ціна діє для категорії часу занять « "
+                      ),
+                      _vm.product
+                        ? _c("span", [
+                            _vm._v(_vm._s(_vm.product.category_time))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" » (вказується категорія від 1 до 4)"),
+                      _c("br"),
+                      _vm._v("\n            Графік оплати:"),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm._l(_vm.pays.pays, function(time, index) {
+                        return _vm.pays
+                          ? _c("div", [
+                              _c("p", [
+                                _vm._v(
+                                  "Платеж " +
+                                    _vm._s(index + 1) +
+                                    ": " +
+                                    _vm._s(time.pay) +
+                                    " .р - " +
+                                    _vm._s(_vm.reversedMessage(time.day))
+                                )
+                              ])
+                            ])
+                          : _vm._e()
+                      }),
+                      _vm._v(" "),
+                      _c("table", [
+                        _c("tr", [
+                          _c("td", [
+                            _vm._v("Кількість акційних заморозок ("),
+                            _vm.product
+                              ? _c("span", [
+                                  _vm._v(_vm._s(_vm.product.freezing_total))
+                                ])
+                              : _vm._e(),
+                            _vm._v(")")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v("Включаються заморозки по: ("),
+                            _vm.product
+                              ? _c("span", [
+                                  _vm._v(_vm._s(_vm.product.freezing_kolvo))
+                                ])
+                              : _vm._e(),
+                            _vm._v(") тренування")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v("Форма включена увартість занять.")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("Розмiр")]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form_size,
+                                    expression: "form_size"
+                                  }
+                                ],
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.form_size = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              [
+                                _c("option", [_vm._v("31")]),
+                                _vm._v(" "),
+                                _c("option", [_vm._v("32")]),
+                                _vm._v(" "),
+                                _c("option", [_vm._v("33")])
+                              ]
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(
+                        "\n            Підписанням цієї Заяви я підтверджую, що:"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            1. приймаю в повному обсязі умови Публічної пропозиції Академії футболу для дошкільнят «Клуб Лева»"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            на укладення Договору надання послуг фізичного виховання дітей, яка розміщена на офіційному сайті:\n            clubleva.ua;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            2. надаю право на обробку персональних даних, склад та зміст зібраних персональних даних, права\n            суб’єкта персональних даних та іншу інформацію згідно Закону України «Про захист персональних\n            даних»;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            3. вчасно та в повному обсязі сплачувати послуги за цим договором;"
+                      ),
+                      _c("br"),
+                      _vm._v(
+                        "\n            4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання\n            послуг фізичного виховання дітей."
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("b", [
+                        _vm._v(
+                          "Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення\n            договору."
+                        )
+                      ]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm._m(4)
+                    ],
+                    2
+                  )
                 ]
               ),
               _vm._v(" "),
@@ -47759,10 +47957,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FilterComponent.vue?vue&type=template&id=1c992a4a&":
-/*!******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FilterComponent.vue?vue&type=template&id=1c992a4a& ***!
-  \******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Filter/FilterComponent.vue?vue&type=template&id=09abc8d9&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Filter/FilterComponent.vue?vue&type=template&id=09abc8d9& ***!
+  \*************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -47791,7 +47989,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Фамилия" },
+                  attrs: { placeholder: "Фамилия" },
                   domProps: { value: _vm.surname },
                   on: {
                     input: function($event) {
@@ -47815,7 +48013,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Имя" },
+                  attrs: { placeholder: "Имя" },
                   domProps: { value: _vm.name },
                   on: {
                     input: function($event) {
@@ -47839,7 +48037,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Год рождения" },
+                  attrs: { placeholder: "Год рождения" },
                   domProps: { value: _vm.birthday },
                   on: {
                     input: function($event) {
@@ -47856,7 +48054,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-primary",
+                    staticClass: "btn btn-success",
                     attrs: { type: "submit", disabled: _vm.busy },
                     on: {
                       click: function($event) {
@@ -47870,7 +48068,7 @@ var render = function() {
                       ? _c("i", { staticClass: "fa fa-spin fa-spinner" })
                       : _vm._e(),
                     _vm._v(
-                      "\n                                Фильтр\n                            "
+                      "\n                            Фильтр\n                        "
                     )
                   ]
                 )
@@ -47880,7 +48078,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-default",
+                    staticClass: "btn btn-primary",
                     attrs: { type: "submit", disabled: _vm.busy },
                     on: {
                       click: function($event) {
@@ -47891,7 +48089,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                                Сброс\n                            "
+                      "\n                            Сброс\n                        "
                     )
                   ]
                 )
@@ -48635,153 +48833,56 @@ var render = function() {
                     }
                   },
                   [
-                    _c("div", { staticClass: "col-md form-group" }, [
-                      _c(
-                        "label",
-                        { staticClass: "form-control-label required" },
-                        [_vm._v("Название филиала")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model.trim",
-                            value: _vm.name,
-                            expression: "name",
-                            modifiers: { trim: true }
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { required: "" },
-                        domProps: { value: _vm.name },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                    _vm._l(_vm.newBranchFields, function(item) {
+                      return _c("div", { staticClass: "col-md form-group" }, [
+                        _c(
+                          "label",
+                          { staticClass: "form-control-label required" },
+                          [_vm._v(_vm._s(item.label))]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.addNewBranchFields[item["v-model"]],
+                              expression: "addNewBranchFields[item['v-model']]"
+                            },
+                            {
+                              name: "mask",
+                              rawName: "v-mask",
+                              value: item.mask,
+                              expression: "item.mask"
                             }
-                            _vm.name = $event.target.value.trim()
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            placeholder: item.placeholder,
+                            required: ""
                           },
-                          blur: function($event) {
-                            return _vm.$forceUpdate()
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md form-group" }, [
-                      _c(
-                        "label",
-                        { staticClass: "form-control-label required" },
-                        [_vm._v("Город")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model.trim",
-                            value: _vm.town,
-                            expression: "town",
-                            modifiers: { trim: true }
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { required: "" },
-                        domProps: { value: _vm.town },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                          domProps: {
+                            value: _vm.addNewBranchFields[item["v-model"]]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.addNewBranchFields,
+                                item["v-model"],
+                                $event.target.value
+                              )
                             }
-                            _vm.town = $event.target.value.trim()
-                          },
-                          blur: function($event) {
-                            return _vm.$forceUpdate()
                           }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md form-group" }, [
-                      _c(
-                        "label",
-                        { staticClass: "form-control-label required" },
-                        [_vm._v("Адресс")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model.trim",
-                            value: _vm.adress,
-                            expression: "adress",
-                            modifiers: { trim: true }
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { required: "" },
-                        domProps: { value: _vm.adress },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.adress = $event.target.value.trim()
-                          },
-                          blur: function($event) {
-                            return _vm.$forceUpdate()
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md form-group" }, [
-                      _c(
-                        "label",
-                        { staticClass: "form-control-label required" },
-                        [_vm._v("Телефон")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "mask",
-                            rawName: "v-mask",
-                            value: "+## (###) ###-##-##",
-                            expression: "'+## (###) ###-##-##'"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model.trim",
-                            value: _vm.phone,
-                            expression: "phone",
-                            modifiers: { trim: true }
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          placeholder: "+38 (926) 123-45-67",
-                          required: ""
-                        },
-                        domProps: { value: _vm.phone },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.phone = $event.target.value.trim()
-                          },
-                          blur: function($event) {
-                            return _vm.$forceUpdate()
-                          }
-                        }
-                      })
-                    ]),
+                        })
+                      ])
+                    }),
                     _vm._v(" "),
                     _vm._m(4)
-                  ]
+                  ],
+                  2
                 )
               ])
             ])
@@ -49149,7 +49250,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _vm._l(_vm.branch.products, function(product, index) {
+                      _vm._l(_vm.branch.products, function(product, int) {
                         return _c("tbody", [
                           _c(
                             "tr",
@@ -49397,7 +49498,7 @@ var render = function() {
                                       on: {
                                         click: function($event) {
                                           return _vm.removeRow(
-                                            index,
+                                            int,
                                             product.id,
                                             product.name
                                           )
@@ -49429,13 +49530,139 @@ var render = function() {
                                   },
                                   [
                                     _c("div", { staticClass: "row" }, [
-                                      _vm._m(6, true),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "card-body col-md-6 pt-1 pb-1"
+                                        },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-sm btn-success pb-2",
+                                              attrs: { disabled: _vm.busy },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.addRowPay(
+                                                    int,
+                                                    product.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Добавить платеж")]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(product.pays, function(
+                                            pay,
+                                            index
+                                          ) {
+                                            return _c(
+                                              "p",
+                                              [
+                                                _vm._v(
+                                                  "Платёж " +
+                                                    _vm._s(index + 1) +
+                                                    " : "
+                                                ),
+                                                _c("input-form", {
+                                                  directives: [
+                                                    {
+                                                      name: "mask",
+                                                      rawName: "v-mask",
+                                                      value: "###",
+                                                      expression: "'###'"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    name: "pay",
+                                                    id: pay.id
+                                                  },
+                                                  on: {
+                                                    "edit-field":
+                                                      _vm.editFieldProductPay
+                                                  },
+                                                  model: {
+                                                    value: pay.pay,
+                                                    callback: function($$v) {
+                                                      _vm.$set(pay, "pay", $$v)
+                                                    },
+                                                    expression: "pay.pay"
+                                                  }
+                                                }),
+                                                _vm._v(" + дней "),
+                                                _c("input-form", {
+                                                  directives: [
+                                                    {
+                                                      name: "mask",
+                                                      rawName: "v-mask",
+                                                      value: "###",
+                                                      expression: "'###'"
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    name: "day",
+                                                    id: pay.id
+                                                  },
+                                                  on: {
+                                                    "edit-field":
+                                                      _vm.editFieldProductPay
+                                                  },
+                                                  model: {
+                                                    value: pay.day,
+                                                    callback: function($$v) {
+                                                      _vm.$set(pay, "day", $$v)
+                                                    },
+                                                    expression: "pay.day"
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                pay.rowNewPay
+                                                  ? _c("span", {
+                                                      staticClass:
+                                                        "fe fe-save h3 text-success",
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.savePay(
+                                                            int,
+                                                            index,
+                                                            _vm.branch.id
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  : _c("span", {
+                                                      staticClass:
+                                                        "fe fe-trash-2 h3 text-danger pl-2",
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.removePay(
+                                                            int,
+                                                            index,
+                                                            pay.id
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                              ],
+                                              1
+                                            )
+                                          })
+                                        ],
+                                        2
+                                      ),
                                       _vm._v(" "),
                                       _c(
                                         "div",
                                         {
                                           staticClass:
-                                            "card-body col-md-6 border-left"
+                                            "card-body col-md-6 pt-1 pb-1 border-left"
                                         },
                                         [
                                           _c(
@@ -49579,7 +49806,7 @@ var render = function() {
                     attrs: { type: "button", "data-dismiss": "modal" },
                     on: {
                       click: function($event) {
-                        _vm.buttonAdd = true
+                        ;(_vm.buttonAdd = true), (_vm.busy = false)
                       }
                     }
                   },
@@ -49600,11 +49827,7 @@ var render = function() {
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
               _c("div", { staticClass: "row align-items-center" }, [
-                _c("div", { staticClass: "col" }, [
-                  _vm._v(
-                    "\n\t\t\t\t\t\t" + _vm._s(region.name) + "\n\t\t\t\t\t"
-                  )
-                ])
+                _c("div", { staticClass: "col" }, [_vm._v(_vm._s(region.name))])
               ])
             ]),
             _vm._v(" "),
@@ -49630,13 +49853,7 @@ var render = function() {
                             _c(
                               "a",
                               { staticClass: "mb-md-0", attrs: { href: "#" } },
-                              [
-                                _vm._v(
-                                  "\n\t\t\t\t\t\t\t\t\t" +
-                                    _vm._s(branch.name) +
-                                    "\n\t\t\t\t\t\t\t\t"
-                                )
-                              ]
+                              [_vm._v(_vm._s(branch.name))]
                             )
                           ])
                         ])
@@ -49781,33 +49998,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body col-md-6" }, [
-      _c("p", [
-        _vm._v("Платёж 1 : "),
-        _c("span", [_vm._v("256")]),
-        _vm._v(" + дней "),
-        _c("span", [_vm._v("5")])
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v("Платёж 2 : "),
-        _c("span", [_vm._v("256")]),
-        _vm._v(" + дней "),
-        _c("span", [_vm._v("5")])
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v("Платёж 3 : "),
-        _c("span", [_vm._v("256")]),
-        _vm._v(" + дней "),
-        _c("span", [_vm._v("5")])
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -50450,21 +50640,7 @@ var render = function() {
                               _c(
                                 "div",
                                 {
-                                  staticClass: "hoverim",
-                                  staticStyle: {
-                                    display: "flex",
-                                    width: "250px",
-                                    height: "250px",
-                                    "border-radius": "0px",
-                                    font:
-                                      "100px / 250px Helvetica, Arial, sans-serif",
-                                    "align-items": "center",
-                                    "justify-content": "center",
-                                    "text-align": "center",
-                                    "user-select": "none",
-                                    "background-color": "rgb(255, 193, 7)",
-                                    color: "rgb(255, 255, 255)"
-                                  },
+                                  staticClass: "hoverim not-photo",
                                   on: {
                                     click: function($event) {
                                       return _vm.$refs.avatar.click()
@@ -50476,13 +50652,7 @@ var render = function() {
                             ])
                           : _c("div", [
                               _c("img", {
-                                staticClass: "hoverim",
-                                staticStyle: {
-                                  display: "flex",
-                                  width: "250px",
-                                  height: "250px",
-                                  "border-radius": "0px"
-                                },
+                                staticClass: "hoverim photo",
                                 attrs: {
                                   src:
                                     _vm.siteURL +
@@ -50614,7 +50784,7 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("h5", { staticClass: "text-muted mb-2" }, [
-                            _vm._v("Менеджер: "),
+                            _vm._v("Менеджер: \n                            "),
                             _vm.dataObject.manager
                               ? _c("span", { staticClass: "text-dark" }, [
                                   _vm._v(_vm._s(_vm.dataObject.manager))
@@ -50623,7 +50793,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("h5", { staticClass: "text-muted mb-2" }, [
-                            _vm._v("Тренер: "),
+                            _vm._v("Тренер: \n                            "),
                             _vm.dataObject.instructor
                               ? _c("span", { staticClass: "text-dark" }, [
                                   _vm._v(_vm._s(_vm.dataObject.instructor))
@@ -50761,7 +50931,33 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(5),
+                  _c(
+                    "ul",
+                    {
+                      staticClass: "nav nav-tabs",
+                      attrs: { id: "info", role: "tablist" }
+                    },
+                    _vm._l(_vm.tabsInCard, function(tabs) {
+                      return _c("li", { staticClass: "nav-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link",
+                            attrs: {
+                              id: tabs.id + "-tab",
+                              "data-toggle": "tab",
+                              href: "#" + tabs.id,
+                              role: "tab",
+                              "aria-controls": tabs.id,
+                              "aria-selected": tabs.selected
+                            }
+                          },
+                          [_vm._v(_vm._s(tabs.name))]
+                        )
+                      ])
+                    }),
+                    0
+                  ),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -51972,7 +52168,7 @@ var render = function() {
                                                 "table",
                                                 {
                                                   staticClass:
-                                                    " table table-bordered table-hover datatable datatable-User"
+                                                    "table table-bordered table-hover datatable datatable-User"
                                                 },
                                                 [
                                                   _c("tbody", [
@@ -52069,12 +52265,11 @@ var render = function() {
                                                   {
                                                     staticClass:
                                                       "text-success ml-2",
-                                                    attrs: {
-                                                      href: "javascript:void(0)"
-                                                    },
+                                                    attrs: { href: "#" },
                                                     on: {
                                                       click: function($event) {
-                                                        return _vm.getModalSale()
+                                                        $event.preventDefault()
+                                                        return null($event)
                                                       }
                                                     }
                                                   },
@@ -52134,8 +52329,12 @@ var render = function() {
                                             "a",
                                             {
                                               staticClass: "text-muted",
-                                              attrs: {
-                                                href: "javascript:void(0)"
+                                              attrs: { href: "#" },
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  return null($event)
+                                                }
                                               }
                                             },
                                             [
@@ -52305,124 +52504,6 @@ var staticRenderFns = [
         _c("h4", { staticClass: "text-center" }, [_vm._v("Документы")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "ul",
-      { staticClass: "nav nav-tabs", attrs: { id: "info", role: "tablist" } },
-      [
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link active",
-              attrs: {
-                id: "mother-tab",
-                "data-toggle": "tab",
-                href: "#mother",
-                role: "tab",
-                "aria-controls": "mother",
-                "aria-selected": "true"
-              }
-            },
-            [_vm._v("Мать")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                id: "father-tab",
-                "data-toggle": "tab",
-                href: "#father",
-                role: "tab",
-                "aria-controls": "father",
-                "aria-selected": "false"
-              }
-            },
-            [_vm._v("Отец")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                id: "other_relative-tab",
-                "data-toggle": "tab",
-                href: "#other_relative",
-                role: "tab",
-                "aria-controls": "other_relative",
-                "aria-selected": "false"
-              }
-            },
-            [_vm._v("Родственник")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                id: "contract-tab",
-                "data-toggle": "tab",
-                href: "#contract",
-                role: "tab",
-                "aria-controls": "contract",
-                "aria-selected": "false"
-              }
-            },
-            [_vm._v("Контракт")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                id: "history-tab",
-                "data-toggle": "tab",
-                href: "#history",
-                role: "tab",
-                "aria-controls": "history",
-                "aria-selected": "false"
-              }
-            },
-            [_vm._v("История")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: {
-                id: "interests-tab",
-                "data-toggle": "tab",
-                href: "#interests",
-                role: "tab",
-                "aria-controls": "interests",
-                "aria-selected": "false"
-              }
-            },
-            [_vm._v("Интересы")]
-          )
-        ])
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -52456,7 +52537,7 @@ var render = function() {
           _c("div", { staticClass: "table-responsive" }, [
             _c(
               "table",
-              { staticClass: "table table-bordered table-striped" },
+              { staticClass: "table table-bordered table-hover" },
               [
                 _vm._m(0),
                 _vm._v(" "),
@@ -67213,9 +67294,14 @@ const willvalidate = {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var v_title__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-title */ "./node_modules/v-title/lib/index.js");
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_1__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -67224,6 +67310,30 @@ const willvalidate = {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
+Vue.use(v_title__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+Vue.use(vue_the_mask__WEBPACK_IMPORTED_MODULE_1___default.a);
+Vue.component('inputForm', {
+  props: {
+    value: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    placeholder: {}
+  },
+  data: function data() {
+    return {
+      keyInputForm: null,
+      thisValue: this.value
+    };
+  },
+  template: "\n\n    <span>\n    <a href=\"#\" v-if=\"!value && !keyInputForm\" @click.prevent=\"keyInputForm=true;thisValue=''\" style=\"color: green;\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</a>\n    <span>\n      <span v-if=\"!keyInputForm\" class=\"card-title\" @click=\"keyInputForm = true\">{{ value }}</span>\n      <input v-else type=\"text\" :value=\"value\" :placeholder=\"placeholder\" :name=\"name\" v-model=\"value\" @input=\"$emit('input', value)\" @blur=\"keyInputForm = false;$emit('edit-field', $event)\">\n      </div>\n    </div>\n\n  "
+});
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -67243,7 +67353,7 @@ Vue.component('region-component', __webpack_require__(/*! ./components/RegionCom
 Vue.component('users-component', __webpack_require__(/*! ./components/UsersList.vue */ "./resources/js/components/UsersList.vue")["default"]);
 Vue.component('users2-component', __webpack_require__(/*! ./components/UsersComponent.vue */ "./resources/js/components/UsersComponent.vue")["default"]);
 Vue.component('addnewuser-component', __webpack_require__(/*! ./components/AddNewUserComponent.vue */ "./resources/js/components/AddNewUserComponent.vue")["default"]);
-Vue.component('filter-component', __webpack_require__(/*! ./components/FilterComponent.vue */ "./resources/js/components/FilterComponent.vue")["default"]);
+Vue.component('filter-component', __webpack_require__(/*! ./components/Filter/FilterComponent.vue */ "./resources/js/components/Filter/FilterComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -67526,27 +67636,29 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/FilterComponent.vue":
-/*!*****************************************************!*\
-  !*** ./resources/js/components/FilterComponent.vue ***!
-  \*****************************************************/
+/***/ "./resources/js/components/Filter/FilterComponent.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Filter/FilterComponent.vue ***!
+  \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _FilterComponent_vue_vue_type_template_id_1c992a4a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FilterComponent.vue?vue&type=template&id=1c992a4a& */ "./resources/js/components/FilterComponent.vue?vue&type=template&id=1c992a4a&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _FilterComponent_vue_vue_type_template_id_09abc8d9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FilterComponent.vue?vue&type=template&id=09abc8d9& */ "./resources/js/components/Filter/FilterComponent.vue?vue&type=template&id=09abc8d9&");
+/* harmony import */ var _FilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FilterComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/Filter/FilterComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
-  _FilterComponent_vue_vue_type_template_id_1c992a4a___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _FilterComponent_vue_vue_type_template_id_1c992a4a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FilterComponent_vue_vue_type_template_id_09abc8d9___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FilterComponent_vue_vue_type_template_id_09abc8d9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -67556,24 +67668,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/FilterComponent.vue"
+component.options.__file = "resources/js/components/Filter/FilterComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/FilterComponent.vue?vue&type=template&id=1c992a4a&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/components/FilterComponent.vue?vue&type=template&id=1c992a4a& ***!
-  \************************************************************************************/
+/***/ "./resources/js/components/Filter/FilterComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/Filter/FilterComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./FilterComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Filter/FilterComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FilterComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Filter/FilterComponent.vue?vue&type=template&id=09abc8d9&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/Filter/FilterComponent.vue?vue&type=template&id=09abc8d9& ***!
+  \*******************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FilterComponent_vue_vue_type_template_id_1c992a4a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FilterComponent.vue?vue&type=template&id=1c992a4a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FilterComponent.vue?vue&type=template&id=1c992a4a&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FilterComponent_vue_vue_type_template_id_1c992a4a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FilterComponent_vue_vue_type_template_id_09abc8d9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./FilterComponent.vue?vue&type=template&id=09abc8d9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Filter/FilterComponent.vue?vue&type=template&id=09abc8d9&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FilterComponent_vue_vue_type_template_id_09abc8d9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FilterComponent_vue_vue_type_template_id_1c992a4a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FilterComponent_vue_vue_type_template_id_09abc8d9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -14,6 +14,9 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     // Products
     Route::apiResource('products', 'ProductController');
 
+    // Product_pay
+    Route::apiResource('product_pay', 'Product_payController');
+
     // Users
     Route::apiResource('users', 'UserController');
 

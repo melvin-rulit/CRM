@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\BranchResource;
-use Symfony\Component\HttpFoundation\Response;
-use App\Branch;
+use App\Product_pay;
 
-class BranchController extends Controller
+class Product_payController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,20 +36,18 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        $branch = Branch::create($request->all());
-
-        return (new BranchResource($branch))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        Product_pay::create($request->all());
     }
 
-
-    public function show(Branch $branch)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-
-        return (new BranchResource($branch->load(['products.pays'])))
-                    ->response()
-                    ->setStatusCode(Response::HTTP_CREATED);
+        //
     }
 
     /**
@@ -65,11 +61,18 @@ class BranchController extends Controller
         //
     }
 
-    public function update(Request $request, Branch $branch)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Product_pay $product_pay)
     {
         $field_name = $request['field_name'];
-        $branch->$field_name = $request['field_value'];
-        $branch->save();
+        $product_pay->$field_name = $request['field_value'];
+        $product_pay->save();
     }
 
     /**
@@ -78,8 +81,8 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product_pay $product_pay)
     {
-        //
+        $product_pay->delete();
     }
 }

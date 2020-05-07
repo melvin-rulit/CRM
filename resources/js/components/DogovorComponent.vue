@@ -201,13 +201,13 @@
             </tr>
           </table>
           Прошуприйняти вище вказану дитину на навчання за програмою навчання
-          <select style="font-weight: bold; border: 0;" v-model="product" @change="stopDate">
+          <select style="font-weight: bold; border: 0;" v-model="product" @change="stopDate(product.id)">
             <option v-for="product in dataVm.products" v-bind:value="product">{{ product.name }}</option>
           </select> з наступними умовами:<br>
           <table class="tabs">
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>
-              <td width="25%"><input placeholder="12.05.2020" v-mask="'##.##.####'" v-model="dataVm.start" class="line"></td>
+              <td width="25%"><input placeholder="2020.12.24" v-mask="'####,##,##'" v-model="end_actualy" class="line"></td>
               <td class="gray" width="25%">Дата закінчення договору</td>
               <td width="25%">{{ stopContract }}</td>
             </tr>
@@ -227,6 +227,9 @@
 
             Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
             Графік оплати:<br>
+              <div v-if="pays" v-for="(time, index) in pays.pays">
+                <p>Платеж {{ index + 1 }}: {{time.pay}} .р - {{ reversedMessage(time.day) }}</p>
+              </div>
             <table>
               <tr>
                 <td>Кількість акційних заморозок (<span v-if="product">{{product.freezing_total}}</span>)</td>
@@ -298,6 +301,7 @@
                 {name:'Sam', age:28},
                 {name:'Alice', age:26}
             ],
+            pays: [],
             product:null,
               dataVm: {branch:[],products: [],},
               dayselect: [
@@ -333,12 +337,25 @@
                 time: '',
                 start: '',
                 contract_name: '',
-                user:''
+                user:'',
+                time: 1,
+                message: 1,
+                messdate: '2020,05,10',
+                resultMessage: '',
+                end_actualy: ''
             }
         },
-
         methods: {
-          stopDate() {
+          reversedMessage(days) {
+              var D = new Date(this.end_actualy);
+              D.setDate(D.getDate() + days);
+              return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+              },
+          stopDate(id) {
+            axios.get('api/v2/products/' + id)
+            .then(response => {
+                    this.pays = response.data.data
+                })
             var D = new Date(Date.now());
             D.setDate(D.getDate() + this.product.days);
             this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();

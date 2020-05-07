@@ -8,7 +8,44 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import VTitle from 'v-title';
+Vue.use(VTitle);
 
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask)
+
+
+Vue.component('inputForm', {
+  props: {
+    value: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    placeholder: {
+    }
+  },
+  data() {
+    return {
+      keyInputForm: null,
+      thisValue: this.value,
+    }
+  },
+  template: `
+
+    <span>
+    <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
+    <span>
+      <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
+      <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
+      </div>
+    </div>
+
+  `
+})
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -29,7 +66,7 @@ Vue.component('region-component', require('./components/RegionComponent.vue').de
 Vue.component('users-component', require('./components/UsersList.vue').default);
 Vue.component('users2-component', require('./components/UsersComponent.vue').default);
 Vue.component('addnewuser-component', require('./components/AddNewUserComponent.vue').default);
-Vue.component('filter-component', require('./components/FilterComponent.vue').default);
+Vue.component('filter-component', require('./components/Filter/FilterComponent.vue').default);
 
 
 /**
