@@ -60,10 +60,8 @@ Vue.component('inputForm', {
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('user-component', require('./components/UserComponent.vue').default);
 Vue.component('dogovor-component', require('./components/DogovorComponent.vue').default);
-Vue.component('vmdogovor-component', require('./components/VmDogovor.vue').default);
 Vue.component('product-component', require('./components/ProductComponent.vue').default);
 Vue.component('region-component', require('./components/RegionComponent.vue').default);
-Vue.component('users-component', require('./components/UsersList.vue').default);
 Vue.component('users2-component', require('./components/UsersComponent.vue').default);
 Vue.component('addnewuser-component', require('./components/AddNewUserComponent.vue').default);
 Vue.component('filter-component', require('./components/Filter/FilterComponent.vue').default);

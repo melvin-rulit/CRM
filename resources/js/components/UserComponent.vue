@@ -63,6 +63,7 @@
         </button>
       </div>
         <div class="modal-body">
+            <form @submit.prevent="addNewUser">
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label required">Фамилия</label>
                 <div class="col-sm-9">
@@ -115,12 +116,13 @@
                         v-model="instructor" />
                 </div>
             </div>
-
-        </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button @click="addNewUser" type="button" class="btn btn-success" data-dismiss="modal">Добавить</button>
+                <button type="submit" class="btn btn-success">Добавить</button>
               </div>
+          </form>
+        </div>
+
             </div>
           </div>
 
@@ -232,7 +234,10 @@
                 </div>
                 <div class="col-md-4 border-left">
                     <div class="card-body">
-                        <h4 class="text-center">Документы</h4>
+                        <h4 class="text-center mb-4">Документы</h4>
+                        <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Свидетельство о рождении</a></h5>
+                        <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Ксерокопия договора</a></h5>
+                        <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Ксерокопия паспорта отца</a></h5>
                     </div>
                 </div>
             </div>
@@ -563,12 +568,7 @@ Vue.use(VueHtmlToPaper, options);
                 branches: [],
                 users: [],
                 name:'',
-                ids: 9,
-                image: '',
-                options: [
-                  { text: 'Зирка лева', value: 'А' },
-                  { text: 'Народження зирки', value: 'Б' },
-                ],      
+                image: '',  
                 dataObject: {
                      attributes: {},
                      contracts_not_active: {},
@@ -577,21 +577,6 @@ Vue.use(VueHtmlToPaper, options);
                      manager: {},
                      instructor: {},
                 },
-                dataUser: [{
-                    name: 'Alex',
-                    time: '8.09.2020'
-                  }, {
-                    name: 'Ivan',
-                    time: '8.01.2020'
-                  }, {
-                    name: 'Olga',
-                    time: '8.02.2020'
-                  }],
-                motherFields: [{
-                    title: 'Фамилия:',
-                    data: 'dataObject.attributes.mother_name',
-                    name: 'mother_name',
-                  }],
                 contract:{},
                 indexActiveUser: 0,
                 vmContract: true,
@@ -604,21 +589,13 @@ Vue.use(VueHtmlToPaper, options);
                 articles: [],
                 users: [],
                 apis: null,
-                article: {
-                    id: '',
-                    title: '',
-                    body: ''
-                },
                 article_id: '',
-                pagination: {},
                 edit: false,
                 showBranch: false,
                 new_child_surname: '',
                 new_child_name: '',
                 new_child_middle_name: '',
                 branch: '',
-                rep: [],
-                telephone: '4565456',
                 filter: false,
             }
         },
@@ -679,18 +656,10 @@ Vue.use(VueHtmlToPaper, options);
                 axios.post('api/v2/getinfo', {id : id}).then(response => {
                     this.dataObject = response.data.data
                 })
-                // Vue.$toast.open({
-                //     message: 'У вас нет доступа',
-                //     type: 'info',
-                //     duration: 50000,
-                //     position: 'top-right'
-                // });
-                // $(this.$refs.vuemodals).on("hidden.bs.modal", this.fetchArticles)
             },
             fetchArticles(){
                 axios.
                 get('api/v2/collection')
-                 //.then(response => console.log(response.data));
                 .then(response => this.articles = response.data.data)
                 .finally(() => console.log('Посты успешно загружены'));
 
@@ -710,13 +679,6 @@ Vue.use(VueHtmlToPaper, options);
             saveData(){
                 axios.post(this.postURL, this.dataObject)
             },
-            // editNotes(event, key) {
-            //     const value = event.target.value;
-            //     if(value !== this.dataObject.attributes[key]){
-            //         this.dataObject.attributes[key] = value;
-            //         axios.post(this.postURL, {user_id: this.dataObject.id, field_name: key, field_value: value})
-            //     }
-            // },
             editBranch(){
                 this.showBranch = true
                 this.getBranches()
@@ -730,7 +692,6 @@ Vue.use(VueHtmlToPaper, options);
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
                 axios.post(this.postURL, { user_id: this.dataObject.id, field_name: name ? name : key, field_value: value })
-                // key ? this.fetchArticles(): null;
             },
             closeModal(){
                 $('#addNew').modal('hide');
@@ -738,7 +699,13 @@ Vue.use(VueHtmlToPaper, options);
             },
             addNewUser(){
                 $('#addNewUser').modal('hide');
-                axios.post(this.URLaddNewUser, {child_surname: this.new_child_surname, child_name: this.new_child_name, child_middle_name: this.new_child_middle_name, manager: this.manager.id, instructor: this.instructor.id, branch: this.branch.id})
+                axios.post(this.URLaddNewUser, {
+                    child_surname: this.new_child_surname, 
+                    child_name: this.new_child_name, 
+                    child_middle_name: this.new_child_middle_name, 
+                    manager: this.manager.id, 
+                    instructor: this.instructor.id, 
+                    branch: this.branch.id})
                 .then(response => this.getModal(response.data));
             },
             getBranches(){
@@ -759,7 +726,6 @@ Vue.use(VueHtmlToPaper, options);
               var image = new Image();
               var reader = new FileReader();
               var vm = this;
-
               reader.onload = (e) => {
                 vm.image = e.target.result;
             };
@@ -769,23 +735,19 @@ Vue.use(VueHtmlToPaper, options);
             upload(event){
                 let data = new FormData();
                 let file = event.target.files[0];
-
                 data.append('file', file)
                 data.append('id', this.dataObject['id'])
-
                 let config = {
                   header : {
                      'Content-Type' : 'multipart/form-data'
                  }
              }
              axios.post('api/v2/image', data, config)
-
                 setTimeout(() => {
              axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
                     this.dataObject = response.data.data
                 })
                 }, 300)
-
          },
         }
     }
