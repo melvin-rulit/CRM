@@ -25,30 +25,32 @@ class BaseController extends Controller
         return new TestResource($base->load(['base_branch']));
     }
 
-    // Получаем все пользователей из базы и отдаем его ресурсу 
 	public function index(){
 
 		return new BaseCurrentUser(Base::all());
 	}
-    // Создаем нового пользователя в базе
+
 	public function addNewUser(Request $request){
 
         $base = Base::create($request->all());
+        
         return $base->id;
     }
-    // Получаем пользователя по ID и отдаем его ресурсу
+
     public function getInfo(Request $request){
 
         $base = Base::find($request->id);
+        
         return new ArticleResource($base);
     }
-    // Получаем пользователя по ID и отдаем его ресурсу контракта
+
    	public function getVmContract(Request $request){
 
         $base = Base::find($request->id);
+        
         return new VmContractResource($base->load(['base_branch']));
     }
-    // Получаем список доступных филиалов и отдаем его ресурсу
+
     public function getBranches(){
 
         return new BranchesResource(Branch::all());

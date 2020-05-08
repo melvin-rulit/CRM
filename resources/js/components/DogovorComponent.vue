@@ -12,16 +12,15 @@
         </button>
       </div>
       <div class="row modal-body">
-        <div v-show="vmContract" class="col-md-6"><a href="javascript:void(0)" @click="contract('vm')">Контракт на пробное занятие</a></div>
-        <div v-show="vmContract" class="col-md-6"><a href="javascript:void(0)" @click="contract('osn')">Контракт основной программы</a></div>
+        <div class="col-md-6"><a href="#" @click.prevent="contract('vm')">Контракт на пробное занятие</a></div>
+        <div class="col-md-6"><a href="#" @click.prevent="contract('osn')">Контракт основной программы</a></div>
       </div>
       <div class="modal-footer">
-        <button @click="vmContract = !vmContract" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
       </div>
     </div>
   </div>
 </div>
-
 
 
 <!-- Модальное окно с пробным контрактом -->
@@ -39,10 +38,10 @@
           <!-- <img src="Logo.png" class="logo"> -->
           <h1>Договір<br>про надання послуг<br>за програмою «{{ contracts_vm }}»</h1>
           <table border="0" width="100%">
-            <td class="tdleft">{{ dataVm.branch.geolocation }}</td> <!-- Переменная города филиала с настройки филиала -->
-            <td class="tdright">{{ dataVm.date }} рік</td> <!-- Вставляем переменные с текущей датой -->
+            <td class="tdleft">{{ dataVm.branch.geolocation }}</td>
+            <td class="tdright">{{ dataVm.date }} рік</td>
           </table> <br>
-          <p>Фізична особо-підприємець {{ dataVm.organization }}.<!-- переменная с настройки филиала. Юр. лицо -->, надалі іменується «Виконавець», з одного боку, та законні представники
+          <p>Фізична особо-підприємець {{ dataVm.organization }}, надалі іменується «Виконавець», з одного боку, та законні представники
             (опікуни, піклувальники)
           </p>
           <form>
@@ -57,9 +56,9 @@
               <table class="tabs">
                   <tr>
                     <td width="25%">неповнолітньої дитини:</td>
-                    <td><input v-model="dataVm.child_surname" type="" name="" class="line" placeholder="Фамилия"></td>
-                    <td><input v-model="dataVm.child_name" type="" name="" class="line" placeholder="Имя"></td>
-                    <td><input v-model="dataVm.child_middle_name" type="" name="" class="line" placeholder="Отчество"></td>
+                    <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
+                    <td><input v-model="dataVm.child_name" class="line" placeholder="Имя"></td>
+                    <td><input v-model="dataVm.child_middle_name" class="line" placeholder="Отчество"></td>
                   </tr>
               </table>
               ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»<br>
@@ -144,7 +143,7 @@
       </div>
       <div class="modal-footer">
         <button  type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-        <button @click="sendVm('vm')" type="button" class="btn btn-success" data-dismiss="modal">Сохранить и распечатать</button>
+        <button @click="sendVm('vm')" type="button" class="btn btn-success">Сохранить и распечатать</button>
       </div>
     </div>
   </div>
@@ -170,9 +169,12 @@
           <table class="tabs">
             <tr>
               <td width="25%">Я, законний представник</td>
-              <td><input v-model="dataVm.parent_surname" class="line" placeholder="Фамилия"></td>
-              <td><input v-model="dataVm.parent_name" class="line" placeholder="Имя"></td>
-              <td><input v-model="dataVm.parent_middle_name" class="line" placeholder="Отчество"></td>
+              <td v-if="!print"><input v-model="dataVm.parent_surname" class="line" placeholder="Фамилия"></td>
+              <td v-if="print"><span>{{dataVm.parent_surname}}</span></td>
+              <td v-if="!print"><input v-model="dataVm.parent_name" class="line" placeholder="Имя"></td>
+              <td v-if="print"><span>{{dataVm.parent_name}}</span></td>
+              <td v-if="!print"><input v-model="dataVm.parent_middle_name" class="line" placeholder="Отчество"></td>
+              <td v-if="print"><span>{{dataVm.parent_middle_name}}</span></td>
             </tr>
           </table>
           <table class="tabs">
@@ -276,8 +278,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button @click="vmContract = !vmContract" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-          <button @click="sendVm('osn')" type="button" class="btn btn-success" data-dismiss="modal">Сохранить и распечатать</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+          <button @click="sendVm('osn')" class="btn btn-success">Сохранить и распечатать</button>
         </div>
       </div>
     </div>
@@ -288,19 +290,31 @@
 
 <script>
 
+import Vue from 'vue';
+import VueHtmlToPaper from 'vue-html-to-paper';
+
+const options = {
+  name: '_blank',
+  specs: [
+    'fullscreen=yes',
+    'titlebar=yes',
+    'scrollbars=yes'
+  ],
+  styles: [
+    'http://185.146.156.207/test.css',
+  ]
+}
+
+Vue.use(VueHtmlToPaper, options);
+
     export default {
         props: {
           user_id: {},
         },
         data() {
             return{
+              print: null,
               stopContract: '00.00.0000',
-            users:[
-                {name:'Tom', age:22},
-                {name:'Bob', age:25},
-                {name:'Sam', age:28},
-                {name:'Alice', age:26}
-            ],
             pays: [],
             product:null,
               dataVm: {branch:[],products: [],},
@@ -325,10 +339,6 @@
                   {time: '20:00'},
                   {time: '21:00'},
               ],
-            	options: [
-                  { text: 'Зирка лева', value: 'А' },
-                  { text: 'Народження зирки', value: 'Б' },
-                ],
                 contracts_vm: 'Відкрий можливості',
                 vmContract: true,
                 form_size: '',
@@ -401,7 +411,9 @@
                   freezing_total: this.product.freezing_total,  
                   freezing_kolvo: this.product.freezing_kolvo,
                 })
+                this.print = true
                 contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
+                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('gide');;
              },
         }
 }
@@ -421,4 +433,64 @@
 .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
   opacity: 0;
 }
+
+
+
+
+Size : 8.27in and 11.69 inches
+
+@page Section1 {
+size:8.27in 11.69in; 
+margin:.5in .5in .5in .5in; 
+mso-header-margin:.5in; 
+mso-footer-margin:.5in; 
+mso-paper-source:0;
+}
+
+
+
+.tdleft, .tdright, .line, .tabs{
+  font-size: 0.138in;
+}
+
+
+div.Section1 {
+page:Section1;
+border: solid 0px;
+} 
+.logo{
+  display: block;
+  width: 1.917in;
+  height: 0.590in;
+}
+
+.Section1 h1{
+  text-align: center;
+  font-size: 0.166in;
+}
+
+.tabs{
+  width: 100%;
+}
+
+.tdleft{
+  text-align: left;
+}
+
+.tdright{
+  text-align: right;
+}
+
+.line{
+  border: solid;
+  border-width: 0px 0px 1px 0px;
+  width: 100%;
+  font-weight: bold;
+}
+
+.hide{
+  font-weight: normal;
+}
+
+.gray{background:#cbc1c1;}
 </style>

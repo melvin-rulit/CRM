@@ -41,8 +41,8 @@ class BranchController extends Controller
         $branch = Branch::create($request->all());
 
         return (new BranchResource($branch))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+                ->response()
+                ->setStatusCode(Response::HTTP_CREATED);
     }
 
 
@@ -50,8 +50,8 @@ class BranchController extends Controller
     {
 
         return (new BranchResource($branch->load(['products.pays'])))
-                    ->response()
-                    ->setStatusCode(Response::HTTP_CREATED);
+                ->response()
+                ->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**

@@ -493,60 +493,6 @@ import DynamicSelect from 'vue-dynamic-select'
 Vue.use(DynamicSelect)
 
 
-
-
-// Vue.component('inputForm', {
-//   props: {
-//     value: {
-//       type: String,
-//       required: true
-//     },
-//     name: {
-//       type: String,
-//       required: true
-//     },
-//     placeholder: {
-//     }
-//   },
-//   data() {
-//     return {
-//       keyInputForm: null,
-//       thisValue: this.value,
-//     }
-//   },
-//   template: `
-
-//     <span>
-//     <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
-//     <span>
-//       <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
-//       <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
-//       </div>
-//     </div>
-
-//   `
-// })
-
-
-import Vue from 'vue';
-import VueHtmlToPaper from 'vue-html-to-paper';
-
-const options = {
-  name: '_blank',
-  specs: [
-    'fullscreen=yes',
-    'titlebar=yes',
-    'scrollbars=yes'
-  ],
-  styles: [
-    'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-    'https://unpkg.com/kidlat-css/css/kidlat.css'
-  ]
-}
-
-Vue.use(VueHtmlToPaper, options);
-
-
     export default {
         data() {
             return{
@@ -562,9 +508,6 @@ Vue.use(VueHtmlToPaper, options);
                 birthday: null,
                 users: [],
                 busy: false,
-                selected: null,
-                products: null,
-                dataVm: {},
                 branches: [],
                 users: [],
                 name:'',
@@ -577,24 +520,15 @@ Vue.use(VueHtmlToPaper, options);
                      manager: {},
                      instructor: {},
                 },
-                contract:{},
                 indexActiveUser: 0,
-                vmContract: true,
-                contractSelected: false,
                 getURL: "api/v2/getinfo",
                 postURL: "getone",
                 URLaddNewUser: "api/v2/addnewuser",
                 siteURL: "http://83.220.172.19/",
-                showInput: false,
                 articles: [],
                 users: [],
-                apis: null,
                 article_id: '',
-                edit: false,
                 showBranch: false,
-                new_child_surname: '',
-                new_child_name: '',
-                new_child_middle_name: '',
                 branch: '',
                 filter: false,
             }
@@ -699,6 +633,8 @@ Vue.use(VueHtmlToPaper, options);
             },
             addNewUser(){
                 $('#addNewUser').modal('hide');
+                $(document.body).removeClass("modal-open");
+                $(".modal-backdrop.show").hide();
                 axios.post(this.URLaddNewUser, {
                     child_surname: this.new_child_surname, 
                     child_name: this.new_child_name, 
@@ -747,7 +683,7 @@ Vue.use(VueHtmlToPaper, options);
              axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
                     this.dataObject = response.data.data
                 })
-                }, 300)
+                }, 200)
          },
         }
     }

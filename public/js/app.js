@@ -2054,6 +2054,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -2344,6 +2348,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+
+
+var options = {
+  name: '_blank',
+  specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
+  styles: ['http://185.146.156.207/test.css']
+};
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1___default.a, options);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     user_id: {}
@@ -2352,20 +2366,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _ref;
 
     return _ref = {
+      print: null,
       stopContract: '00.00.0000',
-      users: [{
-        name: 'Tom',
-        age: 22
-      }, {
-        name: 'Bob',
-        age: 25
-      }, {
-        name: 'Sam',
-        age: 28
-      }, {
-        name: 'Alice',
-        age: 26
-      }],
       pays: [],
       product: null,
       dataVm: {
@@ -2407,13 +2409,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         time: '20:00'
       }, {
         time: '21:00'
-      }],
-      options: [{
-        text: 'Зирка лева',
-        value: 'А'
-      }, {
-        text: 'Народження зирки',
-        value: 'Б'
       }],
       contracts_vm: 'Відкрий можливості',
       vmContract: true,
@@ -2489,7 +2484,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         freezing_total: this.product.freezing_total,
         freezing_kolvo: this.product.freezing_kolvo
       });
+      this.print = true;
       contract_type == 'vm' ? this.$htmlToPaper('printVM') : this.$htmlToPaper('printOSN');
+      contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('gide');
+      ;
     }
   }
 });
@@ -3494,10 +3492,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-toast-notification/dist/theme-sugar.css */ "./node_modules/vue-toast-notification/dist/theme-sugar.css");
 /* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-dynamic-select */ "./node_modules/vue-dynamic-select/dist/vue-dynamic-select.esm.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
-/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_7__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -3977,51 +3971,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
-vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
 
-vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(willvalidate__WEBPACK_IMPORTED_MODULE_2__["default"]);
-
-
-vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_toast_notification__WEBPACK_IMPORTED_MODULE_3___default.a);
-
-vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]); // Vue.component('inputForm', {
-//   props: {
-//     value: {
-//       type: String,
-//       required: true
-//     },
-//     name: {
-//       type: String,
-//       required: true
-//     },
-//     placeholder: {
-//     }
-//   },
-//   data() {
-//     return {
-//       keyInputForm: null,
-//       thisValue: this.value,
-//     }
-//   },
-//   template: `
-//     <span>
-//     <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
-//     <span>
-//       <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
-//       <input v-else type="text" :value="value" :placeholder="placeholder" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
-//       </div>
-//     </div>
-//   `
-// })
+Vue.use(willvalidate__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
 
+Vue.use(vue_toast_notification__WEBPACK_IMPORTED_MODULE_3___default.a);
 
-var options = {
-  name: '_blank',
-  specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
-  styles: ['https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', 'https://unpkg.com/kidlat-css/css/kidlat.css']
-};
-vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_7___default.a, options);
+Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -4051,9 +4008,6 @@ vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       birthday: null,
       users: [],
       busy: false,
-      selected: null,
-      products: null,
-      dataVm: {},
       branches: []
     }, _defineProperty(_ref, "users", []), _defineProperty(_ref, "name", ''), _defineProperty(_ref, "image", ''), _defineProperty(_ref, "dataObject", {
       attributes: {},
@@ -4062,7 +4016,7 @@ vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       base_branch: {},
       manager: {},
       instructor: {}
-    }), _defineProperty(_ref, "contract", {}), _defineProperty(_ref, "indexActiveUser", 0), _defineProperty(_ref, "vmContract", true), _defineProperty(_ref, "contractSelected", false), _defineProperty(_ref, "getURL", "api/v2/getinfo"), _defineProperty(_ref, "postURL", "getone"), _defineProperty(_ref, "URLaddNewUser", "api/v2/addnewuser"), _defineProperty(_ref, "siteURL", "http://83.220.172.19/"), _defineProperty(_ref, "showInput", false), _defineProperty(_ref, "articles", []), _defineProperty(_ref, "users", []), _defineProperty(_ref, "apis", null), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "edit", false), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "new_child_surname", ''), _defineProperty(_ref, "new_child_name", ''), _defineProperty(_ref, "new_child_middle_name", ''), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "filter", false), _ref;
+    }), _defineProperty(_ref, "indexActiveUser", 0), _defineProperty(_ref, "getURL", "api/v2/getinfo"), _defineProperty(_ref, "postURL", "getone"), _defineProperty(_ref, "URLaddNewUser", "api/v2/addnewuser"), _defineProperty(_ref, "siteURL", "http://83.220.172.19/"), _defineProperty(_ref, "articles", []), _defineProperty(_ref, "users", []), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "filter", false), _ref;
   },
   created: function created() {
     this.fetchArticles();
@@ -4190,6 +4144,8 @@ vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       var _this7 = this;
 
       $('#addNewUser').modal('hide');
+      $(document.body).removeClass("modal-open");
+      $(".modal-backdrop.show").hide();
       axios.post(this.URLaddNewUser, {
         child_surname: this.new_child_surname,
         child_name: this.new_child_name,
@@ -4251,7 +4207,7 @@ vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
         }).then(function (response) {
           _this10.dataObject = response.data.data;
         });
-      }, 300);
+      }, 200);
     }
   }
 });
@@ -8900,7 +8856,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#vmModal, #osnModal{\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {\n  opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n#vmModal, #osnModal{\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {\n  opacity: 0;\n}\nSize : 8.27in and 11.69 inches\n\n@page Section1 {\nsize:8.27in 11.69in; \nmargin:.5in .5in .5in .5in; \nmso-header-margin:.5in; \nmso-footer-margin:.5in; \nmso-paper-source:0;\n}\n.tdleft, .tdright, .line, .tabs{\n  font-size: 0.138in;\n}\ndiv.Section1 {\npage:Section1;\nborder: solid 0px;\n}\n.logo{\n  display: block;\n  width: 1.917in;\n  height: 0.590in;\n}\n.Section1 h1{\n  text-align: center;\n  font-size: 0.166in;\n}\n.tabs{\n  width: 100%;\n}\n.tdleft{\n  text-align: left;\n}\n.tdright{\n  text-align: right;\n}\n.line{\n  border: solid;\n  border-width: 0px 0px 1px 0px;\n  width: 100%;\n  font-weight: bold;\n}\n.hide{\n  font-weight: normal;\n}\n.gray{background:#cbc1c1;}\n", ""]);
 
 // exports
 
@@ -45966,80 +45922,40 @@ var render = function() {
               _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "row modal-body" }, [
-                _c(
-                  "div",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.vmContract,
-                        expression: "vmContract"
-                      }
-                    ],
-                    staticClass: "col-md-6"
-                  },
-                  [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "javascript:void(0)" },
-                        on: {
-                          click: function($event) {
-                            return _vm.contract("vm")
-                          }
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.contract("vm")
                         }
-                      },
-                      [_vm._v("Контракт на пробное занятие")]
-                    )
-                  ]
-                ),
+                      }
+                    },
+                    [_vm._v("Контракт на пробное занятие")]
+                  )
+                ]),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.vmContract,
-                        expression: "vmContract"
-                      }
-                    ],
-                    staticClass: "col-md-6"
-                  },
-                  [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "javascript:void(0)" },
-                        on: {
-                          click: function($event) {
-                            return _vm.contract("osn")
-                          }
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.contract("osn")
                         }
-                      },
-                      [_vm._v("Контракт основной программы")]
-                    )
-                  ]
-                )
+                      }
+                    },
+                    [_vm._v("Контракт основной программы")]
+                  )
+                ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" },
-                    on: {
-                      click: function($event) {
-                        _vm.vmContract = !_vm.vmContract
-                      }
-                    }
-                  },
-                  [_vm._v("Закрыть")]
-                )
-              ])
+              _vm._m(1)
             ])
           ]
         )
@@ -46074,7 +45990,7 @@ var render = function() {
                   [_vm._v(_vm._s(_vm.contracts_vm))]
                 ),
                 _vm._v(" "),
-                _vm._m(1)
+                _vm._m(2)
               ]),
               _vm._v(" "),
               _c(
@@ -46109,10 +46025,7 @@ var render = function() {
                       _vm._v(
                         "Фізична особо-підприємець " +
                           _vm._s(_vm.dataVm.organization) +
-                          "."
-                      ),
-                      _vm._v(
-                        ", надалі іменується «Виконавець», з одного боку, та законні представники\n            (опікуни, піклувальники)\n          "
+                          ", надалі іменується «Виконавець», з одного боку, та законні представники\n            (опікуни, піклувальники)\n          "
                       )
                     ]),
                     _vm._v(" "),
@@ -46228,11 +46141,7 @@ var render = function() {
                                 }
                               ],
                               staticClass: "line",
-                              attrs: {
-                                type: "",
-                                name: "",
-                                placeholder: "Фамилия"
-                              },
+                              attrs: { placeholder: "Фамилия" },
                               domProps: { value: _vm.dataVm.child_surname },
                               on: {
                                 input: function($event) {
@@ -46260,7 +46169,7 @@ var render = function() {
                                 }
                               ],
                               staticClass: "line",
-                              attrs: { type: "", name: "", placeholder: "Имя" },
+                              attrs: { placeholder: "Имя" },
                               domProps: { value: _vm.dataVm.child_name },
                               on: {
                                 input: function($event) {
@@ -46288,11 +46197,7 @@ var render = function() {
                                 }
                               ],
                               staticClass: "line",
-                              attrs: {
-                                type: "",
-                                name: "",
-                                placeholder: "Отчество"
-                              },
+                              attrs: { placeholder: "Отчество" },
                               domProps: { value: _vm.dataVm.child_middle_name },
                               on: {
                                 input: function($event) {
@@ -46530,7 +46435,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(2)
+                        _vm._m(3)
                       ])
                     ])
                   ])
@@ -46551,7 +46456,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-success",
-                    attrs: { type: "button", "data-dismiss": "modal" },
+                    attrs: { type: "button" },
                     on: {
                       click: function($event) {
                         return _vm.sendVm("vm")
@@ -46585,7 +46490,7 @@ var render = function() {
           { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(3),
+              _vm._m(4),
               _vm._v(" "),
               _c(
                 "div",
@@ -46648,91 +46553,123 @@ var render = function() {
                             _vm._v("Я, законний представник")
                           ]),
                           _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.dataVm.parent_surname,
-                                  expression: "dataVm.parent_surname"
-                                }
-                              ],
-                              staticClass: "line",
-                              attrs: { placeholder: "Фамилия" },
-                              domProps: { value: _vm.dataVm.parent_surname },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                          !_vm.print
+                            ? _c("td", [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.dataVm.parent_surname,
+                                      expression: "dataVm.parent_surname"
+                                    }
+                                  ],
+                                  staticClass: "line",
+                                  attrs: { placeholder: "Фамилия" },
+                                  domProps: {
+                                    value: _vm.dataVm.parent_surname
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.dataVm,
+                                        "parent_surname",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.dataVm,
-                                    "parent_surname",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
+                                })
+                              ])
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.dataVm.parent_name,
-                                  expression: "dataVm.parent_name"
-                                }
-                              ],
-                              staticClass: "line",
-                              attrs: { placeholder: "Имя" },
-                              domProps: { value: _vm.dataVm.parent_name },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.dataVm,
-                                    "parent_name",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
+                          _vm.print
+                            ? _c("td", [
+                                _c("span", [
+                                  _vm._v(_vm._s(_vm.dataVm.parent_surname))
+                                ])
+                              ])
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.dataVm.parent_middle_name,
-                                  expression: "dataVm.parent_middle_name"
-                                }
-                              ],
-                              staticClass: "line",
-                              attrs: { placeholder: "Отчество" },
-                              domProps: {
-                                value: _vm.dataVm.parent_middle_name
-                              },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                          !_vm.print
+                            ? _c("td", [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.dataVm.parent_name,
+                                      expression: "dataVm.parent_name"
+                                    }
+                                  ],
+                                  staticClass: "line",
+                                  attrs: { placeholder: "Имя" },
+                                  domProps: { value: _vm.dataVm.parent_name },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.dataVm,
+                                        "parent_name",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.dataVm,
-                                    "parent_middle_name",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
+                                })
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.print
+                            ? _c("td", [
+                                _c("span", [
+                                  _vm._v(_vm._s(_vm.dataVm.parent_name))
+                                ])
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.print
+                            ? _c("td", [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.dataVm.parent_middle_name,
+                                      expression: "dataVm.parent_middle_name"
+                                    }
+                                  ],
+                                  staticClass: "line",
+                                  attrs: { placeholder: "Отчество" },
+                                  domProps: {
+                                    value: _vm.dataVm.parent_middle_name
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.dataVm,
+                                        "parent_middle_name",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.print
+                            ? _c("td", [
+                                _c("span", [
+                                  _vm._v(_vm._s(_vm.dataVm.parent_middle_name))
+                                ])
+                              ])
+                            : _vm._e()
                         ])
                       ]),
                       _vm._v(" "),
@@ -47347,7 +47284,7 @@ var render = function() {
                       ]),
                       _c("br"),
                       _vm._v(" "),
-                      _vm._m(4)
+                      _vm._m(5)
                     ],
                     2
                   )
@@ -47359,12 +47296,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" },
-                    on: {
-                      click: function($event) {
-                        _vm.vmContract = !_vm.vmContract
-                      }
-                    }
+                    attrs: { type: "button", "data-dismiss": "modal" }
                   },
                   [_vm._v("Закрыть")]
                 ),
@@ -47373,7 +47305,6 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-success",
-                    attrs: { type: "button", "data-dismiss": "modal" },
                     on: {
                       click: function($event) {
                         return _vm.sendVm("osn")
@@ -47413,6 +47344,21 @@ var staticRenderFns = [
           }
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Закрыть")]
       )
     ])
   },
