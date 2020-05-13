@@ -15,29 +15,43 @@ use App\Base;
 use App\Branch;
 use App\User;
 
+use Illuminate\Support\Facades\Auth;
+
+
 class BaseController extends Controller
 {
 
     public function test(Request $request){
 
-        $user = User::find(8);
 
-        // foreach ($user->branches as $branch) {
-        //     foreach ($branch->bases as $base) {
-        //         $c = collect($base);
-        //     }
-        // }
+        $user = User::find(Auth::user()->id);
 
+        $collection = collect();
 
-        // dd($user->branches[0]->bases);
-        $c = $user->branches[0]->bases;
+        foreach ($user->branches as $branch) {
+            foreach ($branch->bases as $base) {
+                $collection->push($base);
+            }
+        }
 
-        return TestResource::collection($c);
+        return BaseAllResource::collection($collection->all());
     }
 
 	public function index(){
 
-		return BaseAllResource::collection(Base::all());
+        $user = User::find(Auth::user()->id);
+
+        $collection = collect();
+
+        foreach ($user->branches as $branch) {
+            foreach ($branch->bases as $base) {
+                $collection->push($base);
+            }
+        }
+
+        return BaseAllResource::collection($collection->all());
+
+		// return BaseAllResource::collection(Base::all());
 	}
 
 	public function addNewUser(Request $request){

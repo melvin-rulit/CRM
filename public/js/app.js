@@ -48119,8 +48119,7 @@ var render = function() {
               on: {
                 click: function($event) {
                   $event.preventDefault()
-                  _vm.keyInputForm = true
-                  _vm.thisValue = ""
+                  return _vm.focus($event)
                 }
               }
             },
