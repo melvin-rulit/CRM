@@ -2,8 +2,8 @@
 @section('content')
 
 <div id="app">
-	
-<user-component></user-component>
+
+<user-component :adduser="{{Gate::check('user_create')}}"></user-component>
 <!-- <example-component></example-component> -->
 
 

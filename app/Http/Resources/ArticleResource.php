@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ContractForGetInfo;
 use Carbon\Carbon;
 
 class ArticleResource extends JsonResource
@@ -17,10 +18,9 @@ class ArticleResource extends JsonResource
     {
 
         return [
-            'type'          => 'base-info',
             'id'            => (string)$this->id,
-            'contracts_active' => $this->contracts->where('active',1)->flatten(),
-            'contracts_not_active' => $this->contracts->where('active',0)->flatten(),
+            'contracts_active' => ContractForGetInfo::collection($this->contracts->where('active',1)->flatten()),
+            'contracts_not_active' => ContractForGetInfo::collection($this->contracts->where('active',0)->flatten()),
             'attributes'    => [
                 'child_name' => $this->child_name,
                 'child_surname' => $this->child_surname,

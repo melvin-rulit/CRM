@@ -9,7 +9,7 @@
               <div class="col">
               </div>
               <div class="col-auto">
-                <a class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches() , getUsers()" data-target="#addNewUser">Добавить клиента</a>
+                <a v-if="adduser" class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches() , getUsers()" data-target="#addNewUser">Добавить клиента</a>
                 <button class="btn btn-sm btn-info" @click="showCollapse(), filter = !filter">Фильтр</button>
               </div>
             </div>
@@ -225,7 +225,7 @@
                         <h6 class="text-uppercase text-muted mb-2 mt-4">
                             <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>
                             <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>
-                            <a href="#" @click.prevent="saveBranch" v-show="showBranch" class="fe fe-save h3 text-success"></a>
+                            <a v-if="dataObject.base_branch.name" href="#" @click.prevent="saveBranch" v-show="showBranch" class="fe fe-save h3 text-success"></a>
                         </h6>
                         <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">
                             <option v-for="branch in branches" v-bind:value="branch">{{ branch.name }}</option>
@@ -461,6 +461,7 @@
   </div>
   <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab"></div>
   <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab"></div>
+  <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab"></div>
 </div>
       </div>
       <div class="modal-footer pt-3 pb-3">
@@ -493,7 +494,14 @@ import DynamicSelect from 'vue-dynamic-select'
 Vue.use(DynamicSelect)
 
 
+
+
     export default {
+    props: {
+    adduser: {
+      type: String,
+    },
+  },
         data() {
             return{
                 tabsInCard: [
@@ -502,7 +510,8 @@ Vue.use(DynamicSelect)
                     {name: 'Родственник', id: 'other_relative'},
                     {name: 'Контракт', id: 'contract'}, 
                     {name: 'История', id: 'history'}, 
-                    {name: 'Интересы', id: 'interests'} 
+                    {name: 'Интересы', id: 'interests'}, 
+                    {name: 'Навыки', id: 'skills'}, 
                  ],
                 surname: null,
                 birthday: null,
@@ -561,7 +570,7 @@ Vue.use(DynamicSelect)
                     }
                 })
                     .then(response => {
-                        this.articles = response.data;
+                        this.articles = response.data.data;
                         this.busy = false;
                     })
             },

@@ -224,13 +224,13 @@
           Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає
           <table class="tabs">   
             <td width="15%"><span v-if="product">{{product.price}}</span></td>
-            <td>(<span v-if="product">{{ product.price_title }}</span>) грн.</td>
+            <td>(<span v-if="product">{{ product.price_title }}</span>) {{ dataVm.branch.currency }}.</td>
           </table>
 
             Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
             Графік оплати:<br>
               <div v-if="pays" v-for="(time, index) in pays.pays">
-                <p>Платеж {{ index + 1 }}: {{time.pay}} .р - {{ reversedMessage(time.day) }}</p>
+                <p>Платеж {{ index + 1 }}: <b>{{time.pay}}</b> {{ dataVm.branch.currency }}. - {{ reversedMessage(time.day) }}</p>
               </div>
             <table>
               <tr>
@@ -290,6 +290,8 @@
 
 <script>
 
+import Calendar from './Calendar.vue';
+
 import Vue from 'vue';
 import VueHtmlToPaper from 'vue-html-to-paper';
 
@@ -308,11 +310,14 @@ const options = {
 Vue.use(VueHtmlToPaper, options);
 
     export default {
+      components: {Calendar},
         props: {
           user_id: {},
+          date: {},
         },
         data() {
             return{
+              te: '',
               print: null,
               stopContract: '00.00.0000',
             pays: [],
@@ -352,21 +357,24 @@ Vue.use(VueHtmlToPaper, options);
                 message: 1,
                 messdate: '2020,05,10',
                 resultMessage: '',
-                end_actualy: ''
+                end_actualy: '2000,01,01'
             }
         },
         methods: {
+          onChangeDate(date){
+          alert(date);
+       },
           reversedMessage(days) {
               var D = new Date(this.end_actualy);
               D.setDate(D.getDate() + days);
               return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
-              },
+          },
           stopDate(id) {
             axios.get('api/v2/products/' + id)
             .then(response => {
                     this.pays = response.data.data
                 })
-            var D = new Date(Date.now());
+            var D = new Date(this.end_actualy);
             D.setDate(D.getDate() + this.product.days);
             this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
           },
@@ -413,7 +421,7 @@ Vue.use(VueHtmlToPaper, options);
                 })
                 this.print = true
                 contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
-                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('gide');;
+                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('gide');
              },
         }
 }

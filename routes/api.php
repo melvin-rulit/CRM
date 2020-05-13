@@ -32,6 +32,8 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
 
     Route::get('filter', 'BaseController@filter');
+
+    Route::get('test', 'BaseController@test');
 });
 
 

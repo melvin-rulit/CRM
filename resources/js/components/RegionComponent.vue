@@ -81,7 +81,11 @@
 			<div class="modal-body">
                 <div class="card-body row">
                     <div class="col-md-6">
-                        <h4 class="mb-3 name">{{ branch.name}}</h4>
+                        <p class="mb-1 ml-3">Название: 
+                            <span class="card-text text-muted mb-1 ml-2">
+                                <input-form v-model="branch.name" name="geolocation" :id="branch.id" @edit-field="editFieldBranch"></input-form>
+                            </span>
+                        </p>
                         <p class="mb-1 ml-3">Город: 
                             <span class="card-text text-muted mb-1 ml-2">
                                 <input-form v-model="branch.geolocation" name="geolocation" :id="branch.id" @edit-field="editFieldBranch"></input-form>
@@ -110,6 +114,13 @@
                                 <input-form v-model="branch.organization" name="organization" :id="branch.id" @edit-field="editFieldBranch"></input-form>
                             </span>
                         </p>
+                        <p class="mb-1 ml-3">Валюта филиала: 
+                            <select v-model="branch.currency" @change="editBranchCurrency(branch.id, branch.currency)">
+                                <option>руб</option>
+                                <option>грн</option>
+                            </select>
+                        </p>
+                        <button class="btn btn-sm btn-danger ml-3 mt-3" @click="deleteBranch(branch.id)">Удалить филиал</button>
                     </div>
               </div>
           </div>
@@ -129,7 +140,7 @@
     					</tr>
     				</thead>
     				<tbody v-for="(product, int) in branch.products">
-    					<tr data-toggle="collapse" :data-target="'#' + product.id" class="accordion-toggle" >
+    					<tr data-toggle="collapse" :data-target="'#' + product.id + 'collap'" class="accordion-toggle" >
     						<td>
                                 <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
                             </td>
@@ -162,14 +173,30 @@
                             </td>
                             <tr>
                                 <td colspan="12" class="hiddenRow">
-                                    <div class="accordian-body collapse p-3" :id="product.id">
+                                    <div class="collapse p-3" :id="product.id + 'collap'">
                                         <div class="row">
                                             <div class="card-body col-md-6 pt-1 pb-1">
-                                                <button class="btn btn-sm btn-success pb-2" @click="addRowPay(int, product.id)" :disabled="busy">Добавить платеж</button>
-                                                <p v-for="(pay, index) in product.pays">Платёж {{ index+1 }} : <input-form v-mask="'###'" v-model="pay.pay" name="pay" :id="pay.id" @edit-field="editFieldProductPay"></input-form> + дней <input-form v-mask="'###'" v-model="pay.day" name="day" :id="pay.id" @edit-field="editFieldProductPay"></input-form>
-                    <span v-if="pay.rowNewPay" v-on:click="savePay(int, index, branch.id)" class="fe fe-save h3 text-success"></span>
-                    <span v-else="" v-on:click="removePay(int, index, pay.id)" class="fe fe-trash-2 h3 text-danger pl-2"></span>
-</p>                                    
+                                                <table>
+                                                    <tbody>
+                                                        <tr class="w-100">
+                                                            <td class="w-25">Платеж</td>
+                                                            <td class="w-25">Сумма</td>
+                                                            <td class="w-25">Дней</td>
+                                                            <td class="text-center bg-success">
+                                                                <span class="fe fe-plus h3 text-white" @click="addRowPay(int, product.id)" v-show="!busy"></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr v-for="(pay, index) in product.pays">
+                                                            <td class="text-center">{{ index+1 }}</td>
+                                                            <td class="text-center"><input-form v-mask="'######'" v-model="pay.pay" name="pay" :id="pay.id" @edit-field="editFieldProductPay"></input-form></td>
+                                                            <td class="text-center"><input-form v-mask="'####'" v-model="pay.day" name="day" :id="pay.id" @edit-field="editFieldProductPay"></input-form></td>
+                                                            <td class="text-center">
+                                                                <span v-if="pay.rowNewPay" v-on:click="savePay(int, index, branch.id)" class="fe fe-save h3 text-success"></span>
+                                                                <span v-else="" v-on:click="removePay(int, index, pay.id)" class="fe fe-trash-2 h3 text-danger"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>                                 
                                             </div>
                                             <div class="card-body col-md-6 pt-1 pb-1 border-left">
                                                 <p>Сумма прописью : <input-form v-model="product.price_title" name="price_title" :id="product.id" @edit-field="editField"></input-form></p>
@@ -226,51 +253,15 @@
 		</div>
 	</div>
 </div>
-
-
 	</div>
 </template>
 
 
 <script>
 
-
-    $('.accordion-toggle').click(function(){
+$('.accordion-toggle').click(function(){
     $(this).next('tr').find('.hiddenRow').show();
 });
-
-Vue.component('inputForm', {
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    id: {
-    },
-    placeholder: {
-    }
-  },
-  data() {
-    return {
-      keyInputForm: null,
-      thisValue: this.value,
-    }
-  },
-  template: `
-    <span>
-        <a href="#" v-if="!value && !keyInputForm" @click.prevent="keyInputForm=true;thisValue=''" style="color: green;">Добавить</a>
-    <span>
-      <span v-if="!keyInputForm" class="card-title" @click="keyInputForm = true">{{ value }}</span>
-      <input class="form-control" size="1" v-else type="text" :value="value" :placeholder="placeholder" :id="id" :name="name" v-model="value" @input="$emit('input', value)" @blur="keyInputForm = false;$emit('edit-field', $event)">
-      </div>
-    </div>
-
-  `
-})
 
 
 import VueSimpleAlert from "vue-simple-alert";
@@ -393,10 +384,13 @@ Vue.use(VueSimpleAlert);
                 const id = e.target.id;
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
-                axios.put('api/v2/product_pay/'+ id, {field_name: key, field_value: value })
+                axios.put('api/v2/product_pay/' + id, {field_name: key, field_value: value })
             },
             editProduct(id, freezing) {
                 axios.put('api/v2/products/'+ id, {field_name: 'freezing_kolvo', field_value: freezing })
+            },
+            editBranchCurrency(id, currency) {
+                axios.put('api/v2/branches/'+ id, {field_name: 'currency', field_value: currency })
             },
         	getModalBranch(region_id){
         		$('#addNewBranch').modal('show');
@@ -441,6 +435,11 @@ Vue.use(VueSimpleAlert);
                 	});
         		}, 500)
         	},
+            deleteBranch(id){
+                this.$confirm("Удалить филиал с продуктами и оплатами ? ").then(() => {
+                    axios.delete('api/v2/branches/'+ id);
+                });
+            },
         },
 	}
 </script>

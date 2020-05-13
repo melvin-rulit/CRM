@@ -14,11 +14,10 @@ class TestResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
-            'products'               => $this->base_branch->products,
-            'child_surname'          => $this->child_surname,
-            'child_name'             => $this->child_name,
-            'child_middle_name'      => $this->child_middle_name,
+            'id'            => $this->id,
+            'name'          => $this->child_surname,
         ];
     }
 }

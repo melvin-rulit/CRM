@@ -140,8 +140,8 @@
                 @endif
 
             <div class="form-group">
-                <label for="about_as" class="required">{{ trans('cruds.user.fields.about_as') }}</label>
-                <textarea class="form-control mb-3" type="text" name="about_as" id="about_as" rows="1" required></textarea>
+                <label for="about_as">{{ trans('cruds.user.fields.about_as') }}</label>
+                <textarea class="form-control mb-3" type="text" name="about_as" id="about_as" rows="1"></textarea>
             </div>
 
                 <div class="form-group">

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\BranchesResource;
 use App\Http\Resources\UsersResource;
-use App\Http\Resources\BaseCurrentUser;
+use App\Http\Resources\BaseAllResource;
 use App\Http\Resources\VmContractResource;
 use App\Http\Resources\TestResource;
 use App\Http\Controllers\Controller;
@@ -20,14 +20,24 @@ class BaseController extends Controller
 
     public function test(Request $request){
 
-        $base = Base::find($request['id']);
+        $user = User::find(8);
 
-        return new TestResource($base->load(['base_branch']));
+        // foreach ($user->branches as $branch) {
+        //     foreach ($branch->bases as $base) {
+        //         $c = collect($base);
+        //     }
+        // }
+
+
+        // dd($user->branches[0]->bases);
+        $c = $user->branches[0]->bases;
+
+        return TestResource::collection($c);
     }
 
 	public function index(){
 
-		return new BaseCurrentUser(Base::all());
+		return BaseAllResource::collection(Base::all());
 	}
 
 	public function addNewUser(Request $request){
@@ -79,7 +89,7 @@ class BaseController extends Controller
         $users = Base::filter($filters)->get();
 
         if ($request->expectsJson()) {
-            return response()->json($users->toArray());
+            return BaseAllResource::collection($users);
         }
 
         return view('pages.product', compact('users'));
