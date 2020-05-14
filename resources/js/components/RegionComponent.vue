@@ -125,7 +125,7 @@
               </div>
           </div>
     		<div class="table-responsive">
-    			<table class=" table table-bordered table-hover datatable datatable-User">
+    			<table class=" table table-bordered datatable datatable-User">
     				<thead>
     					<tr>
     						<th>Название</th>
@@ -136,11 +136,11 @@
     						<th v-title="freezing_total" class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
                             <th v-title="months" class="text-center"><span class="fe fe-calendar h3 text-success"></span></th>
                             <th v-title="days" class="text-center"><span class="fe fe-clock h3 text-info"></span></th>
-                            <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+                            <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success bp" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
     					</tr>
     				</thead>
     				<tbody v-for="(product, int) in branch.products">
-    					<tr data-toggle="collapse" :data-target="'#' + product.id + 'collap'" class="accordion-toggle" >
+    					<tr>
     						<td>
                                 <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
                             </td>
@@ -168,8 +168,9 @@
                             <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
                                 <span class="fe fe-save h3 text-success"></span>
                             </td>
-                            <td v-else="" class="text-center" v-on:click="removeRow(int, product.id, product.name)">
-                                <span class="fe fe-trash-2 h3 text-danger"></span>
+                            <td v-else="">
+                                <span class="fe fe-trash-2 h3 text-danger mr-3" @click="removeRow(int, product.id, product.name)"></span>
+                                <span data-toggle="collapse" :data-target="'#' + product.id + 'collap'" class="accordion-toggle fe fe-eye h3 text-info"></span>
                             </td>
                             <tr>
                                 <td colspan="12" class="hiddenRow">
@@ -207,7 +208,6 @@
                                                         <option>3</option>
                                                     </select>
                                                 </p>
-                                                <p>Старый ID : <input-form v-model="product.old_id" name="old_id" :id="product.id" @edit-field="editField"></input-form></p>
                                             </div>
                                         </div>
                                     </div>
@@ -460,6 +460,10 @@ Vue.use(VueSimpleAlert);
 }
 .accordian-body span{
     color:#a2a2a2 !important;
+}
+
+.bp{
+    width: 70px;
 }
 
 </style>

@@ -26,6 +26,8 @@
               </button>
           </div>
           <div class="modal-body">
+<multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+<pre class="language-json"><code>{{ value  }}</code></pre>
             <form @submit.prevent="addNewUser">
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Имя</label>
@@ -55,18 +57,18 @@
                     <label class="col-sm-3 col-form-label required">Должность</label>
                     <div class="col-sm-9">
                         <dynamic-select 
-                            :options="branches"
+                            :options="access.roles"
                             option-value="id"
-                            option-text="name"
+                            option-text="title"
                             placeholder="Введите для поиска"
-                            v-model="branch" />
+                            v-model="role" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Филиалы</label>
                     <div class="col-sm-9">
                         <dynamic-select 
-                            :options="branches"
+                            :options="access.branches"
                             option-value="id"
                             option-text="name"
                             placeholder="Введите для поиска"
@@ -76,7 +78,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" @click.prevent="resetForm">Отменить</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="resetForm">Отменить</button>
             <button type="submit" class="btn btn-success">Добавить</button>
         </div>
     </div>
@@ -87,24 +89,46 @@
 </template>
 
 <script>
+
+  import Multiselect from 'vue-multiselect'
+
+  // register globally
+Vue.use(Multiselect);
+import 'vue-multiselect/dist/vue-multiselect.min.css';
+
+
     export default {
+        components: { Multiselect },
         data() {
             return {
+      value: [
+        { name: 'Javascript', code: 'js' }
+      ],
+      options: [
+        { name: 'Vue.js', code: 'vu' },
+        { name: 'Javascript', code: 'js' },
+        { name: 'Open Source', code: 'os' }
+      ],
                 users: {},
-                branches: {},
-                roles: {},
+                access: {},
             }
         },
-
-        mounted() {
-            
-        },
-
         methods: {
+                addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.options.push(tag)
+      this.value.push(tag)
+    },
             addNewUserModal(){
                 $('#addNewUser').modal('show');
-                this.getBranches();
-                // this.getRoles();
+                this.getAtributes();
+            },
+            getAtributes(){
+                axios.get('api/v2/getatributes')
+                    .then(response => {this.access = response.data.data})
             },
             resetForm(){
                 this.name = '';
@@ -112,23 +136,8 @@
                 this.login = '';
                 this.password = '';
                 this.role = '';
-                this.branches = '';
+                this.access = '';
             },
-            fetch() {
-                this.busy = true;
-                axios.get(`api/v2/users`)
-                    .then(response => {
-                        this.users = response.data.data;
-                    })
-            },
-            getBranches(){
-                axios.get('api/v2/getbranches')
-                    .then(response => {this.branches = response.data.data})
-            },
-            getRoles(){
-                axios.get('api/v2/')
-                    .then(response => {this.roles = response.data.data})
-            }
         },
     }
 </script>

@@ -209,9 +209,12 @@
           <table class="tabs">
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>
-              <td width="25%"><input placeholder="2020.12.24" v-mask="'####,##,##'" v-model="end_actualy" class="line"></td>
+              <td width="25%">
+                <date-pick :format="'YYYY,MM,DD'" :displayFormat="'DD.MM.YYYY'" v-model="dataVm.end_actualy"></date-pick>
+                <!-- <input placeholder="2020.12.24" v-mask="'####,##,##'" v-model="end_actualy" class="line"> -->
+              </td>
               <td class="gray" width="25%">Дата закінчення договору</td>
-              <td width="25%">{{ stopContract }}</td>
+              <td v-if="days" width="25%">{{ stoped() }}</td>
             </tr>
             <tr>
               <td class="gray" width="25%">Загальна кількість занять за договором</td>
@@ -290,6 +293,13 @@
 
 <script>
 
+
+import DatePick from 'vue-date-pick';
+Vue.use(DatePick);
+import 'vue-date-pick/dist/vueDatePick.css';
+
+
+
 import Calendar from './Calendar.vue';
 
 import Vue from 'vue';
@@ -311,12 +321,14 @@ Vue.use(VueHtmlToPaper, options);
 
     export default {
       components: {Calendar},
+      components: {DatePick},
         props: {
           user_id: {},
           date: {},
         },
         data() {
             return{
+              datec: '2020,05,05',
               te: '',
               print: null,
               stopContract: '00.00.0000',
@@ -357,26 +369,31 @@ Vue.use(VueHtmlToPaper, options);
                 message: 1,
                 messdate: '2020,05,10',
                 resultMessage: '',
-                end_actualy: '2000,01,01'
+                days: null,
+                startA: null,
             }
         },
         methods: {
-          onChangeDate(date){
-          alert(date);
-       },
           reversedMessage(days) {
-              var D = new Date(this.end_actualy);
+              var D = new Date(this.dataVm.end_actualy);
               D.setDate(D.getDate() + days);
               return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+              this.stoped();
+          },
+          stoped() {
+              var D = new Date(this.dataVm.end_actualy);
+              D.setDate(D.getDate() + this.product.days);
+              return this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
           },
           stopDate(id) {
             axios.get('api/v2/products/' + id)
             .then(response => {
                     this.pays = response.data.data
                 })
-            var D = new Date(this.end_actualy);
+            var D = new Date(this.dataVm.end_actualy);
             D.setDate(D.getDate() + this.product.days);
             this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+            this.days = true
           },
         	contract(contract_type){
                 axios.post('api/v2/getvmcontract', {id : this.user_id, contract_type: contract_type}).then(response => {
@@ -391,13 +408,16 @@ Vue.use(VueHtmlToPaper, options);
                 }
             },
           sendVm(contract_type) {
+            // Переведем дату обратно в человеческий формат для записи в базу
+            var D = new Date(this.dataVm.end_actualy);
+            this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
                 axios.post('api/v2/savecontract', {
                   contract_type: contract_type, 
                   base_id: this.user_id , 
                   name: this.product.name, 
                   name_vm: this.contracts_vm, 
                   date: this.dataVm.date,
-                  start: this.dataVm.start,
+                  start: this.startA,
                   end: this.stopContract, 
                   end_actually: this.stopContract, 
                   price: this.product.price, 
@@ -414,10 +434,12 @@ Vue.use(VueHtmlToPaper, options);
                   parent_facebook: this.dataVm.parent_facebook, 
                   parent_instagram: this.dataVm.parent_instagram, 
                   form_size: this.form_size, 
-                  classes_week: this.dataVm.classes_week,
-                  classes_total: this.dataVm.classes_total,          
+                  classes_week: this.product.classes_week,
+                  classes_total: this.product.classes_total,          
                   freezing_total: this.product.freezing_total,  
                   freezing_kolvo: this.product.freezing_kolvo,
+                  pays: this.pays.pays,
+
                 })
                 this.print = true
                 contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');

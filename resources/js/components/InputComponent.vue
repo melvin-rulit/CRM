@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <span>
         <span>
             <a class="text-success" href="#" v-if="!value && !keyInputForm" @click.prevent="focus">Добавить</a>
         </span>
@@ -17,7 +17,7 @@
           v-model="value" @input="$emit('input', value)" 
           @keyup.enter="keyInputForm = false;$emit('edit-field', $event)" 
           @blur="keyInputForm = false;$emit('edit-field', $event)">
-    </div>
+    </span>
 </template>
 
 <script>

@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\V2;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Cotract_pay;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\UsersAllResource;
-use App\Http\Resources\GetBranchAndRolesUser;
-use App\User;
 
-
-class UserController extends Controller
+class CotractPayController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,17 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::find(Auth::user()->id);
-
-        $collection = collect();
-
-        foreach ($user->branches as $branch) {
-            foreach ($branch->users as $user) {
-                $collection->push($user);
-            }
-        }
-
-        return UsersAllResource::collection($collection->all());
+        //
     }
 
     /**
@@ -37,11 +22,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAtributes()
+    public function create()
     {
-        $user = User::find(Auth::user()->id);
-
-        return new GetBranchAndRolesUser($user);
+        //
     }
 
     /**
@@ -58,10 +41,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Cotract_pay  $cotract_pay
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Cotract_pay $cotract_pay)
     {
         //
     }
@@ -69,10 +52,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Cotract_pay  $cotract_pay
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cotract_pay $cotract_pay)
     {
         //
     }
@@ -81,10 +64,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Cotract_pay  $cotract_pay
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Cotract_pay $cotract_pay)
     {
         //
     }
@@ -92,11 +75,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Cotract_pay  $cotract_pay
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Cotract_pay $cotract_pay)
     {
-        $user->delete();
+        //
     }
 }

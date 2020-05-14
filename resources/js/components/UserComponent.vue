@@ -41,7 +41,7 @@
                         </button>
                     </div>
                     <div class="submit">
-                        <button type="submit" @click.prevent="reset" class="btn btn-primary" :disabled="busy">
+                        <button type="submit" @click.prevent="resetFilter" class="btn btn-primary" :disabled="busy">
                             Сброс
                         </button>
                     </div>
@@ -189,7 +189,7 @@
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка  &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body pb-0">
         <div class="card mb-3">
             <div class="row no-gutters">
                 <div class="col-md-4">
@@ -203,19 +203,22 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card-body">
-                        <h4>
+                        <h4 class="pointer">
                             <input-form v-model="dataObject.attributes.child_surname" name="child_surname" @edit-field="editField"></input-form>
                         </h4>
-                        <h4>
+                        <h4 class="pointer">
                             <input-form v-model="dataObject.attributes.child_name" name="child_name" @edit-field="editField"></input-form>
                         </h4>
-                        <h4>
+                        <h4 class="pointer">
                             <input-form v-model="dataObject.attributes.child_middle_name" name="child_middle_name" @edit-field="editField"></input-form>
                         </h4>
                         <p class="card-text">
                             <input-form placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataObject.attributes.child_birthday" name="child_birthday" @edit-field="editField"></input-form>
                             <span>({{ dataObject.attributes.age }} лет)</span>
                         </p>
+                        <h5>Старый ID: <span class="pointer">
+                            <input-form v-model="dataObject.attributes.old_id" name="old_id" @edit-field="editField"></input-form></span>
+                    </h5>
                         <h5 class="text-muted mb-2">Менеджер: 
                             <span v-if="dataObject.manager" class="text-dark">{{ dataObject.manager }}</span>
                         </h5>
@@ -394,8 +397,8 @@
             <div class="col-md-6 border-bottom">
                 <div class="row">
                     <div class="btn-group btn-group-sm mb-3 text-center mx-auto" v-if="dataObject.contracts_active.length > 0">
-                        <button class="btn btn-sm btn-outline-secondary mr-4" @click="indexActiveUser--" :disabled="indexActiveUser <= 0">Предыдущий</button>
-                        <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexActiveUser++" :disabled="indexActiveUser === dataObject.contracts_active.length - 1">Следующий</button>
+                        <button class="btn btn-sm btn-outline-secondary mr-4" @click="indexactiveContract--" :disabled="indexactiveContract <= 0">Предыдущий</button>
+                        <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexactiveContract++" :disabled="indexactiveContract === dataObject.contracts_active.length - 1">Следующий</button>
                     </div>
                 </div>
             </div>
@@ -412,38 +415,36 @@
         <div class="row">
             <div class="col-md-6 mt-3">
                 <transition name="fade" mode="out-in">
-                <div v-if="dataObject.contracts_active.length > 0" class="table-responsive" :key="indexActiveUser">
-                    <p class="card-text text-center">"{{ activeUser.name }}"</p>
+                <div v-if="dataObject.contracts_active.length > 0" class="table-responsive" :key="indexactiveContract">
+                    <p class="card-text text-center">"{{ activeContract.name }}"</p>
                     <table class="table table-bordered table-hover datatable datatable-User">
                         <tbody>
                             <tr>
                                 <td>Начало:</td>
-                                <td>{{ activeUser.start }}</td>
+                                <td>{{ activeContract.start }}</td>
                             </tr>
                             <tr>
                                 <td>Окончание:</td>
-                                <td>{{ activeUser.end }}</td>
+                                <td>{{ activeContract.end }}</td>
                             </tr>
                             <tr>
                                 <td>Окончание факт:</td>
-                                <td>{{ activeUser.end_actually }}</td>
+                                <td>{{ activeContract.end_actually }}</td>
                             </tr>
                             <tr>
                                 <td>Заморозки:</td>
-                                <td>0 | 0 | 0</td>
+                                <td>{{ activeContract.freezing_total }}</td>
                             </tr>
                             <tr>
                                 <td>Тренировки:</td>
-                                <td>0 | 0 | 0</td>
+                                <td>{{ activeContract.classes_total }}</td>
                             </tr>
                         </tbody>
                     </table>
                 <p>Оплаты: 
-                    <span class="text-muted ml-2" data-toggle="tooltip" data-placement="bottom" title="Дата оплаты - 23.05.2015">0</span>
-                    <a href="#" class="text-success ml-2" @click.prevent="null">0</a>
-                    <span class="text-danger ml-2">0</span>
+                    <span v-for="pays in activeContract.pays" class="text-muted ml-2">{{ pays.pay }}</span>
                 </p>
-                <p>Сумма и остаток: <span class="ml-2">0 (0)</span></p>
+                <p>Сумма и остаток: <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span></p>
                 </div>
                 <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>
                 </transition>
@@ -529,7 +530,7 @@ Vue.use(DynamicSelect)
                      manager: {},
                      instructor: {},
                 },
-                indexActiveUser: 0,
+                indexactiveContract: 0,
                 getURL: "api/v2/getinfo",
                 postURL: "getone",
                 URLaddNewUser: "api/v2/addnewuser",
@@ -551,12 +552,19 @@ Vue.use(DynamicSelect)
         },
 
         computed: {
-            activeUser() {
-              return this.dataObject.contracts_active[this.indexActiveUser]
+            activeContract() {
+              return this.dataObject.contracts_active[this.indexactiveContract]
             }
           },
 
         methods: {
+            summPaysActiveContract(pays){
+                let sum = 0
+                pays.forEach(function (value, key) {
+                   sum += value.pay
+                });
+                return sum
+            },
             showCollapse(){
                 this.filter  ? $('#filter').collapse('hide') : $('#filter').collapse('show');
             },
@@ -574,14 +582,11 @@ Vue.use(DynamicSelect)
                         this.busy = false;
                     })
             },
-            reset() {
+            resetFilter() {
                 this.surname = null;
                 this.name = null;
                 this.birthday = null;
                 this.fetchArticles();
-            },
-            print() {
-                this.$htmlToPaper('printVM');
             },
             contact(){
                 this.fetchArticles();

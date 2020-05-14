@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Base;
 use App\Contract;
+use App\Contract_pay;
 use Carbon\Carbon;
 
 class ContractController extends Controller
@@ -110,6 +111,17 @@ class ContractController extends Controller
         $contract->freezing_total =  $request['freezing_total'];      
         $contract->freezing_kolvo = $request['freezing_kolvo'];    
 		$contract->save();
+
+
+        // Записываем массив с оплатами у контракта
+        foreach ($request->pays as $key => $value) {
+            $contract_pays = new Contract_pay;
+            $contract_pays->contract_id = $contract->id;
+            $contract_pays->pay = $value['pay'];
+            $contract_pays->day = $value['day'];
+            $contract_pays->save();
+        }
+
 	} 
 
     	return [

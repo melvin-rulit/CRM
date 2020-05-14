@@ -60,7 +60,7 @@
             deleteUser(index, id, surname){
                 this.$confirm("Удалить сотрудника " + surname + " ?").then(() => {
                     this.users.splice(index,1);
-                    axios.delete('api/v2/users/'+ id);
+                    // axios.delete('api/v2/users/'+ id);
                 });
             },
         },

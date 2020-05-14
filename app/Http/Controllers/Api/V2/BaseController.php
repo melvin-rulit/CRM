@@ -14,6 +14,7 @@ use App\Filters\UsersFilter;
 use App\Base;
 use App\Branch;
 use App\User;
+use App\Log;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -51,7 +52,6 @@ class BaseController extends Controller
 
         return BaseAllResource::collection($collection->all());
 
-		// return BaseAllResource::collection(Base::all());
 	}
 
 	public function addNewUser(Request $request){
@@ -100,10 +100,30 @@ class BaseController extends Controller
     public function filter(Request $request, UsersFilter $filters)
     {
 
+
+        $user = User::find(Auth::user()->id);
+
+        $collection = collect();
+
+        foreach ($user->branches as $branch) {
+            foreach ($branch->bases as $base) {
+                $collection->push($base);
+            }
+        }
+
+        // Исправить костыль с фильтром
+
         $users = Base::filter($filters)->get();
 
+
+        $collectionA = $users->keyBy('id');
+
+        $collectionB = $collection->keyBy('id');
+
+        $collection = $collectionA->intersectByKeys($collectionB);
+
         if ($request->expectsJson()) {
-            return BaseAllResource::collection($users);
+            return BaseAllResource::collection($collection);
         }
 
         return view('pages.product', compact('users'));

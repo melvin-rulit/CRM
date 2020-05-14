@@ -27,4 +27,8 @@ class Contract extends Model
         'parent_facebook', 
         'parent_instagram', 
     ];
+
+    public function contract_pays(){
+        return $this->hasMany(Contract_pay::class);
+    }
 }

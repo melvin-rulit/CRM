@@ -61,6 +61,7 @@ class ArticleResource extends JsonResource
                 'other_relative_viber' => $this->other_relative_viber,
                 'other_relative_notes' => $this->other_relative_notes,
                 'avatar' => $this->avatar,
+                'old_id' => $this->old_id,
             ],
                 'base_branch' => $this->base_branch->name,
                 'manager' => $this->base_manager ?  $this->base_manager->surname . ' ' .$this->base_manager->name : 'Нет' ,

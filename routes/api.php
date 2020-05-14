@@ -19,6 +19,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
 
     // Users
     Route::apiResource('users', 'UserController');
+    Route::get('getatributes', 'UserController@getAtributes');
 
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');
