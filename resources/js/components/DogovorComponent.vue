@@ -185,7 +185,10 @@
               <td><input v-model="dataVm.child_name" class="line" placeholder="Имя"></td>
               <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
               <td>, дата народження</td>
-              <td><input placeholder="12.05.1988" v-mask="'##.##.####'" v-model="dataVm.child_birthday" class="line"></td>
+              <td>
+                  <date-picker v-if="!print" v-model="dataVm.child_birthday" :editable="false" value-type="DD.MM.YYYY" format="DD.MM.YYYY"></date-picker>
+                  <span v-if="print">{{ dataVm.child_birthday }}</span>
+              </td>
               <td>надалі «Замовник»</td>
             </tr> 
           </table>
@@ -450,7 +453,7 @@ Vue.use(VueHtmlToPaper, options);
                 })
                 this.print = true
                 contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
-                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('gide');
+                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
              },
         }
 }

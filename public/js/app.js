@@ -2256,6 +2256,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_date_pick__WEBPACK_IMPORTED_MODULE_0___default.a);
 
@@ -2419,7 +2422,7 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     });
     this.print = true;
     contract_type == 'vm' ? this.$htmlToPaper('printVM') : this.$htmlToPaper('printOSN');
-    contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('gide');
+    contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
   }
 }), _components$component);
 
@@ -64274,39 +64277,38 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(", дата народження")]),
                           _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "mask",
-                                  rawName: "v-mask",
-                                  value: "##.##.####",
-                                  expression: "'##.##.####'"
-                                },
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.dataVm.child_birthday,
-                                  expression: "dataVm.child_birthday"
-                                }
-                              ],
-                              staticClass: "line",
-                              attrs: { placeholder: "12.05.1988" },
-                              domProps: { value: _vm.dataVm.child_birthday },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.dataVm,
-                                    "child_birthday",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
+                          _c(
+                            "td",
+                            [
+                              !_vm.print
+                                ? _c("date-picker", {
+                                    attrs: {
+                                      editable: false,
+                                      "value-type": "DD.MM.YYYY",
+                                      format: "DD.MM.YYYY"
+                                    },
+                                    model: {
+                                      value: _vm.dataVm.child_birthday,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.dataVm,
+                                          "child_birthday",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "dataVm.child_birthday"
+                                    }
+                                  })
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.print
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.dataVm.child_birthday))
+                                  ])
+                                : _vm._e()
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c("td", [_vm._v("надалі «Замовник»")])
                         ])

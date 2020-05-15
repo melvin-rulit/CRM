@@ -103,7 +103,7 @@ class ContractController extends Controller
 		$contract->start = $request['start'];
 		$contract->end = $request['end'];
 		$contract->end_actually = $request['end_actually'];
-		$contract->date = Carbon::now()->format('d.m.Y');
+		$contract->date = $request['date'];
 		$contract->active = true;
 		$contract->form_size = $request['form_size'];
         $contract->classes_total =  $request['classes_total'];      
