@@ -17,6 +17,7 @@ class ContractForGetInfo extends JsonResource
         return [
             'id'                  => $this->id,
             'name'                => $this->name,
+            'date'                => $this->date,
             'start'               => $this->start,
             'end'                 => $this->end,
             'end_actually'        => $this->end_actually,

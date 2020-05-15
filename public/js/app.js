@@ -2255,6 +2255,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_date_pick__WEBPACK_IMPORTED_MODULE_0___default.a);
 
@@ -3507,6 +3508,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-dynamic-select */ "./node_modules/vue-dynamic-select/dist/vue-dynamic-select.esm.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -64035,49 +64040,49 @@ var render = function() {
                     "div",
                     { staticClass: "Section1" },
                     [
-                      _c("h1", [
-                        _vm._v("ЗАЯВА № " + _vm._s(_vm.user_id) + " від  «"),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "mask",
-                              rawName: "v-mask",
-                              value: "##.##.####",
-                              expression: "'##.##.####'"
-                            },
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.dataVm.date,
-                              expression: "dataVm.date"
-                            }
-                          ],
-                          staticClass: "line",
-                          staticStyle: { width: "86px" },
-                          attrs: { placeholder: "20.05.2015" },
-                          domProps: { value: _vm.dataVm.date },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.dataVm, "date", $event.target.value)
-                            }
-                          }
-                        }),
-                        _vm._v("»  р."),
-                        _c("br"),
-                        _vm._v(
-                          "\n            до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
-                        ),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "hide" }, [
+                      _c(
+                        "h1",
+                        [
                           _vm._v(
-                            "(публічний договір розташований на офіційномусайті clubleva.ua)"
-                          )
-                        ])
-                      ]),
+                            "ЗАЯВА № " +
+                              _vm._s(_vm.user_id) +
+                              " від  «\n            "
+                          ),
+                          !_vm.print
+                            ? _c("date-picker", {
+                                attrs: {
+                                  editable: false,
+                                  "value-type": "DD.MM.YYYY",
+                                  format: "DD.MM.YYYY"
+                                },
+                                model: {
+                                  value: _vm.dataVm.date,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.dataVm, "date", $$v)
+                                  },
+                                  expression: "dataVm.date"
+                                }
+                              })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.print
+                            ? _c("span", [_vm._v(_vm._s(_vm.dataVm.date))])
+                            : _vm._e(),
+                          _vm._v("»  р."),
+                          _c("br"),
+                          _vm._v(
+                            "\n            до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "hide" }, [
+                            _vm._v(
+                              "(публічний договір розташований на офіційномусайті clubleva.ua)"
+                            )
+                          ])
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c("table", { staticClass: "tabs" }, [
                         _c("tr", [
@@ -64537,20 +64542,28 @@ var render = function() {
                             "td",
                             { attrs: { width: "25%" } },
                             [
-                              _c("date-picker", {
-                                attrs: {
-                                  editable: false,
-                                  "value-type": "YYYY-MM-DD",
-                                  format: "DD.MM.YYYY"
-                                },
-                                model: {
-                                  value: _vm.dataVm.end_actualy,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.dataVm, "end_actualy", $$v)
-                                  },
-                                  expression: "dataVm.end_actualy"
-                                }
-                              })
+                              !_vm.print
+                                ? _c("date-picker", {
+                                    attrs: {
+                                      editable: false,
+                                      "value-type": "YYYY-MM-DD",
+                                      format: "DD.MM.YYYY"
+                                    },
+                                    model: {
+                                      value: _vm.dataVm.end_actualy,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.dataVm, "end_actualy", $$v)
+                                      },
+                                      expression: "dataVm.end_actualy"
+                                    }
+                                  })
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.print
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.dataVm.end_actualy))
+                                  ])
+                                : _vm._e()
                             ],
                             1
                           ),
@@ -69774,6 +69787,23 @@ var render = function() {
                                                 },
                                                 [
                                                   _c("tbody", [
+                                                    _c("tr", [
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          "Дата составления:"
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            _vm.activeContract
+                                                              .date
+                                                          )
+                                                        )
+                                                      ])
+                                                    ]),
+                                                    _vm._v(" "),
                                                     _c("tr", [
                                                       _c("td", [
                                                         _vm._v("Начало:")

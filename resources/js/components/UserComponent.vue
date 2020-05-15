@@ -420,6 +420,10 @@
                     <table class="table table-bordered table-hover datatable datatable-User">
                         <tbody>
                             <tr>
+                                <td>Дата составления:</td>
+                                <td>{{ activeContract.date }}</td>
+                            </tr>
+                            <tr>
                                 <td>Начало:</td>
                                 <td>{{ activeContract.start }}</td>
                             </tr>

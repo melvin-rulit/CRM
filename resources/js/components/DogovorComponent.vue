@@ -162,7 +162,9 @@
       </div>
       <div class="modal-body modal-lg" id="printOSN">
         <div class="Section1"> 
-          <h1>ЗАЯВА № {{ user_id }} від  «<input style="width: 86px" v-mask="'##.##.####'" placeholder="20.05.2015" v-model="dataVm.date" class="line">»  р.<br>
+          <h1>ЗАЯВА № {{ user_id }} від  «
+            <date-picker v-if="!print" v-model="dataVm.date" :editable="false" value-type="DD.MM.YYYY" format="DD.MM.YYYY"></date-picker>
+            <span v-if="print">{{ dataVm.date }}</span>»  р.<br>
             до Публічної пропозиції Договору надання послуг фізичного виховання дітей<br>
             <span class="hide">(публічний договір розташований на офіційномусайті clubleva.ua)</span>
           </h1>
@@ -210,9 +212,8 @@
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>
               <td width="25%">
-                <!-- <date-pick :format="'YYYY,MM,DD'" :displayFormat="'DD.MM.YYYY'" v-model="dataVm.end_actualy"></date-pick> -->
-                <date-picker v-model="dataVm.end_actualy" :editable="false" value-type="YYYY-MM-DD" format="DD.MM.YYYY"></date-picker>
-                <!-- <input placeholder="2020.12.24" v-mask="'####,##,##'" v-model="end_actualy" class="line"> -->
+                <date-picker v-if="!print" v-model="dataVm.end_actualy" :editable="false" value-type="YYYY-MM-DD" format="DD.MM.YYYY"></date-picker>
+                <span v-if="print">{{ dataVm.end_actualy }}</span>
               </td>
               <td class="gray" width="25%">Дата закінчення договору</td>
               <td v-if="days" width="25%">{{ stoped() }}</td>
