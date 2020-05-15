@@ -3,9 +3,6 @@
         <addnewuser-component v-if="add"></addnewuser-component>
         <showuser-component ref="getmodal"></showuser-component>
 
-                        <date-pick :format="'YYYY,MM,DD'" :displayFormat="'DD.MM.YYYY'" v-model="qwe"></date-pick>
-
-
         <div class="card">
             <div class="card-body pb-0">
                 <div class="table-responsive">
@@ -40,18 +37,11 @@
 </template>
 
 <script>
-    import DatePick from 'vue-date-pick';
-Vue.use(DatePick);
-import 'vue-date-pick/dist/vueDatePick.css';
-
     export default {
-              components: {DatePick},
-
         data() {
             return {
                 users: {},
                 add: true,
-                qwe: '',
             }
         },
 

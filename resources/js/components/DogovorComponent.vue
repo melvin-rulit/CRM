@@ -210,7 +210,8 @@
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>
               <td width="25%">
-                <date-pick :format="'YYYY,MM,DD'" :displayFormat="'DD.MM.YYYY'" v-model="dataVm.end_actualy"></date-pick>
+                <!-- <date-pick :format="'YYYY,MM,DD'" :displayFormat="'DD.MM.YYYY'" v-model="dataVm.end_actualy"></date-pick> -->
+                <date-picker v-model="dataVm.end_actualy" :editable="false" value-type="YYYY-MM-DD" format="DD.MM.YYYY"></date-picker>
                 <!-- <input placeholder="2020.12.24" v-mask="'####,##,##'" v-model="end_actualy" class="line"> -->
               </td>
               <td class="gray" width="25%">Дата закінчення договору</td>
@@ -298,6 +299,9 @@ import DatePick from 'vue-date-pick';
 Vue.use(DatePick);
 import 'vue-date-pick/dist/vueDatePick.css';
 
+import DatePicker from 'vue2-datepicker';
+Vue.use(DatePicker);
+import 'vue2-datepicker/index.css';
 
 
 import Calendar from './Calendar.vue';
@@ -322,12 +326,14 @@ Vue.use(VueHtmlToPaper, options);
     export default {
       components: {Calendar},
       components: {DatePick},
+      components: { DatePicker },
         props: {
           user_id: {},
           date: {},
         },
         data() {
             return{
+              qwe: '',
               datec: '2020,05,05',
               te: '',
               print: null,

@@ -128,9 +128,9 @@
         },
         methods: {
             pushq(){
-                this.role.forEach(function (value, key) {
-                    this.newRole.push(1);
-                });
+                  this.role.forEach((value, key) => {
+                  this.newRole.push(value.id);
+              });
             },
             addNewUserModal(){
                 $('#addNewUser').modal('show');
