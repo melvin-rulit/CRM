@@ -340,7 +340,7 @@ Vue.use(VueHtmlToPaper, options);
               qwe: '',
               datec: '2020,05,05',
               te: '',
-              print: null,
+              print: false,
               stopContract: '00.00.0000',
             pays: [],
             product:null,
@@ -454,6 +454,7 @@ Vue.use(VueHtmlToPaper, options);
                 this.print = true
                 contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
                 contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
+                this.print = false
              },
         }
 }
