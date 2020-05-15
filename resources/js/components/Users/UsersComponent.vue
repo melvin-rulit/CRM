@@ -1,6 +1,10 @@
 <template>
     <div>
         <addnewuser-component v-if="add"></addnewuser-component>
+        <showuser-component ref="getmodal"></showuser-component>
+
+                        <date-pick :format="'YYYY,MM,DD'" :displayFormat="'DD.MM.YYYY'" v-model="qwe"></date-pick>
+
 
         <div class="card">
             <div class="card-body pb-0">
@@ -17,7 +21,7 @@
                             </tr>
                         </thead>
                         <tbody v-for="(user, index) in users">
-                            <tr>
+                            <tr @click="getShowModal(user.id)">
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.surname }}</td>
                                 <td>{{ user.email }}</td>
@@ -25,7 +29,6 @@
                                 <td><span v-for="branch in user.branches" class="badge badge-info mr-2">{{ branch.name }}</span></td>
                                 <td class="text-center">
                                     <span class="fe fe-trash-2 h3 text-danger" @click="deleteUser(index, user.id, user.surname)"></span>
-                                    <span class="fe fe-edit h3 text-info ml-3"></span>
                                 </td>
                             </tr>
                         </tbody>
@@ -37,11 +40,18 @@
 </template>
 
 <script>
+    import DatePick from 'vue-date-pick';
+Vue.use(DatePick);
+import 'vue-date-pick/dist/vueDatePick.css';
+
     export default {
+              components: {DatePick},
+
         data() {
             return {
                 users: {},
                 add: true,
+                qwe: '',
             }
         },
 
@@ -50,8 +60,10 @@
         },
 
         methods: {
+            getShowModal(id){
+                this.$refs.getmodal.addNewUserModal(id)
+            },
             fetch() {
-                this.busy = true;
                 axios.get(`api/v2/users`)
                     .then(response => {
                         this.users = response.data.data;
@@ -60,7 +72,7 @@
             deleteUser(index, id, surname){
                 this.$confirm("Удалить сотрудника " + surname + " ?").then(() => {
                     this.users.splice(index,1);
-                    // axios.delete('api/v2/users/'+ id);
+                    axios.delete('api/v2/users/'+ id);
                 });
             },
         },

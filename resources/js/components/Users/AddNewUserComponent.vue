@@ -26,13 +26,17 @@
               </button>
           </div>
           <div class="modal-body">
-<multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-<pre class="language-json"><code>{{ value  }}</code></pre>
             <form @submit.prevent="addNewUser">
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Имя</label>
                     <div class="col-sm-9">
                         <input v-model="name" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required">Фамилия</label>
+                    <div class="col-sm-9">
+                        <input v-model="surname" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -42,7 +46,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label required">Логин</label>
+                    <label class="col-sm-3 col-form-label required">Логин (почта)</label>
                     <div class="col-sm-9">
                         <input v-model="login" class="form-control" required>
                     </div>
@@ -50,36 +54,46 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Пароль</label>
                     <div class="col-sm-9">
-                        <input v-model="password" class="form-control" required>
+                        <input type="password" v-model="password" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Должность</label>
                     <div class="col-sm-9">
-                        <dynamic-select 
-                            :options="access.roles"
-                            option-value="id"
-                            option-text="title"
-                            placeholder="Введите для поиска"
-                            v-model="role" />
+                    <multiselect 
+                        v-if="access.roles" 
+                        v-model="role" 
+                        placeholder="Выберите должность" 
+                        label="title" 
+                        track-by="id" 
+                        :options="access.roles" 
+                        :multiple="true" 
+                        :taggable="true">
+                    </multiselect>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Филиалы</label>
                     <div class="col-sm-9">
-                        <dynamic-select 
-                            :options="access.branches"
-                            option-value="id"
-                            option-text="name"
-                            placeholder="Введите для поиска"
-                            v-model="branch" />
+                    <multiselect 
+                        v-if="access.branches" 
+                        v-model="branch" 
+                        placeholder="Выберите филиал" 
+                        label="name" 
+                        track-by="id" 
+                        :options="access.branches" 
+                        :multiple="true" 
+                        :taggable="true">
+                    </multiselect>
                     </div>
                 </div>
+                <pre><code>{{ newRole }}</code></pre>
+                <p @click="pushq">Добавить array</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="resetForm">Отменить</button>
+                    <button type="submit" class="btn btn-success">Добавить</button>
+                </div>
             </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="resetForm">Отменить</button>
-            <button type="submit" class="btn btn-success">Добавить</button>
         </div>
     </div>
 </div>
@@ -92,36 +106,32 @@
 
   import Multiselect from 'vue-multiselect'
 
-  // register globally
-Vue.use(Multiselect);
-import 'vue-multiselect/dist/vue-multiselect.min.css';
+    Vue.use(Multiselect);
+    import 'vue-multiselect/dist/vue-multiselect.min.css';
 
 
     export default {
         components: { Multiselect },
         data() {
             return {
-      value: [
-        { name: 'Javascript', code: 'js' }
-      ],
-      options: [
-        { name: 'Vue.js', code: 'vu' },
-        { name: 'Javascript', code: 'js' },
-        { name: 'Open Source', code: 'os' }
-      ],
+                name: '',
+                surname: '',
+                phone: '',
+                login: '',
+                password: '',
+                role: '',
+                branch: '',
                 users: {},
                 access: {},
+                newRole: [],
             }
         },
         methods: {
-                addTag (newTag) {
-      const tag = {
-        name: newTag,
-        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-      }
-      this.options.push(tag)
-      this.value.push(tag)
-    },
+            pushq(){
+                this.role.forEach(function (value, key) {
+                    this.newRole.push(1);
+                });
+            },
             addNewUserModal(){
                 $('#addNewUser').modal('show');
                 this.getAtributes();
@@ -130,8 +140,22 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
                 axios.get('api/v2/getatributes')
                     .then(response => {this.access = response.data.data})
             },
+
+            addNewUser(){
+                axios.post('api/v2/users', {
+                    name: this.name,
+                    surname: this.surname,
+                    phone: this.phone,
+                    login: this.login,
+                    email: this.login,
+                    password: this.password,
+                    branch: this.branch,
+                    role: this.newRole,
+                })
+            },
             resetForm(){
                 this.name = '';
+                this.surname = '';
                 this.phone = '';
                 this.login = '';
                 this.password = '';

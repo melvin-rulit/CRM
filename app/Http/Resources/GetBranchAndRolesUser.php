@@ -15,8 +15,8 @@ class GetBranchAndRolesUser extends JsonResource
     public function toArray($request)
     {
         return [
-            'roles'      => $this->userAccess,
-            'branches' => $this->branches,
+            'roles'      => $this->userAccess->map->only('id', 'title'),
+            'branches' => $this->branches->map->only('id', 'name'),
         ];
     }
 }

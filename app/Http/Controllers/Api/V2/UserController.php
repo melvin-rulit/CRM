@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UsersAllResource;
+use App\Http\Resources\GetUser;
 use App\Http\Resources\GetBranchAndRolesUser;
 use App\User;
 
@@ -52,7 +53,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->input('role', []));
+        $user = User::create($request->all());
+        $user->roles()->sync($request->input('role', []));
+        // $user->branches()->sync($request->input('branch', ['id']));
+
+        // По возможности изменить приходящий массив и сделать запись ролей и филиалом по нормальному
+        // $user->roles()->sync($request->input('roles', ['id']));
+        // $user->branches()->sync($request->input('branches', []));
+
+        // foreach ($request->branch as $value) {
+        //     $role = new Contract_pay;
+        //     $contract_pays->contract_id = $contract->id;
+        //     $contract_pays->pay = $value['pay'];
+        //     $contract_pays->day = $value['day'];
+        //     $contract_pays->save();
+        // }
     }
 
     /**
@@ -61,9 +77,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return new GetUser($user);
     }
 
     /**
