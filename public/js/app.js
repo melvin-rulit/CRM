@@ -3482,8 +3482,21 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }, 500);
     },
     deleteBranch: function deleteBranch(id) {
+      var _this7 = this;
+
       this.$confirm("Удалить филиал с продуктами и оплатами ? ").then(function () {
         axios["delete"]('api/v2/branches/' + id);
+        $('#getbranch').modal('hide');
+        setTimeout(function () {
+          Vue.$toast.open({
+            message: 'Филиал успешно удален',
+            type: 'success',
+            duration: 5000,
+            position: 'top-right'
+          });
+        }, 500);
+
+        _this7.getRegion();
       });
     }
   }
@@ -4365,8 +4378,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 Vue.use(vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a);
 
@@ -4385,7 +4396,8 @@ Vue.use(vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a);
       branch: '',
       users: {},
       access: {},
-      newRole: []
+      newRole: [],
+      newBranch: []
     };
   },
   methods: {
@@ -4408,6 +4420,14 @@ Vue.use(vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a);
       });
     },
     addNewUser: function addNewUser() {
+      var _this3 = this;
+
+      this.role.forEach(function (value, key) {
+        _this3.newRole.push(value.id);
+      });
+      this.branch.forEach(function (value, key) {
+        _this3.newBranch.push(value.id);
+      });
       axios.post('api/v2/users', {
         name: this.name,
         surname: this.surname,
@@ -4415,9 +4435,10 @@ Vue.use(vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a);
         login: this.login,
         email: this.login,
         password: this.password,
-        branch: this.branch,
+        branch: this.newBranch,
         role: this.newRole
       });
+      $('#addNewUser').modal('hide');
     },
     resetForm: function resetForm() {
       this.name = '';
@@ -70479,12 +70500,6 @@ var render = function() {
                         ],
                         1
                       )
-                    ]),
-                    _vm._v(" "),
-                    _c("pre", [_c("code", [_vm._v(_vm._s(_vm.newRole))])]),
-                    _vm._v(" "),
-                    _c("p", { on: { click: _vm.pushq } }, [
-                      _vm._v("Добавить array")
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-footer" }, [

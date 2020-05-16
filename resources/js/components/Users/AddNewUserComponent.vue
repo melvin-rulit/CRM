@@ -87,8 +87,6 @@
                     </multiselect>
                     </div>
                 </div>
-                <pre><code>{{ newRole }}</code></pre>
-                <p @click="pushq">Добавить array</p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" @click="resetForm">Отменить</button>
                     <button type="submit" class="btn btn-success">Добавить</button>
@@ -124,6 +122,7 @@
                 users: {},
                 access: {},
                 newRole: [],
+                newBranch: [],
             }
         },
         methods: {
@@ -142,6 +141,12 @@
             },
 
             addNewUser(){
+                this.role.forEach((value, key) => {
+                  this.newRole.push(value.id);
+                });
+                this.branch.forEach((value, key) => {
+                  this.newBranch.push(value.id);
+                });
                 axios.post('api/v2/users', {
                     name: this.name,
                     surname: this.surname,
@@ -149,9 +154,10 @@
                     login: this.login,
                     email: this.login,
                     password: this.password,
-                    branch: this.branch,
+                    branch: this.newBranch,
                     role: this.newRole,
                 })
+                $('#addNewUser').modal('hide');
             },
             resetForm(){
                 this.name = '';

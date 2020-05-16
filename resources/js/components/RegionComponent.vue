@@ -438,6 +438,12 @@ Vue.use(VueSimpleAlert);
             deleteBranch(id){
                 this.$confirm("Удалить филиал с продуктами и оплатами ? ").then(() => {
                     axios.delete('api/v2/branches/'+ id);
+                $('#getbranch').modal('hide');
+                setTimeout(() => {
+                        Vue.$toast.open({message: 'Филиал успешно удален',type: 'success',duration: 5000,position: 'top-right'
+                    });
+                }, 500)
+                this.getRegion();
                 });
             },
         },

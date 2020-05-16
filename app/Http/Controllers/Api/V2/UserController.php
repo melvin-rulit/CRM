@@ -53,22 +53,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->input('role', []));
         $user = User::create($request->all());
         $user->roles()->sync($request->input('role', []));
-        // $user->branches()->sync($request->input('branch', ['id']));
-
-        // По возможности изменить приходящий массив и сделать запись ролей и филиалом по нормальному
-        // $user->roles()->sync($request->input('roles', ['id']));
-        // $user->branches()->sync($request->input('branches', []));
-
-        // foreach ($request->branch as $value) {
-        //     $role = new Contract_pay;
-        //     $contract_pays->contract_id = $contract->id;
-        //     $contract_pays->pay = $value['pay'];
-        //     $contract_pays->day = $value['day'];
-        //     $contract_pays->save();
-        // }
+        $user->branches()->sync($request->input('branch', []));
     }
 
     /**
