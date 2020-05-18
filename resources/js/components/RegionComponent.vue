@@ -83,7 +83,7 @@
                     <div class="col-md-6">
                         <p class="mb-1 ml-3">Название: 
                             <span class="card-text text-muted mb-1 ml-2">
-                                <input-form v-model="branch.name" name="geolocation" :id="branch.id" @edit-field="editFieldBranch"></input-form>
+                                <input-form v-model="branch.name" name="name" :id="branch.id" @edit-field="editFieldBranch"></input-form>
                             </span>
                         </p>
                         <p class="mb-1 ml-3">Город: 
@@ -203,11 +203,13 @@
                                                 <p>Сумма прописью : <input-form v-model="product.price_title" name="price_title" :id="product.id" @edit-field="editField"></input-form></p>
                                                 <p>Заморозки по : 
                                                     <select v-model="product.freezing_kolvo" @change="editProduct(product.id, product.freezing_kolvo)">
+                                                        <option>0</option>
                                                         <option>1</option>
                                                         <option>2</option>
                                                         <option>3</option>
                                                     </select>
                                                 </p>
+                                                <p>Дата окончания продукта: <input-form v-model="product.date_end" name="date_end" :id="product.id" :placeholder="'20.05.2020'" @edit-field="editField"></input-form></p>
                                             </div>
                                         </div>
                                     </div>
@@ -326,13 +328,13 @@ Vue.use(VueSimpleAlert);
                this.branch.products.push({
                     rowNew: true, 
                     name: 'Название продукта', 
-                    price: 0, 
-                    classes_total: 0, 
-                    classes_week: 0, 
-                    category_time: 0, 
-                    freezing_total: 0, 
-                    months: 0, 
-                    days: 0, 
+                    price: null, 
+                    classes_total: null, 
+                    classes_week: null, 
+                    category_time: null, 
+                    freezing_total: null, 
+                    months: null, 
+                    days: null, 
                     active: true ,
                     price_title: 'Цена прописью' ,
                     branch_id: branch
@@ -342,8 +344,8 @@ Vue.use(VueSimpleAlert);
                this.busy = true
                this.branch.products[int].pays.push({
                     rowNewPay: true, 
-                    pay: 0, 
-                    day: 0, 
+                    pay: null, 
+                    day: null, 
                     product_id: product_id
                 });
             },

@@ -14,6 +14,7 @@ use App\Filters\UsersFilter;
 use App\Base;
 use App\Branch;
 use App\User;
+use App\Role;
 use App\Log;
 
 use Illuminate\Support\Facades\Auth;
@@ -78,6 +79,36 @@ class BaseController extends Controller
     public function getBranches(){
 
         return new BranchesResource(Branch::all());
+    }
+
+    public function getManagers(){
+
+        $roles = Role::where('title', 'like' , "%менеджер%")->get();
+
+        $collection = collect();
+
+            foreach ($roles as $role) {
+                foreach ($role->rolesUsers as $value) {
+                    $collection->push($value);
+                }
+        }
+
+        return new UsersResource($collection);
+    }
+
+    public function getInstructors(){
+
+        $roles = Role::where('title', 'like' , "%тренер%")->get();
+
+        $collection = collect();
+
+            foreach ($roles as $role) {
+                foreach ($role->rolesUsers as $value) {
+                    $collection->push($value);
+                }
+        }
+
+        return new UsersResource($collection);
     }
 
     public function getUsers(){

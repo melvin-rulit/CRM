@@ -3254,6 +3254,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 $('.accordion-toggle').click(function () {
   $(this).next('tr').find('.hiddenRow').show();
 });
@@ -3324,13 +3326,13 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       this.branch.products.push({
         rowNew: true,
         name: 'Название продукта',
-        price: 0,
-        classes_total: 0,
-        classes_week: 0,
-        category_time: 0,
-        freezing_total: 0,
-        months: 0,
-        days: 0,
+        price: null,
+        classes_total: null,
+        classes_week: null,
+        category_time: null,
+        freezing_total: null,
+        months: null,
+        days: null,
         active: true,
         price_title: 'Цена прописью',
         branch_id: branch
@@ -3341,8 +3343,8 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
       this.branch.products[_int].pays.push({
         rowNewPay: true,
-        pay: 0,
-        day: 0,
+        pay: null,
+        day: null,
         product_id: product_id
       });
     },
@@ -4006,6 +4008,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -4053,7 +4073,9 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       birthday: null,
       users: [],
       busy: false,
-      branches: []
+      branches: [],
+      managers: [],
+      instructors: []
     }, _defineProperty(_ref, "users", []), _defineProperty(_ref, "name", ''), _defineProperty(_ref, "image", ''), _defineProperty(_ref, "dataObject", {
       attributes: {},
       contracts_not_active: {},
@@ -4061,7 +4083,7 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       base_branch: {},
       manager: {},
       instructor: {}
-    }), _defineProperty(_ref, "indexactiveContract", 0), _defineProperty(_ref, "getURL", "api/v2/getinfo"), _defineProperty(_ref, "postURL", "getone"), _defineProperty(_ref, "URLaddNewUser", "api/v2/addnewuser"), _defineProperty(_ref, "siteURL", "http://83.220.172.19/"), _defineProperty(_ref, "articles", []), _defineProperty(_ref, "users", []), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "filter", false), _ref;
+    }), _defineProperty(_ref, "indexactiveContract", 0), _defineProperty(_ref, "getURL", "api/v2/getinfo"), _defineProperty(_ref, "postURL", "getone"), _defineProperty(_ref, "URLaddNewUser", "api/v2/addnewuser"), _defineProperty(_ref, "siteURL", "http://83.220.172.19/"), _defineProperty(_ref, "articles", []), _defineProperty(_ref, "users", []), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "showInstructor", false), _defineProperty(_ref, "showManager", false), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "filter", false), _ref;
   },
   created: function created() {
     this.fetchArticles();
@@ -4075,6 +4097,12 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
     }
   },
   methods: {
+    closeModalView: function closeModalView() {
+      this.showBranch = false;
+      this.showManager = false;
+      this.showInstructor = false;
+      this.fetchArticles();
+    },
     summPaysActiveContract: function summPaysActiveContract(pays) {
       var sum = 0;
       pays.forEach(function (value, key) {
@@ -4167,6 +4195,14 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       this.showBranch = true;
       this.getBranches();
     },
+    editManager: function editManager() {
+      this.showManager = true;
+      this.getManagers();
+    },
+    editInstructor: function editInstructor() {
+      this.showInstructor = true;
+      this.getInstructors();
+    },
     saveBranch: function saveBranch() {
       axios.post(this.postURL, {
         user_id: this.dataObject.id,
@@ -4175,6 +4211,24 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       });
       this.showBranch = false;
       this.dataObject.base_branch = this.dataObject.base_branch.name;
+    },
+    saveManager: function saveManager() {
+      axios.post(this.postURL, {
+        user_id: this.dataObject.id,
+        field_name: 'manager',
+        field_value: this.dataObject.manager.id
+      });
+      this.showManager = false;
+      this.dataObject.manager = this.dataObject.manager.surname + ' ' + this.dataObject.manager.name;
+    },
+    saveInstructor: function saveInstructor() {
+      axios.post(this.postURL, {
+        user_id: this.dataObject.id,
+        field_name: 'instructor',
+        field_value: this.dataObject.instructor.id
+      });
+      this.showInstructor = false;
+      this.dataObject.instructor = this.dataObject.instructor.surname + ' ' + this.dataObject.instructor.name;
     },
     editField: function editField(e, name) {
       var value = e.target.value;
@@ -4199,8 +4253,8 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
         child_surname: this.new_child_surname,
         child_name: this.new_child_name,
         child_middle_name: this.new_child_middle_name,
-        manager: this.manager.id,
-        instructor: this.instructor.id,
+        manager: this.manager ? this.manager.id : null,
+        instructor: this.instructor ? this.instructor.id : null,
         branch: this.branch.id
       }).then(function (response) {
         return _this7.getModal(response.data);
@@ -4213,11 +4267,25 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
         return _this8.branches = response.data.data;
       });
     },
-    getUsers: function getUsers() {
+    getManagers: function getManagers() {
       var _this9 = this;
 
+      axios.get('api/v2/getmanagers').then(function (response) {
+        return _this9.managers = response.data.data;
+      });
+    },
+    getInstructors: function getInstructors() {
+      var _this10 = this;
+
+      axios.get('api/v2/getinstructors').then(function (response) {
+        return _this10.instructors = response.data.data;
+      });
+    },
+    getUsers: function getUsers() {
+      var _this11 = this;
+
       axios.get('api/v2/getusers').then(function (response) {
-        return _this9.users = response.data.data;
+        return _this11.users = response.data.data;
       });
     },
     onFileChange: function onFileChange(e) {
@@ -4238,7 +4306,7 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       this.upload(event);
     },
     upload: function upload(event) {
-      var _this10 = this;
+      var _this12 = this;
 
       var data = new FormData();
       var file = event.target.files[0];
@@ -4252,9 +4320,9 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       axios.post('api/v2/image', data, config);
       setTimeout(function () {
         axios.post('api/v2/getinfo', {
-          id: _this10.dataObject['id']
+          id: _this12.dataObject['id']
         }).then(function (response) {
-          _this10.dataObject = response.data.data;
+          _this12.dataObject = response.data.data;
         });
       }, 200);
     }
@@ -66347,7 +66415,7 @@ var render = function() {
                         { staticClass: "card-text text-muted mb-1 ml-2" },
                         [
                           _c("input-form", {
-                            attrs: { name: "geolocation", id: _vm.branch.id },
+                            attrs: { name: "name", id: _vm.branch.id },
                             on: { "edit-field": _vm.editFieldBranch },
                             model: {
                               value: _vm.branch.name,
@@ -67329,6 +67397,8 @@ var render = function() {
                                                 }
                                               },
                                               [
+                                                _c("option", [_vm._v("0")]),
+                                                _vm._v(" "),
                                                 _c("option", [_vm._v("1")]),
                                                 _vm._v(" "),
                                                 _c("option", [_vm._v("2")]),
@@ -67336,7 +67406,38 @@ var render = function() {
                                                 _c("option", [_vm._v("3")])
                                               ]
                                             )
-                                          ])
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "p",
+                                            [
+                                              _vm._v(
+                                                "Дата окончания продукта: "
+                                              ),
+                                              _c("input-form", {
+                                                attrs: {
+                                                  name: "date_end",
+                                                  id: product.id,
+                                                  placeholder: "20.05.2020"
+                                                },
+                                                on: {
+                                                  "edit-field": _vm.editField
+                                                },
+                                                model: {
+                                                  value: product.date_end,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      product,
+                                                      "date_end",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "product.date_end"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
                                         ]
                                       )
                                     ])
@@ -67856,7 +67957,7 @@ var render = function() {
                       _c("div", { staticClass: "form-group row" }, [
                         _c(
                           "label",
-                          { staticClass: "col-sm-3 col-form-label required" },
+                          { staticClass: "col-sm-3 col-form-label" },
                           [_vm._v("Отчество")]
                         ),
                         _vm._v(" "),
@@ -67871,7 +67972,6 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
-                            attrs: { required: "" },
                             domProps: { value: _vm.new_child_middle_name },
                             on: {
                               input: function($event) {
@@ -67919,7 +68019,7 @@ var render = function() {
                       _c("div", { staticClass: "form-group row" }, [
                         _c(
                           "label",
-                          { staticClass: "col-sm-3 col-form-label required" },
+                          { staticClass: "col-sm-3 col-form-label" },
                           [_vm._v("Менеджер")]
                         ),
                         _vm._v(" "),
@@ -67950,7 +68050,7 @@ var render = function() {
                       _c("div", { staticClass: "form-group row" }, [
                         _c(
                           "label",
-                          { staticClass: "col-sm-3 col-form-label required" },
+                          { staticClass: "col-sm-3 col-form-label" },
                           [_vm._v("Тренер")]
                         ),
                         _vm._v(" "),
@@ -68366,20 +68466,266 @@ var render = function() {
                           _c("h5", { staticClass: "text-muted mb-2" }, [
                             _vm._v("Менеджер: \n                            "),
                             _vm.dataObject.manager
-                              ? _c("span", { staticClass: "text-dark" }, [
-                                  _vm._v(_vm._s(_vm.dataObject.manager))
-                                ])
+                              ? _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: !_vm.showManager,
+                                        expression: "!showManager"
+                                      }
+                                    ],
+                                    staticClass: "text-dark",
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.editManager($event)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.dataObject.manager))]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.showManager,
+                                    expression: "showManager"
+                                  }
+                                ],
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.editManager($event)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.dataObject.manager.surname) +
+                                    " " +
+                                    _vm._s(_vm.dataObject.manager.name)
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm.dataObject.manager
+                              ? _c("a", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.showManager,
+                                      expression: "showManager"
+                                    }
+                                  ],
+                                  staticClass: "fe fe-save h3 text-success",
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.saveManager($event)
+                                    }
+                                  }
+                                })
                               : _vm._e()
                           ]),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.showManager,
+                                  expression: "showManager"
+                                },
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataObject.manager,
+                                  expression: "dataObject.manager"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.dataObject,
+                                    "manager",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            _vm._l(_vm.managers, function(manager) {
+                              return _c(
+                                "option",
+                                { domProps: { value: manager } },
+                                [
+                                  _vm._v(
+                                    _vm._s(manager.surname) +
+                                      " " +
+                                      _vm._s(manager.name)
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          ),
                           _vm._v(" "),
                           _c("h5", { staticClass: "text-muted mb-2" }, [
                             _vm._v("Тренер: \n                            "),
                             _vm.dataObject.instructor
-                              ? _c("span", { staticClass: "text-dark" }, [
-                                  _vm._v(_vm._s(_vm.dataObject.instructor))
-                                ])
+                              ? _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: !_vm.showInstructor,
+                                        expression: "!showInstructor"
+                                      }
+                                    ],
+                                    staticClass: "text-dark",
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.editInstructor($event)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.dataObject.instructor))]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.showInstructor,
+                                    expression: "showInstructor"
+                                  }
+                                ],
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.editInstructor($event)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.dataObject.instructor.surname) +
+                                    " " +
+                                    _vm._s(_vm.dataObject.instructor.name)
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm.dataObject.instructor
+                              ? _c("a", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.showInstructor,
+                                      expression: "showInstructor"
+                                    }
+                                  ],
+                                  staticClass: "fe fe-save h3 text-success",
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.saveInstructor($event)
+                                    }
+                                  }
+                                })
                               : _vm._e()
                           ]),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.showInstructor,
+                                  expression: "showInstructor"
+                                },
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataObject.instructor,
+                                  expression: "dataObject.instructor"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.dataObject,
+                                    "instructor",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            _vm._l(_vm.instructors, function(instructor) {
+                              return _c(
+                                "option",
+                                { domProps: { value: instructor } },
+                                [
+                                  _vm._v(
+                                    _vm._s(instructor.surname) +
+                                      " " +
+                                      _vm._s(instructor.name)
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          ),
                           _vm._v(" "),
                           _c(
                             "h6",
@@ -70068,7 +70414,7 @@ var render = function() {
                     {
                       staticClass: "btn btn-secondary",
                       attrs: { type: "button", "data-dismiss": "modal" },
-                      on: { click: this.fetchArticles }
+                      on: { click: _vm.closeModalView }
                     },
                     [_vm._v("Закрыть")]
                   )

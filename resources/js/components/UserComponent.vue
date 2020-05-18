@@ -77,9 +77,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label required">Отчество</label>
+                <label class="col-sm-3 col-form-label">Отчество</label>
                 <div class="col-sm-9">
-                    <input v-model="new_child_middle_name" class="form-control" required>
+                    <input v-model="new_child_middle_name" class="form-control">
                 </div>
             </div>
             <div class="form-group row">
@@ -95,7 +95,7 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label required">Менеджер</label>
+                <label class="col-sm-3 col-form-label">Менеджер</label>
                 <div class="col-sm-9">
                     <dynamic-select 
                         :options="users"
@@ -106,7 +106,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label required">Тренер</label>
+                <label class="col-sm-3 col-form-label">Тренер</label>
                 <div class="col-sm-9">
                     <dynamic-select 
                         :options="users"
@@ -219,12 +219,30 @@
                         <h5>Старый ID: <span class="pointer">
                             <input-form v-model="dataObject.attributes.old_id" name="old_id" @edit-field="editField"></input-form></span>
                     </h5>
+
                         <h5 class="text-muted mb-2">Менеджер: 
-                            <span v-if="dataObject.manager" class="text-dark">{{ dataObject.manager }}</span>
+                            <a v-show="!showManager" v-if="dataObject.manager" href="#" @click.prevent="editManager" class="text-dark">{{ dataObject.manager }}</a>
+                            <a v-show="showManager" href="#" @click.prevent="editManager">{{dataObject.manager.surname}} {{dataObject.manager.name}}</a>
+                            <a v-if="dataObject.manager" href="#" @click.prevent="saveManager" v-show="showManager" class="fe fe-save h3 text-success"></a>
                         </h5>
+                        <select v-show="showManager" class="form-control" v-model="dataObject.manager">
+                            <option v-for="manager in managers" v-bind:value="manager">{{ manager.surname }} {{ manager.name }}</option>
+                        </select>
+
                         <h5 class="text-muted mb-2">Тренер: 
-                            <span v-if="dataObject.instructor" class="text-dark">{{ dataObject.instructor }}</span>
+                            <a v-show="!showInstructor" v-if="dataObject.instructor" href="#" @click.prevent="editInstructor" class="text-dark">{{ dataObject.instructor }}</a>
+                            <a v-show="showInstructor" href="#" @click.prevent="editInstructor">{{dataObject.instructor.surname}} {{dataObject.instructor.name}}</a>
+                            <a v-if="dataObject.instructor" href="#" @click.prevent="saveInstructor" v-show="showInstructor" class="fe fe-save h3 text-success"></a>
                         </h5>
+                        <select v-show="showInstructor" class="form-control" v-model="dataObject.instructor">
+                            <option v-for="instructor in instructors" v-bind:value="instructor">{{ instructor.surname }} {{ instructor.name }}</option>
+                        </select>
+
+
+<!--                         <h5 class="text-muted mb-2">Тренер: 
+                            <span v-if="dataObject.instructor" class="text-dark">{{ dataObject.instructor }}</span>
+                        </h5> -->
+
                         <h6 class="text-uppercase text-muted mb-2 mt-4">
                             <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>
                             <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>
@@ -470,7 +488,7 @@
 </div>
       </div>
       <div class="modal-footer pt-3 pb-3">
-        <button @click="this.fetchArticles" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button @click="closeModalView" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
       </div>
     </div>
   </div>
@@ -523,6 +541,8 @@ Vue.use(DynamicSelect)
                 users: [],
                 busy: false,
                 branches: [],
+                managers: [],
+                instructors: [],
                 users: [],
                 name:'',
                 image: '',  
@@ -543,6 +563,8 @@ Vue.use(DynamicSelect)
                 users: [],
                 article_id: '',
                 showBranch: false,
+                showInstructor: false,
+                showManager: false,
                 branch: '',
                 filter: false,
             }
@@ -562,6 +584,12 @@ Vue.use(DynamicSelect)
           },
 
         methods: {
+            closeModalView(){
+                this.showBranch = false
+                this.showManager = false
+                this.showInstructor = false
+                this.fetchArticles()
+            },
             summPaysActiveContract(pays){
                 let sum = 0
                 pays.forEach(function (value, key) {
@@ -635,10 +663,28 @@ Vue.use(DynamicSelect)
                 this.showBranch = true
                 this.getBranches()
             },
+            editManager(){
+                this.showManager = true
+                this.getManagers()
+            },
+            editInstructor(){
+                this.showInstructor = true
+                this.getInstructors()
+            },
             saveBranch(){
                 axios.post(this.postURL, { user_id: this.dataObject.id, field_name: 'branch' , field_value: this.dataObject.base_branch.id })
                 this.showBranch = false
                 this.dataObject.base_branch = this.dataObject.base_branch.name
+            },
+            saveManager(){
+                axios.post(this.postURL, { user_id: this.dataObject.id, field_name: 'manager' , field_value: this.dataObject.manager.id })
+                this.showManager = false
+                this.dataObject.manager = this.dataObject.manager.surname + ' ' + this.dataObject.manager.name
+            },
+            saveInstructor(){
+                axios.post(this.postURL, { user_id: this.dataObject.id, field_name: 'instructor' , field_value: this.dataObject.instructor.id })
+                this.showInstructor = false
+                this.dataObject.instructor = this.dataObject.instructor.surname + ' ' + this.dataObject.instructor.name
             },
             editField(e, name) {
                 const value = e.target.value;
@@ -657,14 +703,22 @@ Vue.use(DynamicSelect)
                     child_surname: this.new_child_surname, 
                     child_name: this.new_child_name, 
                     child_middle_name: this.new_child_middle_name, 
-                    manager: this.manager.id, 
-                    instructor: this.instructor.id, 
+                    manager: this.manager ? this.manager.id : null, 
+                    instructor: this.instructor ? this.instructor.id : null, 
                     branch: this.branch.id})
                 .then(response => this.getModal(response.data));
             },
             getBranches(){
                 axios.get('api/v2/getbranches')
                 .then(response => this.branches = response.data.data)
+            },
+            getManagers(){
+                axios.get('api/v2/getmanagers')
+                .then(response => this.managers = response.data.data)
+            },
+            getInstructors(){
+                axios.get('api/v2/getinstructors')
+                .then(response => this.instructors = response.data.data)
             },
             getUsers(){
                 axios.get('api/v2/getusers')
