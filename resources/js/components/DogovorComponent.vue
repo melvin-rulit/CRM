@@ -208,9 +208,20 @@
             </tr>
           </table>
           Прошуприйняти вище вказану дитину на навчання за програмою навчання
-          <select style="font-weight: bold; border: 0;" v-model="product" @change="stopDate(product.id)">
+                        <dynamic-select 
+                        v-if="!print"
+                        :options="dataVm.products"
+                        option-value="id"
+                        option-text="name"
+                        placeholder="Введите для поиска программы"
+                        v-model="product"
+                        @input="stopDate(product.id)" />
+                        <span v-if="print">{{ product.name }}</span>
+
+          <!-- <select style="font-weight: bold; border: 0;" v-model="product" @change="stopDate(product.id)">
             <option v-for="product in dataVm.products" v-bind:value="product">{{ product.name }}</option>
-          </select> з наступними умовами:<br>
+          </select> --> 
+          з наступними умовами:<br>
           <table class="tabs">
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>
@@ -312,6 +323,9 @@ import Calendar from './Calendar.vue';
 
 import Vue from 'vue';
 import VueHtmlToPaper from 'vue-html-to-paper';
+
+import DynamicSelect from 'vue-dynamic-select'
+Vue.use(DynamicSelect)
 
 const options = {
   name: '_blank',

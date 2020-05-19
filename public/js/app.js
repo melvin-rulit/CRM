@@ -1957,10 +1957,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
 /* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_dynamic_select__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-dynamic-select */ "./node_modules/vue-dynamic-select/dist/vue-dynamic-select.esm.js");
 var _components$component;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2268,6 +2280,8 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue2_datepicker__WEBPACK_IMPORTED
 
 
 
+
+vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_7__["default"]);
 var options = {
   name: '_blank',
   specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
@@ -3256,6 +3270,74 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 $('.accordion-toggle').click(function () {
   $(this).next('tr').find('.hiddenRow').show();
 });
@@ -3302,7 +3384,8 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       branch: {
         products: {
           pays: []
-        }
+        },
+        programm: []
       },
       region_id: ''
     };
@@ -3325,7 +3408,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
     addRow: function addRow(branch) {
       this.branch.products.push({
         rowNew: true,
-        name: 'Название продукта',
+        name: null,
         price: null,
         classes_total: null,
         classes_week: null,
@@ -3334,7 +3417,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         months: null,
         days: null,
         active: true,
-        price_title: 'Цена прописью',
+        price_title: null,
         branch_id: branch
       });
     },
@@ -3346,6 +3429,13 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         pay: null,
         day: null,
         product_id: product_id
+      });
+    },
+    addRowProgramm: function addRowProgramm(branch) {
+      this.branch.products.push({
+        rowNew: true,
+        name: 'Название продукта',
+        branch_id: branch
       });
     },
     savePay: function savePay(_int2, index, id) {
@@ -9372,7 +9462,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.main-section{\n    margin-top: 120px;\n}\n.hiddenRow {\n    cursor: default;\n    padding: 0 4px !important;\n    /*background-color: #eeeeee;*/\n    font-size: 13px;\n}\n.accordian-body span{\n    color:#a2a2a2 !important;\n}\n.bp{\n    width: 70px;\n}\n\n", ""]);
+exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.main-section{\n    margin-top: 120px;\n}\n.hiddenRow {\n    cursor: default;\n    padding: 0 4px !important;\n    /*background-color: #eeeeee;*/\n    font-size: 13px;\n}\n.accordian-body span{\n    color:#a2a2a2 !important;\n}\n.bp{\n    width: 70px;\n}\n.title-collapse {\n    text-align: center !important;\n    text-shadow: 1px 1px 0 #fff !important;\n    border: 1px solid #e6e6e6;\n    padding: 8px;\n}\n\n", ""]);
 
 // exports
 
@@ -64575,51 +64665,36 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n          "
+                        "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n                        "
                       ),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.product,
-                              expression: "product"
-                            }
-                          ],
-                          staticStyle: { "font-weight": "bold", border: "0" },
-                          on: {
-                            change: [
-                              function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.product = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              },
-                              function($event) {
+                      !_vm.print
+                        ? _c("dynamic-select", {
+                            attrs: {
+                              options: _vm.dataVm.products,
+                              "option-value": "id",
+                              "option-text": "name",
+                              placeholder: "Введите для поиска программы"
+                            },
+                            on: {
+                              input: function($event) {
                                 return _vm.stopDate(_vm.product.id)
                               }
-                            ]
-                          }
-                        },
-                        _vm._l(_vm.dataVm.products, function(product) {
-                          return _c(
-                            "option",
-                            { domProps: { value: product } },
-                            [_vm._v(_vm._s(product.name))]
-                          )
-                        }),
-                        0
-                      ),
-                      _vm._v(" з наступними умовами:"),
+                            },
+                            model: {
+                              value: _vm.product,
+                              callback: function($$v) {
+                                _vm.product = $$v
+                              },
+                              expression: "product"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.print
+                        ? _c("span", [_vm._v(_vm._s(_vm.product.name))])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm._v(" \n          з наступними умовами:"),
                       _c("br"),
                       _vm._v(" "),
                       _c("table", { staticClass: "tabs" }, [
@@ -66406,7 +66481,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "card-body row" }, [
+                _c("div", { staticClass: "card-body row pt-0" }, [
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("p", { staticClass: "mb-1 ml-3" }, [
                       _vm._v("Название: \n                            "),
@@ -66510,948 +66585,998 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
-                    _c("div", { staticClass: "card-body" }, [
-                      _c("p", { staticClass: "mb-1 ml-3" }, [
-                        _vm._v("Реквизиты: \n                            "),
-                        _c(
-                          "span",
-                          { staticClass: "card-text text-muted mb-1 ml-2" },
-                          [
-                            _c("input-form", {
-                              attrs: { name: "requisites", id: _vm.branch.id },
-                              on: { "edit-field": _vm.editFieldBranch },
-                              model: {
-                                value: _vm.branch.requisites,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.branch, "requisites", $$v)
-                                },
-                                expression: "branch.requisites"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "mb-1 ml-3" }, [
-                        _vm._v("Организация: \n                            "),
-                        _c(
-                          "span",
-                          { staticClass: "card-text text-muted mb-1 ml-2" },
-                          [
-                            _c("input-form", {
-                              attrs: {
-                                name: "organization",
-                                id: _vm.branch.id
-                              },
-                              on: { "edit-field": _vm.editFieldBranch },
-                              model: {
-                                value: _vm.branch.organization,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.branch, "organization", $$v)
-                                },
-                                expression: "branch.organization"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "mb-1 ml-3" }, [
-                        _vm._v(
-                          "Валюта филиала: \n                            "
-                        ),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.branch.currency,
-                                expression: "branch.currency"
-                              }
-                            ],
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.branch,
-                                    "currency",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                },
-                                function($event) {
-                                  return _vm.editBranchCurrency(
-                                    _vm.branch.id,
-                                    _vm.branch.currency
-                                  )
-                                }
-                              ]
-                            }
-                          },
-                          [
-                            _c("option", [_vm._v("руб")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("грн")])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
+                    _c("p", { staticClass: "mb-1 ml-3" }, [
+                      _vm._v("Реквизиты: \n                            "),
                       _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-sm btn-danger ml-3 mt-3",
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteBranch(_vm.branch.id)
+                        "span",
+                        { staticClass: "card-text text-muted mb-1 ml-2" },
+                        [
+                          _c("input-form", {
+                            attrs: { name: "requisites", id: _vm.branch.id },
+                            on: { "edit-field": _vm.editFieldBranch },
+                            model: {
+                              value: _vm.branch.requisites,
+                              callback: function($$v) {
+                                _vm.$set(_vm.branch, "requisites", $$v)
+                              },
+                              expression: "branch.requisites"
                             }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "mb-1 ml-3" }, [
+                      _vm._v("Организация: \n                            "),
+                      _c(
+                        "span",
+                        { staticClass: "card-text text-muted mb-1 ml-2" },
+                        [
+                          _c("input-form", {
+                            attrs: { name: "organization", id: _vm.branch.id },
+                            on: { "edit-field": _vm.editFieldBranch },
+                            model: {
+                              value: _vm.branch.organization,
+                              callback: function($$v) {
+                                _vm.$set(_vm.branch, "organization", $$v)
+                              },
+                              expression: "branch.organization"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "mb-1 ml-3" }, [
+                      _vm._v("Валюта филиала: \n                            "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.branch.currency,
+                              expression: "branch.currency"
+                            }
+                          ],
+                          on: {
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.branch,
+                                  "currency",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              },
+                              function($event) {
+                                return _vm.editBranchCurrency(
+                                  _vm.branch.id,
+                                  _vm.branch.currency
+                                )
+                              }
+                            ]
                           }
                         },
-                        [_vm._v("Удалить филиал")]
+                        [
+                          _c("option", [_vm._v("руб")]),
+                          _vm._v(" "),
+                          _c("option", [_vm._v("грн")])
+                        ]
                       )
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger ml-3 mt-3",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteBranch(_vm.branch.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Удалить филиал")]
+                    )
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "table-responsive" }, [
-                  _c(
-                    "table",
-                    {
-                      staticClass:
-                        " table table-bordered datatable datatable-User"
-                    },
-                    [
-                      _c("thead", [
-                        _c("tr", [
-                          _c("th", [_vm._v("Название")]),
-                          _vm._v(" "),
-                          _c(
-                            "th",
-                            {
-                              directives: [
+                _vm._m(6),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "collapse p-3", attrs: { id: "1_products" } },
+                  [
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c(
+                        "table",
+                        {
+                          staticClass:
+                            " table table-bordered datatable datatable-User"
+                        },
+                        [
+                          _c("thead", [
+                            _c("tr", [
+                              _c("th", [_vm._v("Название")]),
+                              _vm._v(" "),
+                              _c(
+                                "th",
                                 {
-                                  name: "title",
-                                  rawName: "v-title",
-                                  value: _vm.price,
-                                  expression: "price"
-                                }
-                              ],
-                              staticClass: "text-center"
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "fe fe-dollar-sign h3 text-danger"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "th",
-                            {
-                              directives: [
-                                {
-                                  name: "title",
-                                  rawName: "v-title",
-                                  value: _vm.classes_total,
-                                  expression: "classes_total"
-                                }
-                              ],
-                              staticClass: "text-center"
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "fe fe-users h3 text-success"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "th",
-                            {
-                              directives: [
-                                {
-                                  name: "title",
-                                  rawName: "v-title",
-                                  value: _vm.classes_week,
-                                  expression: "classes_week"
-                                }
-                              ],
-                              staticClass: "text-center"
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "fe fe-calendar h3 text-info"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "th",
-                            {
-                              directives: [
-                                {
-                                  name: "title",
-                                  rawName: "v-title",
-                                  value: _vm.category_time,
-                                  expression: "category_time"
-                                }
-                              ],
-                              staticClass: "text-center"
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "fe fe-clock h3 text-primary"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "th",
-                            {
-                              directives: [
-                                {
-                                  name: "title",
-                                  rawName: "v-title",
-                                  value: _vm.freezing_total,
-                                  expression: "freezing_total"
-                                }
-                              ],
-                              staticClass: "text-center"
-                            },
-                            [
-                              _c("span", {
-                                staticClass:
-                                  "fe fe-battery-charging h3 text-danger"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "th",
-                            {
-                              directives: [
-                                {
-                                  name: "title",
-                                  rawName: "v-title",
-                                  value: _vm.months,
-                                  expression: "months"
-                                }
-                              ],
-                              staticClass: "text-center"
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "fe fe-calendar h3 text-success"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "th",
-                            {
-                              directives: [
-                                {
-                                  name: "title",
-                                  rawName: "v-title",
-                                  value: _vm.days,
-                                  expression: "days"
-                                }
-                              ],
-                              staticClass: "text-center"
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "fe fe-clock h3 text-info"
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "th",
-                            {
-                              directives: [
-                                {
-                                  name: "title",
-                                  rawName: "v-title",
-                                  value: _vm.add_product,
-                                  expression: "add_product"
+                                  directives: [
+                                    {
+                                      name: "title",
+                                      rawName: "v-title",
+                                      value: _vm.price,
+                                      expression: "price"
+                                    }
+                                  ],
+                                  staticClass: "text-center"
                                 },
+                                [
+                                  _c("span", {
+                                    staticClass:
+                                      "fe fe-dollar-sign h3 text-danger"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "th",
                                 {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.buttonAdd,
-                                  expression: "buttonAdd"
-                                }
-                              ],
-                              staticClass: "text-center bg-success bp",
-                              on: {
-                                click: function($event) {
-                                  _vm.addRow(_vm.branch.id),
-                                    (_vm.buttonAdd = !_vm.buttonAdd)
-                                }
-                              }
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "fe fe-plus h3 text-white"
-                              })
-                            ]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.branch.products, function(product, int) {
-                        return _c("tbody", [
-                          _c("tr", [
-                            _c(
-                              "td",
-                              [
-                                _c("input-form", {
-                                  attrs: { name: "name", id: product.id },
-                                  on: { "edit-field": _vm.editField },
-                                  model: {
-                                    value: product.name,
-                                    callback: function($$v) {
-                                      _vm.$set(product, "name", $$v)
-                                    },
-                                    expression: "product.name"
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "text-center" },
-                              [
-                                _c("input-form", {
-                                  attrs: { name: "price", id: product.id },
-                                  on: { "edit-field": _vm.editField },
-                                  model: {
-                                    value: product.price,
-                                    callback: function($$v) {
-                                      _vm.$set(product, "price", $$v)
-                                    },
-                                    expression: "product.price"
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "text-center" },
-                              [
-                                _c("input-form", {
                                   directives: [
                                     {
-                                      name: "mask",
-                                      rawName: "v-mask",
-                                      value: "###",
-                                      expression: "'###'"
+                                      name: "title",
+                                      rawName: "v-title",
+                                      value: _vm.classes_total,
+                                      expression: "classes_total"
                                     }
                                   ],
-                                  attrs: {
-                                    name: "classes_total",
-                                    id: product.id
-                                  },
-                                  on: { "edit-field": _vm.editField },
-                                  model: {
-                                    value: product.classes_total,
-                                    callback: function($$v) {
-                                      _vm.$set(product, "classes_total", $$v)
-                                    },
-                                    expression: "product.classes_total"
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "text-center" },
-                              [
-                                _c("input-form", {
+                                  staticClass: "text-center"
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "fe fe-users h3 text-success"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "th",
+                                {
                                   directives: [
                                     {
-                                      name: "mask",
-                                      rawName: "v-mask",
-                                      value: "###",
-                                      expression: "'###'"
+                                      name: "title",
+                                      rawName: "v-title",
+                                      value: _vm.classes_week,
+                                      expression: "classes_week"
                                     }
                                   ],
-                                  attrs: {
-                                    name: "classes_week",
-                                    id: product.id
-                                  },
-                                  on: { "edit-field": _vm.editField },
-                                  model: {
-                                    value: product.classes_week,
-                                    callback: function($$v) {
-                                      _vm.$set(product, "classes_week", $$v)
-                                    },
-                                    expression: "product.classes_week"
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "text-center" },
-                              [
-                                _c("input-form", {
+                                  staticClass: "text-center"
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "fe fe-calendar h3 text-info"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "th",
+                                {
                                   directives: [
                                     {
-                                      name: "mask",
-                                      rawName: "v-mask",
-                                      value: "###",
-                                      expression: "'###'"
+                                      name: "title",
+                                      rawName: "v-title",
+                                      value: _vm.category_time,
+                                      expression: "category_time"
                                     }
                                   ],
-                                  attrs: {
-                                    name: "category_time",
-                                    id: product.id
-                                  },
-                                  on: { "edit-field": _vm.editField },
-                                  model: {
-                                    value: product.category_time,
-                                    callback: function($$v) {
-                                      _vm.$set(product, "category_time", $$v)
-                                    },
-                                    expression: "product.category_time"
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "text-center" },
-                              [
-                                _c("input-form", {
+                                  staticClass: "text-center"
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "fe fe-clock h3 text-primary"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "th",
+                                {
                                   directives: [
                                     {
-                                      name: "mask",
-                                      rawName: "v-mask",
-                                      value: "###",
-                                      expression: "'###'"
+                                      name: "title",
+                                      rawName: "v-title",
+                                      value: _vm.freezing_total,
+                                      expression: "freezing_total"
                                     }
                                   ],
-                                  attrs: {
-                                    name: "freezing_total",
-                                    id: product.id
-                                  },
-                                  on: { "edit-field": _vm.editField },
-                                  model: {
-                                    value: product.freezing_total,
-                                    callback: function($$v) {
-                                      _vm.$set(product, "freezing_total", $$v)
-                                    },
-                                    expression: "product.freezing_total"
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "text-center" },
-                              [
-                                _c("input-form", {
+                                  staticClass: "text-center"
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass:
+                                      "fe fe-battery-charging h3 text-danger"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "th",
+                                {
                                   directives: [
                                     {
-                                      name: "mask",
-                                      rawName: "v-mask",
-                                      value: "###",
-                                      expression: "'###'"
+                                      name: "title",
+                                      rawName: "v-title",
+                                      value: _vm.months,
+                                      expression: "months"
                                     }
                                   ],
-                                  attrs: { name: "months", id: product.id },
-                                  on: { "edit-field": _vm.editField },
-                                  model: {
-                                    value: product.months,
-                                    callback: function($$v) {
-                                      _vm.$set(product, "months", $$v)
-                                    },
-                                    expression: "product.months"
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "text-center" },
-                              [
-                                _c("input-form", {
+                                  staticClass: "text-center"
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass:
+                                      "fe fe-calendar h3 text-success"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "th",
+                                {
                                   directives: [
                                     {
-                                      name: "mask",
-                                      rawName: "v-mask",
-                                      value: "###",
-                                      expression: "'###'"
+                                      name: "title",
+                                      rawName: "v-title",
+                                      value: _vm.days,
+                                      expression: "days"
                                     }
                                   ],
-                                  attrs: { name: "days", id: product.id },
-                                  on: { "edit-field": _vm.editField },
-                                  model: {
-                                    value: product.days,
-                                    callback: function($$v) {
-                                      _vm.$set(product, "days", $$v)
+                                  staticClass: "text-center"
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "fe fe-clock h3 text-info"
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "th",
+                                {
+                                  directives: [
+                                    {
+                                      name: "title",
+                                      rawName: "v-title",
+                                      value: _vm.add_product,
+                                      expression: "add_product"
                                     },
-                                    expression: "product.days"
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.buttonAdd,
+                                      expression: "buttonAdd"
+                                    }
+                                  ],
+                                  staticClass: "text-center bg-success bp",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.addRow(_vm.branch.id),
+                                        (_vm.buttonAdd = !_vm.buttonAdd)
+                                    }
                                   }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            product.rowNew
-                              ? _c(
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "fe fe-plus h3 text-white"
+                                  })
+                                ]
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.branch.products, function(product, int) {
+                            return _c("tbody", [
+                              _c("tr", [
+                                _c(
+                                  "td",
+                                  [
+                                    _c("input-form", {
+                                      attrs: { name: "name", id: product.id },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value: product.name,
+                                        callback: function($$v) {
+                                          _vm.$set(product, "name", $$v)
+                                        },
+                                        expression: "product.name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  { staticClass: "text-center" },
+                                  [
+                                    _c("input-form", {
+                                      attrs: { name: "price", id: product.id },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value: product.price,
+                                        callback: function($$v) {
+                                          _vm.$set(product, "price", $$v)
+                                        },
+                                        expression: "product.price"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  { staticClass: "text-center" },
+                                  [
+                                    _c("input-form", {
+                                      directives: [
+                                        {
+                                          name: "mask",
+                                          rawName: "v-mask",
+                                          value: "###",
+                                          expression: "'###'"
+                                        }
+                                      ],
+                                      attrs: {
+                                        name: "classes_total",
+                                        id: product.id
+                                      },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value: product.classes_total,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            product,
+                                            "classes_total",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "product.classes_total"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  { staticClass: "text-center" },
+                                  [
+                                    _c("input-form", {
+                                      directives: [
+                                        {
+                                          name: "mask",
+                                          rawName: "v-mask",
+                                          value: "###",
+                                          expression: "'###'"
+                                        }
+                                      ],
+                                      attrs: {
+                                        name: "classes_week",
+                                        id: product.id
+                                      },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value: product.classes_week,
+                                        callback: function($$v) {
+                                          _vm.$set(product, "classes_week", $$v)
+                                        },
+                                        expression: "product.classes_week"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  { staticClass: "text-center" },
+                                  [
+                                    _c("input-form", {
+                                      directives: [
+                                        {
+                                          name: "mask",
+                                          rawName: "v-mask",
+                                          value: "###",
+                                          expression: "'###'"
+                                        }
+                                      ],
+                                      attrs: {
+                                        name: "category_time",
+                                        id: product.id
+                                      },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value: product.category_time,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            product,
+                                            "category_time",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "product.category_time"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  { staticClass: "text-center" },
+                                  [
+                                    _c("input-form", {
+                                      directives: [
+                                        {
+                                          name: "mask",
+                                          rawName: "v-mask",
+                                          value: "###",
+                                          expression: "'###'"
+                                        }
+                                      ],
+                                      attrs: {
+                                        name: "freezing_total",
+                                        id: product.id
+                                      },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value: product.freezing_total,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            product,
+                                            "freezing_total",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "product.freezing_total"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  { staticClass: "text-center" },
+                                  [
+                                    _c("input-form", {
+                                      directives: [
+                                        {
+                                          name: "mask",
+                                          rawName: "v-mask",
+                                          value: "###",
+                                          expression: "'###'"
+                                        }
+                                      ],
+                                      attrs: { name: "months", id: product.id },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value: product.months,
+                                        callback: function($$v) {
+                                          _vm.$set(product, "months", $$v)
+                                        },
+                                        expression: "product.months"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  { staticClass: "text-center" },
+                                  [
+                                    _c("input-form", {
+                                      directives: [
+                                        {
+                                          name: "mask",
+                                          rawName: "v-mask",
+                                          value: "###",
+                                          expression: "'###'"
+                                        }
+                                      ],
+                                      attrs: { name: "days", id: product.id },
+                                      on: { "edit-field": _vm.editField },
+                                      model: {
+                                        value: product.days,
+                                        callback: function($$v) {
+                                          _vm.$set(product, "days", $$v)
+                                        },
+                                        expression: "product.days"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                product.rowNew
+                                  ? _c(
+                                      "td",
+                                      {
+                                        staticClass: "text-center",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.saveProgramm(
+                                              _vm.branch.id
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("span", {
+                                          staticClass:
+                                            "fe fe-save h3 text-success"
+                                        })
+                                      ]
+                                    )
+                                  : _c("td", [
+                                      _c("span", {
+                                        staticClass:
+                                          "fe fe-trash-2 h3 text-danger mr-3",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.removeRow(
+                                              int,
+                                              product.id,
+                                              product.name
+                                            )
+                                          }
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("span", {
+                                        staticClass:
+                                          "accordion-toggle fe fe-chevron-down h3 text-info",
+                                        attrs: {
+                                          "data-toggle": "collapse",
+                                          "data-target":
+                                            "#" + product.id + "collap"
+                                        }
+                                      })
+                                    ])
+                              ]),
+                              _c("tr", [
+                                _c(
                                   "td",
                                   {
-                                    staticClass: "text-center",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.saveProgramm(_vm.branch.id)
-                                      }
-                                    }
+                                    staticClass: "hiddenRow",
+                                    attrs: { colspan: "12" }
                                   },
                                   [
-                                    _c("span", {
-                                      staticClass: "fe fe-save h3 text-success"
-                                    })
-                                  ]
-                                )
-                              : _c("td", [
-                                  _c("span", {
-                                    staticClass:
-                                      "fe fe-trash-2 h3 text-danger mr-3",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.removeRow(
-                                          int,
-                                          product.id,
-                                          product.name
-                                        )
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("span", {
-                                    staticClass:
-                                      "accordion-toggle fe fe-eye h3 text-info",
-                                    attrs: {
-                                      "data-toggle": "collapse",
-                                      "data-target": "#" + product.id + "collap"
-                                    }
-                                  })
-                                ])
-                          ]),
-                          _c("tr", [
-                            _c(
-                              "td",
-                              {
-                                staticClass: "hiddenRow",
-                                attrs: { colspan: "12" }
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "collapse p-3",
-                                    attrs: { id: product.id + "collap" }
-                                  },
-                                  [
-                                    _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "card-body col-md-6 pt-1 pb-1"
-                                        },
-                                        [
-                                          _c("table", [
-                                            _c(
-                                              "tbody",
-                                              [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "collapse p-3",
+                                        attrs: { id: product.id + "collap" }
+                                      },
+                                      [
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "card-body col-md-6 pt-1 pb-1"
+                                            },
+                                            [
+                                              _c("table", [
                                                 _c(
-                                                  "tr",
-                                                  { staticClass: "w-100" },
+                                                  "tbody",
                                                   [
                                                     _c(
-                                                      "td",
-                                                      { staticClass: "w-25" },
-                                                      [_vm._v("Платеж")]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "td",
-                                                      { staticClass: "w-25" },
-                                                      [_vm._v("Сумма")]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "td",
-                                                      { staticClass: "w-25" },
-                                                      [_vm._v("Дней")]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "td",
-                                                      {
-                                                        staticClass:
-                                                          "text-center bg-success"
-                                                      },
+                                                      "tr",
+                                                      { staticClass: "w-100" },
                                                       [
-                                                        _c("span", {
-                                                          directives: [
-                                                            {
-                                                              name: "show",
-                                                              rawName: "v-show",
-                                                              value: !_vm.busy,
-                                                              expression:
-                                                                "!busy"
-                                                            }
-                                                          ],
-                                                          staticClass:
-                                                            "fe fe-plus h3 text-white",
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.addRowPay(
-                                                                int,
-                                                                product.id
-                                                              )
-                                                            }
-                                                          }
-                                                        })
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm._l(product.pays, function(
-                                                  pay,
-                                                  index
-                                                ) {
-                                                  return _c("tr", [
-                                                    _c(
-                                                      "td",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          _vm._s(index + 1)
+                                                        _c(
+                                                          "td",
+                                                          {
+                                                            staticClass: "w-25"
+                                                          },
+                                                          [_vm._v("Платеж")]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "td",
+                                                          {
+                                                            staticClass: "w-25"
+                                                          },
+                                                          [_vm._v("Сумма")]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "td",
+                                                          {
+                                                            staticClass: "w-25"
+                                                          },
+                                                          [_vm._v("Дней")]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "td",
+                                                          {
+                                                            staticClass:
+                                                              "text-center bg-success"
+                                                          },
+                                                          [
+                                                            _c("span", {
+                                                              directives: [
+                                                                {
+                                                                  name: "show",
+                                                                  rawName:
+                                                                    "v-show",
+                                                                  value: !_vm.busy,
+                                                                  expression:
+                                                                    "!busy"
+                                                                }
+                                                              ],
+                                                              staticClass:
+                                                                "fe fe-plus h3 text-white",
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.addRowPay(
+                                                                    int,
+                                                                    product.id
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          ]
                                                         )
                                                       ]
                                                     ),
                                                     _vm._v(" "),
-                                                    _c(
-                                                      "td",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        _c("input-form", {
-                                                          directives: [
+                                                    _vm._l(
+                                                      product.pays,
+                                                      function(pay, index) {
+                                                        return _c("tr", [
+                                                          _c(
+                                                            "td",
                                                             {
-                                                              name: "mask",
-                                                              rawName: "v-mask",
-                                                              value: "######",
-                                                              expression:
-                                                                "'######'"
-                                                            }
-                                                          ],
-                                                          attrs: {
-                                                            name: "pay",
-                                                            id: pay.id
-                                                          },
-                                                          on: {
-                                                            "edit-field":
-                                                              _vm.editFieldProductPay
-                                                          },
-                                                          model: {
-                                                            value: pay.pay,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.$set(
-                                                                pay,
-                                                                "pay",
-                                                                $$v
-                                                              )
+                                                              staticClass:
+                                                                "text-center"
                                                             },
-                                                            expression:
-                                                              "pay.pay"
-                                                          }
-                                                        })
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "td",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        _c("input-form", {
-                                                          directives: [
+                                                            [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  index + 1
+                                                                )
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "td",
                                                             {
-                                                              name: "mask",
-                                                              rawName: "v-mask",
-                                                              value: "####",
-                                                              expression:
-                                                                "'####'"
-                                                            }
-                                                          ],
-                                                          attrs: {
-                                                            name: "day",
-                                                            id: pay.id
-                                                          },
-                                                          on: {
-                                                            "edit-field":
-                                                              _vm.editFieldProductPay
-                                                          },
-                                                          model: {
-                                                            value: pay.day,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.$set(
-                                                                pay,
-                                                                "day",
-                                                                $$v
-                                                              )
+                                                              staticClass:
+                                                                "text-center"
                                                             },
-                                                            expression:
-                                                              "pay.day"
-                                                          }
-                                                        })
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "td",
-                                                      {
-                                                        staticClass:
-                                                          "text-center"
-                                                      },
-                                                      [
-                                                        pay.rowNewPay
-                                                          ? _c("span", {
-                                                              staticClass:
-                                                                "fe fe-save h3 text-success",
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.savePay(
-                                                                    int,
-                                                                    index,
-                                                                    _vm.branch
-                                                                      .id
-                                                                  )
+                                                            [
+                                                              _c("input-form", {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "mask",
+                                                                    rawName:
+                                                                      "v-mask",
+                                                                    value:
+                                                                      "######",
+                                                                    expression:
+                                                                      "'######'"
+                                                                  }
+                                                                ],
+                                                                attrs: {
+                                                                  name: "pay",
+                                                                  id: pay.id
+                                                                },
+                                                                on: {
+                                                                  "edit-field":
+                                                                    _vm.editFieldProductPay
+                                                                },
+                                                                model: {
+                                                                  value:
+                                                                    pay.pay,
+                                                                  callback: function(
+                                                                    $$v
+                                                                  ) {
+                                                                    _vm.$set(
+                                                                      pay,
+                                                                      "pay",
+                                                                      $$v
+                                                                    )
+                                                                  },
+                                                                  expression:
+                                                                    "pay.pay"
                                                                 }
-                                                              }
-                                                            })
-                                                          : _c("span", {
+                                                              })
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "td",
+                                                            {
                                                               staticClass:
-                                                                "fe fe-trash-2 h3 text-danger",
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.removePay(
-                                                                    int,
-                                                                    index,
-                                                                    pay.id
-                                                                  )
+                                                                "text-center"
+                                                            },
+                                                            [
+                                                              _c("input-form", {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "mask",
+                                                                    rawName:
+                                                                      "v-mask",
+                                                                    value:
+                                                                      "####",
+                                                                    expression:
+                                                                      "'####'"
+                                                                  }
+                                                                ],
+                                                                attrs: {
+                                                                  name: "day",
+                                                                  id: pay.id
+                                                                },
+                                                                on: {
+                                                                  "edit-field":
+                                                                    _vm.editFieldProductPay
+                                                                },
+                                                                model: {
+                                                                  value:
+                                                                    pay.day,
+                                                                  callback: function(
+                                                                    $$v
+                                                                  ) {
+                                                                    _vm.$set(
+                                                                      pay,
+                                                                      "day",
+                                                                      $$v
+                                                                    )
+                                                                  },
+                                                                  expression:
+                                                                    "pay.day"
                                                                 }
-                                                              }
-                                                            })
-                                                      ]
+                                                              })
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "td",
+                                                            {
+                                                              staticClass:
+                                                                "text-center"
+                                                            },
+                                                            [
+                                                              pay.rowNewPay
+                                                                ? _c("span", {
+                                                                    staticClass:
+                                                                      "fe fe-save h3 text-success",
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.savePay(
+                                                                          int,
+                                                                          index,
+                                                                          _vm
+                                                                            .branch
+                                                                            .id
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  })
+                                                                : _c("span", {
+                                                                    staticClass:
+                                                                      "fe fe-trash-2 h3 text-danger",
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.removePay(
+                                                                          int,
+                                                                          index,
+                                                                          pay.id
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  })
+                                                            ]
+                                                          )
+                                                        ])
+                                                      }
                                                     )
-                                                  ])
-                                                })
-                                              ],
-                                              2
-                                            )
-                                          ])
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "card-body col-md-6 pt-1 pb-1 border-left"
-                                        },
-                                        [
-                                          _c(
-                                            "p",
-                                            [
-                                              _vm._v("Сумма прописью : "),
-                                              _c("input-form", {
-                                                attrs: {
-                                                  name: "price_title",
-                                                  id: product.id
-                                                },
-                                                on: {
-                                                  "edit-field": _vm.editField
-                                                },
-                                                model: {
-                                                  value: product.price_title,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      product,
-                                                      "price_title",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression:
-                                                    "product.price_title"
-                                                }
-                                              })
-                                            ],
-                                            1
+                                                  ],
+                                                  2
+                                                )
+                                              ])
+                                            ]
                                           ),
                                           _vm._v(" "),
-                                          _c("p", [
-                                            _vm._v(
-                                              "Заморозки по : \n                                                    "
-                                            ),
-                                            _c(
-                                              "select",
-                                              {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value:
-                                                      product.freezing_kolvo,
-                                                    expression:
-                                                      "product.freezing_kolvo"
-                                                  }
-                                                ],
-                                                on: {
-                                                  change: [
-                                                    function($event) {
-                                                      var $$selectedVal = Array.prototype.filter
-                                                        .call(
-                                                          $event.target.options,
-                                                          function(o) {
-                                                            return o.selected
-                                                          }
-                                                        )
-                                                        .map(function(o) {
-                                                          var val =
-                                                            "_value" in o
-                                                              ? o._value
-                                                              : o.value
-                                                          return val
-                                                        })
-                                                      _vm.$set(
-                                                        product,
-                                                        "freezing_kolvo",
-                                                        $event.target.multiple
-                                                          ? $$selectedVal
-                                                          : $$selectedVal[0]
-                                                      )
-                                                    },
-                                                    function($event) {
-                                                      return _vm.editProduct(
-                                                        product.id,
-                                                        product.freezing_kolvo
-                                                      )
-                                                    }
-                                                  ]
-                                                }
-                                              },
-                                              [
-                                                _c("option", [_vm._v("0")]),
-                                                _vm._v(" "),
-                                                _c("option", [_vm._v("1")]),
-                                                _vm._v(" "),
-                                                _c("option", [_vm._v("2")]),
-                                                _vm._v(" "),
-                                                _c("option", [_vm._v("3")])
-                                              ]
-                                            )
-                                          ]),
-                                          _vm._v(" "),
                                           _c(
-                                            "p",
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "card-body col-md-6 pt-1 pb-1 border-left"
+                                            },
                                             [
-                                              _vm._v(
-                                                "Дата окончания продукта: "
+                                              _c(
+                                                "p",
+                                                [
+                                                  _vm._v("Сумма прописью : "),
+                                                  _c("input-form", {
+                                                    attrs: {
+                                                      name: "price_title",
+                                                      id: product.id
+                                                    },
+                                                    on: {
+                                                      "edit-field":
+                                                        _vm.editField
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        product.price_title,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          product,
+                                                          "price_title",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "product.price_title"
+                                                    }
+                                                  })
+                                                ],
+                                                1
                                               ),
-                                              _c("input-form", {
-                                                attrs: {
-                                                  name: "date_end",
-                                                  id: product.id,
-                                                  placeholder: "20.05.2020"
-                                                },
-                                                on: {
-                                                  "edit-field": _vm.editField
-                                                },
-                                                model: {
-                                                  value: product.date_end,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      product,
-                                                      "date_end",
-                                                      $$v
-                                                    )
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "Заморозки по : \n                                                    "
+                                                ),
+                                                _c(
+                                                  "select",
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          product.freezing_kolvo,
+                                                        expression:
+                                                          "product.freezing_kolvo"
+                                                      }
+                                                    ],
+                                                    on: {
+                                                      change: [
+                                                        function($event) {
+                                                          var $$selectedVal = Array.prototype.filter
+                                                            .call(
+                                                              $event.target
+                                                                .options,
+                                                              function(o) {
+                                                                return o.selected
+                                                              }
+                                                            )
+                                                            .map(function(o) {
+                                                              var val =
+                                                                "_value" in o
+                                                                  ? o._value
+                                                                  : o.value
+                                                              return val
+                                                            })
+                                                          _vm.$set(
+                                                            product,
+                                                            "freezing_kolvo",
+                                                            $event.target
+                                                              .multiple
+                                                              ? $$selectedVal
+                                                              : $$selectedVal[0]
+                                                          )
+                                                        },
+                                                        function($event) {
+                                                          return _vm.editProduct(
+                                                            product.id,
+                                                            product.freezing_kolvo
+                                                          )
+                                                        }
+                                                      ]
+                                                    }
                                                   },
-                                                  expression: "product.date_end"
-                                                }
-                                              })
-                                            ],
-                                            1
+                                                  [
+                                                    _c("option", [_vm._v("0")]),
+                                                    _vm._v(" "),
+                                                    _c("option", [_vm._v("1")]),
+                                                    _vm._v(" "),
+                                                    _c("option", [_vm._v("2")]),
+                                                    _vm._v(" "),
+                                                    _c("option", [_vm._v("3")])
+                                                  ]
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                [
+                                                  _vm._v(
+                                                    "Дата окончания продукта: "
+                                                  ),
+                                                  _c("input-form", {
+                                                    attrs: {
+                                                      name: "date_end",
+                                                      id: product.id,
+                                                      placeholder: "20.05.2020"
+                                                    },
+                                                    on: {
+                                                      "edit-field":
+                                                        _vm.editField
+                                                    },
+                                                    model: {
+                                                      value: product.date_end,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          product,
+                                                          "date_end",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "product.date_end"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            ]
                                           )
-                                        ]
-                                      )
-                                    ])
+                                        ])
+                                      ]
+                                    )
                                   ]
                                 )
-                              ]
-                            )
-                          ])
-                        ])
-                      })
-                    ],
-                    2
-                  )
-                ])
+                              ])
+                            ])
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(7),
+                _vm._v(" "),
+                _vm._m(8),
+                _vm._v(" "),
+                _vm._m(9),
+                _vm._v(" "),
+                _vm._m(10)
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
@@ -67653,6 +67778,83 @@ var staticRenderFns = [
         }
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-collapse" }, [
+      _c(
+        "a",
+        {
+          staticClass: "accordion-toggle",
+          attrs: {
+            "data-toggle": "collapse",
+            "data-target": "#1_products",
+            href: "#"
+          }
+        },
+        [_vm._v("Список продуктов")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-collapse mt-2" }, [
+      _c(
+        "a",
+        {
+          staticClass: "accordion-toggle",
+          attrs: {
+            "data-toggle": "collapse",
+            "data-target": "#2_programms",
+            href: "#"
+          }
+        },
+        [_vm._v("Программы обучения")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "collapse p-3", attrs: { id: "2_programms" } },
+      [_c("h3", [_vm._v("В процессе")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-collapse mt-2" }, [
+      _c(
+        "a",
+        {
+          staticClass: "accordion-toggle",
+          attrs: {
+            "data-toggle": "collapse",
+            "data-target": "#3_dopproducts",
+            href: "#"
+          }
+        },
+        [_vm._v("Дополнительные продукты")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "collapse p-3", attrs: { id: "3_dopproducts" } },
+      [_c("h3", [_vm._v("В процессе")])]
     )
   }
 ]
@@ -68516,28 +68718,7 @@ var render = function() {
                                     _vm._s(_vm.dataObject.manager.name)
                                 )
                               ]
-                            ),
-                            _vm._v(" "),
-                            _vm.dataObject.manager
-                              ? _c("a", {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.showManager,
-                                      expression: "showManager"
-                                    }
-                                  ],
-                                  staticClass: "fe fe-save h3 text-success",
-                                  attrs: { href: "#" },
-                                  on: {
-                                    click: function($event) {
-                                      $event.preventDefault()
-                                      return _vm.saveManager($event)
-                                    }
-                                  }
-                                })
-                              : _vm._e()
+                            )
                           ]),
                           _vm._v(" "),
                           _c(
@@ -68559,24 +68740,27 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.dataObject,
-                                    "manager",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.dataObject,
+                                      "manager",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  _vm.saveManager
+                                ]
                               }
                             },
                             _vm._l(_vm.managers, function(manager) {
@@ -68648,28 +68832,7 @@ var render = function() {
                                     _vm._s(_vm.dataObject.instructor.name)
                                 )
                               ]
-                            ),
-                            _vm._v(" "),
-                            _vm.dataObject.instructor
-                              ? _c("a", {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.showInstructor,
-                                      expression: "showInstructor"
-                                    }
-                                  ],
-                                  staticClass: "fe fe-save h3 text-success",
-                                  attrs: { href: "#" },
-                                  on: {
-                                    click: function($event) {
-                                      $event.preventDefault()
-                                      return _vm.saveInstructor($event)
-                                    }
-                                  }
-                                })
-                              : _vm._e()
+                            )
                           ]),
                           _vm._v(" "),
                           _c(
@@ -68691,24 +68854,27 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.dataObject,
-                                    "instructor",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.dataObject,
+                                      "instructor",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  _vm.saveInstructor
+                                ]
                               }
                             },
                             _vm._l(_vm.instructors, function(instructor) {

@@ -79,7 +79,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-                <div class="card-body row">
+                <div class="card-body row pt-0">
                     <div class="col-md-6">
                         <p class="mb-1 ml-3">Название: 
                             <span class="card-text text-muted mb-1 ml-2">
@@ -103,7 +103,6 @@
                         </p>
                     </div>
                 <div class="col-md-6">
-                    <div class="card-body">
                         <p class="mb-1 ml-3">Реквизиты: 
                             <span class="card-text text-muted mb-1 ml-2">
                                 <input-form v-model="branch.requisites" name="requisites" :id="branch.id" @edit-field="editFieldBranch"></input-form>
@@ -121,9 +120,14 @@
                             </select>
                         </p>
                         <button class="btn btn-sm btn-danger ml-3 mt-3" @click="deleteBranch(branch.id)">Удалить филиал</button>
-                    </div>
               </div>
           </div>
+
+            <div class="title-collapse">
+                <a data-toggle="collapse" data-target="#1_products" href="#" class="accordion-toggle">Список продуктов</a>
+            </div>
+        
+          <div class="collapse p-3" id="1_products">
     		<div class="table-responsive">
     			<table class=" table table-bordered datatable datatable-User">
     				<thead>
@@ -170,7 +174,7 @@
                             </td>
                             <td v-else="">
                                 <span class="fe fe-trash-2 h3 text-danger mr-3" @click="removeRow(int, product.id, product.name)"></span>
-                                <span data-toggle="collapse" :data-target="'#' + product.id + 'collap'" class="accordion-toggle fe fe-eye h3 text-info"></span>
+                                <span data-toggle="collapse" :data-target="'#' + product.id + 'collap'" class="accordion-toggle fe fe-chevron-down h3 text-info"></span>
                             </td>
                             <tr>
                                 <td colspan="12" class="hiddenRow">
@@ -219,6 +223,70 @@
     				</tbody>
     			</table>
     		</div>
+        </div>
+
+        <div class="title-collapse mt-2">
+            <a data-toggle="collapse" data-target="#2_programms" href="#" class="accordion-toggle">Программы обучения</a>
+        </div>
+
+        <div class="collapse p-3" id="2_programms">
+            <h3>В процессе</h3>
+<!--             <div class="table-responsive">
+                <table class=" table table-bordered datatable datatable-User">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success bp" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(product, int) in branch.products">
+                        <tr>
+                            <td>
+                                <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
+                                <span class="fe fe-save h3 text-success"></span>
+                            </td>
+                            <td class="text-center" v-else="">
+                                <span class="fe fe-trash-2 h3 text-danger" @click="removeRow(int, product.id, product.name)"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+        </div>
+
+        <div class="title-collapse mt-2">
+            <a data-toggle="collapse" data-target="#3_dopproducts" href="#" class="accordion-toggle">Дополнительные продукты</a>
+        </div>
+
+        <div class="collapse p-3" id="3_dopproducts">
+            <h3>В процессе</h3>
+<!--             <div class="table-responsive">
+                <table class=" table table-bordered datatable datatable-User">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success bp" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(product, int) in branch.products">
+                        <tr>
+                            <td>
+                                <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
+                            </td>
+                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
+                                <span class="fe fe-save h3 text-success"></span>
+                            </td>
+                            <td class="text-center" v-else="">
+                                <span class="fe fe-trash-2 h3 text-danger" @click="removeRow(int, product.id, product.name)"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+        </div>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" @click="buttonAdd = true, busy = false" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
@@ -303,7 +371,8 @@ Vue.use(VueSimpleAlert);
                 branch: {
                     products: {
                         pays: [],
-                    }, 
+                    },
+                    programm: [], 
                 },
                 region_id: '',
             }
@@ -327,7 +396,7 @@ Vue.use(VueSimpleAlert);
             addRow(branch){
                this.branch.products.push({
                     rowNew: true, 
-                    name: 'Название продукта', 
+                    name: null, 
                     price: null, 
                     classes_total: null, 
                     classes_week: null, 
@@ -336,7 +405,7 @@ Vue.use(VueSimpleAlert);
                     months: null, 
                     days: null, 
                     active: true ,
-                    price_title: 'Цена прописью' ,
+                    price_title: null ,
                     branch_id: branch
                 });
             },
@@ -347,6 +416,13 @@ Vue.use(VueSimpleAlert);
                     pay: null, 
                     day: null, 
                     product_id: product_id
+                });
+            },
+            addRowProgramm(branch){
+               this.branch.products.push({
+                    rowNew: true, 
+                    name: 'Название продукта', 
+                    branch_id: branch
                 });
             },
             savePay(int, index, id){
@@ -472,6 +548,12 @@ Vue.use(VueSimpleAlert);
 
 .bp{
     width: 70px;
+}
+.title-collapse {
+    text-align: center !important;
+    text-shadow: 1px 1px 0 #fff !important;
+    border: 1px solid #e6e6e6;
+    padding: 8px;
 }
 
 </style>

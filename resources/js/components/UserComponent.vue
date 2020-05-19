@@ -223,18 +223,18 @@
                         <h5 class="text-muted mb-2">Менеджер: 
                             <a v-show="!showManager" v-if="dataObject.manager" href="#" @click.prevent="editManager" class="text-dark">{{ dataObject.manager }}</a>
                             <a v-show="showManager" href="#" @click.prevent="editManager">{{dataObject.manager.surname}} {{dataObject.manager.name}}</a>
-                            <a v-if="dataObject.manager" href="#" @click.prevent="saveManager" v-show="showManager" class="fe fe-save h3 text-success"></a>
+<!--                             <a v-if="dataObject.manager" href="#" @click.prevent="saveManager" v-show="showManager" class="fe fe-save h3 text-success"></a> -->
                         </h5>
-                        <select v-show="showManager" class="form-control" v-model="dataObject.manager">
+                        <select v-show="showManager" @change="saveManager" class="form-control" v-model="dataObject.manager">
                             <option v-for="manager in managers" v-bind:value="manager">{{ manager.surname }} {{ manager.name }}</option>
                         </select>
 
                         <h5 class="text-muted mb-2">Тренер: 
                             <a v-show="!showInstructor" v-if="dataObject.instructor" href="#" @click.prevent="editInstructor" class="text-dark">{{ dataObject.instructor }}</a>
                             <a v-show="showInstructor" href="#" @click.prevent="editInstructor">{{dataObject.instructor.surname}} {{dataObject.instructor.name}}</a>
-                            <a v-if="dataObject.instructor" href="#" @click.prevent="saveInstructor" v-show="showInstructor" class="fe fe-save h3 text-success"></a>
+<!--                             <a v-if="dataObject.instructor" href="#" @click.prevent="saveInstructor" v-show="showInstructor" class="fe fe-save h3 text-success"></a> -->
                         </h5>
-                        <select v-show="showInstructor" class="form-control" v-model="dataObject.instructor">
+                        <select v-show="showInstructor" @change="saveInstructor" class="form-control" v-model="dataObject.instructor">
                             <option v-for="instructor in instructors" v-bind:value="instructor">{{ instructor.surname }} {{ instructor.name }}</option>
                         </select>
 

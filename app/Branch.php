@@ -26,4 +26,8 @@ class Branch extends Model
     {
         return $this->belongsToMany('App\User', 'user_branches');
     }
+
+    public function programms(){
+        return $this->hasMany(Programm::class);
+    }
 }

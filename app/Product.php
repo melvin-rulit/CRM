@@ -18,6 +18,8 @@ class Product extends Model
     	'active',
         'branch_id',
         'old_id',
+        'months',
+        'days',
     ];
 
     public function pays(){
