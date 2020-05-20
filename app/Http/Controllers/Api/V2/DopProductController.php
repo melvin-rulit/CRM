@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DopProduct;
+use App\Log;
+use Illuminate\Support\Facades\Auth;
 
 class DopProductController extends Controller
 {
@@ -36,7 +38,14 @@ class DopProductController extends Controller
      */
     public function store(Request $request)
     {
-        DopProduct::create($request->all());
+        $dopproduct = DopProduct::create($request->all());
+
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '3', 
+             'level_name' => 'success', 
+             'message' => 'добавил дополнительный продукт '.$dopproduct->id)
+        );
     }
 
     /**
@@ -84,6 +93,13 @@ class DopProductController extends Controller
     public function destroy(DopProduct $dopproduct)
     {
         $dopproduct->delete();
+
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '3', 
+             'level_name' => 'success', 
+             'message' => 'удалил дополнительный продукт '.$dopproduct->id)
+        );
 
     }
 }

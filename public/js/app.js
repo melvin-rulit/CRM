@@ -9597,7 +9597,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.main-section{\n    margin-top: 120px;\n}\n.hiddenRow {\n    cursor: default;\n    padding: 0 4px !important;\n    /*background-color: #eeeeee;*/\n    font-size: 13px;\n}\n.accordian-body span{\n    color:#a2a2a2 !important;\n}\n.bp{\n    width: 70px;\n}\n.title-collapse {\n    text-align: center !important;\n    text-shadow: 1px 1px 0 #fff !important;\n    border: 1px solid #e6e6e6;\n    padding: 8px;\n}\n\n", ""]);
+exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.main-section{\n    margin-top: 120px;\n}\n.hiddenRow {\n    cursor: default;\n    padding: 0 4px !important;\n    /*background-color: #eeeeee;*/\n    font-size: 13px;\n}\n.accordian-body span{\n    color:#a2a2a2 !important;\n}\n.bp{\n    width: 70px;\n}\n.title-collapse {\n    text-align: center !important;\n    text-shadow: 1px 1px 0 #fff !important;\n    border: 1px solid #e6e6e6;\n    padding: 8px;\n}\n.modal-branch {\n  /* ширина модального окна */\n  max-width: 1000px;\n}\n\n", ""]);
 
 // exports
 
@@ -66603,7 +66603,8 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-dialog-centered modal-lg",
+            staticClass:
+              "modal-dialog modal-dialog-centered modal-lg modal-branch",
             attrs: { role: "document" }
           },
           [

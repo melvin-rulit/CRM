@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\BranchResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Branch;
+use App\Log;
+use Illuminate\Support\Facades\Auth;
 
 class BranchController extends Controller
 {
@@ -40,6 +42,13 @@ class BranchController extends Controller
     {
         $branch = Branch::create($request->all());
 
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '3', 
+             'level_name' => 'success', 
+             'message' => 'добавил филиал '.$branch->id)
+        );
+
         return (new BranchResource($branch))
                 ->response()
                 ->setStatusCode(Response::HTTP_CREATED);
@@ -70,6 +79,13 @@ class BranchController extends Controller
         $field_name = $request['field_name'];
         $branch->$field_name = $request['field_value'];
         $branch->save();
+
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '3', 
+             'level_name' => 'success', 
+             'message' => 'изменил поле '.$request['field_name'].' филиала '.$branch->id.' на '.$request['field_value'])
+        );
     }
 
     /**
@@ -81,5 +97,12 @@ class BranchController extends Controller
     public function destroy(Branch $branch)
     {
         $branch->delete();
+
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '3', 
+             'level_name' => 'success', 
+             'message' => 'удалил филиал '.$branch->id)
+        );
     }
 }

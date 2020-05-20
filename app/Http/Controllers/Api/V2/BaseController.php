@@ -59,6 +59,13 @@ class BaseController extends Controller
 
         $base = Base::create($request->all());
         
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '2', 
+             'level_name' => 'success', 
+             'message' => 'добавил клиента '.$base->id)
+        );
+        
         return $base->id;
     }
 
@@ -133,6 +140,13 @@ class BaseController extends Controller
         $base = Base::find($request['id']);
         $base->avatar = $path;
         $base->save();
+
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '2', 
+             'level_name' => 'success', 
+             'message' => 'изменил аватар '.$base->id)
+        );
 
         return $path;
     }

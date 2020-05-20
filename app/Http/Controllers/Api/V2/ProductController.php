@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\User;
 use DB;
+use App\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Filters\UsersFilter;
 
 class ProductController extends Controller
@@ -50,7 +52,14 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        Product::create($request->all());
+        $product = Product::create($request->all());
+
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '3', 
+             'level_name' => 'success', 
+             'message' => 'добавил продукт '.$product->id)
+        );
     }
 
     /**
@@ -89,6 +98,13 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '3', 
+             'level_name' => 'success', 
+             'message' => 'удалил продукт '.$product->id)
+        );
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Base;
 use Carbon\Carbon;
+use App\Log;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Resources\ArticleResource;
 
@@ -34,6 +36,14 @@ class VueController extends Controller
     	$user = Base::find($request['user_id']);
 		$user->$field_name = $request['field_value'];
 		$user->save();
+
+        Log::create(array(
+             'user_id' => Auth::id(),
+             'channel' => '2', 
+             'level_name' => 'success', 
+             'message' => 'изменил поле '.$request['field_name'].' клиента '.$user->id.' на '.$request['field_value'])
+        );
+
 		return "OK";
 
 

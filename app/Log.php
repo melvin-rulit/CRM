@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Log extends Model
 {
     protected $fillable = [
-        'chanel',
+        'channel',
         'user_id',
         'level_name',
         'message',

@@ -70,7 +70,7 @@
 
 <!-- Модальное окно открытия карточки филиала -->
 <div class="modal fade" id="getbranch" tabindex="-1" data-backdrop="static" data-keyboard="false"  role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	<div class="modal-dialog modal-dialog-centered modal-lg modal-branch" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
@@ -609,6 +609,11 @@ Vue.use(VueSimpleAlert);
     text-shadow: 1px 1px 0 #fff !important;
     border: 1px solid #e6e6e6;
     padding: 8px;
+}
+
+.modal-branch {
+  /* ширина модального окна */
+  max-width: 1000px;
 }
 
 </style>
