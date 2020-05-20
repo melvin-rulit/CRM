@@ -207,7 +207,11 @@
               <td><input v-model="dataVm.parent_instagram" class="line"></td>
             </tr>
           </table>
-          Прошуприйняти вище вказану дитину на навчання за програмою навчання
+          Прошуприйняти вище вказану дитину на навчання за програмою навчання:<br>
+          <!-- <select style="font-weight: bold; border: 0;" v-model="product" @change="stopDate(product.id)">
+            <option v-for="product in dataVm.products" v-bind:value="product">{{ product.name }}</option>
+          </select> --> 
+          з наступними умовами:
                         <dynamic-select 
                         v-if="!print"
                         :options="dataVm.products"
@@ -217,11 +221,7 @@
                         v-model="product"
                         @input="stopDate(product.id)" />
                         <span v-if="print">{{ product.name }}</span>
-
-          <!-- <select style="font-weight: bold; border: 0;" v-model="product" @change="stopDate(product.id)">
-            <option v-for="product in dataVm.products" v-bind:value="product">{{ product.name }}</option>
-          </select> --> 
-          з наступними умовами:<br>
+                        <br>
           <table class="tabs">
             <tr>
               <td class="gray" width="25%">Дата початку договору</td>

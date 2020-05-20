@@ -78,7 +78,9 @@ class BaseController extends Controller
 
     public function getBranches(){
 
-        return new BranchesResource(Branch::all());
+        $user = User::find(Auth::user()->id);
+
+        return new BranchesResource($user);
     }
 
     public function getManagers(){
@@ -109,6 +111,13 @@ class BaseController extends Controller
         }
 
         return new UsersResource($collection);
+    }
+
+    public function getProgramms(Request $request){
+
+        $base = Base::find($request->id)->base_branch->programms;
+        
+        return new UsersResource($base);
     }
 
     public function getUsers(){

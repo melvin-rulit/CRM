@@ -20,6 +20,7 @@
 
 <!-- <filter-component></filter-component> -->
 
+
 <div class="collapse" id="filter">
     <div class="card card-body">
         <div class="row mb-3">
@@ -86,7 +87,7 @@
                 <label class="col-sm-3 col-form-label required">Филиал</label>
                 <div class="col-sm-9">
                     <dynamic-select 
-                        :options="branches"
+                        :options="branches.branches"
                         option-value="id"
                         option-text="name"
                         placeholder="Введите для поиска"
@@ -223,7 +224,6 @@
                         <h5 class="text-muted mb-2">Менеджер: 
                             <a v-show="!showManager" v-if="dataObject.manager" href="#" @click.prevent="editManager" class="text-dark">{{ dataObject.manager }}</a>
                             <a v-show="showManager" href="#" @click.prevent="editManager">{{dataObject.manager.surname}} {{dataObject.manager.name}}</a>
-<!--                             <a v-if="dataObject.manager" href="#" @click.prevent="saveManager" v-show="showManager" class="fe fe-save h3 text-success"></a> -->
                         </h5>
                         <select v-show="showManager" @change="saveManager" class="form-control" v-model="dataObject.manager">
                             <option v-for="manager in managers" v-bind:value="manager">{{ manager.surname }} {{ manager.name }}</option>
@@ -232,16 +232,18 @@
                         <h5 class="text-muted mb-2">Тренер: 
                             <a v-show="!showInstructor" v-if="dataObject.instructor" href="#" @click.prevent="editInstructor" class="text-dark">{{ dataObject.instructor }}</a>
                             <a v-show="showInstructor" href="#" @click.prevent="editInstructor">{{dataObject.instructor.surname}} {{dataObject.instructor.name}}</a>
-<!--                             <a v-if="dataObject.instructor" href="#" @click.prevent="saveInstructor" v-show="showInstructor" class="fe fe-save h3 text-success"></a> -->
                         </h5>
                         <select v-show="showInstructor" @change="saveInstructor" class="form-control" v-model="dataObject.instructor">
                             <option v-for="instructor in instructors" v-bind:value="instructor">{{ instructor.surname }} {{ instructor.name }}</option>
                         </select>
 
-
-<!--                         <h5 class="text-muted mb-2">Тренер: 
-                            <span v-if="dataObject.instructor" class="text-dark">{{ dataObject.instructor }}</span>
-                        </h5> -->
+                        <h5 class="text-muted mb-2">Программа: 
+                            <a v-show="!showProgramm" v-if="dataObject.programm" href="#" @click.prevent="editProgramm" class="text-dark">{{ dataObject.programm }}</a>
+                            <a v-show="showProgramm" href="#" @click.prevent="editProgramm">{{dataObject.programm.name}} {{dataObject.programm.name}}</a>
+                        </h5>
+                        <select v-show="showProgramm" @change="saveProgramm" class="form-control" v-model="dataObject.programms">
+                            <option v-for="programm in programms" v-bind:value="programm">{{ programm.name }}</option>
+                        </select>
 
                         <h6 class="text-uppercase text-muted mb-2 mt-4">
                             <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>
@@ -249,7 +251,7 @@
                             <a v-if="dataObject.base_branch.name" href="#" @click.prevent="saveBranch" v-show="showBranch" class="fe fe-save h3 text-success"></a>
                         </h6>
                         <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">
-                            <option v-for="branch in branches" v-bind:value="branch">{{ branch.name }}</option>
+                            <option v-for="branch in branches.branches" v-bind:value="branch">{{ branch.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -517,6 +519,9 @@ import DynamicSelect from 'vue-dynamic-select'
 Vue.use(DynamicSelect)
 
 
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+Vue.use(Loading);
 
 
     export default {
@@ -527,6 +532,7 @@ Vue.use(DynamicSelect)
   },
         data() {
             return{
+                fullPage: true,
                 tabsInCard: [
                     {name: 'Мать', id: 'mother', selected: 'true'}, 
                     {name: 'Отец', id: 'father'}, 
@@ -543,6 +549,7 @@ Vue.use(DynamicSelect)
                 branches: [],
                 managers: [],
                 instructors: [],
+                programms: [],
                 users: [],
                 name:'',
                 image: '',  
@@ -553,6 +560,7 @@ Vue.use(DynamicSelect)
                      base_branch: {},
                      manager: {},
                      instructor: {},
+                     programm: {},
                 },
                 indexactiveContract: 0,
                 getURL: "api/v2/getinfo",
@@ -565,6 +573,7 @@ Vue.use(DynamicSelect)
                 showBranch: false,
                 showInstructor: false,
                 showManager: false,
+                showProgramm: false,
                 branch: '',
                 filter: false,
             }
@@ -588,6 +597,7 @@ Vue.use(DynamicSelect)
                 this.showBranch = false
                 this.showManager = false
                 this.showInstructor = false
+                this.showProgramm = false
                 this.fetchArticles()
             },
             summPaysActiveContract(pays){
@@ -671,6 +681,10 @@ Vue.use(DynamicSelect)
                 this.showInstructor = true
                 this.getInstructors()
             },
+            editProgramm(){
+                this.showProgramm = true
+                this.getProgramm()
+            },
             saveBranch(){
                 axios.post(this.postURL, { user_id: this.dataObject.id, field_name: 'branch' , field_value: this.dataObject.base_branch.id })
                 this.showBranch = false
@@ -686,6 +700,11 @@ Vue.use(DynamicSelect)
                 this.showInstructor = false
                 this.dataObject.instructor = this.dataObject.instructor.surname + ' ' + this.dataObject.instructor.name
             },
+            saveProgramm(){
+                axios.post(this.postURL, { user_id: this.dataObject.id, field_name: 'programm_id' , field_value: this.dataObject.programms.id })
+                this.showProgramm = false
+                this.dataObject.programm = this.dataObject.programms.name
+            },
             editField(e, name) {
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
@@ -696,6 +715,14 @@ Vue.use(DynamicSelect)
                 $('#selectModal').modal('show');
             },
             addNewUser(){
+                if (this.branch.id == null) {
+                    this.$alert("Выберите филиал");
+                    return false
+                }
+                let loader = this.$loading.show({
+                  container: this.fullPage ? null : this.$refs.formContainer,
+                  color: '#0080ff',
+                });
                 $('#addNewUser').modal('hide');
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();
@@ -706,7 +733,12 @@ Vue.use(DynamicSelect)
                     manager: this.manager ? this.manager.id : null, 
                     instructor: this.instructor ? this.instructor.id : null, 
                     branch: this.branch.id})
-                .then(response => this.getModal(response.data));
+                .then(response =>
+                    setTimeout(() => {
+                        loader.hide()
+                        this.getModal(response.data)
+                        },500) 
+                );   
             },
             getBranches(){
                 axios.get('api/v2/getbranches')
@@ -719,6 +751,10 @@ Vue.use(DynamicSelect)
             getInstructors(){
                 axios.get('api/v2/getinstructors')
                 .then(response => this.instructors = response.data.data)
+            },
+            getProgramm(){
+                axios.post('api/v2/getprogramms', {id: this.dataObject.id})
+                .then(response => this.programms = response.data.data)
             },
             getUsers(){
                 axios.get('api/v2/getusers')

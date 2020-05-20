@@ -16,6 +16,7 @@ class Base extends Model
         'branch',
         'manager',
         'instructor',
+        'programm_id',
         'avatar',
     ];
 
@@ -33,6 +34,10 @@ class Base extends Model
 
     public function base_instructor(){
         return $this->hasOne('App\User', 'id', 'instructor');
+    }
+
+    public function programm(){
+        return $this->hasOne('App\Programm', 'id', 'programm_id');
     }
 
     public function scopeFilter($builder, $filters)

@@ -2,14 +2,12 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Support\Collection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-
-class BranchesResource extends ResourceCollection
+class BranchesResource extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -17,7 +15,7 @@ class BranchesResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data'  => $this->collection,
+            'branches' => $this->branches->map->only('id', 'name'),
         ];
     }
 }

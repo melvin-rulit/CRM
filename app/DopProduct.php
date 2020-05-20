@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Programm extends Model
+class DopProduct extends Model
 {
     protected $fillable = [
     	'name',
+    	'price',
     	'branch_id',
     ];
 }

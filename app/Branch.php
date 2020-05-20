@@ -30,4 +30,8 @@ class Branch extends Model
     public function programms(){
         return $this->hasMany(Programm::class);
     }
+
+    public function dopproducts(){
+        return $this->hasMany(DopProduct::class);
+    }
 }

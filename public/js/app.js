@@ -3335,9 +3335,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 $('.accordion-toggle').click(function () {
   $(this).next('tr').find('.hiddenRow').show();
 });
@@ -3378,6 +3375,8 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       rowNewPay: '',
       freezing_kolvo: '',
       buttonAdd: true,
+      buttonAddProgramm: true,
+      buttonAddDopProduct: true,
       regions: {
         branches: []
       },
@@ -3385,7 +3384,8 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         products: {
           pays: []
         },
-        programm: []
+        programm: [],
+        dopproducts: []
       },
       region_id: ''
     };
@@ -3394,10 +3394,10 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
     this.getRegion();
   },
   methods: {
-    saveProgramm: function saveProgramm(id) {
-      this.branch.products[this.branch.products.length - 1].rowNew = '';
+    saveProduct: function saveProduct(id) {
+      this.branch.products[0].rowNew = '';
       this.buttonAdd = true;
-      axios.post('api/v2/products', this.branch.products[this.branch.products.length - 1])["catch"](function (error) {
+      axios.post('api/v2/products', this.branch.products[0])["catch"](function (error) {
         if (error.response) {
           alert("Ошибка, не заполнено название программы");
         }
@@ -3405,8 +3405,20 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       this.$alert("Программа добавлена");
       this.getBranch(id);
     },
+    saveProgramm: function saveProgramm(id) {
+      this.branch.programms[this.branch.programms.length - 1].rowNew = '';
+      this.buttonAddProgramm = true;
+      axios.post('api/v2/programms', this.branch.programms[this.branch.programms.length - 1]);
+      this.getBranch(id);
+    },
+    saveDopProduct: function saveDopProduct(id) {
+      this.branch.dopproducts[this.branch.dopproducts.length - 1].rowNew = '';
+      this.buttonAddDopProduct = true;
+      axios.post('api/v2/dopproducts', this.branch.dopproducts[this.branch.dopproducts.length - 1]);
+      this.getBranch(id);
+    },
     addRow: function addRow(branch) {
-      this.branch.products.push({
+      this.branch.products.unshift({
         rowNew: true,
         name: null,
         price: null,
@@ -3432,9 +3444,16 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       });
     },
     addRowProgramm: function addRowProgramm(branch) {
-      this.branch.products.push({
+      this.branch.programms.push({
         rowNew: true,
-        name: 'Название продукта',
+        name: null,
+        branch_id: branch
+      });
+    },
+    addRowDopProduct: function addRowDopProduct(branch) {
+      this.branch.dopproducts.push({
+        rowNew: true,
+        name: null,
         branch_id: branch
       });
     },
@@ -3453,7 +3472,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
         axios["delete"]('api/v2/products/' + id);
 
-        _this.$alert("Программа удалена");
+        _this.$alert("Продукт удалена");
       });
     },
     removePay: function removePay(_int3, index, id) {
@@ -3465,6 +3484,28 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         _this2.branch.products[_int3].pays.splice(index, 1);
 
         _this2.$alert("Платёж удален");
+      });
+    },
+    removeRowProgramm: function removeRowProgramm(index, id, name) {
+      var _this3 = this;
+
+      this.$confirm("Удалить программу " + name + " ?").then(function () {
+        _this3.branch.programms.splice(index, 1);
+
+        axios["delete"]('api/v2/programms/' + id);
+
+        _this3.$alert("Программа удалена");
+      });
+    },
+    removeRowDopProduct: function removeRowDopProduct(index, id, name) {
+      var _this4 = this;
+
+      this.$confirm("Удалить продукт " + name + " ?").then(function () {
+        _this4.branch.dopproducts.splice(index, 1);
+
+        axios["delete"]('api/v2/dopproducts/' + id);
+
+        _this4.$alert("Продукт удален");
       });
     },
     editField: function editField(e, name) {
@@ -3494,6 +3535,24 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         field_value: value
       });
     },
+    editFieldProgramm: function editFieldProgramm(e, name) {
+      var id = e.target.id;
+      var value = e.target.value;
+      var key = e.currentTarget.getAttribute('name');
+      axios.put('api/v2/programms/' + id, {
+        field_name: key,
+        field_value: value
+      });
+    },
+    editFieldDopProduct: function editFieldDopProduct(e, name) {
+      var id = e.target.id;
+      var value = e.target.value;
+      var key = e.currentTarget.getAttribute('name');
+      axios.put('api/v2/dopproducts/' + id, {
+        field_name: key,
+        field_value: value
+      });
+    },
     editProduct: function editProduct(id, freezing) {
       axios.put('api/v2/products/' + id, {
         field_name: 'freezing_kolvo',
@@ -3511,22 +3570,22 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       this.region_id = region_id;
     },
     getBranch: function getBranch(id) {
-      var _this3 = this;
+      var _this5 = this;
 
       $('#getbranch').modal('show');
       axios.get('api/v2/branches/' + id).then(function (response) {
-        return _this3.branch = response.data.data;
+        return _this5.branch = response.data.data;
       });
     },
     getRegion: function getRegion() {
-      var _this4 = this;
+      var _this6 = this;
 
       axios.get('api/v2/regions').then(function (response) {
-        return _this4.regions = response.data.data;
+        return _this6.regions = response.data.data;
       });
     },
     addNewRegion: function addNewRegion() {
-      var _this5 = this;
+      var _this7 = this;
 
       $('#addNewRegion').modal('hide');
       $(document.body).removeClass("modal-open");
@@ -3534,9 +3593,9 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       axios.post('api/v2/regions', {
         name: this.name
       }).then(function (response) {
-        return _this5.responsesuccess = response.data;
+        return _this7.responsesuccess = response.data;
       })["finally"](function () {
-        return _this5.getRegion();
+        return _this7.getRegion();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3548,7 +3607,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }, 500);
     },
     addNewBranch: function addNewBranch() {
-      var _this6 = this;
+      var _this8 = this;
 
       $('#addNewBranch').modal('hide');
       $(document.body).removeClass("modal-open");
@@ -3560,9 +3619,9 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         phone: this.addNewBranchFields.phone,
         region_id: this.region_id
       }).then(function (response) {
-        return _this6.responsesuccess = response.data;
+        return _this8.responsesuccess = response.data;
       })["finally"](function () {
-        return _this6.getRegion();
+        return _this8.getRegion();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3574,7 +3633,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }, 500);
     },
     deleteBranch: function deleteBranch(id) {
-      var _this7 = this;
+      var _this9 = this;
 
       this.$confirm("Удалить филиал с продуктами и оплатами ? ").then(function () {
         axios["delete"]('api/v2/branches/' + id);
@@ -3588,8 +3647,17 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
           });
         }, 500);
 
-        _this7.getRegion();
+        _this9.getRegion();
       });
+    },
+    closeModal: function closeModal() {
+      $('#1_products').collapse('hide');
+      $('#2_programms').collapse('hide');
+      $('#3_dopproducts').collapse('hide');
+      this.buttonAdd = true;
+      this.buttonAddProgramm = true;
+      this.busy = false;
+      this.getRegion();
     }
   }
 });
@@ -3615,8 +3683,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-toast-notification/dist/theme-sugar.css */ "./node_modules/vue-toast-notification/dist/theme-sugar.css");
 /* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-dynamic-select */ "./node_modules/vue-dynamic-select/dist/vue-dynamic-select.esm.js");
+/* harmony import */ var vue_loading_overlay__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-loading-overlay */ "./node_modules/vue-loading-overlay/dist/vue-loading.min.js");
+/* harmony import */ var vue_loading_overlay__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-loading-overlay/dist/vue-loading.css */ "./node_modules/vue-loading-overlay/dist/vue-loading.css");
+/* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_7__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -4126,6 +4200,9 @@ Vue.use(willvalidate__WEBPACK_IMPORTED_MODULE_2__["default"]);
 Vue.use(vue_toast_notification__WEBPACK_IMPORTED_MODULE_3___default.a);
 
 Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
+
+
+Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_6___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     adduser: {
@@ -4136,6 +4213,7 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
     var _ref;
 
     return _ref = {
+      fullPage: true,
       tabsInCard: [{
         name: 'Мать',
         id: 'mother',
@@ -4165,15 +4243,17 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       busy: false,
       branches: [],
       managers: [],
-      instructors: []
+      instructors: [],
+      programms: []
     }, _defineProperty(_ref, "users", []), _defineProperty(_ref, "name", ''), _defineProperty(_ref, "image", ''), _defineProperty(_ref, "dataObject", {
       attributes: {},
       contracts_not_active: {},
       contracts_active: {},
       base_branch: {},
       manager: {},
-      instructor: {}
-    }), _defineProperty(_ref, "indexactiveContract", 0), _defineProperty(_ref, "getURL", "api/v2/getinfo"), _defineProperty(_ref, "postURL", "getone"), _defineProperty(_ref, "URLaddNewUser", "api/v2/addnewuser"), _defineProperty(_ref, "siteURL", "http://83.220.172.19/"), _defineProperty(_ref, "articles", []), _defineProperty(_ref, "users", []), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "showInstructor", false), _defineProperty(_ref, "showManager", false), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "filter", false), _ref;
+      instructor: {},
+      programm: {}
+    }), _defineProperty(_ref, "indexactiveContract", 0), _defineProperty(_ref, "getURL", "api/v2/getinfo"), _defineProperty(_ref, "postURL", "getone"), _defineProperty(_ref, "URLaddNewUser", "api/v2/addnewuser"), _defineProperty(_ref, "siteURL", "http://83.220.172.19/"), _defineProperty(_ref, "articles", []), _defineProperty(_ref, "users", []), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "showInstructor", false), _defineProperty(_ref, "showManager", false), _defineProperty(_ref, "showProgramm", false), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "filter", false), _ref;
   },
   created: function created() {
     this.fetchArticles();
@@ -4191,6 +4271,7 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       this.showBranch = false;
       this.showManager = false;
       this.showInstructor = false;
+      this.showProgramm = false;
       this.fetchArticles();
     },
     summPaysActiveContract: function summPaysActiveContract(pays) {
@@ -4293,6 +4374,10 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       this.showInstructor = true;
       this.getInstructors();
     },
+    editProgramm: function editProgramm() {
+      this.showProgramm = true;
+      this.getProgramm();
+    },
     saveBranch: function saveBranch() {
       axios.post(this.postURL, {
         user_id: this.dataObject.id,
@@ -4320,6 +4405,15 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       this.showInstructor = false;
       this.dataObject.instructor = this.dataObject.instructor.surname + ' ' + this.dataObject.instructor.name;
     },
+    saveProgramm: function saveProgramm() {
+      axios.post(this.postURL, {
+        user_id: this.dataObject.id,
+        field_name: 'programm_id',
+        field_value: this.dataObject.programms.id
+      });
+      this.showProgramm = false;
+      this.dataObject.programm = this.dataObject.programms.name;
+    },
     editField: function editField(e, name) {
       var value = e.target.value;
       var key = e.currentTarget.getAttribute('name');
@@ -4336,6 +4430,15 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
     addNewUser: function addNewUser() {
       var _this7 = this;
 
+      if (this.branch.id == null) {
+        this.$alert("Выберите филиал");
+        return false;
+      }
+
+      var loader = this.$loading.show({
+        container: this.fullPage ? null : this.$refs.formContainer,
+        color: '#0080ff'
+      });
       $('#addNewUser').modal('hide');
       $(document.body).removeClass("modal-open");
       $(".modal-backdrop.show").hide();
@@ -4347,7 +4450,11 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
         instructor: this.instructor ? this.instructor.id : null,
         branch: this.branch.id
       }).then(function (response) {
-        return _this7.getModal(response.data);
+        return setTimeout(function () {
+          loader.hide();
+
+          _this7.getModal(response.data);
+        }, 500);
       });
     },
     getBranches: function getBranches() {
@@ -4371,11 +4478,20 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
         return _this10.instructors = response.data.data;
       });
     },
-    getUsers: function getUsers() {
+    getProgramm: function getProgramm() {
       var _this11 = this;
 
+      axios.post('api/v2/getprogramms', {
+        id: this.dataObject.id
+      }).then(function (response) {
+        return _this11.programms = response.data.data;
+      });
+    },
+    getUsers: function getUsers() {
+      var _this12 = this;
+
       axios.get('api/v2/getusers').then(function (response) {
-        return _this11.users = response.data.data;
+        return _this12.users = response.data.data;
       });
     },
     onFileChange: function onFileChange(e) {
@@ -4396,7 +4512,7 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       this.upload(event);
     },
     upload: function upload(event) {
-      var _this12 = this;
+      var _this13 = this;
 
       var data = new FormData();
       var file = event.target.files[0];
@@ -4410,9 +4526,9 @@ Vue.use(vue_dynamic_select__WEBPACK_IMPORTED_MODULE_5__["default"]);
       axios.post('api/v2/image', data, config);
       setTimeout(function () {
         axios.post('api/v2/getinfo', {
-          id: _this12.dataObject['id']
+          id: _this13.dataObject['id']
         }).then(function (response) {
-          _this12.dataObject = response.data.data;
+          _this13.dataObject = response.data.data;
         });
       }, 200);
     }
@@ -9349,6 +9465,25 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 // module
 exports.push([module.i, "@-webkit-keyframes a{0%{opacity:0;-webkit-transform:translate3d(-.5em,0,0);transform:translate3d(-.5em,0,0)}to{opacity:1;-webkit-transform:translateZ(0);transform:translateZ(0)}}@keyframes a{0%{opacity:0;-webkit-transform:translate3d(-.5em,0,0);transform:translate3d(-.5em,0,0)}to{opacity:1;-webkit-transform:translateZ(0);transform:translateZ(0)}}@-webkit-keyframes b{0%{opacity:0;-webkit-transform:translate3d(.5em,0,0);transform:translate3d(.5em,0,0)}to{opacity:1;-webkit-transform:translateZ(0);transform:translateZ(0)}}@keyframes b{0%{opacity:0;-webkit-transform:translate3d(.5em,0,0);transform:translate3d(.5em,0,0)}to{opacity:1;-webkit-transform:translateZ(0);transform:translateZ(0)}}@-webkit-keyframes c{0%{opacity:0;-webkit-transform:scale(.5);transform:scale(.5)}to{opacity:1;-webkit-transform:scale(1);transform:scale(1)}}@keyframes c{0%{opacity:0;-webkit-transform:scale(.5);transform:scale(.5)}to{opacity:1;-webkit-transform:scale(1);transform:scale(1)}}@-webkit-keyframes d{0%{opacity:0}to{opacity:1}}@keyframes d{0%{opacity:0}to{opacity:1}}.vdp-toggle-calendar-enter-active.vdpPositionReady{-webkit-transform-origin:top left;-ms-transform-origin:top left;transform-origin:top left;-webkit-animation:c .2s;animation:c .2s}.vdp-toggle-calendar-leave-active{animation:c .15s reverse}.vdp-toggle-calendar-enter-active.vdpPositionFixed{-webkit-animation:d .3s;animation:d .3s}.vdp-toggle-calendar-leave-active.vdpPositionFixed{animation:d .3s reverse}.vdpComponent{position:relative;display:inline-block;font-size:10px;color:#303030}.vdpComponent.vdpWithInput>input{padding-right:30px}.vdpClearInput{font-size:1em;position:absolute;top:0;bottom:0;right:0;width:3em}.vdpClearInput:before{content:\"\\D7\";width:1.4em;height:1.4em;line-height:1.1em;-webkit-box-sizing:border-box;box-sizing:border-box;position:absolute;left:50%;top:50%;margin:-.7em 0 0 -.7em;color:rgba(0,0,0,.3);border:1px solid rgba(0,0,0,.15);border-radius:50%;background-color:#fff}.vdpClearInput:hover:before{-webkit-box-shadow:0 .2em .5em rgba(0,0,0,.15);box-shadow:0 .2em .5em rgba(0,0,0,.15)}.vdpOuterWrap.vdpFloating{position:absolute;padding:.5em 0;z-index:2}.vdpOuterWrap.vdpPositionFixed{position:fixed;left:0;top:0;bottom:0;right:0;padding:2em;display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-pack:center;-webkit-box-pack:center;justify-content:center;-ms-flex-align:center;-webkit-box-align:center;align-items:center;background-color:rgba(0,0,0,.3)}.vdpFloating .vdpInnerWrap{max-width:30em}.vdpPositionFixed .vdpInnerWrap{max-width:30em;margin:0 auto;border:0;-webkit-animation:c .3s;animation:c .3s}.vdpFloating.vdpPositionTop{top:100%}.vdpFloating.vdpPositionBottom{bottom:100%}.vdpFloating.vdpPositionLeft{left:0}.vdpFloating.vdpPositionRight{right:0}.vdpPositionTop.vdpPositionLeft{-webkit-transform-origin:top left;-ms-transform-origin:top left;transform-origin:top left}.vdpPositionTop.vdpPositionRight{-webkit-transform-origin:top right;-ms-transform-origin:top right;transform-origin:top right}.vdpPositionBottom.vdpPositionLeft{-webkit-transform-origin:bottom left;-ms-transform-origin:bottom left;transform-origin:bottom left}.vdpPositionBottom.vdpPositionRight{-webkit-transform-origin:bottom right;-ms-transform-origin:bottom right;transform-origin:bottom right}.vdpInnerWrap{overflow:hidden;min-width:28em;-webkit-box-sizing:border-box;box-sizing:border-box;padding:1em;background:#fff;-webkit-box-shadow:0 .2em 1.5em rgba(0,0,0,.06);box-shadow:0 .2em 1.5em rgba(0,0,0,.06);border-radius:.5em;border:1px solid rgba(0,0,0,.15)}.vdpHeader{position:relative;padding:0 1em 2.5em;margin:-1em -1em -2.5em;text-align:center;background:#f5f5f5}.vdp12HourToggleBtn,.vdpArrow,.vdpClearInput,.vdpPeriodControl>button{margin:0;padding:0;border:0;cursor:pointer;background:none}.vdp12HourToggleBtn::-moz-focus-inner,.vdpArrow::-moz-focus-inner,.vdpClearInput::-moz-focus-inner,.vdpPeriodControl::-moz-focus-inner{padding:0;border:0}.vdpArrow{font-size:1em;width:5em;text-indent:-999em;overflow:hidden;position:absolute;top:0;bottom:2.5em;text-align:left}.vdpArrow:before{content:\"\";width:2.2em;height:2.2em;position:absolute;left:50%;top:50%;margin:-1.1em 0 0 -1.1em;border-radius:100%;-webkit-transition:background-color .2s;-o-transition:background-color .2s;transition:background-color .2s}.vdpArrow:active,.vdpArrow:focus,.vdpArrow:hover{outline:0}.vdpArrow:focus:before,.vdpArrow:hover:before{background-color:rgba(0,0,0,.03)}.vdpArrow:active:before{background-color:rgba(0,0,0,.07)}.vdpArrowNext:before{margin-left:-1.4em}.vdpArrow:after{content:\"\";position:absolute;left:50%;top:50%;margin-top:-.5em;width:0;height:0;border:.5em solid transparent}.vdpArrowPrev{left:-.3em}.vdpArrowPrev:after{margin-left:-.8em;border-right-color:#7485c2}.vdpArrowNext{right:-.6em}.vdpArrowNext:after{margin-left:-.5em;border-left-color:#7485c2}.vdpPeriodControl{display:inline-block;position:relative}.vdpPeriodControl>button{font-size:1.5em;padding:1em .4em;display:inline-block}.vdpPeriodControl>select{position:absolute;left:0;top:0;width:100%;height:100%;cursor:pointer;opacity:0;font-size:1.6em}.vdpTable{width:100%;table-layout:fixed;position:relative;z-index:1}.vdpNextDirection{-webkit-animation:b .5s;animation:b .5s}.vdpPrevDirection{-webkit-animation:a .5s;animation:a .5s}.vdpCell,.vdpHeadCell{text-align:center;-webkit-box-sizing:border-box;box-sizing:border-box}.vdpCell{padding:.5em 0}.vdpHeadCell{padding:.3em .5em 1.8em}.vdpHeadCellContent{font-size:1.3em;font-weight:400;color:#848484}.vdpCellContent{font-size:1.4em;display:block;margin:0 auto;width:1.857em;line-height:1.857em;text-align:center;border-radius:100%;-webkit-transition:background .1s,color .1s;-o-transition:background .1s,color .1s;transition:background .1s,color .1s}.vdpCell.outOfRange{color:#c7c7c7}.vdpCell.today{color:#7485c2}.vdpCell.selected .vdpCellContent{color:#fff;background:#7485c2}@media (hover:hover){.vdpCell.selectable:hover .vdpCellContent{color:#fff;background:#7485c2}}.vdpCell.selectable{cursor:pointer}.vdpCell.disabled{opacity:.5}.vdpTimeControls{padding:1.2em 2em;position:relative;margin:1em -1em -1em;text-align:center;background:#f5f5f5}.vdpTimeUnit{display:inline-block;position:relative;vertical-align:middle}.vdpTimeUnit>input,.vdpTimeUnit>pre{font-size:1.7em;line-height:1.3;padding:.1em;word-wrap:break-word;white-space:pre-wrap;resize:none;margin:0;-webkit-box-sizing:border-box;box-sizing:border-box;color:#000;border:0;border-bottom:1px solid transparent;text-align:center}.vdpTimeUnit>pre{visibility:hidden;font-family:inherit}.vdpTimeUnit>input{position:absolute;top:0;left:0;overflow:hidden;height:100%;width:100%;outline:none;padding:0;-webkit-appearance:none;-moz-appearance:none;appearance:none;border-radius:0;background:transparent;-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield}.vdpTimeUnit>input::-moz-selection{background-color:rgba(116,133,194,.15)}.vdpTimeUnit>input::selection{background-color:rgba(116,133,194,.15)}.vdpTimeUnit>input:focus,.vdpTimeUnit>input:hover{border-bottom-color:#7485c2}.vdpTimeUnit>input:disabled{border-bottom-color:transparent}.vdpTimeUnit>input::-webkit-inner-spin-button,.vdpTimeUnit>input::-webkit-outer-spin-button{margin:0;-webkit-appearance:none}.vdpTimeCaption,.vdpTimeSeparator{display:inline-block;vertical-align:middle;font-size:1.3em;color:#848484}.vdpTimeCaption{margin-right:.5em}.vdp12HourToggleBtn{display:inline-block;vertical-align:middle;font-size:1.3em;padding:0 .4em;color:#303030}.vdp12HourToggleBtn:focus,.vdp12HourToggleBtn:hover{color:#7485c2;outline:0}.vdp12HourToggleBtn:disabled{color:#303030}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loading-overlay/dist/vue-loading.css":
+/*!***********************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loading-overlay/dist/vue-loading.css ***!
+  \***********************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".vld-overlay {\n  bottom: 0;\n  left: 0;\n  position: absolute;\n  right: 0;\n  top: 0;\n  align-items: center;\n  display: none;\n  justify-content: center;\n  overflow: hidden;\n  z-index: 9999;\n}\n\n.vld-overlay.is-active {\n  display: flex;\n}\n\n.vld-overlay.is-full-page {\n  z-index: 9999;\n  position: fixed;\n}\n\n.vld-overlay .vld-background {\n  bottom: 0;\n  left: 0;\n  position: absolute;\n  right: 0;\n  top: 0;\n  background: #fff;\n  opacity: 0.5;\n}\n\n.vld-overlay .vld-icon, .vld-parent {\n  position: relative;\n}\n\n", ""]);
 
 // exports
 
@@ -64665,7 +64800,12 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання\n                        "
+                        "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання:"
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm._v(
+                        " \n          з наступними умовами:\n                        "
                       ),
                       !_vm.print
                         ? _c("dynamic-select", {
@@ -64694,7 +64834,6 @@ var render = function() {
                         ? _c("span", [_vm._v(_vm._s(_vm.product.name))])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm._v(" \n          з наступними умовами:"),
                       _c("br"),
                       _vm._v(" "),
                       _c("table", { staticClass: "tabs" }, [
@@ -66453,6 +66592,8 @@ var render = function() {
         attrs: {
           id: "getbranch",
           tabindex: "-1",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
           role: "dialog",
           "aria-labelledby": "exampleModalCenterTitle",
           "aria-hidden": "true"
@@ -66477,7 +66618,16 @@ var render = function() {
                   [_vm._v("Карточка филиала " + _vm._s(_vm.branch.name))]
                 ),
                 _vm._v(" "),
-                _vm._m(5)
+                _c("a", {
+                  staticClass: "fe fe-trash-2 h3 text-danger",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteBranch(_vm.branch.id)
+                    }
+                  }
+                })
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
@@ -66608,28 +66758,6 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Организация: \n                            "),
-                      _c(
-                        "span",
-                        { staticClass: "card-text text-muted mb-1 ml-2" },
-                        [
-                          _c("input-form", {
-                            attrs: { name: "organization", id: _vm.branch.id },
-                            on: { "edit-field": _vm.editFieldBranch },
-                            model: {
-                              value: _vm.branch.organization,
-                              callback: function($$v) {
-                                _vm.$set(_vm.branch, "organization", $$v)
-                              },
-                              expression: "branch.organization"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "mb-1 ml-3" }, [
                       _vm._v("Валюта филиала: \n                            "),
                       _c(
                         "select",
@@ -66676,24 +66804,11 @@ var render = function() {
                           _c("option", [_vm._v("грн")])
                         ]
                       )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-danger ml-3 mt-3",
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteBranch(_vm.branch.id)
-                          }
-                        }
-                      },
-                      [_vm._v("Удалить филиал")]
-                    )
+                    ])
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(6),
+                _vm._m(5),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -67121,7 +67236,7 @@ var render = function() {
                                         staticClass: "text-center",
                                         on: {
                                           click: function($event) {
-                                            return _vm.saveProgramm(
+                                            return _vm.saveProduct(
                                               _vm.branch.id
                                             )
                                           }
@@ -67570,13 +67685,267 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
+                _vm._m(6),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "collapse p-3", attrs: { id: "2_programms" } },
+                  [
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c(
+                        "table",
+                        {
+                          staticClass:
+                            " table table-bordered datatable datatable-User"
+                        },
+                        [
+                          _c("thead", [
+                            _c("tr", [
+                              _c("th", [_vm._v("Название")]),
+                              _vm._v(" "),
+                              _c(
+                                "th",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.buttonAddProgramm,
+                                      expression: "buttonAddProgramm"
+                                    }
+                                  ],
+                                  staticClass: "text-center bg-success bp",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.addRowProgramm(_vm.branch.id),
+                                        (_vm.buttonAddProgramm = !_vm.buttonAddProgramm)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "fe fe-plus h3 text-white"
+                                  })
+                                ]
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.branch.programms, function(programm, int) {
+                            return _c("tbody", [
+                              _c("tr", [
+                                _c(
+                                  "td",
+                                  [
+                                    _c("input-form", {
+                                      attrs: { name: "name", id: programm.id },
+                                      on: {
+                                        "edit-field": _vm.editFieldProgramm
+                                      },
+                                      model: {
+                                        value: programm.name,
+                                        callback: function($$v) {
+                                          _vm.$set(programm, "name", $$v)
+                                        },
+                                        expression: "programm.name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                programm.rowNew
+                                  ? _c(
+                                      "td",
+                                      {
+                                        staticClass: "text-center",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.saveProgramm(
+                                              _vm.branch.id
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("span", {
+                                          staticClass:
+                                            "fe fe-save h3 text-success"
+                                        })
+                                      ]
+                                    )
+                                  : _c("td", { staticClass: "text-center" }, [
+                                      _c("span", {
+                                        staticClass:
+                                          "fe fe-trash-2 h3 text-danger",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.removeRowProgramm(
+                                              int,
+                                              programm.id,
+                                              programm.name
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ])
+                              ])
+                            ])
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
                 _vm._m(7),
                 _vm._v(" "),
-                _vm._m(8),
-                _vm._v(" "),
-                _vm._m(9),
-                _vm._v(" "),
-                _vm._m(10)
+                _c(
+                  "div",
+                  {
+                    staticClass: "collapse p-3",
+                    attrs: { id: "3_dopproducts" }
+                  },
+                  [
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c(
+                        "table",
+                        {
+                          staticClass:
+                            " table table-bordered datatable datatable-User"
+                        },
+                        [
+                          _c("thead", [
+                            _c("tr", [
+                              _c("th", [_vm._v("Название")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Цена")]),
+                              _vm._v(" "),
+                              _c(
+                                "th",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.buttonAddDopProduct,
+                                      expression: "buttonAddDopProduct"
+                                    }
+                                  ],
+                                  staticClass: "text-center bg-success bp",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.addRowDopProduct(_vm.branch.id),
+                                        (_vm.buttonAddDopProduct = !_vm.buttonAddDopProduct)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("span", {
+                                    staticClass: "fe fe-plus h3 text-white"
+                                  })
+                                ]
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.branch.dopproducts, function(
+                            dopproduct,
+                            int
+                          ) {
+                            return _c("tbody", [
+                              _c("tr", [
+                                _c(
+                                  "td",
+                                  [
+                                    _c("input-form", {
+                                      attrs: {
+                                        name: "name",
+                                        id: dopproduct.id
+                                      },
+                                      on: {
+                                        "edit-field": _vm.editFieldDopProduct
+                                      },
+                                      model: {
+                                        value: dopproduct.name,
+                                        callback: function($$v) {
+                                          _vm.$set(dopproduct, "name", $$v)
+                                        },
+                                        expression: "dopproduct.name"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  [
+                                    _c("input-form", {
+                                      attrs: {
+                                        name: "price",
+                                        id: dopproduct.id
+                                      },
+                                      on: {
+                                        "edit-field": _vm.editFieldDopProduct
+                                      },
+                                      model: {
+                                        value: dopproduct.price,
+                                        callback: function($$v) {
+                                          _vm.$set(dopproduct, "price", $$v)
+                                        },
+                                        expression: "dopproduct.price"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                dopproduct.rowNew
+                                  ? _c(
+                                      "td",
+                                      {
+                                        staticClass: "text-center",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.saveDopProduct(
+                                              _vm.branch.id
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("span", {
+                                          staticClass:
+                                            "fe fe-save h3 text-success"
+                                        })
+                                      ]
+                                    )
+                                  : _c("td", { staticClass: "text-center" }, [
+                                      _c("span", {
+                                        staticClass:
+                                          "fe fe-trash-2 h3 text-danger",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.removeRowDopProduct(
+                                              int,
+                                              dopproduct.id,
+                                              dopproduct.name
+                                            )
+                                          }
+                                        }
+                                      })
+                                    ])
+                              ])
+                            ])
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
@@ -67585,11 +67954,7 @@ var render = function() {
                   {
                     staticClass: "btn btn-danger",
                     attrs: { type: "button", "data-dismiss": "modal" },
-                    on: {
-                      click: function($event) {
-                        ;(_vm.buttonAdd = true), (_vm.busy = false)
-                      }
-                    }
+                    on: { click: _vm.closeModal }
                   },
                   [_vm._v("Закрыть")]
                 )
@@ -67767,23 +68132,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "modal",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "title-collapse" }, [
       _c(
         "a",
@@ -67822,16 +68170,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "collapse p-3", attrs: { id: "2_programms" } },
-      [_c("h3", [_vm._v("В процессе")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "title-collapse mt-2" }, [
       _c(
         "a",
@@ -67846,16 +68184,6 @@ var staticRenderFns = [
         [_vm._v("Дополнительные продукты")]
       )
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "collapse p-3", attrs: { id: "3_dopproducts" } },
-      [_c("h3", [_vm._v("В процессе")])]
-    )
   }
 ]
 render._withStripped = true
@@ -68200,7 +68528,7 @@ var render = function() {
                           [
                             _c("dynamic-select", {
                               attrs: {
-                                options: _vm.branches,
+                                options: _vm.branches.branches,
                                 "option-value": "id",
                                 "option-text": "name",
                                 placeholder: "Введите для поиска"
@@ -68893,6 +69221,114 @@ var render = function() {
                             0
                           ),
                           _vm._v(" "),
+                          _c("h5", { staticClass: "text-muted mb-2" }, [
+                            _vm._v("Программа: \n                            "),
+                            _vm.dataObject.programm
+                              ? _c(
+                                  "a",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: !_vm.showProgramm,
+                                        expression: "!showProgramm"
+                                      }
+                                    ],
+                                    staticClass: "text-dark",
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.editProgramm($event)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.dataObject.programm))]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.showProgramm,
+                                    expression: "showProgramm"
+                                  }
+                                ],
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.editProgramm($event)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.dataObject.programm.name) +
+                                    " " +
+                                    _vm._s(_vm.dataObject.programm.name)
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.showProgramm,
+                                  expression: "showProgramm"
+                                },
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataObject.programms,
+                                  expression: "dataObject.programms"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.dataObject,
+                                      "programms",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  _vm.saveProgramm
+                                ]
+                              }
+                            },
+                            _vm._l(_vm.programms, function(programm) {
+                              return _c(
+                                "option",
+                                { domProps: { value: programm } },
+                                [_vm._v(_vm._s(programm.name))]
+                              )
+                            }),
+                            0
+                          ),
+                          _vm._v(" "),
                           _c(
                             "h6",
                             {
@@ -69009,7 +69445,7 @@ var render = function() {
                                 }
                               }
                             },
-                            _vm._l(_vm.branches, function(branch) {
+                            _vm._l(_vm.branches.branches, function(branch) {
                               return _c(
                                 "option",
                                 { domProps: { value: branch } },
@@ -71503,6 +71939,47 @@ function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-loading-overlay/dist/vue-loading.css":
+/*!***************************************************************!*\
+  !*** ./node_modules/vue-loading-overlay/dist/vue-loading.css ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../postcss-loader/src??ref--6-2!./vue-loading.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loading-overlay/dist/vue-loading.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loading-overlay/dist/vue-loading.min.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/vue-loading-overlay/dist/vue-loading.min.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}("undefined"!=typeof self?self:this,(function(){return function(t){var e={};function i(n){if(e[n])return e[n].exports;var r=e[n]={i:n,l:!1,exports:{}};return t[n].call(r.exports,r,r.exports,i),r.l=!0,r.exports}return i.m=t,i.c=e,i.d=function(t,e,n){i.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},i.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(i.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)i.d(n,r,function(e){return t[e]}.bind(null,r));return n},i.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return i.d(e,"a",e),e},i.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},i.p="",i(i.s=1)}([function(t,e,i){},function(t,e,i){"use strict";i.r(e);var n="undefined"!=typeof window?window.HTMLElement:Object,r={mounted:function(){document.addEventListener("focusin",this.focusIn)},methods:{focusIn:function(t){if(this.isActive&&t.target!==this.$el&&!this.$el.contains(t.target)){var e=this.container?this.container:this.isFullPage?null:this.$el.parentElement;(this.isFullPage||e&&e.contains(t.target))&&(t.preventDefault(),this.$el.focus())}}},beforeDestroy:function(){document.removeEventListener("focusin",this.focusIn)}};function a(t,e,i,n,r,a,o,s){var u,l="function"==typeof t?t.options:t;if(e&&(l.render=e,l.staticRenderFns=i,l._compiled=!0),n&&(l.functional=!0),a&&(l._scopeId="data-v-"+a),o?(u=function(t){(t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),r&&r.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(o)},l._ssrRegister=u):r&&(u=s?function(){r.call(this,this.$root.$options.shadowRoot)}:r),u)if(l.functional){l._injectStyles=u;var c=l.render;l.render=function(t,e){return u.call(e),c(t,e)}}else{var d=l.beforeCreate;l.beforeCreate=d?[].concat(d,u):[u]}return{exports:t,options:l}}var o=a({name:"spinner",props:{color:{type:String,default:"#000"},height:{type:Number,default:64},width:{type:Number,default:64}}},(function(){var t=this.$createElement,e=this._self._c||t;return e("svg",{attrs:{viewBox:"0 0 38 38",xmlns:"http://www.w3.org/2000/svg",width:this.width,height:this.height,stroke:this.color}},[e("g",{attrs:{fill:"none","fill-rule":"evenodd"}},[e("g",{attrs:{transform:"translate(1 1)","stroke-width":"2"}},[e("circle",{attrs:{"stroke-opacity":".25",cx:"18",cy:"18",r:"18"}}),e("path",{attrs:{d:"M36 18c0-9.94-8.06-18-18-18"}},[e("animateTransform",{attrs:{attributeName:"transform",type:"rotate",from:"0 18 18",to:"360 18 18",dur:"0.8s",repeatCount:"indefinite"}})],1)])])])}),[],!1,null,null,null).exports,s=a({name:"dots",props:{color:{type:String,default:"#000"},height:{type:Number,default:240},width:{type:Number,default:60}}},(function(){var t=this.$createElement,e=this._self._c||t;return e("svg",{attrs:{viewBox:"0 0 120 30",xmlns:"http://www.w3.org/2000/svg",fill:this.color,width:this.width,height:this.height}},[e("circle",{attrs:{cx:"15",cy:"15",r:"15"}},[e("animate",{attrs:{attributeName:"r",from:"15",to:"15",begin:"0s",dur:"0.8s",values:"15;9;15",calcMode:"linear",repeatCount:"indefinite"}}),e("animate",{attrs:{attributeName:"fill-opacity",from:"1",to:"1",begin:"0s",dur:"0.8s",values:"1;.5;1",calcMode:"linear",repeatCount:"indefinite"}})]),e("circle",{attrs:{cx:"60",cy:"15",r:"9","fill-opacity":"0.3"}},[e("animate",{attrs:{attributeName:"r",from:"9",to:"9",begin:"0s",dur:"0.8s",values:"9;15;9",calcMode:"linear",repeatCount:"indefinite"}}),e("animate",{attrs:{attributeName:"fill-opacity",from:"0.5",to:"0.5",begin:"0s",dur:"0.8s",values:".5;1;.5",calcMode:"linear",repeatCount:"indefinite"}})]),e("circle",{attrs:{cx:"105",cy:"15",r:"15"}},[e("animate",{attrs:{attributeName:"r",from:"15",to:"15",begin:"0s",dur:"0.8s",values:"15;9;15",calcMode:"linear",repeatCount:"indefinite"}}),e("animate",{attrs:{attributeName:"fill-opacity",from:"1",to:"1",begin:"0s",dur:"0.8s",values:"1;.5;1",calcMode:"linear",repeatCount:"indefinite"}})])])}),[],!1,null,null,null).exports,u=a({name:"bars",props:{color:{type:String,default:"#000"},height:{type:Number,default:40},width:{type:Number,default:40}}},(function(){var t=this.$createElement,e=this._self._c||t;return e("svg",{attrs:{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 30 30",height:this.height,width:this.width,fill:this.color}},[e("rect",{attrs:{x:"0",y:"13",width:"4",height:"5"}},[e("animate",{attrs:{attributeName:"height",attributeType:"XML",values:"5;21;5",begin:"0s",dur:"0.6s",repeatCount:"indefinite"}}),e("animate",{attrs:{attributeName:"y",attributeType:"XML",values:"13; 5; 13",begin:"0s",dur:"0.6s",repeatCount:"indefinite"}})]),e("rect",{attrs:{x:"10",y:"13",width:"4",height:"5"}},[e("animate",{attrs:{attributeName:"height",attributeType:"XML",values:"5;21;5",begin:"0.15s",dur:"0.6s",repeatCount:"indefinite"}}),e("animate",{attrs:{attributeName:"y",attributeType:"XML",values:"13; 5; 13",begin:"0.15s",dur:"0.6s",repeatCount:"indefinite"}})]),e("rect",{attrs:{x:"20",y:"13",width:"4",height:"5"}},[e("animate",{attrs:{attributeName:"height",attributeType:"XML",values:"5;21;5",begin:"0.3s",dur:"0.6s",repeatCount:"indefinite"}}),e("animate",{attrs:{attributeName:"y",attributeType:"XML",values:"13; 5; 13",begin:"0.3s",dur:"0.6s",repeatCount:"indefinite"}})])])}),[],!1,null,null,null).exports,l=a({name:"vue-loading",mixins:[r],props:{active:Boolean,programmatic:Boolean,container:[Object,Function,n],isFullPage:{type:Boolean,default:!0},transition:{type:String,default:"fade"},canCancel:Boolean,onCancel:{type:Function,default:function(){}},color:String,backgroundColor:String,opacity:Number,width:Number,height:Number,zIndex:Number,loader:{type:String,default:"spinner"}},data:function(){return{isActive:this.active}},components:{Spinner:o,Dots:s,Bars:u},beforeMount:function(){this.programmatic&&(this.container?(this.isFullPage=!1,this.container.appendChild(this.$el)):document.body.appendChild(this.$el))},mounted:function(){this.programmatic&&(this.isActive=!0),document.addEventListener("keyup",this.keyPress)},methods:{cancel:function(){this.canCancel&&this.isActive&&(this.hide(),this.onCancel.apply(null,arguments))},hide:function(){var t=this;this.$emit("hide"),this.$emit("update:active",!1),this.programmatic&&(this.isActive=!1,setTimeout((function(){var e;t.$destroy(),void 0!==(e=t.$el).remove?e.remove():e.parentNode.removeChild(e)}),150))},keyPress:function(t){27===t.keyCode&&this.cancel()}},watch:{active:function(t){this.isActive=t}},beforeDestroy:function(){document.removeEventListener("keyup",this.keyPress)}},(function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("transition",{attrs:{name:t.transition}},[i("div",{directives:[{name:"show",rawName:"v-show",value:t.isActive,expression:"isActive"}],staticClass:"vld-overlay is-active",class:{"is-full-page":t.isFullPage},style:{zIndex:t.zIndex},attrs:{tabindex:"0","aria-busy":t.isActive,"aria-label":"Loading"}},[i("div",{staticClass:"vld-background",style:{background:t.backgroundColor,opacity:t.opacity},on:{click:function(e){return e.preventDefault(),t.cancel(e)}}}),i("div",{staticClass:"vld-icon"},[t._t("before"),t._t("default",[i(t.loader,{tag:"component",attrs:{color:t.color,width:t.width,height:t.height}})]),t._t("after")],2)])])}),[],!1,null,null,null).exports,c=function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};return{show:function(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:e,r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:i,a={programmatic:!0},o=Object.assign({},e,n,a),s=new(t.extend(l))({el:document.createElement("div"),propsData:o}),u=Object.assign({},i,r);return Object.keys(u).map((function(t){s.$slots[t]=u[t]})),s}}};i(0);l.install=function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},n=c(t,e,i);t.$loading=n,t.prototype.$loading=n};e.default=l}]).default}));
 
 /***/ }),
 

@@ -14,6 +14,12 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // Products
     Route::apiResource('products', 'ProductController');
 
+    // Products
+    Route::apiResource('dopproducts', 'DopProductController');
+
+    // Programms
+    Route::apiResource('programms', 'ProgrammController');
+
     // Product_pay
     Route::apiResource('product_pay', 'Product_payController');
 
@@ -27,6 +33,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::get('getbranches', 'BaseController@getBranches');
     Route::get('getmanagers', 'BaseController@getManagers');
     Route::get('getinstructors', 'BaseController@getInstructors');
+    Route::post('getprogramms', 'BaseController@getProgramms');
     Route::get('getusers', 'BaseController@getUsers');
     Route::post('addnewuser', 'BaseController@addNewUser');
     Route::post('getvmcontract', 'BaseController@getVmContract');

@@ -69,14 +69,15 @@
     </div>
 
 <!-- Модальное окно открытия карточки филиала -->
-<div class="modal fade" id="getbranch" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="getbranch" tabindex="-1" data-backdrop="static" data-keyboard="false"  role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<!-- 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
-				</button>
+				</button> -->
+                 <a href="#" class="fe fe-trash-2 h3 text-danger" @click.prevent="deleteBranch(branch.id)"></a>
 			</div>
 			<div class="modal-body">
                 <div class="card-body row pt-0">
@@ -108,18 +109,12 @@
                                 <input-form v-model="branch.requisites" name="requisites" :id="branch.id" @edit-field="editFieldBranch"></input-form>
                             </span>
                         </p>
-                        <p class="mb-1 ml-3">Организация: 
-                            <span class="card-text text-muted mb-1 ml-2">
-                                <input-form v-model="branch.organization" name="organization" :id="branch.id" @edit-field="editFieldBranch"></input-form>
-                            </span>
-                        </p>
                         <p class="mb-1 ml-3">Валюта филиала: 
                             <select v-model="branch.currency" @change="editBranchCurrency(branch.id, branch.currency)">
                                 <option>руб</option>
                                 <option>грн</option>
                             </select>
                         </p>
-                        <button class="btn btn-sm btn-danger ml-3 mt-3" @click="deleteBranch(branch.id)">Удалить филиал</button>
               </div>
           </div>
 
@@ -169,7 +164,7 @@
                             <td class="text-center">
                                 <input-form v-mask="'###'" v-model="product.days" name="days" :id="product.id" @edit-field="editField"></input-form>
                             </td>
-                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
+                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProduct(branch.id)">
                                 <span class="fe fe-save h3 text-success"></span>
                             </td>
                             <td v-else="">
@@ -230,30 +225,29 @@
         </div>
 
         <div class="collapse p-3" id="2_programms">
-            <h3>В процессе</h3>
-<!--             <div class="table-responsive">
+            <div class="table-responsive">
                 <table class=" table table-bordered datatable datatable-User">
                     <thead>
                         <tr>
                             <th>Название</th>
-                            <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success bp" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+                            <th v-show="buttonAddProgramm" class="text-center bg-success bp" @click="addRowProgramm(branch.id), buttonAddProgramm = !buttonAddProgramm"><span class="fe fe-plus h3 text-white"></span></th>
                         </tr>
                     </thead>
-                    <tbody v-for="(product, int) in branch.products">
+                    <tbody v-for="(programm, int) in branch.programms">
                         <tr>
                             <td>
-                                <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
+                                <input-form v-model="programm.name" name="name" :id="programm.id" @edit-field="editFieldProgramm"></input-form>
                             </td>
-                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
+                            <td v-if="programm.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
                                 <span class="fe fe-save h3 text-success"></span>
                             </td>
                             <td class="text-center" v-else="">
-                                <span class="fe fe-trash-2 h3 text-danger" @click="removeRow(int, product.id, product.name)"></span>
+                                <span class="fe fe-trash-2 h3 text-danger" @click="removeRowProgramm(int, programm.id, programm.name)"></span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div> -->
+            </div>
         </div>
 
         <div class="title-collapse mt-2">
@@ -261,35 +255,38 @@
         </div>
 
         <div class="collapse p-3" id="3_dopproducts">
-            <h3>В процессе</h3>
-<!--             <div class="table-responsive">
+            <div class="table-responsive">
                 <table class=" table table-bordered datatable datatable-User">
                     <thead>
                         <tr>
                             <th>Название</th>
-                            <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success bp" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+                            <th>Цена</th>
+                            <th v-show="buttonAddDopProduct" class="text-center bg-success bp" @click="addRowDopProduct(branch.id), buttonAddDopProduct = !buttonAddDopProduct"><span class="fe fe-plus h3 text-white"></span></th>
                         </tr>
                     </thead>
-                    <tbody v-for="(product, int) in branch.products">
+                    <tbody v-for="(dopproduct, int) in branch.dopproducts">
                         <tr>
                             <td>
-                                <input-form v-model="product.name" name="name" :id="product.id" @edit-field="editField"></input-form>
+                                <input-form v-model="dopproduct.name" name="name" :id="dopproduct.id" @edit-field="editFieldDopProduct"></input-form>
                             </td>
-                            <td v-if="product.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
+                            <td>
+                                <input-form v-model="dopproduct.price" name="price" :id="dopproduct.id" @edit-field="editFieldDopProduct"></input-form>
+                            </td>
+                            <td v-if="dopproduct.rowNew" class="text-center" v-on:click="saveDopProduct(branch.id)">
                                 <span class="fe fe-save h3 text-success"></span>
                             </td>
                             <td class="text-center" v-else="">
-                                <span class="fe fe-trash-2 h3 text-danger" @click="removeRow(int, product.id, product.name)"></span>
+                                <span class="fe fe-trash-2 h3 text-danger" @click="removeRowDopProduct(int, dopproduct.id, dopproduct.name)"></span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div> -->
+            </div>
         </div>
 
 			</div>
 			<div class="modal-footer">
-				<button type="button" @click="buttonAdd = true, busy = false" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+				<button type="button" @click="closeModal" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
 			</div>
 		</div>
 	</div>
@@ -365,6 +362,8 @@ Vue.use(VueSimpleAlert);
                 rowNewPay: '',
                 freezing_kolvo: '',
                 buttonAdd: true,
+                buttonAddProgramm: true,
+                buttonAddDopProduct: true,
             	regions: {
                      branches: [],
                 },
@@ -373,6 +372,7 @@ Vue.use(VueSimpleAlert);
                         pays: [],
                     },
                     programm: [], 
+                    dopproducts: [],
                 },
                 region_id: '',
             }
@@ -381,10 +381,10 @@ Vue.use(VueSimpleAlert);
             this.getRegion();
         },
         methods: {
-            saveProgramm(id){
-                this.branch.products[this.branch.products.length - 1].rowNew = '';
+            saveProduct(id){
+                this.branch.products[0].rowNew = '';
                 this.buttonAdd = true
-                axios.post('api/v2/products',this.branch.products[this.branch.products.length - 1])
+                axios.post('api/v2/products',this.branch.products[0])
                   .catch(function (error) {
                     if (error.response) {
                       alert("Ошибка, не заполнено название программы");
@@ -393,8 +393,20 @@ Vue.use(VueSimpleAlert);
                 this.$alert("Программа добавлена");
                 this.getBranch(id);
             },
+            saveProgramm(id){
+                this.branch.programms[this.branch.programms.length - 1].rowNew = '';
+                this.buttonAddProgramm = true
+                axios.post('api/v2/programms',this.branch.programms[this.branch.programms.length - 1])
+                this.getBranch(id);
+            },
+            saveDopProduct(id){
+                this.branch.dopproducts[this.branch.dopproducts.length - 1].rowNew = '';
+                this.buttonAddDopProduct = true
+                axios.post('api/v2/dopproducts',this.branch.dopproducts[this.branch.dopproducts.length - 1])
+                this.getBranch(id);
+            },
             addRow(branch){
-               this.branch.products.push({
+               this.branch.products.unshift({
                     rowNew: true, 
                     name: null, 
                     price: null, 
@@ -419,9 +431,16 @@ Vue.use(VueSimpleAlert);
                 });
             },
             addRowProgramm(branch){
-               this.branch.products.push({
+               this.branch.programms.push({
                     rowNew: true, 
-                    name: 'Название продукта', 
+                    name: null, 
+                    branch_id: branch
+                });
+            },
+            addRowDopProduct(branch){
+               this.branch.dopproducts.push({
+                    rowNew: true, 
+                    name: null, 
                     branch_id: branch
                 });
             },
@@ -436,7 +455,7 @@ Vue.use(VueSimpleAlert);
                 this.$confirm("Удалить программу " + name + " ?").then(() => {
                     this.branch.products.splice(index,1);
                     axios.delete('api/v2/products/'+ id);
-                    this.$alert("Программа удалена");
+                    this.$alert("Продукт удалена");
                 });
             },
             removePay(int, index, id){
@@ -444,6 +463,20 @@ Vue.use(VueSimpleAlert);
                     axios.delete('api/v2/product_pay/'+ id);
                     this.branch.products[int].pays.splice(index,1);
                     this.$alert("Платёж удален");
+                });
+            },
+            removeRowProgramm(index, id, name){
+                this.$confirm("Удалить программу " + name + " ?").then(() => {
+                    this.branch.programms.splice(index,1);
+                    axios.delete('api/v2/programms/'+ id);
+                    this.$alert("Программа удалена");
+                });
+            },
+            removeRowDopProduct(index, id, name){
+                this.$confirm("Удалить продукт " + name + " ?").then(() => {
+                    this.branch.dopproducts.splice(index,1);
+                    axios.delete('api/v2/dopproducts/'+ id);
+                    this.$alert("Продукт удален");
                 });
             },
             editField(e, name) {
@@ -463,6 +496,18 @@ Vue.use(VueSimpleAlert);
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
                 axios.put('api/v2/product_pay/' + id, {field_name: key, field_value: value })
+            },
+            editFieldProgramm(e, name) {
+                const id = e.target.id;
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.put('api/v2/programms/' + id, {field_name: key, field_value: value })
+            },
+            editFieldDopProduct(e, name) {
+                const id = e.target.id;
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.put('api/v2/dopproducts/' + id, {field_name: key, field_value: value })
             },
             editProduct(id, freezing) {
                 axios.put('api/v2/products/'+ id, {field_name: 'freezing_kolvo', field_value: freezing })
@@ -524,6 +569,16 @@ Vue.use(VueSimpleAlert);
                 this.getRegion();
                 });
             },
+            closeModal(){
+                $('#1_products').collapse('hide')
+                $('#2_programms').collapse('hide')
+                $('#3_dopproducts').collapse('hide')
+                this.buttonAdd = true
+                this.buttonAddProgramm = true
+                this.busy = false
+                this.getRegion();
+
+            }
         },
 	}
 </script>

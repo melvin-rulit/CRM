@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Programm;
+use App\DopProduct;
 
-
-class ProgrammController extends Controller
+class DopProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,7 +36,7 @@ class ProgrammController extends Controller
      */
     public function store(Request $request)
     {
-        Programm::create($request->all());
+        DopProduct::create($request->all());
     }
 
     /**
@@ -69,11 +68,11 @@ class ProgrammController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Programm $programm)
+    public function update(Request $request, DopProduct $dopproduct)
     {
         $field_name = $request['field_name'];
-        $programm->$field_name = $request['field_value'];
-        $programm->save();
+        $dopproduct->$field_name = $request['field_value'];
+        $dopproduct->save();
     }
 
     /**
@@ -82,10 +81,9 @@ class ProgrammController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Programm $programm)
+    public function destroy(DopProduct $dopproduct)
     {
-        $programm->delete();
+        $dopproduct->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

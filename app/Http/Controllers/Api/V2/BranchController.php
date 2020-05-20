@@ -49,7 +49,7 @@ class BranchController extends Controller
     public function show(Branch $branch)
     {
 
-        return (new BranchResource($branch->load(['products.pays'])))
+        return (new BranchResource($branch->load(['products.pays','programms','dopproducts'])))
                 ->response()
                 ->setStatusCode(Response::HTTP_CREATED);
     }
