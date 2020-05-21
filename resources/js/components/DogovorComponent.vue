@@ -208,19 +208,24 @@
             </tr>
           </table>
           Прошуприйняти вище вказану дитину на навчання за програмою навчання:<br>
-          <!-- <select style="font-weight: bold; border: 0;" v-model="product" @change="stopDate(product.id)">
-            <option v-for="product in dataVm.products" v-bind:value="product">{{ product.name }}</option>
-          </select> --> 
+            <dynamic-select 
+            v-if="!print"
+            :options="dataVm.programms"
+            option-value="id"
+            option-text="name"
+            placeholder="Введите для поиска программы"
+            v-model="programm" />
+            <span v-if="print">{{ programm.name }}</span>
           з наступними умовами:
-                        <dynamic-select 
-                        v-if="!print"
-                        :options="dataVm.products"
-                        option-value="id"
-                        option-text="name"
-                        placeholder="Введите для поиска программы"
-                        v-model="product"
-                        @input="stopDate(product.id)" />
-                        <span v-if="print">{{ product.name }}</span>
+            <dynamic-select 
+            v-if="!print"
+            :options="dataVm.products"
+            option-value="id"
+            option-text="name"
+            placeholder="Введите для поиска продукта"
+            v-model="product"
+            @input="stopDate(product.id)" />
+            <span v-if="print">{{ product.name }}</span>
                         <br>
           <table class="tabs">
             <tr>
@@ -247,10 +252,13 @@
           </table>
 
             Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
-            Графік оплати:<br>
-              <div v-if="pays" v-for="(time, index) in pays.pays">
-                <p>Платеж {{ index + 1 }}: <b>{{time.pay}}</b> {{ dataVm.branch.currency }}. - {{ reversedMessage(time.day) }}</p>
-              </div>
+
+            <br>Графік оплати:<br>
+            <table width="100%">
+                <tr v-if="pays" v-for="(time, index) in pays.pays">
+                  <td>{{time.pay}} {{ dataVm.branch.currency }}. до {{ reversedMessage(time.day) }}</td>
+                </tr>
+            </table>
             <table>
               <tr>
                 <td>Кількість акційних заморозок (<span v-if="product">{{product.freezing_total}}</span>)</td>
@@ -356,8 +364,9 @@ Vue.use(VueHtmlToPaper, options);
               te: '',
               print: false,
               stopContract: '00.00.0000',
-            pays: [],
-            product:null,
+              pays: [],
+              product: null,
+              programm: null,
               dataVm: {branch:[],products: [],},
               dayselect: [
                   {day: 'Пн:Ср'},
@@ -463,6 +472,7 @@ Vue.use(VueHtmlToPaper, options);
                   freezing_total: this.product.freezing_total,  
                   freezing_kolvo: this.product.freezing_kolvo,
                   pays: this.pays.pays,
+                  programm: this.programm.name,
 
                 })
                 this.print = true

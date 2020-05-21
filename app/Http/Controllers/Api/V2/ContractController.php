@@ -110,6 +110,7 @@ class ContractController extends Controller
         $contract->classes_week =  $request['classes_week'];      
         $contract->freezing_total =  $request['freezing_total'];      
         $contract->freezing_kolvo = $request['freezing_kolvo'];    
+        $contract->programm = $request['programm'];    
 		$contract->save();
 
 

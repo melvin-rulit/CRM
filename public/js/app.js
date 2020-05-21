@@ -2271,6 +2271,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_date_pick__WEBPACK_IMPORTED_MODULE_0___default.a);
 
@@ -2310,6 +2318,7 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     stopContract: '00.00.0000',
     pays: [],
     product: null,
+    programm: null,
     dataVm: {
       branch: [],
       products: []
@@ -2432,7 +2441,8 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       classes_total: this.product.classes_total,
       freezing_total: this.product.freezing_total,
       freezing_kolvo: this.product.freezing_kolvo,
-      pays: this.pays.pays
+      pays: this.pays.pays,
+      programm: this.programm.name
     });
     this.print = true;
     contract_type == 'vm' ? this.$htmlToPaper('printVM') : this.$htmlToPaper('printOSN');
@@ -4245,7 +4255,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_6___default.a);
       managers: [],
       instructors: [],
       programms: []
-    }, _defineProperty(_ref, "users", []), _defineProperty(_ref, "name", ''), _defineProperty(_ref, "image", ''), _defineProperty(_ref, "dataObject", {
+    }, _defineProperty(_ref, "users", []), _defineProperty(_ref, "name", ''), _defineProperty(_ref, "qw", ''), _defineProperty(_ref, "image", ''), _defineProperty(_ref, "instructor", ''), _defineProperty(_ref, "dataObject", {
       attributes: {},
       contracts_not_active: {},
       contracts_active: {},
@@ -64804,16 +64814,35 @@ var render = function() {
                       ),
                       _c("br"),
                       _vm._v(" "),
-                      _vm._v(
-                        " \n          з наступними умовами:\n                        "
-                      ),
+                      !_vm.print
+                        ? _c("dynamic-select", {
+                            attrs: {
+                              options: _vm.dataVm.programms,
+                              "option-value": "id",
+                              "option-text": "name",
+                              placeholder: "Введите для поиска программы"
+                            },
+                            model: {
+                              value: _vm.programm,
+                              callback: function($$v) {
+                                _vm.programm = $$v
+                              },
+                              expression: "programm"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.print
+                        ? _c("span", [_vm._v(_vm._s(_vm.programm.name))])
+                        : _vm._e(),
+                      _vm._v("\n          з наступними умовами:\n            "),
                       !_vm.print
                         ? _c("dynamic-select", {
                             attrs: {
                               options: _vm.dataVm.products,
                               "option-value": "id",
                               "option-text": "name",
-                              placeholder: "Введите для поиска программы"
+                              placeholder: "Введите для поиска продукта"
                             },
                             on: {
                               input: function($event) {
@@ -65011,25 +65040,31 @@ var render = function() {
                         : _vm._e(),
                       _vm._v(" » (вказується категорія від 1 до 4)"),
                       _c("br"),
-                      _vm._v("\n            Графік оплати:"),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v("Графік оплати:"),
                       _c("br"),
                       _vm._v(" "),
-                      _vm._l(_vm.pays.pays, function(time, index) {
-                        return _vm.pays
-                          ? _c("div", [
-                              _c("p", [
-                                _vm._v("Платеж " + _vm._s(index + 1) + ": "),
-                                _c("b", [_vm._v(_vm._s(time.pay))]),
-                                _vm._v(
-                                  " " +
-                                    _vm._s(_vm.dataVm.branch.currency) +
-                                    ". - " +
-                                    _vm._s(_vm.reversedMessage(time.day))
-                                )
+                      _c(
+                        "table",
+                        { attrs: { width: "100%" } },
+                        _vm._l(_vm.pays.pays, function(time, index) {
+                          return _vm.pays
+                            ? _c("tr", [
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(time.pay) +
+                                      " " +
+                                      _vm._s(_vm.dataVm.branch.currency) +
+                                      ". до " +
+                                      _vm._s(_vm.reversedMessage(time.day))
+                                  )
+                                ])
                               ])
-                            ])
-                          : _vm._e()
-                      }),
+                            : _vm._e()
+                        }),
+                        0
+                      ),
                       _vm._v(" "),
                       _c("table", [
                         _c("tr", [
@@ -65133,7 +65168,7 @@ var render = function() {
                       _vm._v(" "),
                       _vm._m(5)
                     ],
-                    2
+                    1
                   )
                 ]
               ),

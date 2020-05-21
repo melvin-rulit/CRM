@@ -552,7 +552,9 @@ Vue.use(Loading);
                 programms: [],
                 users: [],
                 name:'',
+                qw:'',
                 image: '',  
+                instructor: '',
                 dataObject: {
                      attributes: {},
                      contracts_not_active: {},
