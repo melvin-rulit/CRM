@@ -3405,6 +3405,8 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
   },
   methods: {
     saveProduct: function saveProduct(id) {
+      var _this = this;
+
       this.branch.products[0].rowNew = '';
       this.buttonAdd = true;
       axios.post('api/v2/products', this.branch.products[0])["catch"](function (error) {
@@ -3413,19 +3415,29 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         }
       });
       this.$alert("Программа добавлена");
-      this.getBranch(id);
+      setTimeout(function () {
+        _this.getBranch(id);
+      }, 500);
     },
     saveProgramm: function saveProgramm(id) {
+      var _this2 = this;
+
       this.branch.programms[this.branch.programms.length - 1].rowNew = '';
       this.buttonAddProgramm = true;
       axios.post('api/v2/programms', this.branch.programms[this.branch.programms.length - 1]);
-      this.getBranch(id);
+      setTimeout(function () {
+        _this2.getBranch(id);
+      }, 500);
     },
     saveDopProduct: function saveDopProduct(id) {
+      var _this3 = this;
+
       this.branch.dopproducts[this.branch.dopproducts.length - 1].rowNew = '';
       this.buttonAddDopProduct = true;
       axios.post('api/v2/dopproducts', this.branch.dopproducts[this.branch.dopproducts.length - 1]);
-      this.getBranch(id);
+      setTimeout(function () {
+        _this3.getBranch(id);
+      }, 500);
     },
     addRow: function addRow(branch) {
       this.branch.products.unshift({
@@ -3468,54 +3480,58 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       });
     },
     savePay: function savePay(_int2, index, id) {
+      var _this4 = this;
+
       this.busy = false;
       this.branch.products[_int2].pays[index].rowNewPay = '';
       axios.post('api/v2/product_pay', this.branch.products[_int2].pays[index]);
       this.$alert("Платёж добавлен");
-      this.getBranch(id);
+      setTimeout(function () {
+        _this4.getBranch(id);
+      }, 500);
     },
     removeRow: function removeRow(index, id, name) {
-      var _this = this;
+      var _this5 = this;
 
       this.$confirm("Удалить программу " + name + " ?").then(function () {
-        _this.branch.products.splice(index, 1);
+        _this5.branch.products.splice(index, 1);
 
         axios["delete"]('api/v2/products/' + id);
 
-        _this.$alert("Продукт удалена");
+        _this5.$alert("Продукт удален");
       });
     },
     removePay: function removePay(_int3, index, id) {
-      var _this2 = this;
+      var _this6 = this;
 
       this.$confirm("Удалить платеж ?").then(function () {
         axios["delete"]('api/v2/product_pay/' + id);
 
-        _this2.branch.products[_int3].pays.splice(index, 1);
+        _this6.branch.products[_int3].pays.splice(index, 1);
 
-        _this2.$alert("Платёж удален");
+        _this6.$alert("Платёж удален");
       });
     },
     removeRowProgramm: function removeRowProgramm(index, id, name) {
-      var _this3 = this;
+      var _this7 = this;
 
       this.$confirm("Удалить программу " + name + " ?").then(function () {
-        _this3.branch.programms.splice(index, 1);
+        _this7.branch.programms.splice(index, 1);
 
         axios["delete"]('api/v2/programms/' + id);
 
-        _this3.$alert("Программа удалена");
+        _this7.$alert("Программа удалена");
       });
     },
     removeRowDopProduct: function removeRowDopProduct(index, id, name) {
-      var _this4 = this;
+      var _this8 = this;
 
       this.$confirm("Удалить продукт " + name + " ?").then(function () {
-        _this4.branch.dopproducts.splice(index, 1);
+        _this8.branch.dopproducts.splice(index, 1);
 
         axios["delete"]('api/v2/dopproducts/' + id);
 
-        _this4.$alert("Продукт удален");
+        _this8.$alert("Продукт удален");
       });
     },
     editField: function editField(e, name) {
@@ -3580,22 +3596,22 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       this.region_id = region_id;
     },
     getBranch: function getBranch(id) {
-      var _this5 = this;
+      var _this9 = this;
 
       $('#getbranch').modal('show');
       axios.get('api/v2/branches/' + id).then(function (response) {
-        return _this5.branch = response.data.data;
+        return _this9.branch = response.data.data;
       });
     },
     getRegion: function getRegion() {
-      var _this6 = this;
+      var _this10 = this;
 
       axios.get('api/v2/regions').then(function (response) {
-        return _this6.regions = response.data.data;
+        return _this10.regions = response.data.data;
       });
     },
     addNewRegion: function addNewRegion() {
-      var _this7 = this;
+      var _this11 = this;
 
       $('#addNewRegion').modal('hide');
       $(document.body).removeClass("modal-open");
@@ -3603,9 +3619,9 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       axios.post('api/v2/regions', {
         name: this.name
       }).then(function (response) {
-        return _this7.responsesuccess = response.data;
+        return _this11.responsesuccess = response.data;
       })["finally"](function () {
-        return _this7.getRegion();
+        return _this11.getRegion();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3617,7 +3633,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }, 500);
     },
     addNewBranch: function addNewBranch() {
-      var _this8 = this;
+      var _this12 = this;
 
       $('#addNewBranch').modal('hide');
       $(document.body).removeClass("modal-open");
@@ -3629,9 +3645,9 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         phone: this.addNewBranchFields.phone,
         region_id: this.region_id
       }).then(function (response) {
-        return _this8.responsesuccess = response.data;
+        return _this12.responsesuccess = response.data;
       })["finally"](function () {
-        return _this8.getRegion();
+        return _this12.getRegion();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3643,7 +3659,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }, 500);
     },
     deleteBranch: function deleteBranch(id) {
-      var _this9 = this;
+      var _this13 = this;
 
       this.$confirm("Удалить филиал с продуктами и оплатами ? ").then(function () {
         axios["delete"]('api/v2/branches/' + id);
@@ -3657,7 +3673,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
           });
         }, 500);
 
-        _this9.getRegion();
+        _this13.getRegion();
       });
     },
     closeModal: function closeModal() {
@@ -9569,7 +9585,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#vmModal, #osnModal{\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {\n  opacity: 0;\n}\nSize : 8.27in and 11.69 inches\n\n@page Section1 {\nsize:8.27in 11.69in; \nmargin:.5in .5in .5in .5in; \nmso-header-margin:.5in; \nmso-footer-margin:.5in; \nmso-paper-source:0;\n}\n.tdleft, .tdright, .line, .tabs{\n  font-size: 0.138in;\n}\ndiv.Section1 {\npage:Section1;\nborder: solid 0px;\n}\n.logo{\n  display: block;\n  width: 1.917in;\n  height: 0.590in;\n}\n.Section1 h1{\n  text-align: center;\n  font-size: 0.166in;\n}\n.tabs{\n  width: 100%;\n}\n.tdleft{\n  text-align: left;\n}\n.tdright{\n  text-align: right;\n}\n.line{\n  border: solid;\n  border-width: 0px 0px 1px 0px;\n  width: 100%;\n  font-weight: bold;\n}\n.hide{\n  font-weight: normal;\n}\n.gray{background:#cbc1c1;}\n", ""]);
+exports.push([module.i, "\n#vmModal, #osnModal{\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {\n  opacity: 0;\n}\nSize : 8.27in and 11.69 inches\n\n@page Section1 {\nsize:8.27in 11.69in; \nmargin:.5in .5in .5in .5in; \nmso-header-margin:.5in; \nmso-footer-margin:.5in; \nmso-paper-source:0;\n}\n.tdleft, .tdright, .line, .tabs{\n  font-size: 0.138in;\n}\ndiv.Section1 {\npage:Section1;\nborder: solid 0px;\n}\n.logo{\n  display: block;\n  width: 1.917in;\n  height: 0.590in;\n}\n.Section1 h1{\n  text-align: center;\n  font-size: 0.166in;\n}\n.tabs{\n  width: 100%;\n}\n.tdleft{\n  text-align: left;\n}\n.tdright{\n  text-align: right;\n}\n.line{\n  border: solid;\n  border-width: 0px 0px 1px 0px;\n  width: 100%;\n  font-weight: bold;\n}\n.hide{\n  font-weight: normal;\n}\n.gray{background:#cbc1c1;}\n\n", ""]);
 
 // exports
 
@@ -65759,7 +65775,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("span", [
     _c("span", [
-      !_vm.value && !_vm.keyInputForm
+      _vm.value == null && !_vm.keyInputForm
         ? _c(
             "a",
             {
@@ -66655,7 +66671,7 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("a", {
-                  staticClass: "fe fe-trash-2 h3 text-danger",
+                  staticClass: "fe fe-trash-2 h3 text-danger ml-3 mb-0",
                   attrs: { href: "#" },
                   on: {
                     click: function($event) {
@@ -66663,7 +66679,34 @@ var render = function() {
                       return _vm.deleteBranch(_vm.branch.id)
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    }
+                  },
+                  [
+                    _c(
+                      "span",
+                      {
+                        attrs: { "aria-hidden": "true" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.closeModal($event)
+                          }
+                        }
+                      },
+                      [_vm._v("×")]
+                    )
+                  ]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [

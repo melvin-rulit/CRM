@@ -119,7 +119,7 @@ class ContractController extends Controller
             $contract_pays = new Contract_pay;
             $contract_pays->contract_id = $contract->id;
             $contract_pays->pay = $value['pay'];
-            $contract_pays->day = $value['day'];
+            $contract_pays->day = $value['day'] ? $value['day'] : 0;
             $contract_pays->save();
         }
 

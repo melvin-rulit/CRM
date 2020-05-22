@@ -74,10 +74,10 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
-<!-- 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button> -->
-                 <a href="#" class="fe fe-trash-2 h3 text-danger" @click.prevent="deleteBranch(branch.id)"></a>
+                <a href="#" class="fe fe-trash-2 h3 text-danger ml-3 mb-0" @click.prevent="deleteBranch(branch.id)"></a>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span @click.prevent="closeModal" aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
                 <div class="card-body row pt-0">
@@ -391,19 +391,25 @@ Vue.use(VueSimpleAlert);
                     }
                   });
                 this.$alert("Программа добавлена");
-                this.getBranch(id);
+                    setTimeout(() => {
+                        this.getBranch(id)
+                        },500) 
             },
             saveProgramm(id){
                 this.branch.programms[this.branch.programms.length - 1].rowNew = '';
                 this.buttonAddProgramm = true
                 axios.post('api/v2/programms',this.branch.programms[this.branch.programms.length - 1])
-                this.getBranch(id);
+                        setTimeout(() => {
+                        this.getBranch(id)
+                        },500) 
             },
             saveDopProduct(id){
                 this.branch.dopproducts[this.branch.dopproducts.length - 1].rowNew = '';
                 this.buttonAddDopProduct = true
                 axios.post('api/v2/dopproducts',this.branch.dopproducts[this.branch.dopproducts.length - 1])
-                this.getBranch(id);
+                        setTimeout(() => {
+                        this.getBranch(id)
+                        },500) 
             },
             addRow(branch){
                this.branch.products.unshift({
@@ -449,13 +455,15 @@ Vue.use(VueSimpleAlert);
                 this.branch.products[int].pays[index].rowNewPay = '';
                 axios.post('api/v2/product_pay',this.branch.products[int].pays[index])
                 this.$alert("Платёж добавлен");
-                this.getBranch(id);
+                        setTimeout(() => {
+                        this.getBranch(id)
+                        },500) 
             },
             removeRow(index, id, name){
                 this.$confirm("Удалить программу " + name + " ?").then(() => {
                     this.branch.products.splice(index,1);
                     axios.delete('api/v2/products/'+ id);
-                    this.$alert("Продукт удалена");
+                    this.$alert("Продукт удален");
                 });
             },
             removePay(int, index, id){

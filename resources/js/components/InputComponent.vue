@@ -1,7 +1,7 @@
 <template>
     <span>
         <span>
-            <a class="text-success" href="#" v-if="!value && !keyInputForm" @click.prevent="focus">Добавить</a>
+            <a class="text-success" href="#" v-if="value == null && !keyInputForm" @click.prevent="focus">Добавить</a>
         </span>
           <span v-if="!keyInputForm" class="card-title" @click="focus">{{ value }}</span>
 
