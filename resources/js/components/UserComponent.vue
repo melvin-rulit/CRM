@@ -21,7 +21,7 @@
 <!-- <filter-component></filter-component> -->
 
 <!-- <pre><code>{{activeContract}}</code></pre> -->
-<pre><code>{{activeContract}}</code></pre>
+<!-- <pre><code>{{activeContract}}</code></pre> -->
 
 <div class="collapse" id="filter">
     <div class="card card-body">
@@ -438,6 +438,7 @@
             <div class="col-md-6 mt-3">
                 <transition name="fade" mode="out-in">
                 <div v-if="dataObject.contracts_active.length > 0" class="table-responsive" :key="indexactiveContract">
+                    <div v-if="activeContract">
                             <p class="card-text text-center">"{{ activeContract.name }}"</p>
                             <table class="table table-bordered table-hover datatable datatable-User">
                                 <tbody>
@@ -472,6 +473,7 @@
                         </p>
                         <p>Сумма и остаток: <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span>
                         </p>
+                    </div>
                 </div>
                 <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>
                 </transition>

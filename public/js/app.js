@@ -4219,6 +4219,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -68342,8 +68344,6 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("pre", [_c("code", [_vm._v(_vm._s(_vm.activeContract))])]),
-      _vm._v(" "),
       _c("div", { staticClass: "collapse", attrs: { id: "filter" } }, [
         _c("div", { staticClass: "card card-body" }, [
           _c("div", { staticClass: "row mb-3" }, [
@@ -70820,180 +70820,204 @@ var render = function() {
                                               staticClass: "table-responsive"
                                             },
                                             [
-                                              _c(
-                                                "p",
-                                                {
-                                                  staticClass:
-                                                    "card-text text-center"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    '"' +
-                                                      _vm._s(
-                                                        _vm.activeContract.name
-                                                      ) +
-                                                      '"'
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "table",
-                                                {
-                                                  staticClass:
-                                                    "table table-bordered table-hover datatable datatable-User"
-                                                },
-                                                [
-                                                  _c("tbody", [
-                                                    _c("tr", [
-                                                      _c("td", [
+                                              _vm.activeContract
+                                                ? _c("div", [
+                                                    _c(
+                                                      "p",
+                                                      {
+                                                        staticClass:
+                                                          "card-text text-center"
+                                                      },
+                                                      [
                                                         _vm._v(
-                                                          "Дата составления:"
+                                                          '"' +
+                                                            _vm._s(
+                                                              _vm.activeContract
+                                                                .name
+                                                            ) +
+                                                            '"'
                                                         )
-                                                      ]),
-                                                      _vm._v(" "),
-                                                      _c("td", [
-                                                        _vm._v(
-                                                          _vm._s(
-                                                            _vm.activeContract
-                                                              .date
-                                                          )
-                                                        )
-                                                      ])
-                                                    ]),
+                                                      ]
+                                                    ),
                                                     _vm._v(" "),
-                                                    _c("tr", [
-                                                      _c("td", [
-                                                        _vm._v("Начало:")
-                                                      ]),
-                                                      _vm._v(" "),
-                                                      _c("td", [
-                                                        _vm._v(
-                                                          _vm._s(
-                                                            _vm.activeContract
-                                                              .start
-                                                          )
-                                                        )
-                                                      ])
-                                                    ]),
+                                                    _c(
+                                                      "table",
+                                                      {
+                                                        staticClass:
+                                                          "table table-bordered table-hover datatable datatable-User"
+                                                      },
+                                                      [
+                                                        _c("tbody", [
+                                                          _c("tr", [
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                "Дата составления:"
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  _vm
+                                                                    .activeContract
+                                                                    .date
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("tr", [
+                                                            _c("td", [
+                                                              _vm._v("Начало:")
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  _vm
+                                                                    .activeContract
+                                                                    .start
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("tr", [
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                "Окончание:"
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  _vm
+                                                                    .activeContract
+                                                                    .end
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("tr", [
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                "Окончание факт:"
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  _vm
+                                                                    .activeContract
+                                                                    .end_actually
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("tr", [
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                "Заморозки:"
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  _vm
+                                                                    .activeContract
+                                                                    .freezing_total
+                                                                )
+                                                              )
+                                                            ])
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c("tr", [
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                "Тренировки:"
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  _vm
+                                                                    .activeContract
+                                                                    .classes_total
+                                                                )
+                                                              )
+                                                            ])
+                                                          ])
+                                                        ])
+                                                      ]
+                                                    ),
                                                     _vm._v(" "),
-                                                    _c("tr", [
-                                                      _c("td", [
-                                                        _vm._v("Окончание:")
-                                                      ]),
-                                                      _vm._v(" "),
-                                                      _c("td", [
+                                                    _c(
+                                                      "p",
+                                                      [
                                                         _vm._v(
-                                                          _vm._s(
-                                                            _vm.activeContract
-                                                              .end
-                                                          )
+                                                          "Оплаты: \n                            "
+                                                        ),
+                                                        _vm._l(
+                                                          _vm.activeContract
+                                                            .pays,
+                                                          function(pays) {
+                                                            return _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "text-muted ml-2"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    pays.pay
+                                                                  )
+                                                                )
+                                                              ]
+                                                            )
+                                                          }
                                                         )
-                                                      ])
-                                                    ]),
+                                                      ],
+                                                      2
+                                                    ),
                                                     _vm._v(" "),
-                                                    _c("tr", [
-                                                      _c("td", [
-                                                        _vm._v(
-                                                          "Окончание факт:"
-                                                        )
-                                                      ]),
-                                                      _vm._v(" "),
-                                                      _c("td", [
-                                                        _vm._v(
-                                                          _vm._s(
-                                                            _vm.activeContract
-                                                              .end_actually
-                                                          )
-                                                        )
-                                                      ])
-                                                    ]),
-                                                    _vm._v(" "),
-                                                    _c("tr", [
-                                                      _c("td", [
-                                                        _vm._v("Заморозки:")
-                                                      ]),
-                                                      _vm._v(" "),
-                                                      _c("td", [
-                                                        _vm._v(
-                                                          _vm._s(
-                                                            _vm.activeContract
-                                                              .freezing_total
-                                                          )
-                                                        )
-                                                      ])
-                                                    ]),
-                                                    _vm._v(" "),
-                                                    _c("tr", [
-                                                      _c("td", [
-                                                        _vm._v("Тренировки:")
-                                                      ]),
-                                                      _vm._v(" "),
-                                                      _c("td", [
-                                                        _vm._v(
-                                                          _vm._s(
-                                                            _vm.activeContract
-                                                              .classes_total
-                                                          )
-                                                        )
-                                                      ])
-                                                    ])
-                                                  ])
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "p",
-                                                [
-                                                  _vm._v(
-                                                    "Оплаты: \n                            "
-                                                  ),
-                                                  _vm._l(
-                                                    _vm.activeContract.pays,
-                                                    function(pays) {
-                                                      return _c(
+                                                    _c("p", [
+                                                      _vm._v(
+                                                        "Сумма и остаток: "
+                                                      ),
+                                                      _c(
                                                         "span",
-                                                        {
-                                                          staticClass:
-                                                            "text-muted ml-2"
-                                                        },
+                                                        { staticClass: "ml-2" },
                                                         [
                                                           _vm._v(
-                                                            _vm._s(pays.pay)
+                                                            _vm._s(
+                                                              _vm.summPaysActiveContract(
+                                                                _vm
+                                                                  .activeContract
+                                                                  .pays
+                                                              )
+                                                            ) +
+                                                              " (" +
+                                                              _vm._s(
+                                                                _vm.summPaysActiveContract(
+                                                                  _vm
+                                                                    .activeContract
+                                                                    .pays
+                                                                )
+                                                              ) +
+                                                              ")"
                                                           )
                                                         ]
                                                       )
-                                                    }
-                                                  )
-                                                ],
-                                                2
-                                              ),
-                                              _vm._v(" "),
-                                              _c("p", [
-                                                _vm._v("Сумма и остаток: "),
-                                                _c(
-                                                  "span",
-                                                  { staticClass: "ml-2" },
-                                                  [
-                                                    _vm._v(
-                                                      _vm._s(
-                                                        _vm.summPaysActiveContract(
-                                                          _vm.activeContract
-                                                            .pays
-                                                        )
-                                                      ) +
-                                                        " (" +
-                                                        _vm._s(
-                                                          _vm.summPaysActiveContract(
-                                                            _vm.activeContract
-                                                              .pays
-                                                          )
-                                                        ) +
-                                                        ")"
-                                                    )
-                                                  ]
-                                                )
-                                              ])
+                                                    ])
+                                                  ])
+                                                : _vm._e()
                                             ]
                                           )
                                         : _c(
