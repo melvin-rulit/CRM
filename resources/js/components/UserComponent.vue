@@ -20,8 +20,6 @@
 
 <!-- <filter-component></filter-component> -->
 
-<!-- <pre><code>{{activeContract}}</code></pre> -->
-<!-- <pre><code>{{activeContract}}</code></pre> -->
 
 <div class="collapse" id="filter">
     <div class="card card-body">
@@ -67,16 +65,16 @@
       </div>
         <div class="modal-body">
             <form @submit.prevent="addNewUser">
-            <div class="form-group row">
+            <div class="form-group row" :class="{ 'form-group--error': $v.new_child_surname.$error }">
                 <label class="col-sm-3 col-form-label required">Фамилия</label>
                 <div class="col-sm-9">
-                    <input v-model="new_child_surname" class="form-control" required>
+                    <input v-model.trim="$v.new_child_surname.$model" class="form-control">
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" :class="{ 'form-group--error': $v.new_child_name.$error }">
                 <label class="col-sm-3 col-form-label required">Имя</label>
                 <div class="col-sm-9">
-                    <input v-model="new_child_name" class="form-control" required>
+                    <input v-model.trim="$v.new_child_name.$model" class="form-control">
                 </div>
             </div>
             <div class="form-group row">
@@ -120,7 +118,7 @@
                 </div>
             </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button @click="cancelAddNewUser" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 <button type="submit" class="btn btn-success">Добавить</button>
               </div>
           </form>
@@ -510,6 +508,7 @@ import Avatar from 'vue-avatar'
 
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+import { required, minLength } from 'vuelidate/lib/validators'
 
 
 import willvalidate from 'willvalidate'
@@ -551,7 +550,9 @@ Vue.use(Loading);
                 birthday: null,
                 users: [],
                 busy: false,
-                branches: [],
+                branches: {
+                    branches: [],
+                },
                 managers: [],
                 instructors: [],
                 programms: [],
@@ -583,8 +584,18 @@ Vue.use(Loading);
                 showProgramm: false,
                 branch: '',
                 filter: false,
+                new_child_surname: '',
+                new_child_name: ''
             }
         },
+        validations: {
+            new_child_surname: {
+              required,
+            },
+            new_child_name: {
+              required,
+            }
+          },
         created(){
             this.fetchArticles();
         },
@@ -600,18 +611,6 @@ Vue.use(Loading);
           },
 
         methods: {
-            closeModalView(){
-                this.showBranch = false
-                this.showManager = false
-                this.showInstructor = false
-                this.showProgramm = false
-
-                $('#info li:first-child a').tab('show')
-
-                this.dataObject.contracts_active = [];
-
-                this.fetchArticles()
-            },
             summPaysActiveContract(pays){
                 let sum = 0
                 pays.forEach(function (value, key) {
@@ -727,7 +726,9 @@ Vue.use(Loading);
                 $('#selectModal').modal('show');
             },
             addNewUser(){
-                if (this.branch.id == null) {
+                this.$v.$touch()
+              if (!this.$v.$invalid) {
+                if (!this.branch.id) {
                     this.$alert("Выберите филиал");
                     return false
                 }
@@ -744,13 +745,28 @@ Vue.use(Loading);
                     child_middle_name: this.new_child_middle_name, 
                     manager: this.manager ? this.manager.id : null, 
                     instructor: this.instructor ? this.instructor.id : null, 
-                    branch: this.branch.id})
+                    branch: this.branch.id
+                })
                 .then(response =>
                     setTimeout(() => {
                         loader.hide()
                         this.getModal(response.data)
                         },500) 
-                );   
+                ); 
+                  this.submitStatus = 'OK'
+                  this.new_child_surname = null
+                  this.$v.new_child_surname.$reset()
+                  this.new_child_name = null
+                  this.$v.new_child_name.$reset()
+                  this.branch = []
+              }
+            },
+            cancelAddNewUser(){
+              this.new_child_surname = null
+              this.$v.new_child_surname.$reset()
+              this.new_child_name = null
+              this.$v.new_child_name.$reset()
+              this.branch = []
             },
             getBranches(){
                 axios.get('api/v2/getbranches')
@@ -805,6 +821,20 @@ Vue.use(Loading);
                 })
                 }, 200)
          },
+            closeModalView(){
+                this.showBranch = false
+                this.showManager = false
+                this.showInstructor = false
+                this.showProgramm = false
+
+                $('#info li:first-child a').tab('show')
+
+                this.dataObject.contracts_active = [];
+
+                this.indexactiveContract = 0
+
+                this.fetchArticles()
+            }
         }
     }
 </script>
@@ -864,5 +894,26 @@ Vue.use(Loading);
     width: 250px; 
     height: 250px; 
     border-radius: 0px; 
+}
+
+.form-group--error input, .form-group--error textarea, .form-group--error input:focus, .form-group--error input:hover {
+    border-color: #f79483;
+}
+
+.form-group--error + .form-group__message, .form-group--error + .error {
+    display: block;
+    color: #f57f6c;
+}
+.form-group__message, .error {
+    font-size: 0.75rem;
+    line-height: 1;
+    display: none;
+    margin-left: 14px;
+    margin-top: -0.687rem;
+    margin-bottom: 0.9375rem;
+}
+.result-list {
+    max-height: 200px;
+    overflow-y: auto;
 }
 </style>

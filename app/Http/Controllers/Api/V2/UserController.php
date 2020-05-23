@@ -87,9 +87,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+
+        $field_name = $request['field_name'];
+        $user->$field_name = $request['field_value'];
+        $user->save();
+
+        return "OK";
     }
 
     /**

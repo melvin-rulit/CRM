@@ -14,7 +14,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // Products
     Route::apiResource('products', 'ProductController');
 
-    // Products
+    // DopProducts
     Route::apiResource('dopproducts', 'DopProductController');
 
     // Programms

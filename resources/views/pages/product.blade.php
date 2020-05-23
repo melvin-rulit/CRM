@@ -3,7 +3,7 @@
 
 <div id="app">
 	
-<!-- <product-component></product-component> -->
+<!-- <example-component></example-component> -->
 <users2-component></users2-component>
 
 @foreach($users as $user)

@@ -1,7 +1,7 @@
 <template>
     <span>
         <span>
-            <a class="text-success" href="#" v-if="value == null && !keyInputForm" @click.prevent="focus">Добавить</a>
+            <a class="text-success" href="#" v-if="value == '' || value == null && !keyInputForm" @click.prevent="focus">Добавить</a>
         </span>
           <span v-if="!keyInputForm" class="card-title" @click="focus">{{ value }}</span>
 
@@ -14,7 +14,8 @@
           :placeholder="placeholder" 
           :id="id" 
           :name="name" 
-          v-model="value" @input="$emit('input', value)" 
+          v-model="value" 
+          @input="$emit('input', value)" 
           @keyup.enter="keyInputForm = false;$emit('edit-field', $event)" 
           @blur="keyInputForm = false;$emit('edit-field', $event)">
     </span>

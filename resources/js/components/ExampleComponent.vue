@@ -1,167 +1,98 @@
 <template>
 
-    <div class="container">
-        <h1>Новый регион</h1>
+<div>
 
-
-<div id="app">
-  <div class="col-md-8">
-    <div class="card-body">
-            <h4 v-if="!showInput" class="card-title" @click="showInput = true">{{ title }}</h4>
-            <input v-else type="text" id="child_name" name="name" ref="click" v-model="title" @blur="add(), showInput = false">
-    </div>
+<form @submit.prevent="submit">
+  <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
+    <label class="form__label">Name</label>
+    <input class="form-control form__input" v-model.trim="$v.name.$model"/>
   </div>
+  <div class="error" v-if="!$v.name.required">Поле не может быть пустым</div>
+  <!-- <div class="error" v-if="!$v.name.minLength">Имя должно содержать хотя бы {{$v.name.$params.minLength.min}} буквы.</div> -->
+  <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">Submit!</button>
+</form>
+
 </div>
-
-
-        <div class="card">
-                <div class="card-body">
-                    <label class="required" for="name">Введите имя</label>
-                    <input class="form-control" type="text" name="name" id="name" v-model="name">
-                </div>
-                <div class="form-group ml-4">
-                    <button class="btn btn-danger" type="submit" @click="getNameId" id="child_name" ref="textName">
-                        Добавить
-                    </button>
-                    <button class="btn btn-danger" @click="fetchArticles">
-                        Получить
-                    </button>
-                </div>
-        </div>
-
-    <ul class="list-group">
-        <li v-for="user in users" class="list-group-item list-group-item-action">{{ user.id }} - {{ user.name }} - {{ user.email }}</li>
-    </ul>
-
-
-        <div class="card">
-    <div class="card-header">
-        Список пользователей
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-hover datatable datatable-User">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            1
-                        </th>
-                        <th>
-                            2
-                        </th>
-                        <th>
-                            3
-                        </th>
-                        <th>
-                            4
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                        <tr v-for="article in articles">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ article.id }}
-                            </td>
-                            <td>
-                                {{ article.name }}
-                            </td>
-                            <td>
-                                {{ article.email }}
-                            </td>
-                            <td>
-                                    <a class="btn btn-sm btn-primary" href="">
-                                        Посмотреть
-                                    </a>
-
-                                    <a class="btn btn-sm btn-info" href="">
-                                        Редактировать
-                                    </a>
-                            </td>
-                        </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-
-    </div>
-
 
 </template>
 
+
+
 <script>
 
+import Vue from 'vue'
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 
-    export default {
-              data:{
-        articles: null,
-        users: null,
-      },
-        data() {
-            return{
-                showInput: false,
-                title: "Title",
-                articles: [],
-                users: [],
-                article: {
-                    id: '',
-                    title: '',
-                    body: ''
-                },
-                article_id: '',
-                pagination: {},
-                edit: false
-            }
-        },
-        created(){
-            // this.fetchArticles();
-        },
+import { required, minLength } from 'vuelidate/lib/validators'
 
-        methods: {
-
-
-    getNameId(){
-        console.log(this.$refs.textName.id);
-    },
-
-
-            add(){
-                axios.post('getone', {user_id: 1, id: this.$refs.click.id, name: this.title}).then(res => {
-                    this.users = res.data
-                })
-            },
-            fetchArticles(){
-                axios.
-                get('get')
-                 //.then(response => console.log(response.data));
-                .then(response => this.articles = response.data)
-                .finally(() => console.log('Посты успешно загружены'));
-
-            },
-            // getOne(){
-            //     axios.
-            //     post('getOne/1')
-            //     // delete('api/article/' + id)
-            //     .then(response => console.log(response.data));
-            //     this.fetchArticles();
-            // },
-            // countDown: function(){
-            //     var input = this.message;
-            //     alert(input);
-            // },
-        }
+export default {
+  data() {
+    return {
+      name: '',
+      age: 0,
+      submitStatus: null
     }
+  },
+  validations: {
+    name: {
+      required,
+      minLength: minLength(4)
+    }
+  },
+  methods: {
+    submit() {
+      console.log('submit!')
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        this.submitStatus = 'ERROR'
+        alert("BED");
+      } else {
+        alert("OK");
+        // do your submit logic here
+        this.submitStatus = 'PENDING'
+        setTimeout(() => {
+          this.submitStatus = 'OK'
+          this.name = null
+          this.$v.name.$reset()
+        }, 500)
+      }
+    }
+  }
+}
 
 
 </script>
+
+<style type="text/css">
+
+.form-group--error {
+    animation-name: shakeError;
+    animation-fill-mode: forwards;
+    animation-duration: .6s;
+    animation-timing-function: ease-in-out;
+}
+
+.form-group--error input, .form-group--error textarea, .form-group--error input:focus, .form-group--error input:hover {
+    border-color: #f79483;
+}
+
+.form-group--error + .form-group__message, .form-group--error + .error {
+    display: block;
+    color: #f57f6c;
+}
+.form-group__message, .error {
+    font-size: 0.75rem;
+    line-height: 1;
+    display: none;
+    margin-left: 14px;
+    margin-top: -0.687rem;
+    margin-bottom: 0.9375rem;
+}
+
+.form__input:hover, .form__textarea:hover {
+    border-color: #cfcfcf;
+}
+</style>
 
 
