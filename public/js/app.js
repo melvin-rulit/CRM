@@ -4216,6 +4216,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -4298,6 +4301,8 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_6___default.a);
       this.showManager = false;
       this.showInstructor = false;
       this.showProgramm = false;
+      $('#info li:first-child a').tab('show');
+      this.dataObject.contracts_active = [];
       this.fetchArticles();
     },
     summPaysActiveContract: function summPaysActiveContract(pays) {
@@ -68337,6 +68342,8 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _c("pre", [_c("code", [_vm._v(_vm._s(_vm.activeContract))])]),
+      _vm._v(" "),
       _c("div", { staticClass: "collapse", attrs: { id: "filter" } }, [
         _c("div", { staticClass: "card card-body" }, [
           _c("div", { staticClass: "row mb-3" }, [
@@ -70939,7 +70946,7 @@ var render = function() {
                                                 "p",
                                                 [
                                                   _vm._v(
-                                                    "Оплаты: \n                    "
+                                                    "Оплаты: \n                            "
                                                   ),
                                                   _vm._l(
                                                     _vm.activeContract.pays,

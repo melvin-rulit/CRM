@@ -20,6 +20,8 @@
 
 <!-- <filter-component></filter-component> -->
 
+<!-- <pre><code>{{activeContract}}</code></pre> -->
+<pre><code>{{activeContract}}</code></pre>
 
 <div class="collapse" id="filter">
     <div class="card card-body">
@@ -436,39 +438,40 @@
             <div class="col-md-6 mt-3">
                 <transition name="fade" mode="out-in">
                 <div v-if="dataObject.contracts_active.length > 0" class="table-responsive" :key="indexactiveContract">
-                    <p class="card-text text-center">"{{ activeContract.name }}"</p>
-                    <table class="table table-bordered table-hover datatable datatable-User">
-                        <tbody>
-                            <tr>
-                                <td>Дата составления:</td>
-                                <td>{{ activeContract.date }}</td>
-                            </tr>
-                            <tr>
-                                <td>Начало:</td>
-                                <td>{{ activeContract.start }}</td>
-                            </tr>
-                            <tr>
-                                <td>Окончание:</td>
-                                <td>{{ activeContract.end }}</td>
-                            </tr>
-                            <tr>
-                                <td>Окончание факт:</td>
-                                <td>{{ activeContract.end_actually }}</td>
-                            </tr>
-                            <tr>
-                                <td>Заморозки:</td>
-                                <td>{{ activeContract.freezing_total }}</td>
-                            </tr>
-                            <tr>
-                                <td>Тренировки:</td>
-                                <td>{{ activeContract.classes_total }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                <p>Оплаты: 
-                    <span v-for="pays in activeContract.pays" class="text-muted ml-2">{{ pays.pay }}</span>
-                </p>
-                <p>Сумма и остаток: <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span></p>
+                            <p class="card-text text-center">"{{ activeContract.name }}"</p>
+                            <table class="table table-bordered table-hover datatable datatable-User">
+                                <tbody>
+                                    <tr>
+                                        <td>Дата составления:</td>
+                                        <td>{{ activeContract.date }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Начало:</td>
+                                        <td>{{ activeContract.start }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Окончание:</td>
+                                        <td>{{ activeContract.end }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Окончание факт:</td>
+                                        <td>{{ activeContract.end_actually }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Заморозки:</td>
+                                        <td>{{ activeContract.freezing_total }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Тренировки:</td>
+                                        <td>{{ activeContract.classes_total }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <p>Оплаты: 
+                            <span v-for="pays in activeContract.pays" class="text-muted ml-2">{{ pays.pay }}</span>
+                        </p>
+                        <p>Сумма и остаток: <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span>
+                        </p>
                 </div>
                 <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>
                 </transition>
@@ -600,6 +603,11 @@ Vue.use(Loading);
                 this.showManager = false
                 this.showInstructor = false
                 this.showProgramm = false
+
+                $('#info li:first-child a').tab('show')
+
+                this.dataObject.contracts_active = [];
+
                 this.fetchArticles()
             },
             summPaysActiveContract(pays){
