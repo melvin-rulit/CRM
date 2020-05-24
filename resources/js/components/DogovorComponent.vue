@@ -162,6 +162,7 @@
             </div>
             <div class="modal-body modal-lg" id="printOSN">
                 <div class="Section1">
+                    <img src="http://185.146.156.207/logo.png" class="logo">
                     <h1>ЗАЯВА № {{ user_id }} від «
                         <date-picker 
                           v-if="!print" 

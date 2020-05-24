@@ -2292,6 +2292,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_date_pick__WEBPACK_IMPORTED_MODULE_0___default.a);
 
@@ -64939,6 +64940,11 @@ var render = function() {
                     "div",
                     { staticClass: "Section1" },
                     [
+                      _c("img", {
+                        staticClass: "logo",
+                        attrs: { src: "http://185.146.156.207/logo.png" }
+                      }),
+                      _vm._v(" "),
                       _c(
                         "h1",
                         [
