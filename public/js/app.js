@@ -2485,6 +2485,11 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     contract_type == 'vm' ? this.$htmlToPaper('printVM') : this.$htmlToPaper('printOSN');
     contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
     this.print = false;
+  },
+  closeModal: function closeModal() {
+    this.programm.name = '';
+    this.product.name = '';
+    $('#info li:first-child a').tab('show');
   }
 }), _components$component);
 
@@ -65746,7 +65751,8 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.closeModal }
                   },
                   [_vm._v("Закрыть")]
                 ),

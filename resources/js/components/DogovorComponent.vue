@@ -317,7 +317,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button @click="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 <button @click="sendVm('osn')" class="btn btn-success">Сохранить и распечатать</button>
             </div>
         </div>
@@ -514,6 +514,12 @@ Vue.use(VueHtmlToPaper, options);
                 contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
                 this.print = false
              },
+
+             closeModal(){
+                this.programm.name = ''
+                this.product.name = ''
+                $('#info li:first-child a').tab('show')
+             }
         }
 }
 </script>
