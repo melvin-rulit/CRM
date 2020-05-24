@@ -36,6 +36,7 @@ Vue.component('showuser-component', require('./components/Users/ShowUserComponen
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('user-component', require('./components/UserComponent.vue').default);
 Vue.component('dogovor-component', require('./components/DogovorComponent.vue').default);
+Vue.component('qwer-component', require('./components/ShowDogovorComponent.vue').default);
 Vue.component('product-component', require('./components/ProductComponent.vue').default);
 Vue.component('region-component', require('./components/RegionComponent.vue').default);
 Vue.component('filter-component', require('./components/Filter/FilterComponent.vue').default);

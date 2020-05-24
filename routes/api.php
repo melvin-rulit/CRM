@@ -39,6 +39,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('getvmcontract', 'BaseController@getVmContract');
     Route::post('getcontract', 'ContractController@getContract');
     Route::post('getcontracts', 'ContractController@getContracts');
+    Route::post('showcontract', 'ContractController@showContract');
     Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
 
     Route::get('filter', 'BaseController@filter');

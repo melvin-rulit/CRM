@@ -2279,6 +2279,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_date_pick__WEBPACK_IMPORTED_MODULE_0___default.a);
 
@@ -2411,7 +2424,27 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     }
   },
   sendVm: function sendVm(contract_type) {
-    // Переведем дату обратно в человеческий формат для записи в базу
+    if (!this.dataVm.parent_surname || !this.dataVm.parent_name || !this.dataVm.parent_middle_name) {
+      this.$alert("Не все поля родителя заполнены");
+      return false;
+    }
+
+    if (!this.dataVm.child_surname || !this.dataVm.child_name) {
+      this.$alert("Не все поля ребенка заполнены");
+      return false;
+    }
+
+    if (!this.programm) {
+      this.$alert("Выберите программу");
+      return false;
+    }
+
+    if (!this.product) {
+      this.$alert("Выберите продукт");
+      return false;
+    } // Переведем дату обратно в человеческий формат для записи в базу
+
+
     var D = new Date(this.dataVm.end_actualy);
     this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
     axios.post('api/v2/savecontract', {
@@ -2442,7 +2475,11 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
       freezing_total: this.product.freezing_total,
       freezing_kolvo: this.product.freezing_kolvo,
       pays: this.pays.pays,
-      programm: this.programm.name
+      programm: this.programm.name,
+      currency: this.dataVm.branch.currency,
+      adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+      price_title: this.product.price_title,
+      category_time: this.product.category_time
     });
     this.print = true;
     contract_type == 'vm' ? this.$htmlToPaper('printVM') : this.$htmlToPaper('printOSN');
@@ -3252,6 +3289,114 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 $('.accordion-toggle').click(function () {
   $(this).next('tr').find('.hiddenRow').show();
 });
@@ -3308,7 +3453,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
     };
   },
   created: function created() {
-    this.getRegion();
+    this.getRegions();
   },
   methods: {
     saveProduct: function saveProduct(id) {
@@ -3510,7 +3655,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         return _this9.branch = response.data.data;
       });
     },
-    getRegion: function getRegion() {
+    getRegions: function getRegions() {
       var _this10 = this;
 
       axios.get('api/v2/regions').then(function (response) {
@@ -3528,7 +3673,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }).then(function (response) {
         return _this11.responsesuccess = response.data;
       })["finally"](function () {
-        return _this11.getRegion();
+        return _this11.getRegions();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3554,7 +3699,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }).then(function (response) {
         return _this12.responsesuccess = response.data;
       })["finally"](function () {
-        return _this12.getRegion();
+        return _this12.getRegions();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3580,7 +3725,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
           });
         }, 500);
 
-        _this13.getRegion();
+        _this13.getRegions();
       });
     },
     closeModal: function closeModal() {
@@ -3590,7 +3735,198 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       this.buttonAdd = true;
       this.buttonAddProgramm = true;
       this.busy = false;
-      this.getRegion();
+      this.getRegions();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowDogovorComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ShowDogovorComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-html-to-paper */ "./node_modules/vue-html-to-paper/dist/index.js");
+/* harmony import */ var vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var options = {
+  name: '_blank',
+  specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
+  styles: ['http://185.146.156.207/test.css']
+};
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORTED_MODULE_1___default.a, options);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      contract: []
+    };
+  },
+  methods: {
+    showModal: function showModal(id) {
+      var _this = this;
+
+      $('#ShowModal').modal('show');
+      axios.post('api/v2/showcontract', {
+        id: id
+      }).then(function (response) {
+        _this.contract = response.data.data;
+      });
+    },
+    printContract: function printContract() {
+      this.$htmlToPaper('print');
+      $('#ShowModal').modal('hide');
     }
   }
 });
@@ -3624,6 +3960,173 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_8__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4194,7 +4697,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       manager: {},
       instructor: {},
       programm: {}
-    }), _defineProperty(_ref, "indexactiveContract", 0), _defineProperty(_ref, "getURL", "api/v2/getinfo"), _defineProperty(_ref, "postURL", "getone"), _defineProperty(_ref, "URLaddNewUser", "api/v2/addnewuser"), _defineProperty(_ref, "siteURL", "http://83.220.172.19/"), _defineProperty(_ref, "articles", []), _defineProperty(_ref, "users", []), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "showInstructor", false), _defineProperty(_ref, "showManager", false), _defineProperty(_ref, "showProgramm", false), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "filter", false), _defineProperty(_ref, "new_child_surname", ''), _defineProperty(_ref, "new_child_name", ''), _ref;
+    }), _defineProperty(_ref, "indexactiveContract", 0), _defineProperty(_ref, "getURL", "api/v2/getinfo"), _defineProperty(_ref, "postURL", "getone"), _defineProperty(_ref, "URLaddNewUser", "api/v2/addnewuser"), _defineProperty(_ref, "siteURL", "http://83.220.172.19/"), _defineProperty(_ref, "articles", []), _defineProperty(_ref, "users", []), _defineProperty(_ref, "article_id", ''), _defineProperty(_ref, "showBranch", false), _defineProperty(_ref, "showInstructor", false), _defineProperty(_ref, "showManager", false), _defineProperty(_ref, "showProgramm", false), _defineProperty(_ref, "branch", ''), _defineProperty(_ref, "filter", false), _defineProperty(_ref, "new_child_surname", ''), _defineProperty(_ref, "new_child_name", ''), _defineProperty(_ref, "contract", []), _ref;
   },
   validations: {
     new_child_surname: {
@@ -4250,18 +4753,13 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
     contact: function contact() {
       this.fetchArticles();
     },
-    profile: function profile() {
-      this.emails();
-    },
-    add: function add() {
+    showContract: function showContract(id) {
       var _this2 = this;
 
-      axios.post('getone', {
-        user_id: 1,
-        id: this.$refs.child.id,
-        name: this.title
-      }).then(function (res) {
-        _this2.users = res.data;
+      this.$confirm("Показать контракт ?").then(function () {
+        $('#addNew').modal('hide');
+
+        _this2.$refs.showmodal.showModal(id);
       });
     },
     getModal: function getModal(id) {
@@ -4283,7 +4781,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
         return console.log('Посты успешно загружены');
       });
     },
-    emails: function emails() {
+    profile: function profile() {
       var _this5 = this;
 
       axios.get('get_email').then(function (response) {
@@ -4291,18 +4789,6 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       })["finally"](function () {
         return console.log('Посты успешно загружены');
       });
-    },
-    getData: function getData(id) {
-      var _this6 = this;
-
-      axios.post(this.getURL, {
-        id: id
-      }).then(function (response) {
-        _this6.dataObject = response.data.data;
-      });
-    },
-    saveData: function saveData() {
-      axios.post(this.postURL, this.dataObject);
     },
     editBranch: function editBranch() {
       this.showBranch = true;
@@ -4370,7 +4856,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       $('#selectModal').modal('show');
     },
     addNewUser: function addNewUser() {
-      var _this7 = this;
+      var _this6 = this;
 
       this.$v.$touch();
 
@@ -4398,7 +4884,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
           return setTimeout(function () {
             loader.hide();
 
-            _this7.getModal(response.data);
+            _this6.getModal(response.data);
           }, 500);
         });
         this.submitStatus = 'OK';
@@ -4417,40 +4903,40 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       this.branch = [];
     },
     getBranches: function getBranches() {
-      var _this8 = this;
+      var _this7 = this;
 
       axios.get('api/v2/getbranches').then(function (response) {
-        return _this8.branches = response.data.data;
+        return _this7.branches = response.data.data;
       });
     },
     getManagers: function getManagers() {
-      var _this9 = this;
+      var _this8 = this;
 
       axios.get('api/v2/getmanagers').then(function (response) {
-        return _this9.managers = response.data.data;
+        return _this8.managers = response.data.data;
       });
     },
     getInstructors: function getInstructors() {
-      var _this10 = this;
+      var _this9 = this;
 
       axios.get('api/v2/getinstructors').then(function (response) {
-        return _this10.instructors = response.data.data;
+        return _this9.instructors = response.data.data;
       });
     },
     getProgramm: function getProgramm() {
-      var _this11 = this;
+      var _this10 = this;
 
       axios.post('api/v2/getprogramms', {
         id: this.dataObject.id
       }).then(function (response) {
-        return _this11.programms = response.data.data;
+        return _this10.programms = response.data.data;
       });
     },
     getUsers: function getUsers() {
-      var _this12 = this;
+      var _this11 = this;
 
       axios.get('api/v2/getusers').then(function (response) {
-        return _this12.users = response.data.data;
+        return _this11.users = response.data.data;
       });
     },
     onFileChange: function onFileChange(e) {
@@ -4471,7 +4957,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       this.upload(event);
     },
     upload: function upload(event) {
-      var _this13 = this;
+      var _this12 = this;
 
       var data = new FormData();
       var file = event.target.files[0];
@@ -4485,9 +4971,9 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       axios.post('api/v2/image', data, config);
       setTimeout(function () {
         axios.post('api/v2/getinfo', {
-          id: _this13.dataObject['id']
+          id: _this12.dataObject['id']
         }).then(function (response) {
-          _this13.dataObject = response.data.data;
+          _this12.dataObject = response.data.data;
         });
       }, 200);
     },
@@ -9597,6 +10083,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.main-section{\n    margin-top: 120px;\n}\n.hiddenRow {\n    cursor: default;\n    padding: 0 4px !important;\n    /*background-color: #eeeeee;*/\n    font-size: 13px;\n}\n.accordian-body span{\n    color:#a2a2a2 !important;\n}\n.bp{\n    width: 70px;\n}\n.title-collapse {\n    text-align: center !important;\n    text-shadow: 1px 1px 0 #fff !important;\n    border: 1px solid #e6e6e6;\n    padding: 8px;\n}\n.modal-branch {\n  /* ширина модального окна */\n  max-width: 1000px;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n#ShowModal{\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n", ""]);
 
 // exports
 
@@ -58847,6 +59352,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./ShowDogovorComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserComponent.vue?vue&type=style&index=0&lang=css&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UserComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -63885,6 +64420,11 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "Section1" }, [
+                    _c("img", {
+                      staticClass: "logo",
+                      attrs: { src: "http://185.146.156.207/logo.png" }
+                    }),
+                    _vm._v(" "),
                     _c("h1", [
                       _vm._v("Договір"),
                       _c("br"),
@@ -63909,7 +64449,7 @@ var render = function() {
                       _vm._v(
                         "Фізична особо-підприємець " +
                           _vm._s(_vm.dataVm.organization) +
-                          ", надалі іменується «Виконавець», з одного боку, та законні представники\n            (опікуни, піклувальники)\n          "
+                          ", надалі іменується «Виконавець», з одного боку, та законні представники\n                        (опікуни, піклувальники)\n                    "
                       )
                     ]),
                     _vm._v(" "),
@@ -64100,25 +64640,25 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n              ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»"
+                        "\n                        ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              а разом «Сторони», уклали цей Договір, про наступне:"
+                        "\n                        а разом «Сторони», уклали цей Договір, про наступне:"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              1. Предметом Договору є надання Виконавцем, Замовнику послуг з фізичної підготовкиза програмою«Відкрий\n              можливості» (надалі – «Програма») на визначених цим Договором умовах."
+                        "\n                        1. Предметом Договору є надання Виконавцем, Замовнику послуг з фізичної підготовкиза програмою«Відкрий\n                        можливості» (надалі – «Програма») на визначених цим Договором умовах."
                       ),
                       _c("br"),
-                      _vm._v("\n              2. Умови Програми:"),
+                      _vm._v("\n                        2. Умови Програми:"),
                       _c("br"),
                       _vm._v(
-                        "\n              2.1. Програма складається з двох тренувань, тривалістю 45 хвилинкожне;"
+                        "\n                        2.1. Програма складається з двох тренувань, тривалістю 45 хвилинкожне;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              2.2. Тренування відбуваються у спеціальному спортивному залі за адресою: " +
+                        "\n                        2.2. Тренування відбуваються у спеціальному спортивному залі за адресою: " +
                           _vm._s(_vm.dataVm.branch.geolocation) +
                           ", " +
                           _vm._s(_vm.dataVm.branch.adress) +
@@ -64126,19 +64666,19 @@ var render = function() {
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              2.3. Заняття Програми проводять два тренери одночасно;"
+                        "\n                        2.3. Заняття Програми проводять два тренери одночасно;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              2.4. Заняття проводяться без присутності батьків в спортивному залі;"
+                        "\n                        2.4. Заняття проводяться без присутності батьків в спортивному залі;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без\n              повного комплекту форми та змінного спортивного взуття."
+                        "\n                        2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без\n                        повного комплекту форми та змінного спортивного взуття."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              2.6. Вартість Програми складає " +
+                        "\n                        2.6. Вартість Програми складає " +
                           _vm._s(_vm.dataVm.price) +
                           " (" +
                           _vm._s(_vm.dataVm.price_title) +
@@ -64146,7 +64686,7 @@ var render = function() {
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті\n              п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:"
+                        "\n                        2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті\n                        п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:"
                       ),
                       _c("br"),
                       _vm._v(" "),
@@ -64235,50 +64775,52 @@ var render = function() {
                           ])
                         ])
                       ]),
-                      _vm._v("\n              3. Права та обов’язки Замовника"),
+                      _vm._v(
+                        "\n                        3. Права та обов’язки Замовника"
+                      ),
                       _c("br"),
                       _vm._v(
-                        "\n              3.1. Замовник має право сплатити послуги за акційною ціною " +
+                        "\n                        3.1. Замовник має право сплатити послуги за акційною ціною " +
                           _vm._s(_vm.dataVm.price_stock) +
                           " (" +
                           _vm._s(_vm.dataVm.price_stock_title) +
-                          ") грн. у випадку оплати\n              Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні\n              занять Програми протягом наступних, семи днів після оплати;"
+                          ") грн. у випадку оплати\n                        Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні\n                        занять Програми протягом наступних, семи днів після оплати;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              3.2. Замовник має право з поважних причин змінити час та групу для тренування лише в період дії акційної ціни\n              та наявності вільних місць в групах в перші 7 днів після оплати. Переважне право прийняття остаточного\n              рішення належить Виконавцю."
+                        "\n                        3.2. Замовник має право з поважних причин змінити час та групу для тренування лише в період дії акційної ціни\n                        та наявності вільних місць в групах в перші 7 днів після оплати. Переважне право прийняття остаточного\n                        рішення належить Виконавцю."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              3.3. У випадку переносу занять на більш пізній термін без поважної причини, Замовник зобов’язується оплатити\n              повну вартість Програми;"
+                        "\n                        3.3. У випадку переносу занять на більш пізній термін без поважної причини, Замовник зобов’язується оплатити\n                        повну вартість Програми;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              3.4. Замовник має право спостерігати за заняттями на екрані телевізора в кімнаті батьків;"
+                        "\n                        3.4. Замовник має право спостерігати за заняттями на екрані телевізора в кімнаті батьків;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              4. Якщо Вихованцем було пропущено одне з двох навчально-тренувальних занять, Програма вважається\n              завершеною. Вартість пропущеного заняття Виконавцем не повертається."
+                        "\n                        4. Якщо Вихованцем було пропущено одне з двох навчально-тренувальних занять, Програма вважається\n                        завершеною. Вартість пропущеного заняття Виконавцем не повертається."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              5.Замовник вносить заставу за форму в розмірі " +
+                        "\n                        5.Замовник вносить заставу за форму в розмірі " +
                           _vm._s(_vm.dataVm.price_pledge) +
                           " (" +
                           _vm._s(_vm.dataVm.price_pledge_title) +
-                          ") грн. до початку першого тренування. Форма повинна\n              бути повернена Виконавцю після другого заняття. Якщо Замовником не повертається форма в день закінчення\n              Програми, застава за форму вважається її оплатою. У випадку продовження тренувань Вихованця забазовими\n              програмами «Відкрий можливості» чи «Народження Зірки», застава в розмірі 400 (чотириста) грн. зараховується в\n              оплату вартості подальшогонавчання."
+                          ") грн. до початку першого тренування. Форма повинна\n                        бути повернена Виконавцю після другого заняття. Якщо Замовником не повертається форма в день закінчення\n                        Програми, застава за форму вважається її оплатою. У випадку продовження тренувань Вихованця забазовими\n                        програмами «Відкрий можливості» чи «Народження Зірки», застава в розмірі 400 (чотириста) грн. зараховується в\n                        оплату вартості подальшогонавчання."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              6. Підписуючи даний Договір, Замовник дає згоду на проведення Виконавцем фото та відео зйомки тренувань з\n              подальшим використанням цих матеріалів в рекламних і маркетингових цілях."
+                        "\n                        6. Підписуючи даний Договір, Замовник дає згоду на проведення Виконавцем фото та відео зйомки тренувань з\n                        подальшим використанням цих матеріалів в рекламних і маркетингових цілях."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              7. Підписуючи Договір, Замовник підтверджує факт відсутності обмежень, чи будь-яких протипоказань до занять\n              спортом у Вихованця."
+                        "\n                        7. Підписуючи Договір, Замовник підтверджує факт відсутності обмежень, чи будь-яких протипоказань до занять\n                        спортом у Вихованця."
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n              8. Договір підписується у 2-х примірниках, маючих однакову юридичну силу.\n          "
+                        "\n                        8. Договір підписується у 2-х примірниках, маючих однакову юридичну силу.\n                    "
                       )
                     ]),
                     _vm._v(" "),
@@ -64288,34 +64830,39 @@ var render = function() {
                           _c("b", [_vm._v("Виконавець")]),
                           _c("br"),
                           _vm._v(
-                            "\n                ФОП " +
+                            "\n                                ФОП " +
                               _vm._s(_vm.dataVm.organization) +
                               "."
                           ),
                           _c("br"),
-                          _vm._v("\n                Реквізити для оплати:"),
-                          _c("br"),
                           _vm._v(
-                            "\n                " + _vm._s(_vm.dataVm.requisites)
+                            "\n                                Реквізити для оплати:"
                           ),
                           _c("br"),
-                          _vm._v("\n                Адреса надання послуг:"),
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(_vm.dataVm.requisites)
+                          ),
                           _c("br"),
                           _vm._v(
-                            "\n                " +
+                            "\n                                Адреса надання послуг:"
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n                                " +
                               _vm._s(_vm.dataVm.branch.geolocation) +
                               ", " +
                               _vm._s(_vm.dataVm.branch.adress)
                           ),
                           _c("br"),
                           _vm._v(
-                            "\n                Тел. " +
+                            "\n                                Тел. " +
                               _vm._s(_vm.dataVm.branch.phone)
                           ),
                           _c("br"),
                           _c("br"),
                           _vm._v(
-                            "\n                __________________________(підпис)\n              "
+                            "\n                                __________________________(підпис)\n                            "
                           )
                         ]),
                         _vm._v(" "),
@@ -64393,7 +64940,7 @@ var render = function() {
                           _vm._v(
                             "ЗАЯВА № " +
                               _vm._s(_vm.user_id) +
-                              " від  «\n            "
+                              " від «\n                        "
                           ),
                           !_vm.print
                             ? _c("date-picker", {
@@ -64415,10 +64962,10 @@ var render = function() {
                           _vm.print
                             ? _c("span", [_vm._v(_vm._s(_vm.dataVm.date))])
                             : _vm._e(),
-                          _vm._v("»  р."),
+                          _vm._v("» р."),
                           _c("br"),
                           _vm._v(
-                            "\n            до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
+                            "\n                        до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
                           ),
                           _c("br"),
                           _vm._v(" "),
@@ -64829,7 +65376,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n          Прошуприйняти вище вказану дитину на навчання за програмою навчання:"
+                        "\n                    Прошуприйняти вище вказану дитину на навчання за програмою навчання:"
                       ),
                       _c("br"),
                       _vm._v(" "),
@@ -64854,7 +65401,9 @@ var render = function() {
                       _vm.print
                         ? _c("span", [_vm._v(_vm._s(_vm.programm.name))])
                         : _vm._e(),
-                      _vm._v("\n          з наступними умовами:\n            "),
+                      _vm._v(
+                        "\n                    з наступними умовами:\n                    "
+                      ),
                       !_vm.print
                         ? _c("dynamic-select", {
                             attrs: {
@@ -65024,11 +65573,11 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n          Адреса надання послуг: " +
+                        "\n                    Адреса надання послуг: " +
                           _vm._s(_vm.dataVm.branch.geolocation) +
                           ", " +
                           _vm._s(_vm.dataVm.branch.adress) +
-                          "\n          Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n          "
+                          "\n                    Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n                    "
                       ),
                       _c("table", { staticClass: "tabs" }, [
                         _c("td", { attrs: { width: "15%" } }, [
@@ -65050,7 +65599,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n\n            Вказана ціна діє для категорії часу занять « "
+                        "\n                    Вказана ціна діє для категорії часу занять « "
                       ),
                       _vm.product
                         ? _c("span", [
@@ -65154,33 +65703,33 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(
-                        "\n            Підписанням цієї Заяви я підтверджую, що:"
+                        "\n                    Підписанням цієї Заяви я підтверджую, що:"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            1. приймаю в повному обсязі умови Публічної пропозиції Академії футболу для дошкільнят «Клуб Лева»"
+                        "\n                    1. приймаю в повному обсязі умови Публічної пропозиції Академії футболу для дошкільнят «Клуб Лева»"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            на укладення Договору надання послуг фізичного виховання дітей, яка розміщена на офіційному сайті:\n            clubleva.ua;"
+                        "\n                    на укладення Договору надання послуг фізичного виховання дітей, яка розміщена на офіційному сайті:\n                    clubleva.ua;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            2. надаю право на обробку персональних даних, склад та зміст зібраних персональних даних, права\n            суб’єкта персональних даних та іншу інформацію згідно Закону України «Про захист персональних\n            даних»;"
+                        "\n                    2. надаю право на обробку персональних даних, склад та зміст зібраних персональних даних, права\n                    суб’єкта персональних даних та іншу інформацію згідно Закону України «Про захист персональних\n                    даних»;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            3. вчасно та в повному обсязі сплачувати послуги за цим договором;"
+                        "\n                    3. вчасно та в повному обсязі сплачувати послуги за цим договором;"
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n            4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання\n            послуг фізичного виховання дітей."
+                        "\n                    4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання\n                    послуг фізичного виховання дітей."
                       ),
                       _c("br"),
                       _vm._v(" "),
                       _c("b", [
                         _vm._v(
-                          "Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення\n            договору."
+                          "Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення\n                        договору."
                         )
                       ]),
                       _c("br"),
@@ -65287,20 +65836,32 @@ var staticRenderFns = [
     return _c("td", [
       _c("b", [_vm._v("Замовник")]),
       _c("br"),
-      _vm._v("\n                ПІП ________________________________________"),
-      _c("br"),
-      _vm._v("\n                ____________________________________________"),
-      _c("br"),
-      _vm._v("\n                Адреса:_____________________________________"),
-      _c("br"),
-      _vm._v("\n                ____________________________________________"),
-      _c("br"),
-      _vm._v("\n                Тел._________________________________________"),
-      _c("br"),
-      _vm._v("\n                E-mail_______________________________________"),
+      _vm._v(
+        "\n                                ПІП ________________________________________"
+      ),
       _c("br"),
       _vm._v(
-        "\n                ______________________________ (підпис)\n              "
+        "\n                                ____________________________________________"
+      ),
+      _c("br"),
+      _vm._v(
+        "\n                                Адреса:_____________________________________"
+      ),
+      _c("br"),
+      _vm._v(
+        "\n                                ____________________________________________"
+      ),
+      _c("br"),
+      _vm._v(
+        "\n                                Тел._________________________________________"
+      ),
+      _c("br"),
+      _vm._v(
+        "\n                                E-mail_______________________________________"
+      ),
+      _c("br"),
+      _vm._v(
+        "\n                                ______________________________ (підпис)\n                            "
       )
     ])
   },
@@ -66562,7 +67123,7 @@ var render = function() {
                 _c("div", { staticClass: "card-body row pt-0" }, [
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Название: \n                            "),
+                      _vm._v("Название:\n                            "),
                       _c(
                         "span",
                         { staticClass: "card-text text-muted mb-1 ml-2" },
@@ -66584,7 +67145,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Город: \n                            "),
+                      _vm._v("Город:\n                            "),
                       _c(
                         "span",
                         { staticClass: "card-text text-muted mb-1 ml-2" },
@@ -66606,7 +67167,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Адрес: \n                            "),
+                      _vm._v("Адрес:\n                            "),
                       _c(
                         "span",
                         { staticClass: "card-text text-muted mb-1 ml-2" },
@@ -66628,7 +67189,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Телефон: \n                            "),
+                      _vm._v("Телефон:\n                            "),
                       _c(
                         "span",
                         { staticClass: "card-text text-muted mb-1 ml-2" },
@@ -66643,8 +67204,8 @@ var render = function() {
                               }
                             ],
                             attrs: {
-                              placeholder: "+38 (926) 123-45-67",
                               name: "phone",
+                              placeholder: "+38 (926) 123-45-67",
                               id: _vm.branch.id
                             },
                             on: { "edit-field": _vm.editFieldBranch },
@@ -66664,7 +67225,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Реквизиты: \n                            "),
+                      _vm._v("Реквизиты:\n                            "),
                       _c(
                         "span",
                         { staticClass: "card-text text-muted mb-1 ml-2" },
@@ -66686,7 +67247,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Валюта филиала: \n                            "),
+                      _vm._v("Валюта филиала:\n                            "),
                       _c(
                         "select",
                         {
@@ -67501,7 +68062,7 @@ var render = function() {
                                               _vm._v(" "),
                                               _c("p", [
                                                 _vm._v(
-                                                  "Заморозки по : \n                                                    "
+                                                  "Заморозки по :\n                                                        "
                                                 ),
                                                 _c(
                                                   "select",
@@ -67568,7 +68129,7 @@ var render = function() {
                                                 "p",
                                                 [
                                                   _vm._v(
-                                                    "Дата окончания продукта: "
+                                                    "Дата окончания продукта: \n                                                        "
                                                   ),
                                                   _c("input-form", {
                                                     attrs: {
@@ -67926,7 +68487,10 @@ var render = function() {
                           _c("div", { staticClass: "col-12 col-md" }, [
                             _c(
                               "a",
-                              { staticClass: "mb-md-0", attrs: { href: "#" } },
+                              {
+                                staticClass: "mb-md-0",
+                                attrs: { href: "javascript:void(0)" }
+                              },
                               [_vm._v(_vm._s(branch.name))]
                             )
                           ])
@@ -67936,7 +68500,7 @@ var render = function() {
                   )
                 }),
                 _vm._v(" "),
-                region.branches.length == 0
+                !region.branches.length
                   ? _c("p", { staticClass: "text-center pt-3" }, [
                       _vm._v("В регионе нет филиалов")
                     ])
@@ -68112,6 +68676,415 @@ var staticRenderFns = [
         [_vm._v("Дополнительные продукты")]
       )
     ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowDogovorComponent.vue?vue&type=template&id=436dbb42&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ShowDogovorComponent.vue?vue&type=template&id=436dbb42& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "ShowModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLongTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body modal-lg" }, [
+                _c("div", { staticClass: "Section1", attrs: { id: "print" } }, [
+                  _c("img", {
+                    staticClass: "logo",
+                    attrs: { src: "http://185.146.156.207/logo.png" }
+                  }),
+                  _vm._v(" "),
+                  _c("h1", [
+                    _vm._v(
+                      "ЗАЯВА № " +
+                        _vm._s(_vm.contract.id) +
+                        " від «" +
+                        _vm._s(_vm.contract.date) +
+                        "» р."
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n                        до Публічної пропозиції Договору надання послуг фізичного виховання дітей"
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "hide" }, [
+                      _vm._v(
+                        "(публічний договір розташований на офіційномусайті clubleva.ua)"
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "tabs" }, [
+                    _c("tr", [
+                      _c("td", { attrs: { width: "25%" } }, [
+                        _vm._v("Я, законний представник")
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.parent_surname))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.parent_name))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm.contract.parent_middle_name))
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "tabs" }, [
+                    _c("tr", [
+                      _c("td", { attrs: { width: "25%" } }, [
+                        _vm._v("неповнолітньої дитини")
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.child_surname))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.child_name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(", дата народження")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.child_birthday))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("надалі «Замовник»")])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "tabs" }, [
+                    _c("tr", [
+                      _c("td", { staticClass: "gray" }, [
+                        _vm._v("Телефон Замовника")
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.parent_phone))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "gray" }, [
+                        _vm._v("Viber/Telegram Замовника")
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.parent_viber))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", { staticClass: "gray" }, [
+                        _vm._v("Email Замовника")
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.parent_email))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "gray" }, [
+                        _vm._v("Facebok/Instagram Замовника")
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(_vm.contract.parent_facebook) +
+                            " / " +
+                            _vm._s(_vm.contract.parent_instagram)
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(
+                    "\n                    Прошуприйняти вище вказану дитину на навчання за програмою навчання\n                    "
+                  ),
+                  _c("span", [_vm._v(_vm._s(_vm.contract.programm))]),
+                  _vm._v(
+                    "\n                    з наступними умовами:\n                    "
+                  ),
+                  _c("span", [_vm._v(_vm._s(_vm.contract.name))]),
+                  _vm._v(" "),
+                  _c("table", { staticClass: "tabs" }, [
+                    _c("tr", [
+                      _c(
+                        "td",
+                        { staticClass: "gray", attrs: { width: "25%" } },
+                        [
+                          _vm._v(
+                            "Дата початку\n                                договору"
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { attrs: { width: "25%" } }, [
+                        _c("span", [_vm._v(_vm._s(_vm.contract.start))])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "gray", attrs: { width: "25%" } },
+                        [
+                          _vm._v(
+                            "Дата закінчення\n                                договору"
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { attrs: { width: "25%" } }, [
+                        _c("b", [_vm._v(_vm._s(_vm.contract.end))])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c(
+                        "td",
+                        { staticClass: "gray", attrs: { width: "25%" } },
+                        [
+                          _vm._v(
+                            "Загальна кількість\n                                занять за договором"
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { attrs: { width: "25%" } }, [
+                        _vm._v(_vm._s(_vm.contract.classes_total))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "gray", attrs: { width: "25%" } },
+                        [
+                          _vm._v(
+                            "Кількість занять\n                                на тиждень"
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { attrs: { width: "25%" } }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.contract.classes_kolvo) +
+                            "\n                            "
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(
+                    "\n                    Адреса надання послуг: " +
+                      _vm._s(_vm.contract.adress) +
+                      ".\n                    Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає\n                    "
+                  ),
+                  _c("table", { staticClass: "tabs" }, [
+                    _c("tr", [
+                      _c("td", { attrs: { width: "15%" } }, [
+                        _vm._v(_vm._s(_vm.contract.price))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "( " +
+                            _vm._s(_vm.contract.price_title) +
+                            " ) " +
+                            _vm._s(_vm.contract.currency) +
+                            "."
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(
+                    "\n                    Вказана\n                    ціна діє для категорії часу занять « " +
+                      _vm._s(_vm.contract.category_time) +
+                      " »(вказується категорія від 1 до 4), за розкладом занятть:\n                    "
+                  ),
+                  _c("br"),
+                  _vm._v("Графік оплати:"),
+                  _c("br"),
+                  _vm._v(" "),
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("table", [
+                    _c("tr", [
+                      _c("td", [
+                        _vm._v(
+                          "Кількість акційних заморозок (" +
+                            _vm._s(_vm.contract.freezing_total) +
+                            ")"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "Включаються заморозки по: (" +
+                            _vm._s(_vm.contract.freezing_kolvo) +
+                            ") тренування\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "Форма включена у\n                                вартість занять."
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("Розмiр")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.contract.form_size))])
+                    ])
+                  ]),
+                  _vm._v(
+                    "\n                    Підписанням цієї Заяви я підтверджую, що:"
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                    1. приймаю в повному обсязі умови Публічної пропозиції Академії футболу для дошкільнят «Клуб Лева»"
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                    на укладення Договору надання послуг фізичного виховання дітей, яка розміщена на офіційному сайті:\n                    clubleva.ua;"
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                    2. надаю право на обробку персональних даних, склад та зміст зібраних персональних даних, права\n                    суб’єкта персональних даних та іншу інформацію згідно Закону України «Про захист персональних\n                    даних»;"
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                    3. вчасно та в повному обсязі сплачувати послуги за цим договором;"
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    "\n                    4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання\n                    послуг фізичного виховання дітей."
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("b", [
+                    _vm._v(
+                      "Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення\n                        договору."
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(2)
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Закрыть")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    on: { click: _vm.printContract }
+                  },
+                  [_vm._v("Распечатать")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", {
+        staticClass: "modal-title",
+        attrs: { id: "exampleModalLongTitle" }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("table", { attrs: { width: "100%" } }, [
+      _c("tr", [
+        _c("td", [_vm._v("2000 грн. до 30.05.2020")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("2000 грн. до 30.05.2020")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("2000 грн. до 30.05.2020")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "table",
+      {
+        staticClass: "tabs",
+        staticStyle: { "margin-top": "0.5in", "border-spacing": "0.2in" }
+      },
+      [
+        _c("tr", [
+          _c("td", [_vm._v("«Виконавець» ФОП")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("_______________________")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("«Замовник»")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("_______________________")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v("Підпис:")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("_______________________")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Підпис:")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("_______________________")])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -68458,9 +69431,10 @@ var render = function() {
                             directives: [
                               {
                                 name: "model",
-                                rawName: "v-model",
+                                rawName: "v-model.trim",
                                 value: _vm.new_child_middle_name,
-                                expression: "new_child_middle_name"
+                                expression: "new_child_middle_name",
+                                modifiers: { trim: true }
                               }
                             ],
                             staticClass: "form-control",
@@ -68470,7 +69444,10 @@ var render = function() {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.new_child_middle_name = $event.target.value
+                                _vm.new_child_middle_name = $event.target.value.trim()
+                              },
+                              blur: function($event) {
+                                return _vm.$forceUpdate()
                               }
                             }
                           })
@@ -68600,6 +69577,8 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("dogovor-component", { attrs: { user_id: _vm.dataObject.id } }),
+      _vm._v(" "),
+      _c("qwer-component", { ref: "showmodal" }),
       _vm._v(" "),
       _c(
         "ul",
@@ -68777,7 +69756,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Карточка ребенка    " +
+                        "Карточка ребенка   " +
                           _vm._s(_vm.dataObject.attributes["child_surname"]) +
                           " " +
                           _vm._s(_vm.dataObject.attributes["child_name"])
@@ -68918,8 +69897,8 @@ var render = function() {
                                   }
                                 ],
                                 attrs: {
-                                  placeholder: "12.05.1988",
-                                  name: "child_birthday"
+                                  name: "child_birthday",
+                                  placeholder: "12.05.1988"
                                 },
                                 on: { "edit-field": _vm.editField },
                                 model: {
@@ -68975,7 +69954,9 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("h5", { staticClass: "text-muted mb-2" }, [
-                            _vm._v("Менеджер: \n                            "),
+                            _vm._v(
+                              "Менеджер:\n                                    "
+                            ),
                             _vm.dataObject.manager
                               ? _c(
                                   "a",
@@ -69089,7 +70070,9 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("h5", { staticClass: "text-muted mb-2" }, [
-                            _vm._v("Тренер: \n                            "),
+                            _vm._v(
+                              "Тренер:\n                                    "
+                            ),
                             _vm.dataObject.instructor
                               ? _c(
                                   "a",
@@ -69203,7 +70186,9 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("h5", { staticClass: "text-muted mb-2" }, [
-                            _vm._v("Программа: \n                            "),
+                            _vm._v(
+                              "Программа:\n                                    "
+                            ),
                             _vm.dataObject.programm
                               ? _c(
                                   "a",
@@ -69678,9 +70663,9 @@ var render = function() {
                                                 }
                                               ],
                                               attrs: {
+                                                name: "mother_phone",
                                                 placeholder:
-                                                  "+38 (926) 123-45-67",
-                                                name: "mother_phone"
+                                                  "+38 (926) 123-45-67"
                                               },
                                               on: {
                                                 "edit-field": _vm.editField
@@ -69725,9 +70710,9 @@ var render = function() {
                                                 }
                                               ],
                                               attrs: {
+                                                name: "mother_dop_phone",
                                                 placeholder:
-                                                  "+38 (926) 123-45-67",
-                                                name: "mother_dop_phone"
+                                                  "+38 (926) 123-45-67"
                                               },
                                               on: {
                                                 "edit-field": _vm.editField
@@ -69772,9 +70757,9 @@ var render = function() {
                                                 }
                                               ],
                                               attrs: {
+                                                name: "mother_viber",
                                                 placeholder:
-                                                  "+38 (926) 123-45-67",
-                                                name: "mother_viber"
+                                                  "+38 (926) 123-45-67"
                                               },
                                               on: {
                                                 "edit-field": _vm.editField
@@ -70387,9 +71372,9 @@ var render = function() {
                                                 }
                                               ],
                                               attrs: {
+                                                name: "other_relative_phone",
                                                 placeholder:
-                                                  "+38 (926) 123-45-67",
-                                                name: "other_relative_phone"
+                                                  "+38 (926) 123-45-67"
                                               },
                                               on: {
                                                 "edit-field": _vm.editField
@@ -70434,9 +71419,10 @@ var render = function() {
                                                 }
                                               ],
                                               attrs: {
+                                                name:
+                                                  "other_relative_dop_phone",
                                                 placeholder:
-                                                  "+38 (926) 123-45-67",
-                                                name: "other_relative_dop_phone"
+                                                  "+38 (926) 123-45-67"
                                               },
                                               on: {
                                                 "edit-field": _vm.editField
@@ -70481,9 +71467,9 @@ var render = function() {
                                                 }
                                               ],
                                               attrs: {
+                                                name: "other_relative_viber",
                                                 placeholder:
-                                                  "+38 (926) 123-45-67",
-                                                name: "other_relative_viber"
+                                                  "+38 (926) 123-45-67"
                                               },
                                               on: {
                                                 "edit-field": _vm.editField
@@ -70721,7 +71707,17 @@ var render = function() {
                                                       "p",
                                                       {
                                                         staticClass:
-                                                          "card-text text-center"
+                                                          "card-text text-center pointer",
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.showContract(
+                                                              _vm.activeContract
+                                                                .id
+                                                            )
+                                                          }
+                                                        }
                                                       },
                                                       [
                                                         _vm._v(
@@ -70856,7 +71852,7 @@ var render = function() {
                                                       "p",
                                                       [
                                                         _vm._v(
-                                                          "Оплаты: \n                            "
+                                                          "Оплаты:\n                                                    "
                                                         ),
                                                         _vm._l(
                                                           _vm.activeContract
@@ -70952,7 +71948,9 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   $event.preventDefault()
-                                                  return null($event)
+                                                  return _vm.showContract(
+                                                    contracts_not_active.id
+                                                  )
                                                 }
                                               }
                                             },
@@ -70962,7 +71960,7 @@ var render = function() {
                                                   _vm._s(
                                                     contracts_not_active.name
                                                   ) +
-                                                  '"    ' +
+                                                  '"   ' +
                                                   _vm._s(
                                                     contracts_not_active.start
                                                   ) +
@@ -90653,6 +91651,7 @@ Vue.component('showuser-component', __webpack_require__(/*! ./components/Users/S
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('user-component', __webpack_require__(/*! ./components/UserComponent.vue */ "./resources/js/components/UserComponent.vue")["default"]);
 Vue.component('dogovor-component', __webpack_require__(/*! ./components/DogovorComponent.vue */ "./resources/js/components/DogovorComponent.vue")["default"]);
+Vue.component('qwer-component', __webpack_require__(/*! ./components/ShowDogovorComponent.vue */ "./resources/js/components/ShowDogovorComponent.vue")["default"]);
 Vue.component('product-component', __webpack_require__(/*! ./components/ProductComponent.vue */ "./resources/js/components/ProductComponent.vue")["default"]);
 Vue.component('region-component', __webpack_require__(/*! ./components/RegionComponent.vue */ "./resources/js/components/RegionComponent.vue")["default"]);
 Vue.component('filter-component', __webpack_require__(/*! ./components/Filter/FilterComponent.vue */ "./resources/js/components/Filter/FilterComponent.vue")["default"]);
@@ -91265,6 +92264,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionComponent_vue_vue_type_template_id_64d3584e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegionComponent_vue_vue_type_template_id_64d3584e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ShowDogovorComponent.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/ShowDogovorComponent.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ShowDogovorComponent_vue_vue_type_template_id_436dbb42___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowDogovorComponent.vue?vue&type=template&id=436dbb42& */ "./resources/js/components/ShowDogovorComponent.vue?vue&type=template&id=436dbb42&");
+/* harmony import */ var _ShowDogovorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShowDogovorComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ShowDogovorComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ShowDogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ShowDogovorComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ShowDogovorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ShowDogovorComponent_vue_vue_type_template_id_436dbb42___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ShowDogovorComponent_vue_vue_type_template_id_436dbb42___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ShowDogovorComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ShowDogovorComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/ShowDogovorComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ShowDogovorComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowDogovorComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./ShowDogovorComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowDogovorComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ShowDogovorComponent.vue?vue&type=template&id=436dbb42&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/ShowDogovorComponent.vue?vue&type=template&id=436dbb42& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_template_id_436dbb42___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ShowDogovorComponent.vue?vue&type=template&id=436dbb42& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShowDogovorComponent.vue?vue&type=template&id=436dbb42&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_template_id_436dbb42___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDogovorComponent_vue_vue_type_template_id_436dbb42___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

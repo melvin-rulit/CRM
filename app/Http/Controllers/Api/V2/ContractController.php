@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Resources\ContractResource;
 use App\Http\Resources\ContractsResource;
+use App\Http\Resources\ShowContractResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Base;
@@ -17,6 +18,12 @@ class ContractController extends Controller
 
         $contract = Contract::find($request['id']);
         return new ContractResource($contract);
+    }
+
+    public function showContract(Request $request){
+
+        $contract = Contract::find($request['id']);
+        return new ShowContractResource($contract);
     }
 
     public function getContracts(Request $request){
@@ -111,6 +118,10 @@ class ContractController extends Controller
         $contract->freezing_total =  $request['freezing_total'];      
         $contract->freezing_kolvo = $request['freezing_kolvo'];    
         $contract->programm = $request['programm'];    
+        $contract->currency = $request['currency'];    
+        $contract->adress = $request['adress'];  
+        $contract->price_title = $request['price_title'];
+        $contract->category_time = $request['category_time']; 
 		$contract->save();
 
 

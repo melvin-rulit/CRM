@@ -1,316 +1,329 @@
 <template>
 	<div>
 
-    <!-- Модальное окно с выбором контрактом -->
+<!-- Модальное окно с выбором контрактом -->
 <div class="modal fade" id="selectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLongTitle">Выберите контракт</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="row modal-body">
-        <div class="col-md-6"><a href="#" @click.prevent="contract('vm')">Контракт на пробное занятие</a></div>
-        <div class="col-md-6"><a href="#" @click.prevent="contract('osn')">Контракт основной программы</a></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">Выберите контракт</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row modal-body">
+                <div class="col-md-6"><a href="#" @click.prevent="contract('vm')">Контракт на пробное занятие</a></div>
+                <div class="col-md-6"><a href="#" @click.prevent="contract('osn')">Контракт основной программы</a></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
 <!-- Модальное окно с пробным контрактом -->
 <div class="modal fade" id="vmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLongTitle">{{ contracts_vm }}</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body modal-lg" id="printVM">
-        <div class="Section1"> 
-          <!-- <img src="Logo.png" class="logo"> -->
-          <h1>Договір<br>про надання послуг<br>за програмою «{{ contracts_vm }}»</h1>
-          <table border="0" width="100%">
-            <td class="tdleft">{{ dataVm.branch.geolocation }}</td>
-            <td class="tdright">{{ dataVm.date }} рік</td>
-          </table> <br>
-          <p>Фізична особо-підприємець {{ dataVm.organization }}, надалі іменується «Виконавець», з одного боку, та законні представники
-            (опікуни, піклувальники)
-          </p>
-          <form>
-              <table class="tabs">
-                <tr>
-                  <td><input v-model="dataVm.parent_surname" class="line" placeholder="Фамилия"></td>
-                  <td><input v-model="dataVm.parent_name" class="line" placeholder="Имя"></td>
-                  <td><input v-model="dataVm.parent_middle_name" class="line" placeholder="Отчество"></td>
-                </tr>
-              </table>
-              <br>ПІП, надалі - «Замовник»,<br>
-              <table class="tabs">
-                  <tr>
-                    <td width="25%">неповнолітньої дитини:</td>
-                    <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
-                    <td><input v-model="dataVm.child_name" class="line" placeholder="Имя"></td>
-                    <td><input v-model="dataVm.child_middle_name" class="line" placeholder="Отчество"></td>
-                  </tr>
-              </table>
-              ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»<br>
-              а разом «Сторони», уклали цей Договір, про наступне:<br>
-              1. Предметом Договору є надання Виконавцем, Замовнику послуг з фізичної підготовкиза програмою«Відкрий
-              можливості» (надалі – «Програма») на визначених цим Договором умовах.<br>
-              2. Умови Програми:<br>
-              2.1. Програма складається з двох тренувань, тривалістю 45 хвилинкожне;<br>
-              2.2. Тренування відбуваються у спеціальному спортивному залі за адресою: {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }};<br>
-              2.3. Заняття Програми проводять два тренери одночасно;<br>
-              2.4. Заняття проводяться без присутності батьків в спортивному залі;<br>
-              2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без
-              повного комплекту форми та змінного спортивного взуття.<br>
-              2.6. Вартість Програми складає {{ dataVm.price }} ({{ dataVm.price_title }}.).<br>
-              2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті
-              п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:<br>
-              <table class="tabs">
-                <tr>
-                  <td>дні занять</td>
-                  <td>
-                    <select v-model="days">
-                      <option v-for="day in dayselect">{{ day.day }}</option>
-                    </select>
-                  </td>
-                  <td>, час занять</td>
-                  <td>
-                    <select v-model="time">
-                      <option v-for="time in timeselect">{{ time.time }}</option>
-                    </select>
-                  </td>
-                  <td>, а Вихованець закріплюється за конкретною групою.</td>
-                </tr>
-              </table>
-              3. Права та обов’язки Замовника<br>
-              3.1. Замовник має право сплатити послуги за акційною ціною {{ dataVm.price_stock }} ({{ dataVm.price_stock_title }}) грн. у випадку оплати
-              Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні
-              занять Програми протягом наступних, семи днів після оплати;<br>
-              3.2. Замовник має право з поважних причин змінити час та групу для тренування лише в період дії акційної ціни
-              та наявності вільних місць в групах в перші 7 днів після оплати. Переважне право прийняття остаточного
-              рішення належить Виконавцю.<br>
-              3.3. У випадку переносу занять на більш пізній термін без поважної причини, Замовник зобов’язується оплатити
-              повну вартість Програми;<br>
-              3.4. Замовник має право спостерігати за заняттями на екрані телевізора в кімнаті батьків;<br>
-              4. Якщо Вихованцем було пропущено одне з двох навчально-тренувальних занять, Програма вважається
-              завершеною. Вартість пропущеного заняття Виконавцем не повертається.<br>
-              5.Замовник вносить заставу за форму в розмірі {{ dataVm.price_pledge }} ({{ dataVm.price_pledge_title }}) грн. до початку першого тренування. Форма повинна
-              бути повернена Виконавцю після другого заняття. Якщо Замовником не повертається форма в день закінчення
-              Програми, застава за форму вважається її оплатою. У випадку продовження тренувань Вихованця забазовими
-              програмами «Відкрий можливості» чи «Народження Зірки», застава в розмірі 400 (чотириста) грн. зараховується в
-              оплату вартості подальшогонавчання.<br>
-              6. Підписуючи даний Договір, Замовник дає згоду на проведення Виконавцем фото та відео зйомки тренувань з
-              подальшим використанням цих матеріалів в рекламних і маркетингових цілях.<br>
-              7. Підписуючи Договір, Замовник підтверджує факт відсутності обмежень, чи будь-яких протипоказань до занять
-              спортом у Вихованця.<br>
-              8. Договір підписується у 2-х примірниках, маючих однакову юридичну силу.
-          </form>
-          <table class="tabs">
-            <tr>
-              <td width="50%">
-                <b>Виконавець</b><br>
-                ФОП {{ dataVm.organization }}.<br>
-                Реквізити для оплати:<br>
-                {{ dataVm.requisites }}<br>
-                Адреса надання послуг:<br>
-                {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }}<br>
-                Тел. {{ dataVm.branch.phone }}<br><br>
-                __________________________(підпис)
-              </td>
-              <td>
-                <b>Замовник</b><br>
-                ПІП ________________________________________<br>
-                ____________________________________________<br>
-                Адреса:_____________________________________<br>
-                ____________________________________________<br>
-                Тел._________________________________________<br>
-                E-mail_______________________________________<br>
-                ______________________________ (підпис)
-              </td>
-            </tr>
-          </table>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">{{ contracts_vm }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modal-lg" id="printVM">
+                <div class="Section1">
+                    <img src="http://185.146.156.207/logo.png" class="logo">
+                    <h1>Договір<br>про надання послуг<br>за програмою «{{ contracts_vm }}»</h1>
+                    <table border="0" width="100%">
+                        <td class="tdleft">{{ dataVm.branch.geolocation }}</td>
+                        <td class="tdright">{{ dataVm.date }} рік</td>
+                    </table> <br>
+                    <p>Фізична особо-підприємець {{ dataVm.organization }}, надалі іменується «Виконавець», з одного боку, та законні представники
+                        (опікуни, піклувальники)
+                    </p>
+                    <form>
+                        <table class="tabs">
+                            <tr>
+                                <td><input v-model="dataVm.parent_surname" class="line" placeholder="Фамилия"></td>
+                                <td><input v-model="dataVm.parent_name" class="line" placeholder="Имя"></td>
+                                <td><input v-model="dataVm.parent_middle_name" class="line" placeholder="Отчество"></td>
+                            </tr>
+                        </table>
+                        <br>ПІП, надалі - «Замовник»,<br>
+                        <table class="tabs">
+                            <tr>
+                                <td width="25%">неповнолітньої дитини:</td>
+                                <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
+                                <td><input v-model="dataVm.child_name" class="line" placeholder="Имя"></td>
+                                <td><input v-model="dataVm.child_middle_name" class="line" placeholder="Отчество"></td>
+                            </tr>
+                        </table>
+                        ПІП дитини, що буде отримувати конкретні послуги, надалі -«Вихованець»<br>
+                        а разом «Сторони», уклали цей Договір, про наступне:<br>
+                        1. Предметом Договору є надання Виконавцем, Замовнику послуг з фізичної підготовкиза програмою«Відкрий
+                        можливості» (надалі – «Програма») на визначених цим Договором умовах.<br>
+                        2. Умови Програми:<br>
+                        2.1. Програма складається з двох тренувань, тривалістю 45 хвилинкожне;<br>
+                        2.2. Тренування відбуваються у спеціальному спортивному залі за адресою: {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }};<br>
+                        2.3. Заняття Програми проводять два тренери одночасно;<br>
+                        2.4. Заняття проводяться без присутності батьків в спортивному залі;<br>
+                        2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без
+                        повного комплекту форми та змінного спортивного взуття.<br>
+                        2.6. Вартість Програми складає {{ dataVm.price }} ({{ dataVm.price_title }}.).<br>
+                        2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті
+                        п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:<br>
+                        <table class="tabs">
+                            <tr>
+                                <td>дні занять</td>
+                                <td>
+                                    <select v-model="days">
+                                        <option v-for="day in dayselect">{{ day.day }}</option>
+                                    </select>
+                                </td>
+                                <td>, час занять</td>
+                                <td>
+                                    <select v-model="time">
+                                        <option v-for="time in timeselect">{{ time.time }}</option>
+                                    </select>
+                                </td>
+                                <td>, а Вихованець закріплюється за конкретною групою.</td>
+                            </tr>
+                        </table>
+                        3. Права та обов’язки Замовника<br>
+                        3.1. Замовник має право сплатити послуги за акційною ціною {{ dataVm.price_stock }} ({{ dataVm.price_stock_title }}) грн. у випадку оплати
+                        Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні
+                        занять Програми протягом наступних, семи днів після оплати;<br>
+                        3.2. Замовник має право з поважних причин змінити час та групу для тренування лише в період дії акційної ціни
+                        та наявності вільних місць в групах в перші 7 днів після оплати. Переважне право прийняття остаточного
+                        рішення належить Виконавцю.<br>
+                        3.3. У випадку переносу занять на більш пізній термін без поважної причини, Замовник зобов’язується оплатити
+                        повну вартість Програми;<br>
+                        3.4. Замовник має право спостерігати за заняттями на екрані телевізора в кімнаті батьків;<br>
+                        4. Якщо Вихованцем було пропущено одне з двох навчально-тренувальних занять, Програма вважається
+                        завершеною. Вартість пропущеного заняття Виконавцем не повертається.<br>
+                        5.Замовник вносить заставу за форму в розмірі {{ dataVm.price_pledge }} ({{ dataVm.price_pledge_title }}) грн. до початку першого тренування. Форма повинна
+                        бути повернена Виконавцю після другого заняття. Якщо Замовником не повертається форма в день закінчення
+                        Програми, застава за форму вважається її оплатою. У випадку продовження тренувань Вихованця забазовими
+                        програмами «Відкрий можливості» чи «Народження Зірки», застава в розмірі 400 (чотириста) грн. зараховується в
+                        оплату вартості подальшогонавчання.<br>
+                        6. Підписуючи даний Договір, Замовник дає згоду на проведення Виконавцем фото та відео зйомки тренувань з
+                        подальшим використанням цих матеріалів в рекламних і маркетингових цілях.<br>
+                        7. Підписуючи Договір, Замовник підтверджує факт відсутності обмежень, чи будь-яких протипоказань до занять
+                        спортом у Вихованця.<br>
+                        8. Договір підписується у 2-х примірниках, маючих однакову юридичну силу.
+                    </form>
+                    <table class="tabs">
+                        <tr>
+                            <td width="50%">
+                                <b>Виконавець</b><br>
+                                ФОП {{ dataVm.organization }}.<br>
+                                Реквізити для оплати:<br>
+                                {{ dataVm.requisites }}<br>
+                                Адреса надання послуг:<br>
+                                {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }}<br>
+                                Тел. {{ dataVm.branch.phone }}<br><br>
+                                __________________________(підпис)
+                            </td>
+                            <td>
+                                <b>Замовник</b><br>
+                                ПІП ________________________________________<br>
+                                ____________________________________________<br>
+                                Адреса:_____________________________________<br>
+                                ____________________________________________<br>
+                                Тел._________________________________________<br>
+                                E-mail_______________________________________<br>
+                                ______________________________ (підпис)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                <button @click="sendVm('vm')" type="button" class="btn btn-success">Сохранить и распечатать</button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button  type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-        <button @click="sendVm('vm')" type="button" class="btn btn-success">Сохранить и распечатать</button>
-      </div>
     </div>
-  </div>
 </div>
 
 
 <!-- Модальное окно с основным контрактом -->
 <div class="modal fade" id="osnModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLongTitle"></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body modal-lg" id="printOSN">
-        <div class="Section1"> 
-          <h1>ЗАЯВА № {{ user_id }} від  «
-            <date-picker v-if="!print" v-model="dataVm.date" :editable="false" value-type="DD.MM.YYYY" format="DD.MM.YYYY"></date-picker>
-            <span v-if="print">{{ dataVm.date }}</span>»  р.<br>
-            до Публічної пропозиції Договору надання послуг фізичного виховання дітей<br>
-            <span class="hide">(публічний договір розташований на офіційномусайті clubleva.ua)</span>
-          </h1>
-          <table class="tabs">
-            <tr>
-              <td width="25%">Я, законний представник</td>
-              <td v-if="!print"><input v-model="dataVm.parent_surname" class="line" placeholder="Фамилия"></td>
-              <td v-if="print"><span>{{dataVm.parent_surname}}</span></td>
-              <td v-if="!print"><input v-model="dataVm.parent_name" class="line" placeholder="Имя"></td>
-              <td v-if="print"><span>{{dataVm.parent_name}}</span></td>
-              <td v-if="!print"><input v-model="dataVm.parent_middle_name" class="line" placeholder="Отчество"></td>
-              <td v-if="print"><span>{{dataVm.parent_middle_name}}</span></td>
-            </tr>
-          </table>
-          <table class="tabs">
-            <tr>
-              <td width="25%">неповнолітньої дитини</td>
-              <td><input v-model="dataVm.child_name" class="line" placeholder="Имя"></td>
-              <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
-              <td>, дата народження</td>
-              <td>
-                  <date-picker v-if="!print" v-model="dataVm.child_birthday" :editable="false" value-type="DD.MM.YYYY" format="DD.MM.YYYY"></date-picker>
-                  <span v-if="print">{{ dataVm.child_birthday }}</span>
-              </td>
-              <td>надалі «Замовник»</td>
-            </tr> 
-          </table>
-          <table class="tabs">
-            <tr>
-              <td class="gray">Телефон Замовника</td>
-              <td><input v-model="dataVm.parent_phone" class="line" placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'"></td>
-              <td class="gray">Viber/Telegram Замовника</td>
-              <td><input v-model="dataVm.parent_viber" class="line" placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'"></td>
-            </tr>
-            <tr>
-              <td class="gray">Email Замовника</td>
-              <td><input v-model="dataVm.parent_email" class="line"></td>
-              <td class="gray">Facebook/Instagram Замовника</td>
-              <td><input v-model="dataVm.parent_facebook" class="line"></td>
-              <td><input v-model="dataVm.parent_instagram" class="line"></td>
-            </tr>
-          </table>
-          Прошуприйняти вище вказану дитину на навчання за програмою навчання:<br>
-            <dynamic-select 
-            v-if="!print"
-            :options="dataVm.programms"
-            option-value="id"
-            option-text="name"
-            placeholder="Введите для поиска программы"
-            v-model="programm" />
-            <span v-if="print">{{ programm.name }}</span>
-          з наступними умовами:
-            <dynamic-select 
-            v-if="!print"
-            :options="dataVm.products"
-            option-value="id"
-            option-text="name"
-            placeholder="Введите для поиска продукта"
-            v-model="product"
-            @input="stopDate(product.id)" />
-            <span v-if="print">{{ product.name }}</span>
-                        <br>
-          <table class="tabs">
-            <tr>
-              <td class="gray" width="25%">Дата початку договору</td>
-              <td width="25%">
-                <date-picker v-if="!print" v-model="dataVm.end_actualy" :editable="false" value-type="YYYY-MM-DD" format="DD.MM.YYYY"></date-picker>
-                <span v-if="print">{{ dataVm.end_actualy }}</span>
-              </td>
-              <td class="gray" width="25%">Дата закінчення договору</td>
-              <td v-if="days" width="25%">{{ stoped() }}</td>
-            </tr>
-            <tr>
-              <td class="gray" width="25%">Загальна кількість занять за договором</td>
-              <td width="25%"><input v-if="product" placeholder="10" v-mask="'##'" v-model="product.classes_total" class="line"></td>
-              <td class="gray" width="25%">Кількість занятьна тиждень</td>
-              <td width="25%"><input v-if="product" placeholder="10" v-mask="'##'" v-model="product.classes_week" class="line"></td>
-            </tr>
-          </table>
-          Адреса надання послуг: {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }}
-          Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає
-          <table class="tabs">   
-            <td width="15%"><span v-if="product">{{product.price}}</span></td>
-            <td>(<span v-if="product">{{ product.price_title }}</span>) {{ dataVm.branch.currency }}.</td>
-          </table>
-
-            Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
-
-            <br>Графік оплати:<br>
-            <table width="100%">
-                <tr v-if="pays" v-for="(time, index) in pays.pays">
-                  <td>{{time.pay}} {{ dataVm.branch.currency }}. до {{ reversedMessage(time.day) }}</td>
-                </tr>
-            </table>
-            <table>
-              <tr>
-                <td>Кількість акційних заморозок (<span v-if="product">{{product.freezing_total}}</span>)</td>
-                <td>Включаються заморозки по: (<span v-if="product">{{product.freezing_kolvo}}</span>) тренування</td>
-                <td>Форма включена увартість занять.</td>
-                <td>Розмiр</td>
-                <td>
-                  <select v-model="form_size">
-                    <option>31</option>
-                    <option>32</option>
-                    <option>33</option>
-                  </select>
-                </td>
-              </tr>
-            </table>
-            Підписанням цієї Заяви я підтверджую, що:<br>
-            1. приймаю в повному обсязі умови Публічної пропозиції Академії футболу для дошкільнят «Клуб Лева»<br>
-            на укладення Договору надання послуг фізичного виховання дітей, яка розміщена на офіційному сайті:
-            clubleva.ua;<br>
-            2. надаю право на обробку персональних даних, склад та зміст зібраних персональних даних, права
-            суб’єкта персональних даних та іншу інформацію згідно Закону України «Про захист персональних
-            даних»;<br>
-            3. вчасно та в повному обсязі сплачувати послуги за цим договором;<br>
-            4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання
-            послуг фізичного виховання дітей.<br>
-            <b>Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення
-            договору.</b><br>
-            <table style="margin-top: 0.5in; border-spacing: 0.2in;" class="tabs">
-              <tr>
-                <td>«Виконавець» ФОП</td>
-                <td>_______________________</td>
-
-                <td>«Замовник»</td>
-                <td>_______________________</td>
-              </tr>
-              <tr>
-                <td>Підпис:</td>
-                <td>_______________________</td>
-
-                <td>Підпис:</td>
-                <td>_______________________</td>
-              </tr>
-            </table>
-          </div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modal-lg" id="printOSN">
+                <div class="Section1">
+                    <h1>ЗАЯВА № {{ user_id }} від «
+                        <date-picker 
+                          v-if="!print" 
+                          v-model="dataVm.date" 
+                          :editable="false" 
+                          value-type="DD.MM.YYYY" 
+                          format="DD.MM.YYYY">
+                        </date-picker>
+                        <span v-if="print">{{ dataVm.date }}</span>» р.<br>
+                        до Публічної пропозиції Договору надання послуг фізичного виховання дітей<br>
+                        <span class="hide">(публічний договір розташований на офіційномусайті clubleva.ua)</span>
+                    </h1>
+                    <table class="tabs">
+                        <tr>
+                            <td width="25%">Я, законний представник</td>
+                            <td v-if="!print"><input v-model="dataVm.parent_surname" class="line" placeholder="Фамилия"></td>
+                            <td v-if="print"><span>{{dataVm.parent_surname}}</span></td>
+                            <td v-if="!print"><input v-model="dataVm.parent_name" class="line" placeholder="Имя"></td>
+                            <td v-if="print"><span>{{dataVm.parent_name}}</span></td>
+                            <td v-if="!print"><input v-model="dataVm.parent_middle_name" class="line" placeholder="Отчество"></td>
+                            <td v-if="print"><span>{{dataVm.parent_middle_name}}</span></td>
+                        </tr>
+                    </table>
+                    <table class="tabs">
+                        <tr>
+                            <td width="25%">неповнолітньої дитини</td>
+                            <td><input v-model="dataVm.child_name" class="line" placeholder="Имя"></td>
+                            <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
+                            <td>, дата народження</td>
+                            <td>
+                                <date-picker 
+                                  v-if="!print" 
+                                  v-model="dataVm.child_birthday" 
+                                  :editable="false" 
+                                  value-type="DD.MM.YYYY" 
+                                  format="DD.MM.YYYY">
+                                </date-picker>
+                                <span v-if="print">{{ dataVm.child_birthday }}</span>
+                            </td>
+                            <td>надалі «Замовник»</td>
+                        </tr>
+                    </table>
+                    <table class="tabs">
+                        <tr>
+                            <td class="gray">Телефон Замовника</td>
+                            <td>
+                              <input v-model="dataVm.parent_phone" class="line" placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'">
+                            </td>
+                            <td class="gray">Viber/Telegram Замовника</td>
+                            <td>
+                              <input v-model="dataVm.parent_viber" class="line" placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="gray">Email Замовника</td>
+                            <td><input v-model="dataVm.parent_email" class="line"></td>
+                            <td class="gray">Facebook/Instagram Замовника</td>
+                            <td><input v-model="dataVm.parent_facebook" class="line"></td>
+                            <td><input v-model="dataVm.parent_instagram" class="line"></td>
+                        </tr>
+                    </table>
+                    Прошуприйняти вище вказану дитину на навчання за програмою навчання:<br>
+                    <dynamic-select 
+                      v-if="!print" 
+                      :options="dataVm.programms" 
+                      option-value="id" 
+                      option-text="name" 
+                      placeholder="Введите для поиска программы" 
+                      v-model="programm" />
+                    <span v-if="print">{{ programm.name }}</span>
+                    з наступними умовами:
+                    <dynamic-select 
+                      v-if="!print" 
+                      :options="dataVm.products" 
+                      option-value="id" 
+                      option-text="name" 
+                      placeholder="Введите для поиска продукта" 
+                      v-model="product" 
+                      @input="stopDate(product.id)" />
+                    <span v-if="print">{{ product.name }}</span>
+                    <br>
+                    <table class="tabs">
+                        <tr>
+                            <td class="gray" width="25%">Дата початку договору</td>
+                            <td width="25%">
+                                <date-picker v-if="!print" v-model="dataVm.end_actualy" :editable="false" value-type="YYYY-MM-DD" format="DD.MM.YYYY"></date-picker>
+                                <span v-if="print">{{ dataVm.end_actualy }}</span>
+                            </td>
+                            <td class="gray" width="25%">Дата закінчення договору</td>
+                            <td v-if="days" width="25%">{{ stoped() }}</td>
+                        </tr>
+                        <tr>
+                            <td class="gray" width="25%">Загальна кількість занять за договором</td>
+                            <td width="25%"><input v-if="product" placeholder="10" v-mask="'##'" v-model="product.classes_total" class="line"></td>
+                            <td class="gray" width="25%">Кількість занятьна тиждень</td>
+                            <td width="25%"><input v-if="product" placeholder="10" v-mask="'##'" v-model="product.classes_week" class="line"></td>
+                        </tr>
+                    </table>
+                    Адреса надання послуг: {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }}
+                    Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає
+                    <table class="tabs">
+                        <td width="15%"><span v-if="product">{{product.price}}</span></td>
+                        <td>(<span v-if="product">{{ product.price_title }}</span>) {{ dataVm.branch.currency }}.</td>
+                    </table>
+                    Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
+                    <br>Графік оплати:<br>
+                    <table width="100%">
+                        <tr v-if="pays" v-for="(time, index) in pays.pays">
+                            <td>{{time.pay}} {{ dataVm.branch.currency }}. до {{ reversedMessage(time.day) }}</td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>Кількість акційних заморозок (<span v-if="product">{{product.freezing_total}}</span>)</td>
+                            <td>Включаються заморозки по: (<span v-if="product">{{product.freezing_kolvo}}</span>) тренування</td>
+                            <td>Форма включена увартість занять.</td>
+                            <td>Розмiр</td>
+                            <td>
+                                <select v-model="form_size">
+                                    <option>31</option>
+                                    <option>32</option>
+                                    <option>33</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    Підписанням цієї Заяви я підтверджую, що:<br>
+                    1. приймаю в повному обсязі умови Публічної пропозиції Академії футболу для дошкільнят «Клуб Лева»<br>
+                    на укладення Договору надання послуг фізичного виховання дітей, яка розміщена на офіційному сайті:
+                    clubleva.ua;<br>
+                    2. надаю право на обробку персональних даних, склад та зміст зібраних персональних даних, права
+                    суб’єкта персональних даних та іншу інформацію згідно Закону України «Про захист персональних
+                    даних»;<br>
+                    3. вчасно та в повному обсязі сплачувати послуги за цим договором;<br>
+                    4. ознайомлений з зобов’язанням повернення коштів у разі дострокового припинення Договору надання
+                    послуг фізичного виховання дітей.<br>
+                    <b>Замовник отримує одну копію даної Заяви. Оригінал заяви зберігає Виконавець до дати закінчення
+                        договору.</b><br>
+                    <table style="margin-top: 0.5in; border-spacing: 0.2in;" class="tabs">
+                        <tr>
+                            <td>«Виконавець» ФОП</td>
+                            <td>_______________________</td>
+                            <td>«Замовник»</td>
+                            <td>_______________________</td>
+                        </tr>
+                        <tr>
+                            <td>Підпис:</td>
+                            <td>_______________________</td>
+                            <td>Підпис:</td>
+                            <td>_______________________</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button @click="sendVm('osn')" class="btn btn-success">Сохранить и распечатать</button>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-          <button @click="sendVm('osn')" class="btn btn-success">Сохранить и распечатать</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
 
 	</div>
 </template>
@@ -441,6 +454,23 @@ Vue.use(VueHtmlToPaper, options);
                 }
             },
           sendVm(contract_type) {
+                if (!this.dataVm.parent_surname || !this.dataVm.parent_name || !this.dataVm.parent_middle_name) {
+                    this.$alert("Не все поля родителя заполнены");
+                    return false
+                }
+                if (!this.dataVm.child_surname || !this.dataVm.child_name) {
+                    this.$alert("Не все поля ребенка заполнены");
+                    return false
+                }
+                if (!this.programm) {
+                    this.$alert("Выберите программу");
+                    return false
+                }
+                if (!this.product) {
+                    this.$alert("Выберите продукт");
+                    return false
+                }
+
             // Переведем дату обратно в человеческий формат для записи в базу
             var D = new Date(this.dataVm.end_actualy);
             this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
@@ -473,6 +503,10 @@ Vue.use(VueHtmlToPaper, options);
                   freezing_kolvo: this.product.freezing_kolvo,
                   pays: this.pays.pays,
                   programm: this.programm.name,
+                  currency: this.dataVm.branch.currency,
+                  adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                  price_title: this.product.price_title,
+                  category_time: this.product.category_time,
 
                 })
                 this.print = true
