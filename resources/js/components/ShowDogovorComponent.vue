@@ -8,7 +8,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span @click="closeModal" aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body modal-lg">
@@ -86,10 +86,8 @@
                     ціна діє для категорії часу занять « {{contract.category_time}} »(вказується категорія від 1 до 4), за розкладом занятть:
                     <br>Графік оплати:<br>
                     <table width="100%">
-                        <tr>
-                            <td>2000 грн. до 30.05.2020</td>
-                            <td>2000 грн. до 30.05.2020</td>
-                            <td>2000 грн. до 30.05.2020</td>
+                        <tr v-if="contract.contract_pays" v-for="item in contract.contract_pays">
+                            <td>{{item.pay}} {{contract.currency}}. до {{item.day}}</td>
                         </tr>
                     </table>
                     <table>
@@ -132,7 +130,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button @click="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 <button @click="printContract" class="btn btn-success">Распечатать</button>
             </div>
         </div>
@@ -143,6 +141,12 @@
 </template>
 
 <script>
+
+
+    $('#ShowModal').modal({
+      backdrop: 'static',
+      keyboard: false
+    })
 
 
 import Vue from 'vue';
@@ -178,6 +182,9 @@ Vue.use(VueHtmlToPaper, options);
             printContract(){
                 this.$htmlToPaper('print')
                 $('#ShowModal').modal('hide')
+            },
+            closeModal(){
+                $('#info li:first-child a').tab('show')
             }
         }
 }

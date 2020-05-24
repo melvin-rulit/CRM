@@ -23,7 +23,7 @@ class ContractController extends Controller
     public function showContract(Request $request){
 
         $contract = Contract::find($request['id']);
-        return new ShowContractResource($contract);
+        return new ShowContractResource($contract->load('contract_pays'));
     }
 
     public function getContracts(Request $request){

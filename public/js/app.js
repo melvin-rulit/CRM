@@ -3903,8 +3903,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
+$('#ShowModal').modal({
+  backdrop: 'static',
+  keyboard: false
+});
 
 
 var options = {
@@ -3933,6 +3935,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     printContract: function printContract() {
       this.$htmlToPaper('print');
       $('#ShowModal').modal('hide');
+    },
+    closeModal: function closeModal() {
+      $('#info li:first-child a').tab('show');
     }
   }
 });
@@ -4637,6 +4642,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+$('#addNew').on('hidden.bs.modal', function (e) {
+  alert("CLOSE");
+});
 
 
 Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_1___default.a);
@@ -68730,7 +68741,34 @@ var render = function() {
           { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(0),
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLongTitle" }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    }
+                  },
+                  [
+                    _c(
+                      "span",
+                      {
+                        attrs: { "aria-hidden": "true" },
+                        on: { click: _vm.closeModal }
+                      },
+                      [_vm._v("×")]
+                    )
+                  ]
+                )
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body modal-lg" }, [
                 _c("div", { staticClass: "Section1", attrs: { id: "print" } }, [
@@ -68934,7 +68972,26 @@ var render = function() {
                   _vm._v("Графік оплати:"),
                   _c("br"),
                   _vm._v(" "),
-                  _vm._m(1),
+                  _c(
+                    "table",
+                    { attrs: { width: "100%" } },
+                    _vm._l(_vm.contract.contract_pays, function(item) {
+                      return _vm.contract.contract_pays
+                        ? _c("tr", [
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(item.pay) +
+                                  " " +
+                                  _vm._s(_vm.contract.currency) +
+                                  ". до " +
+                                  _vm._s(item.day)
+                              )
+                            ])
+                          ])
+                        : _vm._e()
+                    }),
+                    0
+                  ),
                   _vm._v(" "),
                   _c("table", [
                     _c("tr", [
@@ -68996,7 +69053,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(2)
+                  _vm._m(0)
                 ])
               ]),
               _vm._v(" "),
@@ -69005,7 +69062,8 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.closeModal }
                   },
                   [_vm._v("Закрыть")]
                 ),
@@ -69027,44 +69085,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h4", {
-        staticClass: "modal-title",
-        attrs: { id: "exampleModalLongTitle" }
-      }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { attrs: { width: "100%" } }, [
-      _c("tr", [
-        _c("td", [_vm._v("2000 грн. до 30.05.2020")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("2000 грн. до 30.05.2020")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("2000 грн. до 30.05.2020")])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -69772,6 +69792,28 @@ var render = function() {
                           _vm._s(_vm.dataObject.attributes["child_surname"]) +
                           " " +
                           _vm._s(_vm.dataObject.attributes["child_name"])
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "close",
+                      attrs: {
+                        type: "button",
+                        "data-dismiss": "modal",
+                        "aria-label": "Close"
+                      }
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          attrs: { "aria-hidden": "true" },
+                          on: { click: _vm.closeModalView }
+                        },
+                        [_vm._v("×")]
                       )
                     ]
                   )

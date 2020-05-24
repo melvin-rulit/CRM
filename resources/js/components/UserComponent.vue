@@ -176,6 +176,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span @click="closeModalView" aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body pb-0">
                 <div class="card mb-3">
@@ -670,6 +673,11 @@
 </template>
 
 <script>
+
+
+$('#addNew').on('hidden.bs.modal', function (e) {
+  alert("CLOSE");
+})
 
 import Avatar from 'vue-avatar'
 
