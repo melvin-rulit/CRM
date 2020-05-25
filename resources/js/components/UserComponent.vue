@@ -61,7 +61,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового клиента</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
             <div class="modal-body">
@@ -176,8 +176,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" class="close p-0 m-0" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
             <div class="modal-body pb-0">
@@ -660,9 +660,6 @@
                     <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab"></div>
                     <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab"></div>
                 </div>
-            </div>
-            <div class="modal-footer pt-3 pb-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>

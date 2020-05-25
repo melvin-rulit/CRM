@@ -30,7 +30,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">{{ contracts_vm }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
             <div class="modal-body modal-lg" id="printVM">
@@ -157,7 +157,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
             <div class="modal-body modal-lg" id="printOSN">

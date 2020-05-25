@@ -3428,9 +3428,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 $('.accordion-toggle').click(function () {
   $(this).next('tr').find('.hiddenRow').show();
 });
@@ -4011,9 +4008,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_8__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
 //
 //
 //
@@ -65898,7 +65892,11 @@ var staticRenderFns = [
           "aria-label": "Close"
         }
       },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      [
+        _c("span", { attrs: { "aria-hidden": "true" } }, [
+          _c("i", { staticClass: "fe fe-x h2" })
+        ])
+      ]
     )
   },
   function() {
@@ -65957,7 +65955,11 @@ var staticRenderFns = [
             "aria-label": "Close"
           }
         },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+        [
+          _c("span", { attrs: { "aria-hidden": "true" } }, [
+            _c("i", { staticClass: "fe fe-x h2" })
+          ])
+        ]
       )
     ])
   },
@@ -67188,16 +67190,19 @@ var render = function() {
                   [_vm._v("Карточка филиала " + _vm._s(_vm.branch.name))]
                 ),
                 _vm._v(" "),
-                _c("a", {
-                  staticClass: "fe fe-trash-2 h3 text-danger ml-3 mb-0",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.deleteBranch(_vm.branch.id)
+                _c("span", [
+                  _vm._v("Удалить филиал "),
+                  _c("a", {
+                    staticClass: "fe fe-trash-2 h3 text-danger ml-3 mb-0",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deleteBranch(_vm.branch.id)
+                      }
                     }
-                  }
-                }),
+                  })
+                ]),
                 _vm._v(" "),
                 _vm._m(5)
               ]),
@@ -68499,9 +68504,7 @@ var render = function() {
                     ])
                   ]
                 )
-              ]),
-              _vm._v(" "),
-              _vm._m(9)
+              ])
             ])
           ]
         )
@@ -68614,7 +68617,11 @@ var staticRenderFns = [
             "aria-label": "Close"
           }
         },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+        [
+          _c("span", { attrs: { "aria-hidden": "true" } }, [
+            _c("i", { staticClass: "fe fe-x h2" })
+          ])
+        ]
       )
     ])
   },
@@ -68679,14 +68686,18 @@ var staticRenderFns = [
     return _c(
       "button",
       {
-        staticClass: "close",
+        staticClass: "close p-0 m-0",
         attrs: {
           type: "button",
           "data-dismiss": "modal",
           "aria-label": "Close"
         }
       },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      [
+        _c("span", { attrs: { "aria-hidden": "true" } }, [
+          _c("i", { staticClass: "fe fe-x h2" })
+        ])
+      ]
     )
   },
   function() {
@@ -68743,21 +68754,6 @@ var staticRenderFns = [
           }
         },
         [_vm._v("Дополнительные продукты")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Закрыть")]
       )
     ])
   }
@@ -68825,7 +68821,7 @@ var render = function() {
                         attrs: { "aria-hidden": "true" },
                         on: { click: _vm.closeModal }
                       },
-                      [_vm._v("×")]
+                      [_c("i", { staticClass: "fe fe-x h2" })]
                     )
                   ]
                 )
@@ -72116,9 +72112,7 @@ var render = function() {
                       })
                     ]
                   )
-                ]),
-                _vm._v(" "),
-                _vm._m(5)
+                ])
               ])
             ]
           )
@@ -72150,7 +72144,11 @@ var staticRenderFns = [
             "aria-label": "Close"
           }
         },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+        [
+          _c("span", { attrs: { "aria-hidden": "true" } }, [
+            _c("i", { staticClass: "fe fe-x h2" })
+          ])
+        ]
       )
     ])
   },
@@ -72223,30 +72221,19 @@ var staticRenderFns = [
     return _c(
       "button",
       {
-        staticClass: "close",
+        staticClass: "close p-0 m-0",
         attrs: {
           type: "button",
           "data-dismiss": "modal",
           "aria-label": "Close"
         }
       },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      [
+        _c("span", { attrs: { "aria-hidden": "true" } }, [
+          _c("i", { staticClass: "fe fe-x h2" })
+        ])
+      ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer pt-3 pb-3" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Закрыть")]
-      )
-    ])
   }
 ]
 render._withStripped = true

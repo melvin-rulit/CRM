@@ -25,7 +25,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового региона</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
             <div class="modal-body pb-0">
@@ -75,9 +75,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
-                <a href="#" class="fe fe-trash-2 h3 text-danger ml-3 mb-0" @click.prevent="deleteBranch(branch.id)"></a>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <span>Удалить филиал <a href="#" class="fe fe-trash-2 h3 text-danger ml-3 mb-0" @click.prevent="deleteBranch(branch.id)"></a></span>
+                <button type="button" class="close p-0 m-0" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
             <div class="modal-body">
@@ -406,9 +406,6 @@
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
