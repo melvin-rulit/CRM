@@ -176,8 +176,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span @click="closeModalView" aria-hidden="true">&times;</span>
+                <button @click="closeModalView" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body pb-0">
@@ -636,7 +636,7 @@
                                                     </tbody>
                                                 </table>
                                                 <p>Оплаты:
-                                                    <span v-for="pays in activeContract.pays" class="text-muted ml-2">{{ pays.pay }}</span>
+                                                    <span v-for="pays in activeContract.pays" data-toggle="tooltip" data-placement="top" :title="pays.date" class="text-muted ml-2 pointer">{{ pays.pay }}</span>
                                                 </p>
                                                 <p>Сумма и остаток: <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span>
                                                 </p>
@@ -674,10 +674,13 @@
 
 <script>
 
-
 $('#addNew').on('hidden.bs.modal', function (e) {
   alert("CLOSE");
 })
+
+$(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+});
 
 import Avatar from 'vue-avatar'
 

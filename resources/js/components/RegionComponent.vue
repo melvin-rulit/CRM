@@ -133,6 +133,7 @@
                                 <input-form 
                                     v-model="branch.requisites" 
                                     name="requisites" 
+                                    textarea="true" 
                                     :id="branch.id" 
                                     @edit-field="editFieldBranch">
                                 </input-form>

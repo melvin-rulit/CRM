@@ -2698,6 +2698,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     value: {
@@ -2713,10 +2724,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     placeholder: {
       type: String
+    },
+    textarea: {
+      type: String
     }
   },
   data: function data() {
     return {
+      textarea: null,
       keyInputForm: null,
       thisValue: this.value
     };
@@ -2969,6 +2984,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-simple-alert */ "./node_modules/vue-simple-alert/lib/index.js");
+//
 //
 //
 //
@@ -4647,6 +4663,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 $('#addNew').on('hidden.bs.modal', function (e) {
   alert("CLOSE");
+});
+$(document).ready(function () {
+  $("body").tooltip({
+    selector: '[data-toggle=tooltip]'
+  });
 });
 
 
@@ -66230,7 +66251,44 @@ var render = function() {
       ? _c("span", { staticClass: "card-title", on: { click: _vm.focus } }, [
           _vm._v(_vm._s(_vm.value))
         ])
-      : _c("input", {
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.textarea && _vm.keyInputForm
+      ? _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.value,
+              expression: "value"
+            }
+          ],
+          ref: "edit",
+          staticClass: "form-control",
+          attrs: { id: _vm.id, name: _vm.name },
+          domProps: { value: _vm.value },
+          on: {
+            input: [
+              function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.value = $event.target.value
+              },
+              function($event) {
+                return _vm.$emit("input", _vm.value)
+              }
+            ],
+            blur: function($event) {
+              _vm.keyInputForm = false
+              _vm.$emit("edit-field", $event)
+            }
+          }
+        })
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.keyInputForm && !_vm.textarea
+      ? _c("input", {
           directives: [
             {
               name: "model",
@@ -66277,6 +66335,7 @@ var render = function() {
             }
           }
         })
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -67254,7 +67313,11 @@ var render = function() {
                         { staticClass: "card-text text-muted mb-1 ml-2" },
                         [
                           _c("input-form", {
-                            attrs: { name: "requisites", id: _vm.branch.id },
+                            attrs: {
+                              name: "requisites",
+                              textarea: "true",
+                              id: _vm.branch.id
+                            },
                             on: { "edit-field": _vm.editFieldBranch },
                             model: {
                               value: _vm.branch.requisites,
@@ -68984,7 +69047,7 @@ var render = function() {
                                   " " +
                                   _vm._s(_vm.contract.currency) +
                                   ". до " +
-                                  _vm._s(item.day)
+                                  _vm._s(item.date)
                               )
                             ])
                           ])
@@ -69804,17 +69867,13 @@ var render = function() {
                         type: "button",
                         "data-dismiss": "modal",
                         "aria-label": "Close"
-                      }
+                      },
+                      on: { click: _vm.closeModalView }
                     },
                     [
-                      _c(
-                        "span",
-                        {
-                          attrs: { "aria-hidden": "true" },
-                          on: { click: _vm.closeModalView }
-                        },
-                        [_vm._v("×")]
-                      )
+                      _c("span", { attrs: { "aria-hidden": "true" } }, [
+                        _vm._v("×")
+                      ])
                     ]
                   )
                 ]),
@@ -71916,7 +71975,15 @@ var render = function() {
                                                               "span",
                                                               {
                                                                 staticClass:
-                                                                  "text-muted ml-2"
+                                                                  "text-muted ml-2 pointer",
+                                                                attrs: {
+                                                                  "data-toggle":
+                                                                    "tooltip",
+                                                                  "data-placement":
+                                                                    "top",
+                                                                  title:
+                                                                    pays.date
+                                                                }
                                                               },
                                                               [
                                                                 _vm._v(

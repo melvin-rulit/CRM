@@ -5,8 +5,19 @@
         </span>
           <span v-if="!keyInputForm" class="card-title" @click="focus">{{ value }}</span>
 
-          <input 
-          v-else
+          <textarea
+            v-if="textarea && keyInputForm"
+            ref="edit"
+            class="form-control"
+            :id="id" 
+            :name="name" 
+            v-model="value"
+            @input="$emit('input', value)" 
+            @blur="keyInputForm = false;$emit('edit-field', $event)">
+          </textarea>
+
+          <input
+          v-if="keyInputForm && !textarea"
           ref="edit"
           class="form-control" 
           size="1" 
@@ -37,10 +48,14 @@ export default {
     },
     placeholder: {
         type: String,
+    },
+    textarea: {
+        type: String,
     }
   },
   data() {
     return {
+      textarea: null,
       keyInputForm: null,
       thisValue: this.value,
     }

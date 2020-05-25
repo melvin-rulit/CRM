@@ -87,7 +87,7 @@
                     <br>Графік оплати:<br>
                     <table width="100%">
                         <tr v-if="contract.contract_pays" v-for="item in contract.contract_pays">
-                            <td>{{item.pay}} {{contract.currency}}. до {{item.day}}</td>
+                            <td>{{item.pay}} {{contract.currency}}. до {{item.date}}</td>
                         </tr>
                     </table>
                     <table>
