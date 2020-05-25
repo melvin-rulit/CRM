@@ -18,7 +18,6 @@
 </div>
 
 
-
 <!-- Модальное окно добавлением нового региона -->
 <div class="modal fade" id="addNewRegion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -71,14 +70,14 @@
 </div>
 
 <!-- Модальное окно открытия карточки филиала -->
-<div class="modal fade" id="getbranch" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="getbranch" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-branch" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
                 <a href="#" class="fe fe-trash-2 h3 text-danger ml-3 mb-0" @click.prevent="deleteBranch(branch.id)"></a>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span @click.prevent="closeModal" aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -128,23 +127,21 @@
                         </p>
                     </div>
                     <div class="col-md-6">
-                        <p class="mb-1 ml-3">Реквизиты:
+                        <p>Реквизиты:
                             <span class="card-text text-muted mb-1 ml-2">
-                                <input-form 
-                                    v-model="branch.requisites" 
-                                    name="requisites" 
-                                    textarea="true" 
-                                    :id="branch.id" 
-                                    @edit-field="editFieldBranch">
+                                <input-form v-model="branch.requisites" name="requisites" textarea="true" :id="branch.id" @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
                         </p>
-                        <p class="mb-1 ml-3">Валюта филиала:
-                            <select v-model="branch.currency" @change="editBranchCurrency(branch.id, branch.currency)">
-                                <option>руб</option>
-                                <option>грн</option>
-                            </select>
-                        </p>
+                        <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Валюта филиала:</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" v-model="branch.currency" @change="editBranchCurrency(branch.id, branch.currency)">
+                                    <option>руб</option>
+                                    <option>грн</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="title-collapse">
@@ -156,14 +153,30 @@
                             <thead>
                                 <tr>
                                     <th>Название</th>
-                                    <th v-title="price" class="text-center"><span class="fe fe-dollar-sign h3 text-danger"></span></th>
-                                    <th v-title="classes_total" class="text-center"><span class="fe fe-users h3 text-success"></span></th>
-                                    <th v-title="classes_week" class="text-center"><span class="fe fe-calendar h3 text-info"></span></th>
-                                    <th v-title="category_time" class="text-center"><span class="fe fe-clock h3 text-primary"></span></th>
-                                    <th v-title="freezing_total" class="text-center"><span class="fe fe-battery-charging h3 text-danger"></span></th>
-                                    <th v-title="months" class="text-center"><span class="fe fe-calendar h3 text-success"></span></th>
-                                    <th v-title="days" class="text-center"><span class="fe fe-clock h3 text-info"></span></th>
-                                    <th v-title="add_product" v-show="buttonAdd" class="text-center bg-success bp" @click="addRow(branch.id), buttonAdd = !buttonAdd"><span class="fe fe-plus h3 text-white"></span></th>
+                                    <th data-toggle="tooltip" :title="price" class="text-center">
+                                        <span class="fe fe-dollar-sign h3 text-danger"></span>
+                                    </th>
+                                    <th data-toggle="tooltip" :title="classes_total" class="text-center">
+                                        <span class="fe fe-users h3 text-success"></span>
+                                    </th>
+                                    <th data-toggle="tooltip" :title="classes_week"  class="text-center">
+                                        <span class="fe fe-calendar h3 text-info"></span>
+                                    </th>
+                                    <th data-toggle="tooltip" :title="category_time" class="text-center">
+                                        <span class="fe fe-clock h3 text-primary"></span>
+                                    </th>
+                                    <th data-toggle="tooltip" :title="freezing_total" class="text-center">
+                                        <span class="fe fe-battery-charging h3 text-danger"></span>
+                                    </th>
+                                    <th data-toggle="tooltip" :title="months" class="text-center">
+                                        <span class="fe fe-calendar h3 text-success"></span>
+                                    </th>
+                                    <th data-toggle="tooltip" :title="days" class="text-center">
+                                        <span class="fe fe-clock h3 text-info"></span>
+                                    </th>
+                                    <th data-toggle="tooltip" :title="add_product" v-show="buttonAdd" class="text-center bg-success bp" @click="addRow(branch.id), buttonAdd = !buttonAdd">
+                                        <span class="fe fe-plus h3 text-white"></span>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody v-for="(product, int) in branch.products">
@@ -395,7 +408,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" @click="closeModal" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
@@ -411,7 +424,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="card card-sm mb-2 pointer" v-for="branch in region.branches" @click="getBranch(branch.id)">
+                <div class="card card-sm mb-2 pointer" v-for="branch in region.branches" data-toggle="modal" data-target="#getbranch" @click="getBranch(branch.id)">
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-12 col-md">
@@ -420,7 +433,6 @@
                         </div>
                     </div>
                 </div>
-                <p v-if="!region.branches.length" class="text-center pt-3">В регионе нет филиалов</p>
                 <div class="text-center pt-2">
                     <button class="btn btn-sm btn-success center-block" @click="getModalBranch(region.id)">Добавить филиал</button>
                 </div>
@@ -439,6 +451,9 @@ $('.accordion-toggle').click(function(){
     $(this).next('tr').find('.hiddenRow').show();
 });
 
+$(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+});
 
 import VueSimpleAlert from "vue-simple-alert";
 
@@ -488,6 +503,9 @@ Vue.use(VueSimpleAlert);
         },
         created(){
             this.getRegions();
+        },
+        mounted(){
+            $('#getbranch').on('hidden.bs.modal', () => this.closeModal())
         },
         methods: {
             saveProduct(id){
@@ -637,7 +655,7 @@ Vue.use(VueSimpleAlert);
         		this.region_id = region_id;
         	},
         	getBranch(id){
-        		$('#getbranch').modal('show');
+        		// $('#getbranch').modal('show');
         		axios.get('api/v2/branches/' + id)
                 .then(response => this.branch = response.data.data)
         	},
@@ -694,8 +712,7 @@ Vue.use(VueSimpleAlert);
                 this.buttonAddProgramm = true
                 this.busy = false
                 this.getRegions();
-
-            }
+            },
         },
 	}
 </script>

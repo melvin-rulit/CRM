@@ -151,7 +151,7 @@
                             </tr>
                         </thead>
                         <tbody v-for="article in articles">
-                            <tr @click="getModal(article.id)">
+                            <tr data-toggle="modal" data-target="#addNew" @click="getModal(article.id)">
                                 <td>{{ article.child_surname }}</td>
                                 <td>{{ article.child_name }}</td>
                                 <td>{{ article.child_middle_name }}</td>
@@ -171,12 +171,12 @@
 
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id="addNew" data-backdrop="static" data-keyboard="false" ref="vuemodals" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="addNew" ref="vuemodals" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
-                <button @click="closeModalView" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -662,7 +662,7 @@
                 </div>
             </div>
             <div class="modal-footer pt-3 pb-3">
-                <button @click="closeModalView" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
@@ -673,10 +673,6 @@
 </template>
 
 <script>
-
-$('#addNew').on('hidden.bs.modal', function (e) {
-  alert("CLOSE");
-})
 
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
@@ -778,6 +774,9 @@ Vue.use(Loading);
         created(){
             this.fetchArticles();
         },
+        mounted(){
+            $('#addNew').on('hide.bs.modal', () => this.closeModalView())
+        },
 
         components:{
             Avatar
@@ -830,7 +829,7 @@ Vue.use(Loading);
                 });
             },
             getModal(id){
-                $('#addNew').modal('show');
+                // $('#addNew').modal('show');
                 axios.post('api/v2/getinfo', {id : id}).then(response => {
                     this.dataObject = response.data.data
                 })

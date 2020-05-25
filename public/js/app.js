@@ -3419,8 +3419,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 $('.accordion-toggle').click(function () {
   $(this).next('tr').find('.hiddenRow').show();
+});
+$(document).ready(function () {
+  $("body").tooltip({
+    selector: '[data-toggle=tooltip]'
+  });
 });
 
 Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -3477,9 +3494,16 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
   created: function created() {
     this.getRegions();
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    $('#getbranch').on('hidden.bs.modal', function () {
+      return _this.closeModal();
+    });
+  },
   methods: {
     saveProduct: function saveProduct(id) {
-      var _this = this;
+      var _this2 = this;
 
       this.branch.products[0].rowNew = '';
       this.buttonAdd = true;
@@ -3490,27 +3514,27 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       });
       this.$alert("Программа добавлена");
       setTimeout(function () {
-        _this.getBranch(id);
+        _this2.getBranch(id);
       }, 500);
     },
     saveProgramm: function saveProgramm(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.branch.programms[this.branch.programms.length - 1].rowNew = '';
       this.buttonAddProgramm = true;
       axios.post('api/v2/programms', this.branch.programms[this.branch.programms.length - 1]);
       setTimeout(function () {
-        _this2.getBranch(id);
+        _this3.getBranch(id);
       }, 500);
     },
     saveDopProduct: function saveDopProduct(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.branch.dopproducts[this.branch.dopproducts.length - 1].rowNew = '';
       this.buttonAddDopProduct = true;
       axios.post('api/v2/dopproducts', this.branch.dopproducts[this.branch.dopproducts.length - 1]);
       setTimeout(function () {
-        _this3.getBranch(id);
+        _this4.getBranch(id);
       }, 500);
     },
     addRow: function addRow(branch) {
@@ -3554,58 +3578,58 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       });
     },
     savePay: function savePay(_int2, index, id) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.busy = false;
       this.branch.products[_int2].pays[index].rowNewPay = '';
       axios.post('api/v2/product_pay', this.branch.products[_int2].pays[index]);
       this.$alert("Платёж добавлен");
       setTimeout(function () {
-        _this4.getBranch(id);
+        _this5.getBranch(id);
       }, 500);
     },
     removeRow: function removeRow(index, id, name) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.$confirm("Удалить программу " + name + " ?").then(function () {
-        _this5.branch.products.splice(index, 1);
+        _this6.branch.products.splice(index, 1);
 
         axios["delete"]('api/v2/products/' + id);
 
-        _this5.$alert("Продукт удален");
+        _this6.$alert("Продукт удален");
       });
     },
     removePay: function removePay(_int3, index, id) {
-      var _this6 = this;
+      var _this7 = this;
 
       this.$confirm("Удалить платеж ?").then(function () {
         axios["delete"]('api/v2/product_pay/' + id);
 
-        _this6.branch.products[_int3].pays.splice(index, 1);
+        _this7.branch.products[_int3].pays.splice(index, 1);
 
-        _this6.$alert("Платёж удален");
+        _this7.$alert("Платёж удален");
       });
     },
     removeRowProgramm: function removeRowProgramm(index, id, name) {
-      var _this7 = this;
+      var _this8 = this;
 
       this.$confirm("Удалить программу " + name + " ?").then(function () {
-        _this7.branch.programms.splice(index, 1);
+        _this8.branch.programms.splice(index, 1);
 
         axios["delete"]('api/v2/programms/' + id);
 
-        _this7.$alert("Программа удалена");
+        _this8.$alert("Программа удалена");
       });
     },
     removeRowDopProduct: function removeRowDopProduct(index, id, name) {
-      var _this8 = this;
+      var _this9 = this;
 
       this.$confirm("Удалить продукт " + name + " ?").then(function () {
-        _this8.branch.dopproducts.splice(index, 1);
+        _this9.branch.dopproducts.splice(index, 1);
 
         axios["delete"]('api/v2/dopproducts/' + id);
 
-        _this8.$alert("Продукт удален");
+        _this9.$alert("Продукт удален");
       });
     },
     editField: function editField(e, name) {
@@ -3670,22 +3694,22 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       this.region_id = region_id;
     },
     getBranch: function getBranch(id) {
-      var _this9 = this;
+      var _this10 = this;
 
-      $('#getbranch').modal('show');
+      // $('#getbranch').modal('show');
       axios.get('api/v2/branches/' + id).then(function (response) {
-        return _this9.branch = response.data.data;
+        return _this10.branch = response.data.data;
       });
     },
     getRegions: function getRegions() {
-      var _this10 = this;
+      var _this11 = this;
 
       axios.get('api/v2/regions').then(function (response) {
-        return _this10.regions = response.data.data;
+        return _this11.regions = response.data.data;
       });
     },
     addNewRegion: function addNewRegion() {
-      var _this11 = this;
+      var _this12 = this;
 
       $('#addNewRegion').modal('hide');
       $(document.body).removeClass("modal-open");
@@ -3693,9 +3717,9 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       axios.post('api/v2/regions', {
         name: this.name
       }).then(function (response) {
-        return _this11.responsesuccess = response.data;
+        return _this12.responsesuccess = response.data;
       })["finally"](function () {
-        return _this11.getRegions();
+        return _this12.getRegions();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3707,7 +3731,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }, 500);
     },
     addNewBranch: function addNewBranch() {
-      var _this12 = this;
+      var _this13 = this;
 
       $('#addNewBranch').modal('hide');
       $(document.body).removeClass("modal-open");
@@ -3719,9 +3743,9 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
         phone: this.addNewBranchFields.phone,
         region_id: this.region_id
       }).then(function (response) {
-        return _this12.responsesuccess = response.data;
+        return _this13.responsesuccess = response.data;
       })["finally"](function () {
-        return _this12.getRegions();
+        return _this13.getRegions();
       });
       setTimeout(function () {
         Vue.$toast.open({
@@ -3733,7 +3757,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }, 500);
     },
     deleteBranch: function deleteBranch(id) {
-      var _this13 = this;
+      var _this14 = this;
 
       this.$confirm("Удалить филиал с продуктами и оплатами ? ").then(function () {
         axios["delete"]('api/v2/branches/' + id);
@@ -3747,7 +3771,7 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_0__["default"]);
           });
         }, 500);
 
-        _this13.getRegions();
+        _this14.getRegions();
       });
     },
     closeModal: function closeModal() {
@@ -4661,9 +4685,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-$('#addNew').on('hidden.bs.modal', function (e) {
-  alert("CLOSE");
-});
 $(document).ready(function () {
   $("body").tooltip({
     selector: '[data-toggle=tooltip]'
@@ -4748,6 +4769,13 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
   created: function created() {
     this.fetchArticles();
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    $('#addNew').on('hide.bs.modal', function () {
+      return _this.closeModalView();
+    });
+  },
   components: {
     Avatar: vue_avatar__WEBPACK_IMPORTED_MODULE_0___default.a
   },
@@ -4768,7 +4796,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       this.filter ? $('#filter').collapse('hide') : $('#filter').collapse('show');
     },
     fetch: function fetch() {
-      var _this = this;
+      var _this2 = this;
 
       this.busy = true;
       axios.get("api/v2/filter", {
@@ -4778,8 +4806,8 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
           birthday: this.birthday
         }
       }).then(function (response) {
-        _this.articles = response.data.data;
-        _this.busy = false;
+        _this2.articles = response.data.data;
+        _this2.busy = false;
       });
     },
     resetFilter: function resetFilter() {
@@ -4792,38 +4820,38 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       this.fetchArticles();
     },
     showContract: function showContract(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$confirm("Показать контракт ?").then(function () {
         $('#addNew').modal('hide');
 
-        _this2.$refs.showmodal.showModal(id);
+        _this3.$refs.showmodal.showModal(id);
       });
     },
     getModal: function getModal(id) {
-      var _this3 = this;
+      var _this4 = this;
 
-      $('#addNew').modal('show');
+      // $('#addNew').modal('show');
       axios.post('api/v2/getinfo', {
         id: id
       }).then(function (response) {
-        _this3.dataObject = response.data.data;
+        _this4.dataObject = response.data.data;
       });
     },
     fetchArticles: function fetchArticles() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('api/v2/collection').then(function (response) {
-        return _this4.articles = response.data.data;
+        return _this5.articles = response.data.data;
       })["finally"](function () {
         return console.log('Посты успешно загружены');
       });
     },
     profile: function profile() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('get_email').then(function (response) {
-        return _this5.users = response.data;
+        return _this6.users = response.data;
       })["finally"](function () {
         return console.log('Посты успешно загружены');
       });
@@ -4894,7 +4922,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       $('#selectModal').modal('show');
     },
     addNewUser: function addNewUser() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.$v.$touch();
 
@@ -4922,7 +4950,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
           return setTimeout(function () {
             loader.hide();
 
-            _this6.getModal(response.data);
+            _this7.getModal(response.data);
           }, 500);
         });
         this.submitStatus = 'OK';
@@ -4941,40 +4969,40 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       this.branch = [];
     },
     getBranches: function getBranches() {
-      var _this7 = this;
+      var _this8 = this;
 
       axios.get('api/v2/getbranches').then(function (response) {
-        return _this7.branches = response.data.data;
+        return _this8.branches = response.data.data;
       });
     },
     getManagers: function getManagers() {
-      var _this8 = this;
+      var _this9 = this;
 
       axios.get('api/v2/getmanagers').then(function (response) {
-        return _this8.managers = response.data.data;
+        return _this9.managers = response.data.data;
       });
     },
     getInstructors: function getInstructors() {
-      var _this9 = this;
+      var _this10 = this;
 
       axios.get('api/v2/getinstructors').then(function (response) {
-        return _this9.instructors = response.data.data;
+        return _this10.instructors = response.data.data;
       });
     },
     getProgramm: function getProgramm() {
-      var _this10 = this;
+      var _this11 = this;
 
       axios.post('api/v2/getprogramms', {
         id: this.dataObject.id
       }).then(function (response) {
-        return _this10.programms = response.data.data;
+        return _this11.programms = response.data.data;
       });
     },
     getUsers: function getUsers() {
-      var _this11 = this;
+      var _this12 = this;
 
       axios.get('api/v2/getusers').then(function (response) {
-        return _this11.users = response.data.data;
+        return _this12.users = response.data.data;
       });
     },
     onFileChange: function onFileChange(e) {
@@ -4995,7 +5023,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       this.upload(event);
     },
     upload: function upload(event) {
-      var _this12 = this;
+      var _this13 = this;
 
       var data = new FormData();
       var file = event.target.files[0];
@@ -5009,9 +5037,9 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       axios.post('api/v2/image', data, config);
       setTimeout(function () {
         axios.post('api/v2/getinfo', {
-          id: _this12.dataObject['id']
+          id: _this13.dataObject['id']
         }).then(function (response) {
-          _this12.dataObject = response.data.data;
+          _this13.dataObject = response.data.data;
         });
       }, 200);
     },
@@ -67135,8 +67163,6 @@ var render = function() {
         attrs: {
           id: "getbranch",
           tabindex: "-1",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
           role: "dialog",
           "aria-labelledby": "exampleModalCenterTitle",
           "aria-hidden": "true"
@@ -67173,32 +67199,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c(
-                      "span",
-                      {
-                        attrs: { "aria-hidden": "true" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.closeModal($event)
-                          }
-                        }
-                      },
-                      [_vm._v("×")]
-                    )
-                  ]
-                )
+                _vm._m(5)
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
@@ -67306,7 +67307,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
-                    _c("p", { staticClass: "mb-1 ml-3" }, [
+                    _c("p", [
                       _vm._v("Реквизиты:\n                            "),
                       _c(
                         "span",
@@ -67332,58 +67333,65 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("p", { staticClass: "mb-1 ml-3" }, [
-                      _vm._v("Валюта филиала:\n                            "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.branch.currency,
-                              expression: "branch.currency"
-                            }
-                          ],
-                          on: {
-                            change: [
-                              function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.branch,
-                                  "currency",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              },
-                              function($event) {
-                                return _vm.editBranchCurrency(
-                                  _vm.branch.id,
-                                  _vm.branch.currency
-                                )
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", { staticClass: "col-sm-5 col-form-label" }, [
+                        _vm._v("Валюта филиала:")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-3" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.branch.currency,
+                                expression: "branch.currency"
                               }
-                            ]
-                          }
-                        },
-                        [
-                          _c("option", [_vm._v("руб")]),
-                          _vm._v(" "),
-                          _c("option", [_vm._v("грн")])
-                        ]
-                      )
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.branch,
+                                    "currency",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                function($event) {
+                                  return _vm.editBranchCurrency(
+                                    _vm.branch.id,
+                                    _vm.branch.currency
+                                  )
+                                }
+                              ]
+                            }
+                          },
+                          [
+                            _c("option", [_vm._v("руб")]),
+                            _vm._v(" "),
+                            _c("option", [_vm._v("грн")])
+                          ]
+                        )
+                      ])
                     ])
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(5),
+                _vm._m(6),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -67404,15 +67412,11 @@ var render = function() {
                               _c(
                                 "th",
                                 {
-                                  directives: [
-                                    {
-                                      name: "title",
-                                      rawName: "v-title",
-                                      value: _vm.price,
-                                      expression: "price"
-                                    }
-                                  ],
-                                  staticClass: "text-center"
+                                  staticClass: "text-center",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    title: _vm.price
+                                  }
                                 },
                                 [
                                   _c("span", {
@@ -67425,15 +67429,11 @@ var render = function() {
                               _c(
                                 "th",
                                 {
-                                  directives: [
-                                    {
-                                      name: "title",
-                                      rawName: "v-title",
-                                      value: _vm.classes_total,
-                                      expression: "classes_total"
-                                    }
-                                  ],
-                                  staticClass: "text-center"
+                                  staticClass: "text-center",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    title: _vm.classes_total
+                                  }
                                 },
                                 [
                                   _c("span", {
@@ -67445,15 +67445,11 @@ var render = function() {
                               _c(
                                 "th",
                                 {
-                                  directives: [
-                                    {
-                                      name: "title",
-                                      rawName: "v-title",
-                                      value: _vm.classes_week,
-                                      expression: "classes_week"
-                                    }
-                                  ],
-                                  staticClass: "text-center"
+                                  staticClass: "text-center",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    title: _vm.classes_week
+                                  }
                                 },
                                 [
                                   _c("span", {
@@ -67465,15 +67461,11 @@ var render = function() {
                               _c(
                                 "th",
                                 {
-                                  directives: [
-                                    {
-                                      name: "title",
-                                      rawName: "v-title",
-                                      value: _vm.category_time,
-                                      expression: "category_time"
-                                    }
-                                  ],
-                                  staticClass: "text-center"
+                                  staticClass: "text-center",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    title: _vm.category_time
+                                  }
                                 },
                                 [
                                   _c("span", {
@@ -67485,15 +67477,11 @@ var render = function() {
                               _c(
                                 "th",
                                 {
-                                  directives: [
-                                    {
-                                      name: "title",
-                                      rawName: "v-title",
-                                      value: _vm.freezing_total,
-                                      expression: "freezing_total"
-                                    }
-                                  ],
-                                  staticClass: "text-center"
+                                  staticClass: "text-center",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    title: _vm.freezing_total
+                                  }
                                 },
                                 [
                                   _c("span", {
@@ -67506,15 +67494,11 @@ var render = function() {
                               _c(
                                 "th",
                                 {
-                                  directives: [
-                                    {
-                                      name: "title",
-                                      rawName: "v-title",
-                                      value: _vm.months,
-                                      expression: "months"
-                                    }
-                                  ],
-                                  staticClass: "text-center"
+                                  staticClass: "text-center",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    title: _vm.months
+                                  }
                                 },
                                 [
                                   _c("span", {
@@ -67527,15 +67511,11 @@ var render = function() {
                               _c(
                                 "th",
                                 {
-                                  directives: [
-                                    {
-                                      name: "title",
-                                      rawName: "v-title",
-                                      value: _vm.days,
-                                      expression: "days"
-                                    }
-                                  ],
-                                  staticClass: "text-center"
+                                  staticClass: "text-center",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    title: _vm.days
+                                  }
                                 },
                                 [
                                   _c("span", {
@@ -67549,12 +67529,6 @@ var render = function() {
                                 {
                                   directives: [
                                     {
-                                      name: "title",
-                                      rawName: "v-title",
-                                      value: _vm.add_product,
-                                      expression: "add_product"
-                                    },
-                                    {
                                       name: "show",
                                       rawName: "v-show",
                                       value: _vm.buttonAdd,
@@ -67562,6 +67536,10 @@ var render = function() {
                                     }
                                   ],
                                   staticClass: "text-center bg-success bp",
+                                  attrs: {
+                                    "data-toggle": "tooltip",
+                                    title: _vm.add_product
+                                  },
                                   on: {
                                     click: function($event) {
                                       _vm.addRow(_vm.branch.id),
@@ -68260,7 +68238,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(6),
+                _vm._m(7),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -68374,7 +68352,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(7),
+                _vm._m(8),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -68523,17 +68501,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger",
-                    attrs: { type: "button", "data-dismiss": "modal" },
-                    on: { click: _vm.closeModal }
-                  },
-                  [_vm._v("Закрыть")]
-                )
-              ])
+              _vm._m(9)
             ])
           ]
         )
@@ -68561,6 +68529,10 @@ var render = function() {
                     "div",
                     {
                       staticClass: "card card-sm mb-2 pointer",
+                      attrs: {
+                        "data-toggle": "modal",
+                        "data-target": "#getbranch"
+                      },
                       on: {
                         click: function($event) {
                           return _vm.getBranch(branch.id)
@@ -68585,12 +68557,6 @@ var render = function() {
                     ]
                   )
                 }),
-                _vm._v(" "),
-                !region.branches.length
-                  ? _c("p", { staticClass: "text-center pt-3" }, [
-                      _vm._v("В регионе нет филиалов")
-                    ])
-                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-center pt-2" }, [
                   _c(
@@ -68710,6 +68676,23 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "title-collapse" }, [
       _c(
         "a",
@@ -68760,6 +68743,21 @@ var staticRenderFns = [
           }
         },
         [_vm._v("Дополнительные продукты")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Закрыть")]
       )
     ])
   }
@@ -69768,6 +69766,10 @@ var render = function() {
                           _c(
                             "tr",
                             {
+                              attrs: {
+                                "data-toggle": "modal",
+                                "data-target": "#addNew"
+                              },
                               on: {
                                 click: function($event) {
                                   return _vm.getModal(article.id)
@@ -69825,8 +69827,6 @@ var render = function() {
           staticClass: "modal fade bd-example-modal-lg",
           attrs: {
             id: "addNew",
-            "data-backdrop": "static",
-            "data-keyboard": "false",
             tabindex: "-1",
             role: "dialog",
             "aria-labelledby": "exampleModalCenterTitle",
@@ -69859,23 +69859,7 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "close",
-                      attrs: {
-                        type: "button",
-                        "data-dismiss": "modal",
-                        "aria-label": "Close"
-                      },
-                      on: { click: _vm.closeModalView }
-                    },
-                    [
-                      _c("span", { attrs: { "aria-hidden": "true" } }, [
-                        _vm._v("×")
-                      ])
-                    ]
-                  )
+                  _vm._m(4)
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body pb-0" }, [
@@ -72134,17 +72118,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "modal-footer pt-3 pb-3" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary",
-                      attrs: { type: "button", "data-dismiss": "modal" },
-                      on: { click: _vm.closeModalView }
-                    },
-                    [_vm._v("Закрыть")]
-                  )
-                ])
+                _vm._m(5)
               ])
             ]
           )
@@ -72240,6 +72214,38 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v("?")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer pt-3 pb-3" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Закрыть")]
+      )
     ])
   }
 ]
