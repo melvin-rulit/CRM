@@ -107,10 +107,10 @@ class ContractController extends Controller
         $contract->parent_instagram = $request['parent_instagram'];
 		$contract->name = $request['name'];
 		$contract->price = $request['price'];
-		$contract->start = Carbon::createFromDate($request['start']);
+		$contract->start = $request['start'];
 		$contract->end = $request['end'];
 		$contract->end_actually = $request['end_actually'];
-		$contract->date = Carbon::createFromDate($request['date']);
+		$contract->date = $request['date'];
 		$contract->active = true;
 		$contract->form_size = $request['form_size'];
         $contract->classes_total =  $request['classes_total'];      
