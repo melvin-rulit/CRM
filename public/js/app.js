@@ -2485,12 +2485,21 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     this.print = true;
     contract_type == 'vm' ? this.$htmlToPaper('printVM') : this.$htmlToPaper('printOSN');
     contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
+    $(document.body).removeClass("modal-open");
+    $(".modal-backdrop.show").hide();
     this.print = false;
   },
   closeModal: function closeModal() {
-    this.programm.name = '';
-    this.product.name = '';
+    this.programm = '';
+    this.product = '';
+    $('#osnModal').modal('hide');
     $('#info li:first-child a').tab('show');
+    $(document.body).removeClass("modal-open");
+    $(".modal-backdrop.show").hide();
+  },
+  closeSelectModal: function closeSelectModal() {
+    $(document.body).removeClass("modal-open");
+    $(".modal-backdrop.show").hide();
   }
 }), _components$component);
 
@@ -3972,9 +3981,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_html_to_paper__WEBPACK_IMPORT
     printContract: function printContract() {
       this.$htmlToPaper('print');
       $('#ShowModal').modal('hide');
+      $(document.body).removeClass("modal-open");
+      $(".modal-backdrop.show").hide();
     },
     closeModal: function closeModal() {
       $('#info li:first-child a').tab('show');
+      $(document.body).removeClass("modal-open");
+      $(".modal-backdrop.show").hide();
     }
   }
 });
@@ -4825,27 +4838,36 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
     getModal: function getModal(id) {
       var _this4 = this;
 
-      // $('#addNew').modal('show');
       axios.post('api/v2/getinfo', {
         id: id
       }).then(function (response) {
         _this4.dataObject = response.data.data;
       });
     },
-    fetchArticles: function fetchArticles() {
+    getModalForNewUser: function getModalForNewUser(id) {
       var _this5 = this;
 
+      $('#addNew').modal('show');
+      axios.post('api/v2/getinfo', {
+        id: id
+      }).then(function (response) {
+        _this5.dataObject = response.data.data;
+      });
+    },
+    fetchArticles: function fetchArticles() {
+      var _this6 = this;
+
       axios.get('api/v2/collection').then(function (response) {
-        return _this5.articles = response.data.data;
+        return _this6.articles = response.data.data;
       })["finally"](function () {
         return console.log('Посты успешно загружены');
       });
     },
     profile: function profile() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('get_email').then(function (response) {
-        return _this6.users = response.data;
+        return _this7.users = response.data;
       })["finally"](function () {
         return console.log('Посты успешно загружены');
       });
@@ -4916,7 +4938,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       $('#selectModal').modal('show');
     },
     addNewUser: function addNewUser() {
-      var _this7 = this;
+      var _this8 = this;
 
       this.$v.$touch();
 
@@ -4944,7 +4966,9 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
           return setTimeout(function () {
             loader.hide();
 
-            _this7.getModal(response.data);
+            _this8.getModalForNewUser(response.data);
+
+            _this8.fetchArticles();
           }, 500);
         });
         this.submitStatus = 'OK';
@@ -4963,40 +4987,40 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       this.branch = [];
     },
     getBranches: function getBranches() {
-      var _this8 = this;
+      var _this9 = this;
 
       axios.get('api/v2/getbranches').then(function (response) {
-        return _this8.branches = response.data.data;
+        return _this9.branches = response.data.data;
       });
     },
     getManagers: function getManagers() {
-      var _this9 = this;
+      var _this10 = this;
 
       axios.get('api/v2/getmanagers').then(function (response) {
-        return _this9.managers = response.data.data;
+        return _this10.managers = response.data.data;
       });
     },
     getInstructors: function getInstructors() {
-      var _this10 = this;
+      var _this11 = this;
 
       axios.get('api/v2/getinstructors').then(function (response) {
-        return _this10.instructors = response.data.data;
+        return _this11.instructors = response.data.data;
       });
     },
     getProgramm: function getProgramm() {
-      var _this11 = this;
+      var _this12 = this;
 
       axios.post('api/v2/getprogramms', {
         id: this.dataObject.id
       }).then(function (response) {
-        return _this11.programms = response.data.data;
+        return _this12.programms = response.data.data;
       });
     },
     getUsers: function getUsers() {
-      var _this12 = this;
+      var _this13 = this;
 
       axios.get('api/v2/getusers').then(function (response) {
-        return _this12.users = response.data.data;
+        return _this13.users = response.data.data;
       });
     },
     onFileChange: function onFileChange(e) {
@@ -5017,7 +5041,7 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       this.upload(event);
     },
     upload: function upload(event) {
-      var _this13 = this;
+      var _this14 = this;
 
       var data = new FormData();
       var file = event.target.files[0];
@@ -5031,9 +5055,9 @@ Vue.use(vue_loading_overlay__WEBPACK_IMPORTED_MODULE_7___default.a);
       axios.post('api/v2/image', data, config);
       setTimeout(function () {
         axios.post('api/v2/getinfo', {
-          id: _this13.dataObject['id']
+          id: _this14.dataObject['id']
         }).then(function (response) {
-          _this13.dataObject = response.data.data;
+          _this14.dataObject = response.data.data;
         });
       }, 200);
     },
@@ -64434,7 +64458,17 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(1)
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.closeSelectModal }
+                  },
+                  [_vm._v("Закрыть")]
+                )
+              ])
             ])
           ]
         )
@@ -64448,6 +64482,8 @@ var render = function() {
         attrs: {
           id: "vmModal",
           tabindex: "-1",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
           role: "dialog",
           "aria-labelledby": "exampleModalLongTitle",
           "aria-hidden": "true"
@@ -64469,7 +64505,19 @@ var render = function() {
                   [_vm._v(_vm._s(_vm.contracts_vm))]
                 ),
                 _vm._v(" "),
-                _vm._m(2)
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    },
+                    on: { click: _vm.closeModal }
+                  },
+                  [_vm._m(1)]
+                )
               ]),
               _vm._v(" "),
               _c(
@@ -64926,7 +64974,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(3)
+                        _vm._m(2)
                       ])
                     ])
                   ])
@@ -64981,7 +65029,22 @@ var render = function() {
           { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(4),
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLongTitle" }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: { click: _vm.closeModal }
+                  },
+                  [_vm._m(3)]
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "div",
@@ -65799,7 +65862,7 @@ var render = function() {
                       ]),
                       _c("br"),
                       _vm._v(" "),
-                      _vm._m(5)
+                      _vm._m(4)
                     ],
                     1
                   )
@@ -65811,7 +65874,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" },
+                    attrs: { type: "button" },
                     on: { click: _vm.closeModal }
                   },
                   [_vm._v("Закрыть")]
@@ -65867,37 +65930,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Закрыть")]
-      )
+    return _c("span", { attrs: { "aria-hidden": "true" } }, [
+      _c("i", { staticClass: "fe fe-x h2" })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "modal",
-          "aria-label": "Close"
-        }
-      },
-      [
-        _c("span", { attrs: { "aria-hidden": "true" } }, [
-          _c("i", { staticClass: "fe fe-x h2" })
-        ])
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -65939,28 +65974,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h4", {
-        staticClass: "modal-title",
-        attrs: { id: "exampleModalLongTitle" }
-      }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [
-          _c("span", { attrs: { "aria-hidden": "true" } }, [
-            _c("i", { staticClass: "fe fe-x h2" })
-          ])
-        ]
-      )
+    return _c("span", { attrs: { "aria-hidden": "true" } }, [
+      _c("i", { staticClass: "fe fe-x h2" })
     ])
   },
   function() {
@@ -68788,6 +68803,8 @@ var render = function() {
           id: "ShowModal",
           tabindex: "-1",
           role: "dialog",
+          "data-backdrop": "static",
+          "data-keyboard": "false",
           "aria-labelledby": "exampleModalLongTitle",
           "aria-hidden": "true"
         }
@@ -72067,7 +72084,7 @@ var render = function() {
                                                   ) +
                                                   " - " +
                                                   _vm._s(
-                                                    contracts_not_active.end
+                                                    contracts_not_active.end_actually
                                                   )
                                               )
                                             ]

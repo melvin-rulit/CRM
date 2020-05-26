@@ -2,7 +2,7 @@
 	<div>
 
 <!-- Модальное окно с основным контрактом -->
-<div class="modal fade" id="ShowModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="ShowModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -182,9 +182,13 @@ Vue.use(VueHtmlToPaper, options);
             printContract(){
                 this.$htmlToPaper('print')
                 $('#ShowModal').modal('hide')
+                $(document.body).removeClass("modal-open");
+                $(".modal-backdrop.show").hide();
             },
             closeModal(){
                 $('#info li:first-child a').tab('show')
+                $(document.body).removeClass("modal-open");
+                $(".modal-backdrop.show").hide();
             }
         }
 }

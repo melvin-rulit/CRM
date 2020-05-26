@@ -16,7 +16,7 @@
                 <div class="col-md-6"><a href="#" @click.prevent="contract('osn')">Контракт основной программы</a></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button @click="closeSelectModal" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
@@ -24,12 +24,12 @@
 
 
 <!-- Модальное окно с пробным контрактом -->
-<div class="modal fade" id="vmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="vmModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">{{ contracts_vm }}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
@@ -156,7 +156,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle"></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button @click="closeModal" type="button" class="close" aria-label="Close">
                     <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
@@ -318,7 +318,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button @click="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button @click="closeModal" type="button" class="btn btn-secondary">Закрыть</button>
                 <button @click="sendVm('osn')" class="btn btn-success">Сохранить и распечатать</button>
             </div>
         </div>
@@ -513,13 +513,22 @@ Vue.use(VueHtmlToPaper, options);
                 this.print = true
                 contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
                 contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
+                $(document.body).removeClass("modal-open");
+                $(".modal-backdrop.show").hide();
                 this.print = false
              },
 
              closeModal(){
-                this.programm.name = ''
-                this.product.name = ''
+                this.programm = ''
+                this.product = ''
+                $('#osnModal').modal('hide');
                 $('#info li:first-child a').tab('show')
+                $(document.body).removeClass("modal-open");
+                $(".modal-backdrop.show").hide();
+             },
+             closeSelectModal(){
+                $(document.body).removeClass("modal-open");
+                $(".modal-backdrop.show").hide();
              }
         }
 }

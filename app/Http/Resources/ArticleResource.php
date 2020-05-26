@@ -19,8 +19,9 @@ class ArticleResource extends JsonResource
 
         return [
             'id'            => (string)$this->id,
-            'contracts_active' => ContractForGetInfo::collection($this->contracts->where('active',1)->flatten()),
-            'contracts_not_active' => ContractForGetInfo::collection($this->contracts->where('active',0)->flatten()),
+            // 'contracts_active' => ContractForGetInfo::collection($this->contracts->where('active',1)->flatten()),
+            'contracts_active' => ContractForGetInfo::collection($this->contracts->where('end_actually', '>', Carbon::today()->toDateString())),
+            'contracts_not_active' => ContractForGetInfo::collection($this->contracts->where('end_actually', '<', Carbon::today()->toDateString())->flatten()),
             'attributes'    => [
                 'child_name' => $this->child_name,
                 'child_surname' => $this->child_surname,

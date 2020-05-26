@@ -82,10 +82,10 @@ class ContractController extends Controller
 		$contract->base_id = $request['base_id'];
 		$contract->name = $request['name_vm'];
 		$contract->price = $request['price'];
-		$contract->start = $request['start'];
-		$contract->end = $request['end'];
-		$contract->end_actually = $request['end_actually'];
-		$contract->date = Carbon::now()->format('d.m.Y');
+		$contract->start = Carbon::createFromDate($request['start']);
+		$contract->end = Carbon::createFromDate($request['end']);
+		$contract->end_actually = Carbon::createFromDate($request['end_actually']);
+		$contract->date = Carbon::now();
 		$contract->active = true;
 		$contract->save();
 	}
@@ -107,10 +107,10 @@ class ContractController extends Controller
         $contract->parent_instagram = $request['parent_instagram'];
 		$contract->name = $request['name'];
 		$contract->price = $request['price'];
-		$contract->start = $request['start'];
+		$contract->start = Carbon::createFromDate($request['start']);
 		$contract->end = $request['end'];
 		$contract->end_actually = $request['end_actually'];
-		$contract->date = $request['date'];
+		$contract->date = Carbon::createFromDate($request['date']);
 		$contract->active = true;
 		$contract->form_size = $request['form_size'];
         $contract->classes_total =  $request['classes_total'];      

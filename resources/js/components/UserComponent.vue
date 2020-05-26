@@ -649,7 +649,7 @@
                                     <div class="form-group">
                                         <p class="card-text text-center">Прошлые контракты</p>
                                         <p v-for="contracts_not_active in dataObject.contracts_not_active">
-                                            <a @click.prevent="showContract(contracts_not_active.id)" href="#" class="text-muted">"{{contracts_not_active.name}}" &nbsp {{contracts_not_active.start}} - {{contracts_not_active.end}}</a>
+                                            <a @click.prevent="showContract(contracts_not_active.id)" href="#" class="text-muted">"{{contracts_not_active.name}}" &nbsp {{contracts_not_active.start}} - {{contracts_not_active.end_actually}}</a>
                                         </p>
                                     </div>
                                 </div>
@@ -826,7 +826,12 @@ Vue.use(Loading);
                 });
             },
             getModal(id){
-                // $('#addNew').modal('show');
+                axios.post('api/v2/getinfo', {id : id}).then(response => {
+                    this.dataObject = response.data.data
+                })
+            },
+            getModalForNewUser(id){
+                $('#addNew').modal('show');
                 axios.post('api/v2/getinfo', {id : id}).then(response => {
                     this.dataObject = response.data.data
                 })
@@ -915,7 +920,8 @@ Vue.use(Loading);
                 .then(response =>
                     setTimeout(() => {
                         loader.hide()
-                        this.getModal(response.data)
+                        this.getModalForNewUser(response.data)
+                        this.fetchArticles()
                         },500) 
                 ); 
                   this.submitStatus = 'OK'

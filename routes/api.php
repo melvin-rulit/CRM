@@ -3,7 +3,7 @@
 // Route::resource('articles', 'Admin\ApiController');
 // Route::post('getinfo', 'Api\V2\BaseController@getInfo');
 
-Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], function () {
 
     // Regions
     Route::apiResource('regions', 'RegionController');
