@@ -17,6 +17,7 @@ Auth::routes(['register' => false]);
 Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
 
     Route::get('base', 'PagesController@vue');
+    Route::get('journal', 'PagesController@journal');
     Route::get('product', 'ProductController@index');  // Удалить
     Route::get('products', 'ProductController@index'); // Удалить
     Route::get('page-region', 'PagesController@regions');

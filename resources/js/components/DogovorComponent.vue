@@ -373,15 +373,16 @@ Vue.use(VueHtmlToPaper, options);
         },
         data() {
             return{
-              qwe: '',
-              datec: '2020,05,05',
               te: '',
               print: false,
               stopContract: '00.00.0000',
               pays: [],
               product: null,
               programm: null,
-              dataVm: {branch:[],products: [],},
+              dataVm: {
+                branch:[],
+                products: [],
+              },
               dayselect: [
                   {day: 'Пн:Ср'},
                   {day: 'Вт:Чт'},
@@ -404,7 +405,6 @@ Vue.use(VueHtmlToPaper, options);
                   {time: '21:00'},
               ],
                 contracts_vm: 'Відкрий можливості',
-                vmContract: true,
                 form_size: '',
                 classes_week: '',
                 days: '',
@@ -413,26 +413,26 @@ Vue.use(VueHtmlToPaper, options);
                 contract_name: '',
                 user:'',
                 time: 1,
-                message: 1,
-                messdate: '2020,05,10',
                 resultMessage: '',
                 days: null,
                 startA: null,
             }
         },
         methods: {
-          reversedMessage(days) {
+            reversedMessage(days) {
               var D = new Date(this.dataVm.end_actualy);
               D.setDate(D.getDate() + days);
               return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
               this.stoped();
-          },
-          stoped() {
+            },
+
+            stoped() {
               var D = new Date(this.dataVm.end_actualy);
               D.setDate(D.getDate() + this.product.days);
               return this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
-          },
-          stopDate(id) {
+            },
+
+            stopDate(id) {
             axios.get('api/v2/products/' + id)
             .then(response => {
                     this.pays = response.data.data
@@ -441,8 +441,9 @@ Vue.use(VueHtmlToPaper, options);
             D.setDate(D.getDate() + this.product.days);
             this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
             this.days = true
-          },
-        	contract(contract_type){
+            },
+
+            contract(contract_type){
                 axios.post('api/v2/getvmcontract', {id : this.user_id, contract_type: contract_type}).then(response => {
                     this.dataVm = response.data.data
                 });
@@ -454,22 +455,17 @@ Vue.use(VueHtmlToPaper, options);
                     $('#selectModal').modal('hide');
                 }
             },
-          sendVm(contract_type) {
-                if (!this.dataVm.parent_surname || !this.dataVm.parent_name || !this.dataVm.parent_middle_name) {
-                    this.$alert("Не все поля родителя заполнены");
-                    return false
-                }
-                if (!this.dataVm.child_surname || !this.dataVm.child_name) {
-                    this.$alert("Не все поля ребенка заполнены");
-                    return false
-                }
-                if (!this.programm) {
-                    this.$alert("Выберите программу");
-                    return false
-                }
-                if (!this.product) {
-                    this.$alert("Выберите продукт");
-                    return false
+
+            sendVm(contract_type) {
+                if (!this.dataVm.parent_surname || 
+                    !this.dataVm.parent_name || 
+                    !this.dataVm.parent_middle_name || 
+                    !this.dataVm.child_surname || 
+                    !this.dataVm.child_name || 
+                    !this.programm || 
+                    !this.product) {
+                        this.$alert("Не все поля заполнены");
+                        return false
                 }
 
             // Переведем дату обратно в человеческий формат для записи в базу
@@ -516,6 +512,8 @@ Vue.use(VueHtmlToPaper, options);
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();
                 this.print = false
+                this.programm = ''
+                this.product = ''
              },
 
              closeModal(){

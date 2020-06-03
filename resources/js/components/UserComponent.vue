@@ -115,7 +115,7 @@
 
 
 <dogovor-component :user_id="dataObject.id"></dogovor-component>
-<qwer-component ref="showmodal"></qwer-component>
+<show-dogovor-component ref="showmodal"></show-dogovor-component>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -173,7 +173,7 @@
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="addNew" ref="vuemodals" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content fix-height">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
                 <button type="button" class="close p-0 m-0" data-dismiss="modal" aria-label="Close">
@@ -1087,4 +1087,9 @@ Vue.use(Loading);
     max-height: 200px;
     overflow-y: auto;
 }
+
+.fix-height{
+    min-height: 800px;
+}
+
 </style>

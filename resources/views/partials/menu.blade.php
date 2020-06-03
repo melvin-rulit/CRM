@@ -178,6 +178,11 @@
                     <i class="fe fe-database"></i> {{ trans('cruds.menu.base') }}
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/journal">
+                    <i class="fe fe-database"></i> Журнал
+                  </a>
+                </li>
 <!--                 @can('school_class_access')
                 <li class="nav-item">
                   <a class="nav-link" href="{{ route("admin.school-classes.index") }}">

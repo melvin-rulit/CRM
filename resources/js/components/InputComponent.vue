@@ -35,23 +35,23 @@
 <script>
 export default {
     props: {
-    value: {
-      type: String,
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    id: {
-      type: String,
-    },
-    placeholder: {
+      value: {
         type: String,
-    },
-    textarea: {
+        required: true
+      },
+      name: {
         type: String,
-    }
+        required: true
+      },
+      id: {
+        type: String,
+      },
+      placeholder: {
+        type: String,
+      },
+      textarea: {
+        type: String,
+      }
   },
   data() {
     return {
@@ -60,13 +60,13 @@ export default {
       thisValue: this.value,
     }
   },
-       methods: {
+      methods: {
         focus(){
           this.keyInputForm = true
             setTimeout(() => {
               this.$refs.edit.focus();
               }, 100);
         },
-        }
+      }
 };
 </script>

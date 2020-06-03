@@ -175,9 +175,9 @@ Vue.use(VueHtmlToPaper, options);
         methods: {
             showModal(id){
                 $('#ShowModal').modal('show');
-                    axios.post('api/v2/showcontract' ,{id: id}).then(response => {
-                    this.contract = response.data.data
-                    })
+                axios.post('api/v2/showcontract' ,{id: id}).then(response => {
+                this.contract = response.data.data
+                })
             },
             printContract(){
                 this.$htmlToPaper('print')

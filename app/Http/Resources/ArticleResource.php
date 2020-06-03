@@ -20,7 +20,7 @@ class ArticleResource extends JsonResource
         return [
             'id'            => (string)$this->id,
             // 'contracts_active' => ContractForGetInfo::collection($this->contracts->where('active',1)->flatten()),
-            'contracts_active' => ContractForGetInfo::collection($this->contracts->where('end_actually', '>', Carbon::today()->toDateString())),
+            'contracts_active' => ContractForGetInfo::collection($this->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()),
             'contracts_not_active' => ContractForGetInfo::collection($this->contracts->where('end_actually', '<', Carbon::today()->toDateString())->flatten()),
             'attributes'    => [
                 'child_name' => $this->child_name,
@@ -68,6 +68,13 @@ class ArticleResource extends JsonResource
                 'manager' => $this->base_manager ?  $this->base_manager->surname . ' ' .$this->base_manager->name : 'Нет' ,
                 'instructor' => $this->base_instructor ? $this->base_instructor->surname . ' ' .$this->base_instructor->name : 'Нет',
                 'programm' => $this->programm ? $this->programm->name : 'Нет',
+        ];
+    }
+
+    public function with($request)
+    {
+        return [
+            'date' => date('D, d.m.Y H:i:s')
         ];
     }
 }
