@@ -2864,7 +2864,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedUsers: [],
       users: [{
         "id": "45",
-        "name": "Соколовская Шлюха",
+        "name": "Соколовская Оксана",
         "year": "4.6",
         days: [{
           "day": "8",
