@@ -17,6 +17,18 @@ Vue.use(VueTheMask)
 import VueSimpleAlert from "vue-simple-alert";
 Vue.use(VueSimpleAlert);
 
+import { BootstrapVue, IconsPlugin, BootstrapVueIcons } from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
+// import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+
+// import Vuetify from 'vuetify'
+// import 'vuetify/dist/vuetify.min.css'
+
+// Vue.use(Vuetify)
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -43,7 +55,8 @@ Vue.component('filter-component', require('./components/Filter/FilterComponent.v
 
 Vue.component('calendar-component', require('./components/Calendar.vue').default);
 Vue.component('input-form', require('./components/InputComponent.vue').default);
-Vue.component('jurnal-component', require('./components/JurnalComponent.vue').default);
+Vue.component('journal-component', require('./components/JournalComponent.vue').default);
+Vue.component('permissions-component', require('./components/PermissionsComponent.vue').default);
 
 
 /**

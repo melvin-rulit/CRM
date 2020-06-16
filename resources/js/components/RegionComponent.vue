@@ -406,6 +406,40 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="title-collapse mt-2">
+                    <a data-toggle="collapse" data-target="#4_hall" href="#" class="accordion-toggle">Зал/Поле</a>
+                </div>
+                <div class="collapse p-3" id="4_hall">
+                    <div class="table-responsive">
+                        <table class=" table table-bordered datatable datatable-User">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th v-show="buttonAddHall" class="text-center bg-success bp" @click="addRowHall(branch.id), buttonAddHall = !buttonAddHall"><span class="fe fe-plus h3 text-white"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(hall, int) in branch.halls">
+                                <tr>
+                                    <td>
+                                        <input-form 
+                                            v-model="hall.name" 
+                                            name="name" 
+                                            :id="hall.id" 
+                                            @edit-field="editFieldHall">
+                                        </input-form>
+                                    </td>
+                                    <td v-if="hall.rowNew" class="text-center" v-on:click="saveHall(branch.id)">
+                                        <span class="fe fe-save h3 text-success"></span>
+                                    </td>
+                                    <td class="text-center" v-else="">
+                                        <span class="fe fe-trash-2 h3 text-danger" @click="removeRowHall(int, hall.id, hall.name)"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -485,6 +519,7 @@ Vue.use(VueSimpleAlert);
                 buttonAdd: true,
                 buttonAddProgramm: true,
                 buttonAddDopProduct: true,
+                buttonAddHall: true,
             	regions: {
                      branches: [],
                 },
@@ -494,6 +529,7 @@ Vue.use(VueSimpleAlert);
                     },
                     programm: [], 
                     dopproducts: [],
+                    halls: [],
                 },
                 region_id: '',
             }
@@ -531,6 +567,14 @@ Vue.use(VueSimpleAlert);
                 this.branch.dopproducts[this.branch.dopproducts.length - 1].rowNew = '';
                 this.buttonAddDopProduct = true
                 axios.post('api/v2/dopproducts',this.branch.dopproducts[this.branch.dopproducts.length - 1])
+                        setTimeout(() => {
+                        this.getBranch(id)
+                        },500) 
+            },
+            saveHall(id){
+                this.branch.halls[this.branch.halls.length - 1].rowNew = '';
+                this.buttonAddHall = true
+                axios.post('api/v2/halls',this.branch.halls[this.branch.halls.length - 1])
                         setTimeout(() => {
                         this.getBranch(id)
                         },500) 
@@ -574,6 +618,13 @@ Vue.use(VueSimpleAlert);
                     branch_id: branch
                 });
             },
+            addRowHall(branch){
+               this.branch.halls.push({
+                    rowNew: true, 
+                    name: null, 
+                    branch_id: branch
+                });
+            },
             savePay(int, index, id){
                 this.busy = false
                 this.branch.products[int].pays[index].rowNewPay = '';
@@ -611,6 +662,13 @@ Vue.use(VueSimpleAlert);
                     this.$alert("Продукт удален");
                 });
             },
+            removeRowHall(index, id, name){
+                this.$confirm("Удалить зал " + name + " ?").then(() => {
+                    this.branch.halls.splice(index,1);
+                    axios.delete('api/v2/halls/'+ id);
+                    this.$alert("Зал удален");
+                });
+            },
             editField(e, name) {
                 const id = e.target.id;
                 const value = e.target.value;
@@ -640,6 +698,12 @@ Vue.use(VueSimpleAlert);
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
                 axios.put('api/v2/dopproducts/' + id, {field_name: key, field_value: value })
+            },
+            editFieldHall(e, name) {
+                const id = e.target.id;
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.put('api/v2/halls/' + id, {field_name: key, field_value: value })
             },
             editProduct(id, freezing) {
                 axios.put('api/v2/products/'+ id, {field_name: 'freezing_kolvo', field_value: freezing })
@@ -705,6 +769,7 @@ Vue.use(VueSimpleAlert);
                 $('#1_products').collapse('hide')
                 $('#2_programms').collapse('hide')
                 $('#3_dopproducts').collapse('hide')
+                $('#4_hall').collapse('hide')
                 this.buttonAdd = true
                 this.buttonAddProgramm = true
                 this.busy = false

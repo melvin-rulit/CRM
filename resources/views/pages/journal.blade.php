@@ -3,7 +3,7 @@
 
 <div id="app">
 	
-<jurnal-component></jurnal-component>
+<journal-component></journal-component>
 
 </div>
 <script src="{{ asset('js/app.js') }}"></script>

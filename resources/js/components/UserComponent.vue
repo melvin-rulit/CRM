@@ -55,12 +55,12 @@
 
 
     <!-- Модальное окно с добавление нового клиента -->
-<div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="addNewUser" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового клиента</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" @click="cancelAddNewUser" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
@@ -934,10 +934,13 @@ Vue.use(Loading);
             },
             cancelAddNewUser(){
               this.new_child_surname = null
+              this.new_child_middle_name = null
               this.$v.new_child_surname.$reset()
               this.new_child_name = null
               this.$v.new_child_name.$reset()
               this.branch = []
+              this.manager = []
+              this.instructor = []
             },
             getBranches(){
                 axios.get('api/v2/getbranches')

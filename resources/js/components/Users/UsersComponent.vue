@@ -9,6 +9,7 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th>Cеть</th>
                                 <th>Имя</th>
                                 <th>Фамилия</th>
                                 <th>Логин (почта)</th>
@@ -19,6 +20,9 @@
                         </thead>
                         <tbody v-for="(user, index) in users">
                             <tr @click="getShowModal(user.id)">
+                                <td class="text-center">
+                                    <span class="text-success">●</span>
+                                </td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.surname }}</td>
                                 <td>{{ user.email }}</td>

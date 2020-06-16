@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ContractForGetInfo;
 use Carbon\Carbon;
+use Gate;
 
 class ArticleResource extends JsonResource
 {
@@ -68,6 +69,7 @@ class ArticleResource extends JsonResource
                 'manager' => $this->base_manager ?  $this->base_manager->surname . ' ' .$this->base_manager->name : 'Нет' ,
                 'instructor' => $this->base_instructor ? $this->base_instructor->surname . ' ' .$this->base_instructor->name : 'Нет',
                 'programm' => $this->programm ? $this->programm->name : 'Нет',
+                'gate' => $this->permissions(),
         ];
     }
 
@@ -75,6 +77,13 @@ class ArticleResource extends JsonResource
     {
         return [
             'date' => date('D, d.m.Y H:i:s')
+        ];
+    }
+
+    protected function permissions()
+    {
+        return [
+            'edit_manager' => Gate::allows('edit_manager', $this->resource),
         ];
     }
 }

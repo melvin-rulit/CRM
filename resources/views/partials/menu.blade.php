@@ -101,12 +101,9 @@
                                         @endcan
                                         @can('permission_access')
                                             <li class="nav-item">
-                                                <a href="{{ route("admin.permissions.index") }}" class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
-                                                    <i class="fe fe-git-branch">
-
-                                                    </i>
-                                                    {{ trans('cruds.menu.permissions') }}
-                                                </a>
+                                              <a class="nav-link" href="/permissions">
+                                                <i class="fe fe-database"></i> {{ trans('cruds.menu.permissions') }}
+                                              </a>
                                             </li>
                                         @endcan
                                         @can('role_access')

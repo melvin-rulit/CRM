@@ -18,6 +18,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('base', 'PagesController@vue');
     Route::get('journal', 'PagesController@journal');
+    Route::get('permissions', 'PagesController@permissions');
     Route::get('product', 'ProductController@index');  // Удалить
     Route::get('products', 'ProductController@index'); // Удалить
     Route::get('page-region', 'PagesController@regions');
@@ -27,8 +28,8 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('/', 'PagesController@index')->name('home');
     // Permissions
-    Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
-    Route::resource('permissions', 'PermissionsController');
+    // Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
+    // Route::resource('permissions', 'PermissionsController');
 
     // Roles
     Route::delete('roles/destroy', 'RolesController@massDestroy')->name('roles.massDestroy');

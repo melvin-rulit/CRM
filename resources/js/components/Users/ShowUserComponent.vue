@@ -48,7 +48,7 @@
                                         </tr>
                                         <tr>
                                             <td>О себе</td>
-                                            <td><input-form v-model="user.about_as" name="about_as" @edit-field="editField"></input-form></td>
+                                            <td><input-form v-model="user.about_as" textarea="true" name="about_as" @edit-field="editField"></input-form></td>
                                         </tr>
                                         <tr>
                                             <td>Филиал</td>

@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "bootstrap-vue": "^2.15.0",
         "fastselect": "^0.7.3",
         "luxon": "^1.24.1",
         "v-file-upload": "^3.1.7",
@@ -52,6 +53,7 @@
         "vue2-datepicker": "^3.5.0",
         "vue2-simplert-plugin": "^0.5.3",
         "vuelidate": "^0.7.5",
+        "vuetify": "^2.2.33",
         "vuetify-confirm": "^2.0.2",
         "weekstart": "^1.0.1",
         "willvalidate": "^1.0.1"

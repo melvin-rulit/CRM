@@ -17,11 +17,17 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // DopProducts
     Route::apiResource('dopproducts', 'DopProductController');
 
+    // DopProducts
+    Route::apiResource('halls', 'HallController');
+
     // Programms
     Route::apiResource('programms', 'ProgrammController');
 
     // Product_pay
     Route::apiResource('product_pay', 'Product_payController');
+
+    // Permissions
+    Route::apiResource('apipermissions', 'PermissionsController');
 
     // Users
     Route::apiResource('users', 'UserController');

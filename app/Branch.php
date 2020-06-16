@@ -34,4 +34,8 @@ class Branch extends Model
     public function dopproducts(){
         return $this->hasMany(DopProduct::class);
     }
+
+    public function halls() {
+        return $this->hasMany(Hall::class);
+    }
 }

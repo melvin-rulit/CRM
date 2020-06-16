@@ -33,6 +33,11 @@ class PagesController extends Controller
         return view('pages.journal');
     }
 
+    public function permissions(){
+
+        return view('pages.permissions');
+    }
+
     public function product(){
 
         // Log::create(array('user_id' => Auth::id(), 'level_name' => 'success', 'message' => 'Добавлен новый регион'));
