@@ -10,4 +10,9 @@ class Hall extends Model
     	'name',
     	'branch_id',
     ];
+
+    public function schedule_hall() {
+        return $this->hasMany(Schedule_hall::class);
+    }
+
 }

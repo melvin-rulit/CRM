@@ -3,7 +3,8 @@
 // Route::resource('articles', 'Admin\ApiController');
 // Route::post('getinfo', 'Api\V2\BaseController@getInfo');
 
-Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
+// Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], function () {
 
     // Regions
     Route::apiResource('regions', 'RegionController');
@@ -33,6 +34,10 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::apiResource('users', 'UserController');
     Route::get('getatributes', 'UserController@getAtributes');
 
+    Route::post('gettest', 'BaseController@getTest');
+    Route::post('savetest', 'BaseController@saveTest');
+    Route::post('updatetest', 'BaseController@updateTest');
+
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');
     Route::post('image', 'BaseController@upload');
@@ -43,14 +48,14 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::get('getusers', 'BaseController@getUsers');
     Route::post('addnewuser', 'BaseController@addNewUser');
     Route::post('getvmcontract', 'BaseController@getVmContract');
+    Route::get('filter', 'BaseController@filter');
+    Route::get('test', 'BaseController@test');
+
     Route::post('getcontract', 'ContractController@getContract');
     Route::post('getcontracts', 'ContractController@getContracts');
     Route::post('showcontract', 'ContractController@showContract');
     Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
 
-    Route::get('filter', 'BaseController@filter');
-
-    Route::get('test', 'BaseController@test');
 });
 
 

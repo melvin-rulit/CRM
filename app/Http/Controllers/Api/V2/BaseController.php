@@ -8,6 +8,7 @@ use App\Http\Resources\UsersResource;
 use App\Http\Resources\BaseAllResource;
 use App\Http\Resources\VmContractResource;
 use App\Http\Resources\TestResource;
+use App\Http\Resources\AddChildrenGroupResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Filters\UsersFilter;
@@ -15,6 +16,7 @@ use App\Base;
 use App\Branch;
 use App\User;
 use App\Role;
+use App\Journal;
 use App\Log;
 
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +24,30 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseController extends Controller
 {
+
+    public function getTest(Request $request){
+        $base = Base::where('branch', '=', $request->id)->get();
+
+        return AddChildrenGroupResource::collection($base);
+    }
+
+    public function saveTest(Request $request){
+
+        $base = Base::find($request->id);
+        $base->programm_id = $request->programm_id;
+        $base->save();
+    }
+
+    public function updateTest(Request $request){
+
+        $journal = Journal::create($request->all());
+    }
+
+
+
+
+
+
 
     public function test(Request $request){
 

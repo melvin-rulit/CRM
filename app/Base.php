@@ -20,6 +20,8 @@ class Base extends Model
         'avatar',
     ];
 
+    // protected $with = ['journal'];
+
     public function contracts(){
     	return $this->hasMany(Contract::class);
     }
@@ -43,5 +45,9 @@ class Base extends Model
     public function scopeFilter($builder, $filters)
     {
         return $filters->apply($builder);
+    }
+
+    public function journal(){
+        return $this->hasMany(Journal::class);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\HallsResource;
+use App\Http\Resources\HallResource;
 use App\Hall;
 use App\Log;
 
@@ -59,7 +60,25 @@ class HallController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $hall = Hall::find($id)->load(['schedule_hall' => function ($query) {
+            $query->with('programm.children.journal')->where('day', 1);
+        }]);
+
+         return new HallResource($hall);
+     
+        //$hall = Hall::find($id);
+        
+       // return new HallResource($hall->load(['schedule_hall.programm.children.journal']));
+
+        //$hall = Hall::find($id)->schedule_hall()->where('day',1)->get();
+
+
+        // $hall = Hall::find($id)->load(['schedule_hall' => function ($query) {
+        //     $query->where('day', 1);
+        // }]);
+
+
     }
 
     /**
