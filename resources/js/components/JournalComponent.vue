@@ -1,28 +1,13 @@
 <template>
   <div>
 
-<!--   	а что если попробывать полностью избавится от интерфейса ? 
-1,2,3,4 а на кнопке 5 - комментарий вызвать модалку ? -->
+<vue-context ref="menu">
+        <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
+        <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
+        <li><a href="#" @click.prevent="notVisit()"><i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a></li>
+        <li><a href="#" @click.prevent="newWorkout()"><i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Тренировка</a></li>
+</vue-context>
 
-<!--     	@click="activate(n)" :class="{ active : active_el == n }"
-    	
-    	    activate:function(el){
-        this.active_el = el;
-    }, -->
-
-    <!-- <date-picker v-model="dataVm" :editable="false" value-type="YYYY-MM-DD" format="DD.MM.YYYY"></date-picker> -->
-
-
-<p @contextmenu.prevent="$refs.menu.open($event, { foo: 'bar' })">
-        Right click on me
-    </p>
-    
-    <vue-context ref="menu">
-        <ul slot-scope="child">
-            <li @click="onClick($event.target.innerText, child.data)">Option 1</li>
-            <li @click="onClick($event.target.innerText, child.data)">Option 2</li>
-        </ul>
-    </vue-context>
 
 <div class="row flex-nowrap test">
     <div v-if="halls" v-for="hall in halls" class="col-3 col-lg-3">
@@ -41,22 +26,7 @@
 	<dynamic-select :options="children" option-value="id" option-text="child_surname" placeholder="Введите для поиска" v-model="child" />
   </b-modal>
 
-
-
-<!-- <div v-for="val in hall.schedule_hall">
-	<span class="bg-primary text-white p-3">{{ val.time }}:00 - {{ val.programm.name }}<span class="col-auto"><i class="fe fe-plus"></i></span></span> -->
-<!-- <template v-for="vals in val.programm.children"> -->
-	<!-- <pre><code>{{ [vals] }}</code></pre> -->
-	<!-- {{ computedUserData([vals]) }} -->
-<!-- </template> -->
-	<!-- {{ computedUserData(vals.journal) }} -->
-	<!-- <pre><code>{{ val.programm.children.journal }}</code></pre> -->
-<!-- </div> -->
-
-
 <!-- <pre><code>{{ halls[0].id }} - {{ month }}</code></pre> -->
-
-
 
 <!-- <span class="mb-2">{{ hall.id }}</span> -->
 
@@ -96,7 +66,7 @@
 </div>
 
 
-<div class="row">
+<div class="row" @contextmenu.prevent="$refs.menu.open">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -126,7 +96,7 @@
 							            <span class="ml-1">{{ user.name }}</span>
 							            <span class="ml-4">{{ user.year }}</span>
 							        </td>
-							        <td v-for="(n, index) in daysInMonth" @click="alerts(index +1, user.id, user.journal[n])" class="pt-2 pb-2 text-center order-left-0 border-white grey">
+							        <td v-for="(n, index) in daysInMonth" @click.right="alerts(index +1, user.id, user.journal[n])" class="pt-2 pb-2 text-center order-left-0 border-white grey">
 							            <i v-if="user.journal[n]" :class="user.journal[n]"></i>
 							        </td>
 							    </tr>
@@ -158,6 +128,7 @@
 
 import Vue from 'vue';
 import { VueContext } from 'vue-context';
+import 'vue-context/src/sass/vue-context.scss';
 
   export default {
   	    components: {
@@ -201,6 +172,7 @@ import { VueContext } from 'vue-context';
     		month: 6,
     		row: null,
     		rowid: null,
+    		workout_contracts: ''
     	}
     },
 
@@ -238,11 +210,48 @@ import { VueContext } from 'vue-context';
      },
 
     methods: {
-    	        onClick (text, data) {
-            alert(`You clicked ${text}!`);
-            console.log(data);
-            // => { foo: 'bar' }
+    	/*
+    		Списания тернировки
+    	 */
+        workout () {
+        	// this.$alert("У данного клиента закончился контракт - посещение занятий приостановлено").then(() => {});
+            axios.post('api/v2/workout/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-check text-success'})
+            .then(response => this.workout_contracts = response.data)
+
+            if (this.workout_contracts == 0) {
+					this.$alert("Нет активных контрактов у ребенка, списание тренировки не возможно").then(() => {});
+					return null
+			}
+
+			if (this.workout_contracts > 1) {
+					this.$alert("у ребенка больше одного активного контракта, обратитесь к администратору").then(() => {});
+					return null
+			}
+
+		    this.getHallAtributes(this.hall.id);
         },
+    	/*
+    		Списания заморозки
+    	 */
+        freezing () {
+            axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-sun text-primary'})
+		    this.getHallAtributes(this.hall.id);
+        },
+    	/*
+    		Не посетил тренировку
+    	 */
+        notVisit () {
+            axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-x text-danger'})
+		    this.getHallAtributes(this.hall.id);
+        },
+    	/*
+    		Назначена тренировка
+    	 */
+        newWorkout () {
+            axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-alert-circle text-warning'})
+		    this.getHallAtributes(this.hall.id);
+        },
+
     	onKeyDown(e){
 		  if (event.code == 'Digit1' && (event.ctrlKey || event.metaKey)) {
 
@@ -467,6 +476,15 @@ ul.sub-menu li a {
 
 ul.sub-menu li a:hover {
 	background-color: #f8f9fa
+}
+
+
+.v-context, .v-context ul{
+	font-size: 14px
+}
+
+.v-context > li > a, .v-context ul > li > a{
+	padding: 3px 8px
 }
 
 </style>

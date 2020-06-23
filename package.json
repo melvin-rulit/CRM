@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@codekraft-studio/vue-context-menu": "^0.1.1",
         "bootstrap-vue": "^2.15.0",
         "fastselect": "^0.7.3",
         "luxon": "^1.24.1",

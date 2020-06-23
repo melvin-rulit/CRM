@@ -18,6 +18,7 @@ use App\User;
 use App\Role;
 use App\Journal;
 use App\Log;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +42,18 @@ class BaseController extends Controller
     public function updateTest(Request $request){
 
         $journal = Journal::create($request->all());
+    }
+
+    public function workout(Request $request){
+        $base = Base::find($request->base_id);
+        $contracts = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->map->only('id', 'category_time');
+
+        if ($contracts->count() == 1) {
+            
+        }
+
+        return $contracts->count();
+
     }
 
 

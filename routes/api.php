@@ -37,6 +37,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     Route::post('gettest', 'BaseController@getTest');
     Route::post('savetest', 'BaseController@saveTest');
     Route::post('updatetest', 'BaseController@updateTest');
+    Route::post('workout', 'BaseController@workout');
 
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');

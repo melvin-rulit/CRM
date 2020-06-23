@@ -39,7 +39,15 @@
                     <h1>Договір<br>про надання послуг<br>за програмою «{{ contracts_vm }}»</h1>
                     <table border="0" width="100%">
                         <td class="tdleft">{{ dataVm.branch.geolocation }}</td>
-                        <td class="tdright">{{ dataVm.date }} рік</td>
+<!--                         <td class="tdright">{{ dataVm.date }} рік</td> -->
+                    <date-picker 
+                          v-if="!printvm" 
+                          v-model="dataVm.date" 
+                          :editable="false" 
+                          value-type="DD.MM.YYYY" 
+                          format="DD.MM.YYYY">
+                    </date-picker>
+                        <span v-if="printvm">{{ dataVm.date }}</span>» р.<br>
                     </table> <br>
                     <p>Фізична особо-підприємець {{ dataVm.organization }}, надалі іменується «Виконавець», з одного боку, та законні представники
                         (опікуни, піклувальники)
@@ -75,7 +83,7 @@
                         2.6. Вартість Програми складає {{ dataVm.price }} ({{ dataVm.price_title }}.).<br>
                         2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті
                         п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:<br>
-                        <table class="tabs">
+<!--                         <table class="tabs">
                             <tr>
                                 <td>дні занять</td>
                                 <td>
@@ -91,7 +99,7 @@
                                 </td>
                                 <td>, а Вихованець закріплюється за конкретною групою.</td>
                             </tr>
-                        </table>
+                        </table> -->
                         3. Права та обов’язки Замовника<br>
                         3.1. Замовник має право сплатити послуги за акційною ціною {{ dataVm.price_stock }} ({{ dataVm.price_stock_title }}) грн. у випадку оплати
                         Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні
@@ -375,6 +383,7 @@ Vue.use(VueHtmlToPaper, options);
             return{
               te: '',
               print: false,
+              printvm: false,
               stopContract: '00.00.0000',
               pays: [],
               product: null,
@@ -457,13 +466,54 @@ Vue.use(VueHtmlToPaper, options);
             },
 
             sendVm(contract_type) {
+
+
+
+                if (contract_type == 'vm') {
+                    if (
+                    !this.dataVm.parent_surname || 
+                    !this.dataVm.parent_name || 
+                    !this.dataVm.parent_middle_name || 
+                    !this.dataVm.child_surname || 
+                    !this.dataVm.child_name ||
+                    !this.dataVm.child_middle_name) {
+                        this.$alert("Не все поля заполнены");
+                        return false
+                }
+
+
+                axios.post('api/v2/savecontract', {
+                  contract_type: contract_type, 
+                  base_id: this.user_id , 
+                  name_vm: this.contracts_vm, 
+                  date: this.dataVm.date, 
+                  child_surname: this.dataVm.child_surname, 
+                  child_name: this.dataVm.child_name, 
+                  child_middle_name: this.dataVm.child_middle_name, 
+                  parent_surname: this.dataVm.parent_surname, 
+                  parent_name: this.dataVm.parent_name,
+                  parent_middle_name: this.dataVm.parent_middle_name, 
+                  currency: this.dataVm.branch.currency,
+                  adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                })
+                this.printvm = true
+                contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
+                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
+                $(document.body).removeClass("modal-open");
+                $(".modal-backdrop.show").hide();
+                this.printvm = false
+
+                }else{
+
+
                 if (!this.dataVm.parent_surname || 
                     !this.dataVm.parent_name || 
                     !this.dataVm.parent_middle_name || 
                     !this.dataVm.child_surname || 
                     !this.dataVm.child_name || 
                     !this.programm || 
-                    !this.product) {
+                    !this.product || !this.dataVm.child_middle_name
+                    ) {
                         this.$alert("Не все поля заполнены");
                         return false
                 }
@@ -514,6 +564,7 @@ Vue.use(VueHtmlToPaper, options);
                 this.print = false
                 this.programm = ''
                 this.product = ''
+                                }
              },
 
              closeModal(){
