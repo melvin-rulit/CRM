@@ -2,8 +2,13 @@
 
 namespace App\Http\Resources;
 
+
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Collection;
+
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ContractForGetInfo;
+use App\Http\Resources\CommentsResource;
 use Carbon\Carbon;
 use Gate;
 
@@ -69,6 +74,7 @@ class ArticleResource extends JsonResource
                 'manager' => $this->base_manager ?  $this->base_manager->surname . ' ' .$this->base_manager->name : 'Нет' ,
                 'instructor' => $this->base_instructor ? $this->base_instructor->surname . ' ' .$this->base_instructor->name : 'Нет',
                 'programm' => $this->programm ? $this->programm->name : 'Нет',
+                'comments' => CommentsResource::collection($this->comments) ,
                 'gate' => $this->permissions(),
         ];
     }

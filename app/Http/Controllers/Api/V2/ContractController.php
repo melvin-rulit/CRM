@@ -39,7 +39,7 @@ class ContractController extends Controller
             $base->mother_surname = $request['parent_surname'];
             $base->mother_name = $request['parent_name'];
             $base->mother_middle_name = $request['parent_middle_name'];
-            if ($request['contract_type'] == 'osn') {
+            if ($request['contract_type'] == 'main') {
 	          	$base->mother_phone = $request['parent_phone'];
 	            $base->mother_viber = $request['parent_viber'];
 	            $base->mother_email = $request['parent_email'];
@@ -50,7 +50,7 @@ class ContractController extends Controller
             $base->father_surname = $request['parent_surname'];
             $base->father_name = $request['parent_name'];
             $base->father_middle_name = $request['parent_middle_name'];
-            if ($request['contract_type'] == 'osn') {
+            if ($request['contract_type'] == 'main') {
 	            $base->father_phone = $request['parent_phone'];
 	            $base->father_viber = $request['parent_viber'];
 	            $base->father_email = $request['parent_email'];
@@ -61,7 +61,7 @@ class ContractController extends Controller
             $base->other_relative_surname = $request['parent_surname'];
             $base->other_relative_name = $request['parent_name'];
             $base->other_relative_middle_name = $request['parent_middle_name'];
-            if ($request['contract_type'] == 'osn') {
+            if ($request['contract_type'] == 'main') {
 	            $base->other_relative_phone = $request['parent_phone'];
 	            $base->other_relative_viber = $request['parent_viber'];
 	            $base->other_relative_email = $request['parent_email'];
@@ -87,10 +87,11 @@ class ContractController extends Controller
 		$contract->end_actually = Carbon::createFromDate($request['end_actually']);
 		$contract->date = Carbon::now();
 		$contract->active = true;
+        $contract->contract_type = $request['contract_type'];
 		$contract->save();
 	}
 
-	if ($request['contract_type'] == 'osn') {
+	if ($request['contract_type'] == 'main') {
     	$contract = new Contract;
 		$contract->base_id = $request['base_id'];
         $contract->child_surname = $request['child_surname'];
@@ -122,6 +123,7 @@ class ContractController extends Controller
         $contract->adress = $request['adress'];  
         $contract->price_title = $request['price_title'];
         $contract->category_time = $request['category_time']; 
+        $contract->contract_type = $request['contract_type'];
 		$contract->save();
 
 

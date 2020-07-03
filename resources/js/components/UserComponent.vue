@@ -656,7 +656,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab"></div>
+                    <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <p v-if="dataObject.comments" v-for="comment in dataObject.comments" :key="comment.id" class="mb-2">
+                                {{ comment.date }} - {{ comment.user }} - {{ comment.comment }}
+                            </p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab"></div>
                     <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab"></div>
                 </div>
@@ -740,6 +748,7 @@ Vue.use(Loading);
                      manager: {},
                      instructor: {},
                      programm: {},
+                     comments: {},
                 },
                 indexactiveContract: 0,
                 getURL: "api/v2/getinfo",

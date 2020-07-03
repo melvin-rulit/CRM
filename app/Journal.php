@@ -9,6 +9,9 @@ class Journal extends Model
     protected $fillable = [
         'base_id',
         'day',
+        'month',
+        'year',
         'icon',
+        'type',
     ];
 }

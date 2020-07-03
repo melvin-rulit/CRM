@@ -21,7 +21,8 @@ class AddChildrenGroupResource extends JsonResource
             'child_surname'     => $this->child_surname,
             'child_name'        => $this->child_name,
             'programm_id'       => $this->programm_id,
-            'programm'          => $this->programm,
+            'group_id'          => $this->group_id,
+            'group'             => $this->group,
             'contracts'         => $this->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->map->only('id', 'category_time'),
 
         ];

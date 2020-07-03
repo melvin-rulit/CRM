@@ -332,7 +332,7 @@
                     </div>
                 </div>
                 <div class="title-collapse mt-2">
-                    <a data-toggle="collapse" data-target="#2_programms" href="#" class="accordion-toggle">Программы обучения</a>
+                    <a data-toggle="collapse" data-target="#2_programms" href="#" class="accordion-toggle">Основные программы обучения</a>
                 </div>
                 <div class="collapse p-3" id="2_programms">
                     <div class="table-responsive">

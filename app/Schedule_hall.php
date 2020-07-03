@@ -9,7 +9,7 @@ class Schedule_hall extends Model
 
 	// protected $with = ['programm'];
 
-    public function programm(){
-        return $this->hasOne('App\Programm', 'id', 'programm_id');
+    public function group(){
+        return $this->hasOne('App\Group', 'id', 'group_id');
     }
 }

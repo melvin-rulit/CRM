@@ -62,7 +62,7 @@ class HallController extends Controller
     {
 
         $hall = Hall::find($id)->load(['schedule_hall' => function ($query) {
-            $query->with('programm.children.journal')->where('day', 1);
+            $query->with('group.children.journal')->where('day', 1);
         }]);
 
          return new HallResource($hall);

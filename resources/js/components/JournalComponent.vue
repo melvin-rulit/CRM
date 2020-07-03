@@ -6,101 +6,182 @@
         <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
         <li><a href="#" @click.prevent="notVisit()"><i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a></li>
         <li><a href="#" @click.prevent="newWorkout()"><i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Тренировка</a></li>
+        <li><a href="#" v-b-modal="'addNewCommentGetModal'"><i class="fe fe-message-circle text-primary ml-1 mr-3"></i>Комментарий</a></li>
 </vue-context>
 
-
-<div class="row flex-nowrap test">
+<div class="row flex-nowrap halls">
     <div v-if="halls" v-for="hall in halls" class="col-3 col-lg-3">
-        <div class="card">
+        <div class="card" :class="hall_id == hall.id ? 'border border-success' : 'not-active'">
             <div class="card-body">
-            	<a href="#" @click.prevent="getHallAtributes(hall.id)">{{ hall.name }}</a> 
-				<span class="badge badge-primary ml-3 mb-2">5</span>
-				<i @click="showCalendar(hall.id)" class="pointer fe fe-calendar h2 ml-3 mb-0 text-muted"></i>
+                <a href="#" @click.prevent="getHallAtributes(hall.id, calendar)">{{ hall.name }}</a>
+                <span class="badge badge-primary ml-3 mb-2">5</span>
+                <i v-if="hall_id == hall.id" @click="showCalendar(hall.id)" class="pointer fe fe-calendar h2 ml-3 mb-0 text-muted"></i>
+                <i v-if="hall_id == hall.id" @click="settingsGroup(hall.id)" class="pointer fe fe-users h2 ml-3 mb-0 text-muted"></i>
             </div>
         </div>
     </div>
 </div>
 
+<b-modal id="settingsGroup" centered ok-only @hidden="resetSettingsGroup" @ok="OkSettingsGroup">
+      <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          :state="nameState"
+	      label-cols-sm="4"
+	      label-cols-lg="4"
+          label="Название группы"
+          label-for="name-input"
+          invalid-feedback="Поле обязательно для заполнения"
+        >
+          <b-form-input
+            id="name-input"
+            v-model="name"
+            :state="nameState"
+            required
+          ></b-form-input>
+        </b-form-group>
 
-  <b-modal id="addChildren" centered ok-only title="Выберите ребенка для добавления в группу" @ok="handleOk">
-	<dynamic-select :options="children" option-value="id" option-text="child_surname" placeholder="Введите для поиска" v-model="child" />
-  </b-modal>
+        <b-form-group
+          :state="programmState"
+	      label-cols-sm="4"
+	      label-cols-lg="4"
+          label="Программа обучения"
+          label-for="name-input"
+          invalid-feedback="Поле обязательно для заполнения"
+        >
+        <dynamic-select 
+          :state="programmState"
+          :options="programms" 
+          option-value="id" 
+          option-text="name"  
+          v-model="programmForGroup"
+          placeholder="Введите для поиска программы" />
+        </b-form-group>
+      </form>
+</b-modal>
 
-<!-- <pre><code>{{ halls[0].id }} - {{ month }}</code></pre> -->
 
-<!-- <span class="mb-2">{{ hall.id }}</span> -->
+<b-modal id="addChildren" centered ok-only title="Выберите ребенка для добавления в группу" @ok="handleOk">
+    <dynamic-select :options="children" option-value="id" option-text="child_surname" placeholder="Введите для поиска" v-model="child" />
+</b-modal>
 
 
-<div>
+<!-- Окно добавления комментария после присвоения статуса не посетил тренировку -->
+<b-modal id="comment" title="Введите комментарий" centered ok-title="Добавить" cancel-title="Отмена" @ok="addComent">
+    <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group label-for="name-input" invalid-feedback="Name is required">
+            <b-form-textarea id="textarea" v-model="comment"></b-form-textarea>
+        </b-form-group>
+    </form>
+</b-modal>
 
-  <b-modal id="modal-xl" size="xl" ok-only>
+<!-- Окно добавления нового комментария -->
+<b-modal id="addNewCommentGetModal" title="Добавить комментарий" centered ok-title="Добавить" cancel-title="Отмена" @ok="addNewComent">
+    <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group label-for="name-input" invalid-feedback="Name is required">
+            <b-form-textarea id="textarea" v-model="newComment"></b-form-textarea>
+        </b-form-group>
+    </form>
+</b-modal>
 
-  	<div class="row flex-nowrap test">
-    <div class="col-4 col-lg-4" v-for="day in days">
-        <div class="card">
-            <div class="card-header">
-                <div class="row align-items-center">
-                    <div class="col">{{ day }}</div>
+<b-modal id="modal-xl" size="xl" ok-only>
+    <div class="row flex-nowrap test">
+        <div class="col-4 col-lg-4" v-for="(day, index_day) in days">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">{{ day }}</div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card-body">
-                <div class="card card-sm mb-2" v-for="(curr, index) in 21" v-if="index + 1 >= n">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-3 col-md">
-                                <b class="mb-md-0 text-primary">{{ curr }}:00</b>
+                <div class="card-body">
+                    <div class="card card-sm mb-2" v-for="(curr, index) in 21" v-if="index + 1 >= n">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-3 col-md">
+                                    <a v-b-toggle="'collapse_' + index_day + '_' + index" href="#" class=" mb-md-0 text-primary">{{ curr }}:00</a>
+                                    <span class="text-success ml-3">●</span>
+                                </div>
                             </div>
-<!-- 					        <b-form-select v-model="programmselect" :options="programms" class="m-2"></b-form-select>
-					        <b-form-select v-model="timeselect" :options="time" class="m-2"></b-form-select>
+
+								<b-collapse :id="'collapse_' + index_day + '_' + index" class="mt-2">
+							        <dynamic-select 
+							          :options="groupsing" 
+							          option-value="id" 
+							          option-text="name"  
+							          v-model="programmForGroup"
+							          placeholder="Выберите группу" />
+							        </b-form-group>
+							        <dynamic-select
+							        class="mt-2" 
+							          :options="groupsing" 
+							          option-value="id" 
+							          option-text="name"  
+							          v-model="programmForGroup"
+							          placeholder="Выберите программу" />
+							        </b-form-group>
+                            <!-- <div class="col-auto"><i class="fe fe-trash-2 text-danger"></i></div> -->
+<!-- 					        <b-form-select v-model="timeselect" :options="time" class="m-2"></b-form-select>
 					        <input class="form-control m-2" v-model="groupselect"> -->
+								</b-collapse>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-  </b-modal>
-</div>
+</b-modal>
 
 
-<div class="row" @contextmenu.prevent="$refs.menu.open">
+
+<div class="row">
     <div class="col-12">
-        <div class="card">
+    	<div class="card">
+    		<div class="card-body">
+    			    <date-picker 
+                      v-model="calendar" 
+                      :editable="false" 
+                      value-type="YYYY,MM,DD" 
+                      format="DD.MM.YYYY"
+                      @change="changeSelect">
+                    </date-picker>
+    		</div>
+    	</div>
+        <div class="card" @contextmenu.prevent="$refs.menu.open">
             <div class="card-body">
                 <table class="table table-bordered datatable datatable-User table-collection">
                     <tbody>
                         <tr>
                             <td class="pt-2 pb-2 col-3 text-center h3">
-                            	<i @click="countDown" class="pointer fe fe-chevrons-left mr-3 text-muted"></i>
+                            	<!-- <i @click="countDown" class="pointer fe fe-chevrons-left mr-3 text-muted"></i> -->
                             	{{ this.monthNames[new Date(this.year, this.month).getMonth() - 1] }}, {{ this.year }}
-                            	<i @click="countUp" class="pointer fe fe-chevrons-right ml-3 text-muted"></i>
+                            	<!-- <i @click="countUp" class="pointer fe fe-chevrons-right ml-3 text-muted"></i> -->
                             </td>
-                            <td  v-for="n in dates" :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
+                            <td  v-for="(n, index) in dates" :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'" :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
                             </td>
                         </tr>
 
 						<template v-for="val in hall.schedule_hall">
 						    <tr>
-						        <td class="bg-primary text-white">{{ val.time }}:00 - {{ val.programm.name }}
-						        <i class="fe fe-plus ml-4" @click="addChildren(hall.branch_id, val.programm.name, val.programm_id,val.category_time)"></i>
+						        <td @click="getUserInGroup(val.id)" data-toggle="collapse" :data-target="'#group_' + val.id" class="accordion-toggle bg-primary text-white">{{ val.time }}:00 - {{ val.group.name }}
+						        <i class="fe fe-plus ml-4" @click="addChildren(hall.branch_id, val.group.name, val.group_id, val.category_time)"></i>
 						    </td>
 						    </tr>
-						    <template v-for="vals in val.programm.children">
-								{{ computedUserData([vals]) }}
-								<tr v-for="user in selectedUsers" :key="user.id">
+
+							<template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.id">
+								<tr v-if="user.group_id == val.id" v-for="(user, index) in computedSelect">
 							        <td class="pt-2 pb-2 col-3">
+							            <span class="ml-3">{{ index + 1 }}.</span>
 							            <span class="ml-3">{{ user.surname }}</span>
 							            <span class="ml-1">{{ user.name }}</span>
-							            <span class="ml-4">{{ user.year }}</span>
 							        </td>
-							        <td v-for="(n, index) in daysInMonth" @click.right="alerts(index +1, user.id, user.journal[n])" class="pt-2 pb-2 text-center order-left-0 border-white grey">
+							        <td v-for="(n, index) in daysInMonth" 
+							        @click.right="alerts(index +1, user.id, user.journal[n])" 
+							        class="pt-2 pb-2 text-center border-left-0 border-white"
+							        :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'white' : 'grey'">
 							            <i v-if="user.journal[n]" :class="user.journal[n]"></i>
 							        </td>
 							    </tr>
 							</template>
+
 						</template>
 
                     </tbody>
@@ -109,17 +190,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- <ul class="sub-menu">
-    <li>
-        <a href="javascript:void(0)"><i class="fe fe-check text-success"></i></a>
-        <a href="javascript:void(0)"><i class="fe fe-x text-danger"></i></a>
-        <a href="javascript:void(0)"><i class="fe fe-sun text-primary"></i></a>
-        <a href="javascript:void(0)"><i class="fe fe-alert-circle text-warning"></i></a>
-    </li>
-</ul> -->
-
 
   </div>
 </template>
@@ -131,16 +201,19 @@ import { VueContext } from 'vue-context';
 import 'vue-context/src/sass/vue-context.scss';
 
   export default {
-  	    components: {
+  	components: {
         VueContext
     },
     data() {
     	return {
+    		groupsing: [
+    			{id: 1, name: 'Перва группа'},
+    			{id: 2, name: 'Вторая группа'},
+    			{id: 3, name: 'Третья группа'},
+    			{id: 4, name: 'Четвертая группа'},
+    			{id: 5, name: 'Пятая группа'},
+    		],
     		selectedUsers: [],
-    		        options: [
-          { value: 'A', text: 'Option A (from options prop)' },
-          { value: 'B', text: 'Option B (from options prop)' }
-        ],
     		monthNames: [
 	    		"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
 	      		"Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
@@ -149,9 +222,7 @@ import 'vue-context/src/sass/vue-context.scss';
 	    		"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"
     		],
 
-    		programms: [
-	    		"Зирка Лева", "Вперед до зирок", "Мастер команды"
-    		],
+    		programms: [],
 
     		time: [
 	    		"1", "2", "3", "4"
@@ -163,23 +234,46 @@ import 'vue-context/src/sass/vue-context.scss';
             	schedule_hall: {},
             	programm: {},
             },
+            getUserInGroupArray: [],
             namegroup: '',
             programm_id: '',
+            group_id: '',
             category_time: '',
             dataVm: '',
     		n: 8,
-    		year: 2020,
-    		month: 6,
+    		year: '',
+    		month: '',
+    		date: '',
+    		activeGroup_id: '',
+    		calendar: '',
     		row: null,
     		rowid: null,
-    		workout_contracts: ''
+    		comment: '',
+    		newComment: '',
+	    	name: '',
+	        nameState: null,
+	        programmState: null,
+	        hall_id: '',
+	        submittedNames: [],
+	        programmForGroup: ''
     	}
     },
 
 	  created() {
-	  	document.addEventListener('keydown', this.onKeyDown)
+	  	// document.addEventListener('keydown', this.onKeyDown)
 
 	  	this.getHalls();
+
+
+
+	  	// Получаем глобально значение дня, месяца и года
+		var D = new Date();
+	  	this.month = D.getMonth() + 1;
+	  	this.year = D.getFullYear();
+	  	this.date = D.getDate();
+	  	this.dateDay = D.getDay();
+	  	this.calendar =  D.getFullYear() + ',' + ('0' + (D.getMonth() + 1)).slice(-2) + ',' + ('0' + D.getDate()).slice(-2) 
+
 	  	// this.getHallAtributes(1);
 	  	
 
@@ -198,9 +292,45 @@ import 'vue-context/src/sass/vue-context.scss';
 	    //   res.push(tempItem)
 	    //   return res;
 	    // }, []);
+	    // 
 	  },
 
      computed: {
+
+
+	computedSelect(){
+		return this.getUserInGroupArray.reduce((res, item) => {
+	      const tempItem = {
+	        id: item.id,
+	        name: item.child_name,
+	        surname: item.child_surname,
+	        group_id: item.group_id,
+	        year: item.year,
+	        journal: {}
+	      }
+	      
+	      tempItem.journal = item.journal.reduce((carry, {day, icon}) => {
+	        carry[day] = icon;
+	        return carry;
+	      }, {});
+	      res.push(tempItem)
+	      return res;
+	    }, []);
+
+	},
+    // computedMans() {
+    //   return this.groups.map(g => {
+    //     return g.childrenk.map(item => {
+    //       return {
+    //         id: item.id,
+    //         surname: item.child_surname,
+    //         name: item.child_name,
+    //         journal: item.journal
+    //       }
+    //     })
+    //   })
+    // },
+
     	daysInMonth(month,year) {
     		return new Date(this.year, this.month, 0).getDate();
     	},
@@ -210,77 +340,203 @@ import 'vue-context/src/sass/vue-context.scss';
      },
 
     methods: {
+
+
+
+	   	checkFormValidity() {
+	        const valid = this.$refs.formSettingsGroup.checkValidity()
+	        this.nameState = valid
+	        return valid
+	      },
+
+	      resetSettingsGroup() {
+	        this.name = ''
+	        this.programmForGroup = ''
+	        this.nameState = null
+	        this.programmState = null
+	      },
+
+	      OkSettingsGroup(bvModalEvt) {
+	        bvModalEvt.preventDefault()
+	        this.handleSubmit()
+	      },
+
+	      handleSubmit() {
+
+	        if (!this.checkFormValidity()) {
+	          return
+	        }
+
+	        this.submittedNames.push(this.name)
+
+	        this.$nextTick(() => {
+	          this.$bvModal.hide('settingsGroup')
+
+	          axios.post('api/v2/groups/', {name: this.name, programm_id: this.programmForGroup.id})
+	          Vue.$toast.open({message: 'Группа успешно добавлена',type: 'success',duration: 5000,position: 'top-right'});
+
+	        })
+	      },
+
+
     	/*
     		Списания тернировки
     	 */
         workout () {
-        	// this.$alert("У данного клиента закончился контракт - посещение занятий приостановлено").then(() => {});
-            axios.post('api/v2/workout/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-check text-success'})
-            .then(response => this.workout_contracts = response.data)
 
-            if (this.workout_contracts == 0) {
-					this.$alert("Нет активных контрактов у ребенка, списание тренировки не возможно").then(() => {});
-					return null
-			}
+        	var D = new Date();
 
-			if (this.workout_contracts > 1) {
-					this.$alert("у ребенка больше одного активного контракта, обратитесь к администратору").then(() => {});
-					return null
-			}
+        	// Если дата меньше текущей возвращаем null
+        	if ( (this.row < D.getDate() && this.month <= D.getMonth() + 1) || this.month < D.getMonth() + 1) {
+        		this.$alert("Назначить посещение тренировки раньше текущей даты - не возможно")
+        		return null
+        	}
 
-		    this.getHallAtributes(this.hall.id);
+            axios.post('api/v2/workout/' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
+            
+			.then((response) => {
+				response.data.response == "success" ? this.getHallAtributes(this.hall.id) : this.$alert(response.data.response)
+			});
+		 
         },
+
     	/*
     		Списания заморозки
     	 */
         freezing () {
-            axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-sun text-primary'})
-		    this.getHallAtributes(this.hall.id);
+        	var D = new Date();
+
+        	this.row == D.getDate() && this.month == D.getMonth() + 1 ? 
+        		axios.post('api/v2/freezing/' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
+        	.then((response) => {
+
+				response.data.response == "success" ? this.getHallAtributes(this.hall.id) : this.$alert(response.data.response)
+				
+			})
+        	: this.$alert("Выбраная Вами дата не совпадает с текущей");
+
+		    // this.getHallAtributes(this.hall.id);
         },
+
     	/*
-    		Не посетил тренировку
+    		Проверяем совпадает ли текущая дата с выбранной ячейкой, если да то вызываем модальное окно с добавлением комментраия addComent()
     	 */
         notVisit () {
-            axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-x text-danger'})
-		    this.getHallAtributes(this.hall.id);
+        	var D = new Date();
+        	this.row == D.getDate() && this.month == D.getMonth() + 1 ? this.$bvModal.show('comment') : this.$alert("Выбраная Вами дата не совпадает с текущей");
         },
+
+        /*
+    		Не посетил тренировку
+    	 */
+    	addComent(){
+    		if (this.comment) {    			
+	            axios.post('api/v2/notVisit/' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year, comment: this.comment})
+
+			.then((response) => {
+
+				response.data.response == "success" ? this.getHallAtributes(this.hall.id) : this.$alert(response.data.response)
+
+			});
+	    		// Очистить поле коментария
+    		}else{   			
+	    		this.$alert("Клиент пропустил занятие. Укажите причину");
+    		}
+    	},
     	/*
     		Назначена тренировка
     	 */
         newWorkout () {
-            axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-alert-circle text-warning'})
-		    this.getHallAtributes(this.hall.id);
+        	var D = new Date();
+
+        	// Если дата меньше текущей возвращаем null
+        	if ( (this.row < D.getDate() && this.month <= D.getMonth() + 1) || this.month < D.getMonth() + 1) {
+        		this.$alert("Назначить тренировку раньше текущей даты - не возможно")
+        		return null
+        	}
+
+        	axios.post('api/v2/newWorkout/' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
+		    .then((response) => {
+
+		    // Если в ответе получаем success, то обновляемся, если нет, то выдаем сообщение с ошибкой
+			response.data == "success" ? this.getUserInGroup(this.activeGroup_id) : this.$alert("Ребенок уже посетил/пропустил тренировку. Назначьте пробную тренировку на другое время")
+
+			});
         },
 
-    	onKeyDown(e){
-		  if (event.code == 'Digit1' && (event.ctrlKey || event.metaKey)) {
+         /*
+    		Добавляем комментарий
+    	 */
+        addNewComent(){
 
-		    axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-alert-circle text-warning'})
-		    this.getHallAtributes(this.hall.id);
-		  }
-		  if (event.code == 'Digit2') {
+        	// Если новый комментарий не пустой, то отправляем
+        	if (this.newComment) {
+        		axios.post('api/v2/addNewComent/' , {base_id : this.rowid, comment: this.newComment})
+        		this.getHallAtributes(this.hall.id);
+        		Vue.$toast.open({message: 'Комментарий успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
+        	}else{
+	        	this.$alert("Комментарий не может быть пустым");
+        	}
+
+        },
+
+
+
+    //      /*
+    // 		Реализация управления статусами из клавиатуры
+    // 	 */
+    // 	onKeyDown(e){
+		  // if (event.code == 'Digit1' && (event.ctrlKey || event.metaKey)) {
+
+		  //   axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-alert-circle text-warning'})
+		  //   this.getHallAtributes(this.hall.id);
+		  // }
+		  // if (event.code == 'Digit2') {
 		    
-		    axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-sun text-primary'})
-		    this.getHallAtributes(this.hall.id);
-		  }
+		  //   axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-sun text-primary'})
+		  //   this.getHallAtributes(this.hall.id);
+		  // }
+    // 	},
+    // 	
+
+    // 	Метод принимает id группы и получает клиентов в этой группе, если группа не пуста то записывает результат в массив, иначе сообщение
+    	getUserInGroup(group_id){
+    		this.activeGroup_id = group_id
+    		axios.post('api/v2/getuseringroup/', {group_id: group_id})
+
+    		.then((response) => {
+				response.data != 'error' ? this.getUserInGroupArray = response.data.data : 
+
+				Vue.$toast.open({message: 'Нет клиентов в этой группе' ,type: 'error',duration: 5000,position: 'top-right'});
+
+			});
     	},
-    	computedUserData(vals) {
-	    	this.selectedUsers = vals.reduce((res, item) => {
-		      const tempItem = {
-		        id: item.id,
-		        surname: item.child_surname,
-		        name: item.child_name,
-		        journal: {}
-		      }
+
+    	// Метод получает v-model календаря и вызвает getHallAtributes с параметрами текущего активного зала и дня недели 
+    	changeSelect(){
+
+
+    		this.getHallAtributes(this.hall_id, this.calendar)
+    	},
+
+    	// computedUserData(vals) {
+	    // 	this.selectedUsers = vals.reduce((res, item) => {
+		   //    const tempItem = {
+		   //      id: item.id,
+		   //      surname: item.child_surname,
+		   //      name: item.child_name,
+		   //      year: item.age,
+		   //      journal: {}
+		   //    }
 		      
-		      tempItem.journal = item.journal.reduce((carry, {day, icon}) => {
-		        carry[day] = icon;
-		        return carry;
-		      }, {});
-		      res.push(tempItem)
-		      return res;
-		    }, []);
-    	},
+		   //    tempItem.journal = item.journal.reduce((carry, {day, icon}) => {
+		   //      carry[day] = icon;
+		   //      return carry;
+		   //    }, {});
+		   //    res.push(tempItem)
+		   //    return res;
+		   //  }, []);
+    	// },
 
     	// Получаем список существующих залов и при условии наличии узнаем id первого элемента из массива и передаем параметр в метод
     	getHalls() {
@@ -295,21 +551,37 @@ import 'vue-context/src/sass/vue-context.scss';
     	},
 
     	// Запускаем эмулятор загрузки, получаем атрибуты зала по его id
-    	getHallAtributes(hall) {
+    	getHallAtributes(hall, day) {
+    		    		var D = new Date(day);
+
+    		this.hall_id = hall
 		    let loader = this.$loading.show({
               container: this.fullPage ? null : this.$refs.formContainer,
               color: '#0080ff',
             });
-    		axios.get('api/v2/halls/' + hall)
+    		axios.post('api/v2/showhall/' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
     		.then(response => this.hall = response.data.data)
                 setTimeout(() => {
                     loader.hide()
                     },500) 
+                this.getUserInGroupArray = ''
     	},
 
     	// Открываем модальное окно настройки рассписания зала
     	showCalendar(hall) {
     		this.$bvModal.show('modal-xl')
+    	},
+
+    	// Открываем модальное окно настройки группы
+    	settingsGroup(hall) {
+    		this.$bvModal.show('settingsGroup')
+    		axios.post('api/v2/showprogramms', {branch_id: this.hall.branch_id})
+    		.then(response => this.programms = response.data)
+    		// this.halls[0].id
+    	},
+
+    	resetModalSettingsGroup(){
+    		alert("CLOSING")
     	},
 
 	    handleOk(bvModalEvt) {
@@ -328,32 +600,32 @@ import 'vue-context/src/sass/vue-context.scss';
 						return null
 			}
 
-			if (this.child.programm_id === this.programm_id) {
-					this.$alert("Ребенок уже состоит в этой группе").then(() => {});
+			if (this.child.group_id === this.group_id) {
+					this.$alert("Клиент уже состоит в этой группе").then(() => {});
 						return null
 			}
 
-	    	if (this.child.programm_id) {
-	    		this.$confirm("Ребенок уже состоит в группе " + this.child.programm.name + " вы уверены что хотите переместить в группу " + this.namegroup).then(() => {
-	    			axios.post('api/v2/savetest', {id: this.child.id, programm_id: this.programm_id})
-	    			this.getHallAtributes(this.hall.id);
-	    			Vue.$toast.open({message: 'Ребенок успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
+	    	if (this.child.group_id) {
+	    		this.$confirm("Клиент уже состоит в группе " + this.child.group.name + " вы уверены что хотите переместить в группу " + this.namegroup).then(() => {
+	    			axios.post('api/v2/savetest', {id: this.child.id, group_id: this.group_id})
+	    			this.getHallAtributes(this.hall_id, this.calendar)
+	    			Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
                 });
                 return null
 	    	}
 
 			if (this.child) {
-			    	axios.post('api/v2/savetest', {id: this.child.id, programm_id: this.programm_id})
-	            this.getHallAtributes(this.hall.branch_id);
-	            Vue.$toast.open({message: 'Ребенок успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
+			    	axios.post('api/v2/savetest', {id: this.child.id, group_id: this.group_id})
+	            this.getHallAtributes(this.hall_id, this.calendar)
+	            Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
 			}
 
 
 	    },
 
-    	addChildren(id, name, programm_id, category_time) {
+    	addChildren(id, name, group_id, category_time) {
     		this.namegroup = name
-    		this.programm_id = programm_id
+    		this.group_id = group_id
     		this.category_time = category_time
 
     		axios.post('api/v2/gettest/' , {id : id})
@@ -371,9 +643,18 @@ import 'vue-context/src/sass/vue-context.scss';
     	},
     	countUp: function(){
           	this.month +=1
+
+          	if (this.month > 12) {
+          		this.month = 1
+          	}
+
         },
         countDown: function(){
           	this.month -=1
+
+          	if (this.month < 1) {
+          		this.month = 12
+          	}
         }
     }
   }
@@ -387,6 +668,10 @@ import 'vue-context/src/sass/vue-context.scss';
 
 
 <style>
+
+.halls{
+	overflow-x: auto;
+}
 
 .save, .close{
 	font-size: 40px;
@@ -486,6 +771,15 @@ ul.sub-menu li a:hover {
 .v-context > li > a, .v-context ul > li > a{
 	padding: 3px 8px
 }
+
+.modal-body{
+	padding-bottom: 0
+}
+
+.active{
+	border-color: red
+}
+
 
 </style>
 

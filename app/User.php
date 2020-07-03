@@ -105,7 +105,7 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role', 'user_accesses');
     }
 
-        public function branches()
+    public function branches()
     {
         return $this->belongsToMany('App\Branch', 'user_branches');
     }
@@ -113,5 +113,10 @@ class User extends Authenticatable
     public function scopeFilter($builder, $filters)
     {
         return $filters->apply($builder);
+    }
+
+    public function comm()
+    {
+        return $this->hasMany('App\Comments', 'user_id');
     }
 }

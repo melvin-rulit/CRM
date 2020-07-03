@@ -27,6 +27,7 @@ class Contract extends Model
         'parent_facebook', 
         'parent_instagram', 
         'programm',
+        'contract_type',
     ];
 
     public function contract_pays(){

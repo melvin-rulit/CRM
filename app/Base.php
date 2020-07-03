@@ -50,4 +50,12 @@ class Base extends Model
     public function journal(){
         return $this->hasMany(Journal::class);
     }
+
+    public function comments(){
+        return $this->hasMany(Comments::class);
+    }
+
+    public function group(){
+        return $this->hasOne('App\Group', 'id', 'group_id');
+    }
 }

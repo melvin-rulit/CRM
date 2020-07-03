@@ -11,8 +11,6 @@ class Programm extends Model
     	'branch_id',
     ];
 
-    // protected $with = ['children'];
-
     public function children()
     {
         return $this->hasMany(Base::class);

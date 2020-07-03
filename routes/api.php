@@ -3,8 +3,7 @@
 // Route::resource('articles', 'Admin\ApiController');
 // Route::post('getinfo', 'Api\V2\BaseController@getInfo');
 
-// Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
-Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], function () {
+Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
 
     // Regions
     Route::apiResource('regions', 'RegionController');
@@ -24,6 +23,9 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     // Programms
     Route::apiResource('programms', 'ProgrammController');
 
+    // Groups
+    Route::apiResource('groups', 'GroupController');
+
     // Product_pay
     Route::apiResource('product_pay', 'Product_payController');
 
@@ -38,6 +40,13 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2'], functi
     Route::post('savetest', 'BaseController@saveTest');
     Route::post('updatetest', 'BaseController@updateTest');
     Route::post('workout', 'BaseController@workout');
+    Route::post('notVisit', 'BaseController@notVisit');
+    Route::post('newWorkout', 'BaseController@newWorkout');
+    Route::post('addNewComent', 'BaseController@addNewComent');
+    Route::post('freezing', 'BaseController@freezing');
+    Route::post('getuseringroup', 'BaseController@getUserInGroup');
+    Route::post('showhall', 'BaseController@showHall');
+    Route::post('showprogramms', 'BaseController@showHProgramms');
 
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');

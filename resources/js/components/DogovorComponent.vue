@@ -13,7 +13,7 @@
             </div>
             <div class="row modal-body">
                 <div class="col-md-6"><a href="#" @click.prevent="contract('vm')">Контракт на пробное занятие</a></div>
-                <div class="col-md-6"><a href="#" @click.prevent="contract('osn')">Контракт основной программы</a></div>
+                <div class="col-md-6"><a href="#" @click.prevent="contract('main')">Контракт основной программы</a></div>
             </div>
             <div class="modal-footer">
                 <button @click="closeSelectModal" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -159,7 +159,7 @@
 
 
 <!-- Модальное окно с основным контрактом -->
-<div class="modal fade" id="osnModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="mainModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -168,7 +168,7 @@
                     <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
-            <div class="modal-body modal-lg" id="printOSN">
+            <div class="modal-body modal-lg" id="printmain">
                 <div class="Section1">
                     <img src="http://185.146.156.207/logo.png" class="logo">
                     <h1>ЗАЯВА № {{ user_id }} від «
@@ -327,7 +327,7 @@
             </div>
             <div class="modal-footer">
                 <button @click="closeModal" type="button" class="btn btn-secondary">Закрыть</button>
-                <button @click="sendVm('osn')" class="btn btn-success">Сохранить и распечатать</button>
+                <button @click="sendVm('main')" class="btn btn-success">Сохранить и распечатать</button>
             </div>
         </div>
     </div>
@@ -460,7 +460,7 @@ Vue.use(VueHtmlToPaper, options);
                     $('#vmModal').modal('show');
                     $('#selectModal').modal('hide');
                 }else{
-                    $('#osnModal').modal('show');
+                    $('#mainModal').modal('show');
                     $('#selectModal').modal('hide');
                 }
             },
@@ -475,8 +475,7 @@ Vue.use(VueHtmlToPaper, options);
                     !this.dataVm.parent_name || 
                     !this.dataVm.parent_middle_name || 
                     !this.dataVm.child_surname || 
-                    !this.dataVm.child_name ||
-                    !this.dataVm.child_middle_name) {
+                    !this.dataVm.child_name) {
                         this.$alert("Не все поля заполнены");
                         return false
                 }
@@ -497,8 +496,8 @@ Vue.use(VueHtmlToPaper, options);
                   adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
                 })
                 this.printvm = true
-                contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
-                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
+                contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printmain');
+                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#mainModal').modal('hide');
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();
                 this.printvm = false
@@ -512,7 +511,7 @@ Vue.use(VueHtmlToPaper, options);
                     !this.dataVm.child_surname || 
                     !this.dataVm.child_name || 
                     !this.programm || 
-                    !this.product || !this.dataVm.child_middle_name
+                    !this.product
                     ) {
                         this.$alert("Не все поля заполнены");
                         return false
@@ -557,8 +556,8 @@ Vue.use(VueHtmlToPaper, options);
 
                 })
                 this.print = true
-                contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printOSN');
-                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#osnModal').modal('hide');
+                contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printmain');
+                contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#mainModal').modal('hide');
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();
                 this.print = false
@@ -570,7 +569,7 @@ Vue.use(VueHtmlToPaper, options);
              closeModal(){
                 this.programm = ''
                 this.product = ''
-                $('#osnModal').modal('hide');
+                $('#mainModal').modal('hide');
                 $('#info li:first-child a').tab('show')
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();
@@ -586,7 +585,7 @@ Vue.use(VueHtmlToPaper, options);
 
 <style type="text/css">
 
-#vmModal, #osnModal{
+#vmModal, #mainModal{
     overflow-x: hidden;
     overflow-y: auto;
 }
