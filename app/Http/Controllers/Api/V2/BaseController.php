@@ -32,8 +32,9 @@ class BaseController extends Controller
 {
 
 
-    public function showHall(Request $request)
+    public function prodaction(Request $request)
     {
+        return "OK";
         $hall = Hall::find($request->hall_id)->load(['schedule_hall' => function ($query) use ($request){
             $query->with('group')->where('day', $request->day);
         }]);
