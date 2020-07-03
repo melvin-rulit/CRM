@@ -559,7 +559,7 @@ import 'vue-context/src/sass/vue-context.scss';
               container: this.fullPage ? null : this.$refs.formContainer,
               color: '#0080ff',
             });
-    		axios.post('api/v2/prodaction/' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
+    		axios.post('api/v2/mavrin/' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
     		.then(response => this.hall = response.data.data)
                 setTimeout(() => {
                     loader.hide()

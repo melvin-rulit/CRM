@@ -5,6 +5,7 @@
 
 Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
 
+Route::post('mavrin', 'HallController@mavrin');
     // Regions
     Route::apiResource('regions', 'RegionController');
 
@@ -45,8 +46,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('addNewComent', 'BaseController@addNewComent');
     Route::post('freezing', 'BaseController@freezing');
     Route::post('getuseringroup', 'BaseController@getUserInGroup');
-    // Route::post('showhall', 'BaseController@showHall');
-    Route::post('prodaction', 'BaseController@prodaction');
+    Route::post('showhall', 'BaseController@showHall');
     Route::post('showprogramms', 'BaseController@showHProgramms');
 
     Route::post('getinfo', 'BaseController@getInfo');
