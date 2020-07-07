@@ -425,11 +425,11 @@ import 'vue-context/src/sass/vue-context.scss';
 
 
 	      redirect(){
-			axios.get('api/v2/redirect/')
+			axios.get('api/v2/getinfo/')
 	      },
 
 	      redirect2(){
-			axios.get('api/v2/redirect2/')
+			axios.get('api/v2/getinfo/')
 	      },
 
     	activeTime(curr){
