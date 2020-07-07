@@ -1,6 +1,30 @@
 <template>
   <div>
 
+
+									<!-- {{ sheduling.map(index_day => index_day.find(i => i.id === 8)) }} -->
+
+									<!-- {{ sheduling[index_day].find( e => e.id === curr) }} -->
+
+
+
+											<!-- {{ sheduling[1].find(item => item.id === curr) }} -->
+
+<!-- 											<p>Hall id: {{ hall_id }}</p>
+											<p>Day: {{ index_day + 1 }}</p>
+											<p>Time: {{ curr }}</p> -->
+
+
+<!-- <pre><code>{{ sheduling[0] }}</code></pre> -->
+<!-- <pre v-if="getUserInGroupArray"><code>{{ computedSelect }}</code></pre> -->
+<!-- <span v-if="schedule"><pre><code>{{ schedule.find(item => item.time === 8) }}</code></pre></span> -->
+<!-- {{ sheduling[0].map(a => a.find(i => i.id === 8)) }} -->
+
+<!-- <p v-if="sheduling[0].find(item => item.id === 9)">{{ sheduling[0].find(item => item.id === 9).id }}</p> -->
+
+<!-- <pre><code>{{ sheduling1 }}</code></pre> -->
+
+
 <vue-context ref="menu">
         <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
         <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
@@ -83,44 +107,93 @@
     </form>
 </b-modal>
 
-<b-modal id="modal-xl" size="xl" ok-only>
+<b-modal id="modal-xl" ok-only @hidden="resetModalXl">
     <div class="row flex-nowrap test">
-        <div class="col-4 col-lg-4" v-for="(day, index_day) in days">
+        <div class="col-12 col-lg-12" v-for="(day, index_day) in days">
             <div class="card">
-                <div class="card-header">
+<!--                 <div class="card-header">
                     <div class="row align-items-center">
-                        <div class="col">{{ day }}</div>
+                        <a href="#" class="col">{{ day }}</a>
                     </div>
-                </div>
+                </div> -->
                 <div class="card-body">
+
+        <dynamic-select 
+		  v-if="!isAdd"
+          :options="days2" 
+          option-value="id" 
+          option-text="name"  
+          @input="daySelect"
+          class="mb-4"
+          v-model="selectDayInModalXl"
+          placeholder="День недели" />
+
                     <div class="card card-sm mb-2" v-for="(curr, index) in 21" v-if="index + 1 >= n">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-3 col-md">
-                                    <a v-b-toggle="'collapse_' + index_day + '_' + index" href="#" class=" mb-md-0 text-primary">{{ curr }}:00</a>
-                                    <span class="text-success ml-3">●</span>
+                                    <a v-if="!isAdd && activeDay2" v-b-toggle="'collapse_' + index_day + '_' + index" href="#" @click.prevent="activeTime(curr)" class=" mb-md-0 text-primary">{{ curr }}:00</a>
+                                    <span v-if="isAdd || !activeDay2">{{ curr }}:00</span>
+                                    <span v-if="schedule.find(item => item.time === curr)">
+                                    <span v-if="schedule.find(item => item.time === curr).time === curr " class="text-success ml-3">●</span>
+                                    </span>
                                 </div>
                             </div>
 
-								<b-collapse :id="'collapse_' + index_day + '_' + index" class="mt-2">
-							        <dynamic-select 
-							          :options="groupsing" 
+								<b-collapse :id="'collapse_' + index_day + '_' + index" accordion="my-accordion" class="mt-2">
+
+<!-- 									<dynamic-select 
+								      v-show="isAdd"
+								      class="pb-2"
+							          :options="groups" 
 							          option-value="id" 
 							          option-text="name"  
-							          v-model="programmForGroup"
+							          v-model="ProgrammModel"
+							          placeholder="Выберите группу" />
+							        </b-form-group> -->
+
+							        <dynamic-select
+								      v-if="isAdd"
+								      class="pb-2"
+							          :options="GroupInHall" 
+							          option-value="id" 
+							          option-text="name"  
+							          v-model="GroupModel"
 							          placeholder="Выберите группу" />
 							        </b-form-group>
+
 							        <dynamic-select
-							        class="mt-2" 
-							          :options="groupsing" 
+								      v-if="isAdd"
+								      class="pb-2"
+							          :options="categoryTime" 
 							          option-value="id" 
 							          option-text="name"  
-							          v-model="programmForGroup"
-							          placeholder="Выберите программу" />
+							          v-model="categoryTimeModel"
+							          placeholder="Выберите категорию времени" />
 							        </b-form-group>
-                            <!-- <div class="col-auto"><i class="fe fe-trash-2 text-danger"></i></div> -->
-<!-- 					        <b-form-select v-model="timeselect" :options="time" class="m-2"></b-form-select>
-					        <input class="form-control m-2" v-model="groupselect"> -->
+
+									<ul class="list-group" v-if="schedule.find(item => item.time === curr)">
+<!-- 										<a href="#" @click.prevent="test" class="list-group-item list-group-item-action pt-3 pb-3">
+											<i class="fe fe-users text-primary text-bold mr-3"></i>
+											{{ schedule.find(item => item.time === curr).total_children }}
+										</a> -->
+										<a href="#" class="list-group-item list-group-item-action pt-3 pb-3">
+											<i class="fe fe-users text-danger text-bold mr-3"></i>
+											{{ schedule.find(item => item.time === curr).group.name }}
+										</a>
+										<a href="#" class="list-group-item list-group-item-action pt-3 pb-3">
+											<i class="fe fe-clock text-success text-bold mr-3"></i>
+											{{ schedule.find(item => item.time === curr).category_time }}
+										</a>
+									</ul>
+
+	<!-- <b-button v-if="schedule.find(item => item.time === curr)" size="sm" variant="warning" class="mt-2">Редактировать</b-button> -->
+	<b-button v-if="schedule.find(item => item.time === curr)" size="sm" variant="danger" class="mt-2" @click="deleteSchedule">Удалить</b-button>
+	<b-button v-if="!schedule.find(item => item.time === curr)" size="sm" variant="primary" class="mt-2" @click="addSchedule">Добавить</b-button>
+	<b-button v-if="isAdd" size="sm" variant="success" class="mt-2" @click="saveSchedule">Сохранить</b-button>
+	<b-button v-if="isAdd" size="sm" variant="danger" class="mt-2" @click="cancelSchedule">Отменить</b-button>
+
+
 								</b-collapse>
                         </div>
                     </div>
@@ -206,20 +279,31 @@ import 'vue-context/src/sass/vue-context.scss';
     },
     data() {
     	return {
-    		groupsing: [
-    			{id: 1, name: 'Перва группа'},
-    			{id: 2, name: 'Вторая группа'},
-    			{id: 3, name: 'Третья группа'},
-    			{id: 4, name: 'Четвертая группа'},
-    			{id: 5, name: 'Пятая группа'},
-    		],
     		selectedUsers: [],
     		monthNames: [
 	    		"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
 	      		"Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
     		],
     		days: [
-	    		"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"
+	    		"Понедельник"
+    		],
+
+    		days2: [
+	    		{id:1, name: "Понедельник"}, 
+	    		{id:2, name: "Вторник"}, 
+	    		{id:3, name: "Среда"}, 
+	    		{id:4, name: "Четверг"}, 
+	    		{id:5, name: "Пятница"}, 
+	    		{id:6, name: "Суббота"}, 
+	    		{id:7, name: "Воскресенье"}, 
+    		],
+
+    		categoryTime: [
+	    		{id:1, name: "1"}, 
+	    		{id:2, name: "2"}, 
+	    		{id:3, name: "3"}, 
+	    		{id:4, name: "4"}, 
+	    		{id:5, name: "5"}, 
     		],
 
     		programms: [],
@@ -234,6 +318,7 @@ import 'vue-context/src/sass/vue-context.scss';
             	schedule_hall: {},
             	programm: {},
             },
+            schedule: [],
             getUserInGroupArray: [],
             namegroup: '',
             programm_id: '',
@@ -255,7 +340,14 @@ import 'vue-context/src/sass/vue-context.scss';
 	        programmState: null,
 	        hall_id: '',
 	        submittedNames: [],
-	        programmForGroup: ''
+	        programmForGroup: '',
+	        DaySelect: '',
+	        categoryTimeModel: '',
+	        GroupModel: '',
+	        ProgrammModel: '',
+	        timeCurrent: '',
+	        isAdd: false,
+	        activeDay2: false,
     	}
     },
 
@@ -263,7 +355,6 @@ import 'vue-context/src/sass/vue-context.scss';
 	  	// document.addEventListener('keydown', this.onKeyDown)
 
 	  	this.getHalls();
-
 
 
 	  	// Получаем глобально значение дня, месяца и года
@@ -318,18 +409,6 @@ import 'vue-context/src/sass/vue-context.scss';
 	    }, []);
 
 	},
-    // computedMans() {
-    //   return this.groups.map(g => {
-    //     return g.childrenk.map(item => {
-    //       return {
-    //         id: item.id,
-    //         surname: item.child_surname,
-    //         name: item.child_name,
-    //         journal: item.journal
-    //       }
-    //     })
-    //   })
-    // },
 
     	daysInMonth(month,year) {
     		return new Date(this.year, this.month, 0).getDate();
@@ -341,7 +420,45 @@ import 'vue-context/src/sass/vue-context.scss';
 
     methods: {
 
+    	activeTime(curr){
+    		this.timeCurrent = curr
+    	},
 
+    	deleteSchedule(){
+    		axios.post('api/v2/deleteSchedule/', {hall_id: this.hall_id, day: this.selectDayInModalXl.id, time: this.timeCurrent})
+			.then(response => this.schedule = response.data.data)
+    	},
+
+    	addSchedule(){
+    		this.isAdd = true
+    	},
+
+    	cancelSchedule(){
+    		this.isAdd = false
+
+    		this.categoryTimeModel = ''
+	        this.GroupModel = ''
+	        this.ProgrammModel = ''
+    	},
+
+    	/*
+    		Сохраняем новое расписание , получаем новый массив рассписания и очищаем данные
+    	 */
+    	saveSchedule(){
+
+    		if(!this.categoryTimeModel.id || !this.GroupModel.id){
+    			this.$alert("Группа и категория времени обязательна для заполнения")
+        		return null
+    		}
+
+	        axios.post('api/v2/saveSchedule/', {hall_id: this.hall_id, day: this.selectDayInModalXl.id, time: this.timeCurrent, category_time: this.categoryTimeModel.id, group_id: this.GroupModel.id})
+			.then(response => this.schedule = response.data.data)
+
+    		this.isAdd = false
+    		this.categoryTimeModel = ''
+	        this.GroupModel = ''
+	        this.ProgrammModel = ''
+    	},
 
 	   	checkFormValidity() {
 	        const valid = this.$refs.formSettingsGroup.checkValidity()
@@ -372,10 +489,32 @@ import 'vue-context/src/sass/vue-context.scss';
 	        this.$nextTick(() => {
 	          this.$bvModal.hide('settingsGroup')
 
-	          axios.post('api/v2/groups/', {name: this.name, programm_id: this.programmForGroup.id})
+	          axios.post('api/v2/groups/', {hall_id: this.hall_id, name: this.name, programm_id: this.programmForGroup.id})
 	          Vue.$toast.open({message: 'Группа успешно добавлена',type: 'success',duration: 5000,position: 'top-right'});
 
 	        })
+	      },
+
+    	/*
+    		Запрос на оасписания из выбора дня недели
+    	 */
+	      daySelect(){
+	      	this.activeDay2 = true
+			axios.post('api/v2/schedule/', {hall_id: this.hall_id, day: this.selectDayInModalXl.id})
+			.then(response => this.schedule = response.data.data)
+	      },
+
+	      /*
+    		Очищаем массив schedule , v-modal выбора дня недели, статус кнопки добавления нового рассписания и статус activeDay2 - статус выбраного дня и v-model группы, программы, категории времени
+    	 */
+	      resetModalXl(){
+	      	this.schedule = []
+	      	this.selectDayInModalXl = ''
+	      	this.isAdd = false
+	      	this.activeDay2 = false
+	      	this.categoryTimeModel = ''
+	        this.GroupModel = ''
+	        this.ProgrammModel = ''
 	      },
 
 
@@ -515,7 +654,6 @@ import 'vue-context/src/sass/vue-context.scss';
     	// Метод получает v-model календаря и вызвает getHallAtributes с параметрами текущего активного зала и дня недели 
     	changeSelect(){
 
-
     		this.getHallAtributes(this.hall_id, this.calendar)
     	},
 
@@ -559,7 +697,7 @@ import 'vue-context/src/sass/vue-context.scss';
               container: this.fullPage ? null : this.$refs.formContainer,
               color: '#0080ff',
             });
-    		axios.post('api/v2/mavrin/' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
+    		axios.post('api/v2/showhall/' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
     		.then(response => this.hall = response.data.data)
                 setTimeout(() => {
                     loader.hide()
@@ -570,6 +708,9 @@ import 'vue-context/src/sass/vue-context.scss';
     	// Открываем модальное окно настройки рассписания зала
     	showCalendar(hall) {
     		this.$bvModal.show('modal-xl')
+
+    		axios.post('api/v2/getGroupInHall/' , {hall_id: this.hall_id})
+    		.then(response => this.GroupInHall = response.data)
     	},
 
     	// Открываем модальное окно настройки группы

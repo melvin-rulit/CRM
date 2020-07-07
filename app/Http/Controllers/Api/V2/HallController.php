@@ -24,13 +24,6 @@ class HallController extends Controller
        return new HallsResource($halls);
     }
 
-    public function mavrin()
-    {
-        $halls = Hall::all();
-
-       return new HallsResource($halls);
-    }
-
     /**
      * Show the form for creating a new resource.
      *

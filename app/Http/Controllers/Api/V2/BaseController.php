@@ -11,6 +11,7 @@ use App\Http\Resources\TestResource;
 use App\Http\Resources\AddChildrenGroupResource;
 use App\Http\Resources\GetUserInGroupResource;
 use App\Http\Resources\HallResource;
+use App\Http\Resources\Schedule_hallResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Filters\UsersFilter;
@@ -23,6 +24,8 @@ use App\Journal;
 use App\Log;
 use App\Comments;
 use App\Hall;
+use App\Group;
+use App\Schedule_hall;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +34,36 @@ use Illuminate\Support\Facades\Auth;
 class BaseController extends Controller
 {
 
+    public function deleteSchedule(Request $request)
+    {
+        Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->where('time', $request->time)->delete();
+
+        $schedule_hall = Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->get();
+
+         return Schedule_hallResource::collection($schedule_hall);
+    }
+
+    public function getGroupInHall(Request $request)
+    {
+        return Group::where('hall_id', $request->hall_id)->get();
+
+    }
+
+    public function saveSchedule(Request $request)
+    {
+        Schedule_hall::create($request->all());
+
+        $schedule_hall = Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->get();
+
+         return Schedule_hallResource::collection($schedule_hall);
+    }
+
+    public function Schedule(Request $request)
+    {
+        $schedule_hall = Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->get();
+
+         return Schedule_hallResource::collection($schedule_hall);
+    }
 
     public function showHall(Request $request)
     {

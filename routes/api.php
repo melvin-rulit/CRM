@@ -5,7 +5,6 @@
 
 Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
 
-Route::post('mavrin', 'HallController@mavrin');
     // Regions
     Route::apiResource('regions', 'RegionController');
 
@@ -20,6 +19,9 @@ Route::post('mavrin', 'HallController@mavrin');
 
     // DopProducts
     Route::apiResource('halls', 'HallController');
+
+    // Schedule_hall
+    Route::apiResource('schedule_hall', 'Schedule_hallController');
 
     // Programms
     Route::apiResource('programms', 'ProgrammController');
@@ -48,6 +50,10 @@ Route::post('mavrin', 'HallController@mavrin');
     Route::post('getuseringroup', 'BaseController@getUserInGroup');
     Route::post('showhall', 'BaseController@showHall');
     Route::post('showprogramms', 'BaseController@showHProgramms');
+    Route::post('schedule', 'BaseController@Schedule');
+    Route::post('deleteSchedule', 'BaseController@deleteSchedule');
+    Route::post('saveSchedule', 'BaseController@saveSchedule');
+    Route::post('getGroupInHall', 'BaseController@getGroupInHall');
 
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');
