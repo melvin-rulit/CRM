@@ -18,6 +18,8 @@
     </div>
 </div>
 
+<button class="btn btn-success" @click="redirect">REDIRECT</button>
+<button class="btn btn-success" @click="redirect2">REDIRECT2</button>
 
 <!-- <filter-component></filter-component> -->
 
@@ -795,6 +797,15 @@ Vue.use(Loading);
           },
 
         methods: {
+
+                      redirect(){
+            axios.get('api/v2/redirect/')
+          },
+
+          redirect2(){
+            axios.get('api/v2/redirect2/')
+          },
+          
             summPaysActiveContract(pays){
                 let sum = 0
                 pays.forEach(function (value, key) {
