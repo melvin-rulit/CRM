@@ -6,6 +6,7 @@
 
 Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
 
+
 Route::get('redirect2', 'BaseController@redirect');
 Route::get('redirect', 'HallController@redirect');
 

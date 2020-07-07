@@ -18,6 +18,10 @@
 </div>
 
 
+<button class="btn btn-success" @click="redirect">REDIRECT</button>
+<button class="btn btn-success" @click="redirect2">REDIRECT2</button>
+<button class="btn btn-success" @click="redirect3">REDIRECT3</button>
+
 <!-- Модальное окно добавлением нового региона -->
 <div class="modal fade" id="addNewRegion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -541,6 +545,18 @@ Vue.use(VueSimpleAlert);
             $('#getbranch').on('hidden.bs.modal', () => this.closeModal())
         },
         methods: {
+
+                      redirect(){
+            axios.get('api/v2/redirect/')
+          },
+
+                  redirect2(){
+            axios.get('api/v2/redirect2/')
+          },
+
+          redirect3(){
+            axios.post('api/v2/getinfo/', {id: 14})
+          },
             saveProduct(id){
                 this.branch.products[0].rowNew = '';
                 this.buttonAdd = true
