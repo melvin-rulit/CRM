@@ -12,6 +12,14 @@ use App\Log;
 
 class HallController extends Controller
 {
+
+
+        public function redirect(Request $request)
+    {      
+
+         return "RDIRECT";
+    }
+    
     /**
      * Display a listing of the resource.
      *

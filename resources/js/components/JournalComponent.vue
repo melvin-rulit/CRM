@@ -26,6 +26,7 @@
 
 
 <button class="btn btn-success" @click="redirect">REDIRECT</button>
+<button class="btn btn-success" @click="redirect2">REDIRECT2</button>
 
 <vue-context ref="menu">
         <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
@@ -425,6 +426,10 @@ import 'vue-context/src/sass/vue-context.scss';
 
 	      redirect(){
 			axios.get('api/v2/redirect/')
+	      },
+
+	      redirect2(){
+			axios.get('api/v2/redirect2/')
 	      },
 
     	activeTime(curr){

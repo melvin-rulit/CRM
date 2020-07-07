@@ -37,7 +37,7 @@ class BaseController extends Controller
     public function redirect(Request $request)
     {      
 
-         return "RDIRECT";
+         return "RDIRECT2";
     }
 
     public function deleteSchedule(Request $request)
