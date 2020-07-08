@@ -424,7 +424,7 @@ import 'vue-context/src/sass/vue-context.scss';
 
 
 	      redirect(){
-			axios.post('api/v2/getinfo/', {id: 14})
+			axios.post('api/v2/getbranches/')
 	      },
 
     	activeTime(curr){
