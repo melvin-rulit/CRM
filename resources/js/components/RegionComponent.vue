@@ -546,7 +546,7 @@ Vue.use(VueSimpleAlert);
         methods: {
 
         redirect(){
-            axios.post('api/v2/getbranches/')
+            axios.get('api/v2/getbranches/')
           },
 
             saveProduct(id){
