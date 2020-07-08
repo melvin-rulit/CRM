@@ -424,7 +424,7 @@ import 'vue-context/src/sass/vue-context.scss';
 
 
 	      redirect(){
-			axios.post('api/v2/getinfo/', {id: 14})
+			axios.post('api/v2/getinfo', {id: 14})
 	      },
 
     	activeTime(curr){
@@ -432,7 +432,7 @@ import 'vue-context/src/sass/vue-context.scss';
     	},
 
     	deleteSchedule(){
-    		axios.post('api/v2/deleteSchedule/', {hall_id: this.hall_id, day: this.selectDayInModalXl.id, time: this.timeCurrent})
+    		axios.post('api/v2/deleteSchedule', {hall_id: this.hall_id, day: this.selectDayInModalXl.id, time: this.timeCurrent})
 			.then(response => this.schedule = response.data.data)
     	},
 
@@ -458,7 +458,7 @@ import 'vue-context/src/sass/vue-context.scss';
         		return null
     		}
 
-	        axios.post('api/v2/saveSchedule/', {hall_id: this.hall_id, day: this.selectDayInModalXl.id, time: this.timeCurrent, category_time: this.categoryTimeModel.id, group_id: this.GroupModel.id})
+	        axios.post('api/v2/saveSchedule', {hall_id: this.hall_id, day: this.selectDayInModalXl.id, time: this.timeCurrent, category_time: this.categoryTimeModel.id, group_id: this.GroupModel.id})
 			.then(response => this.schedule = response.data.data)
 
     		this.isAdd = false
@@ -496,7 +496,7 @@ import 'vue-context/src/sass/vue-context.scss';
 	        this.$nextTick(() => {
 	          this.$bvModal.hide('settingsGroup')
 
-	          axios.post('api/v2/groups/', {hall_id: this.hall_id, name: this.name, programm_id: this.programmForGroup.id})
+	          axios.post('api/v2/groups', {hall_id: this.hall_id, name: this.name, programm_id: this.programmForGroup.id})
 	          Vue.$toast.open({message: 'Группа успешно добавлена',type: 'success',duration: 5000,position: 'top-right'});
 
 	        })
@@ -507,7 +507,7 @@ import 'vue-context/src/sass/vue-context.scss';
     	 */
 	      daySelect(){
 	      	this.activeDay2 = true
-			axios.post('api/v2/schedule/', {hall_id: this.hall_id, day: this.selectDayInModalXl.id})
+			axios.post('api/v2/schedule', {hall_id: this.hall_id, day: this.selectDayInModalXl.id})
 			.then(response => this.schedule = response.data.data)
 	      },
 
@@ -538,7 +538,7 @@ import 'vue-context/src/sass/vue-context.scss';
         		return null
         	}
 
-            axios.post('api/v2/workout/' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
+            axios.post('api/v2/workout' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
             
 			.then((response) => {
 				response.data.response == "success" ? this.getHallAtributes(this.hall.id) : this.$alert(response.data.response)
@@ -553,7 +553,7 @@ import 'vue-context/src/sass/vue-context.scss';
         	var D = new Date();
 
         	this.row == D.getDate() && this.month == D.getMonth() + 1 ? 
-        		axios.post('api/v2/freezing/' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
+        		axios.post('api/v2/freezing' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
         	.then((response) => {
 
 				response.data.response == "success" ? this.getHallAtributes(this.hall.id) : this.$alert(response.data.response)
@@ -577,7 +577,7 @@ import 'vue-context/src/sass/vue-context.scss';
     	 */
     	addComent(){
     		if (this.comment) {    			
-	            axios.post('api/v2/notVisit/' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year, comment: this.comment})
+	            axios.post('api/v2/notVisit' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year, comment: this.comment})
 
 			.then((response) => {
 
@@ -601,7 +601,7 @@ import 'vue-context/src/sass/vue-context.scss';
         		return null
         	}
 
-        	axios.post('api/v2/newWorkout/' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
+        	axios.post('api/v2/newWorkout' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
 		    .then((response) => {
 
 		    // Если в ответе получаем success, то обновляемся, если нет, то выдаем сообщение с ошибкой
@@ -617,7 +617,7 @@ import 'vue-context/src/sass/vue-context.scss';
 
         	// Если новый комментарий не пустой, то отправляем
         	if (this.newComment) {
-        		axios.post('api/v2/addNewComent/' , {base_id : this.rowid, comment: this.newComment})
+        		axios.post('api/v2/addNewComent' , {base_id : this.rowid, comment: this.newComment})
         		this.getHallAtributes(this.hall.id);
         		Vue.$toast.open({message: 'Комментарий успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
         	}else{
@@ -648,7 +648,7 @@ import 'vue-context/src/sass/vue-context.scss';
     // 	Метод принимает id группы и получает клиентов в этой группе, если группа не пуста то записывает результат в массив, иначе сообщение
     	getUserInGroup(group_id){
     		this.activeGroup_id = group_id
-    		axios.post('api/v2/getuseringroup/', {group_id: group_id})
+    		axios.post('api/v2/getuseringroup', {group_id: group_id})
 
     		.then((response) => {
 				response.data != 'error' ? this.getUserInGroupArray = response.data.data : 
@@ -704,7 +704,7 @@ import 'vue-context/src/sass/vue-context.scss';
               container: this.fullPage ? null : this.$refs.formContainer,
               color: '#0080ff',
             });
-    		axios.post('api/v2/showhall/' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
+    		axios.post('api/v2/showhall' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
     		.then(response => this.hall = response.data.data)
                 setTimeout(() => {
                     loader.hide()
@@ -716,7 +716,7 @@ import 'vue-context/src/sass/vue-context.scss';
     	showCalendar(hall) {
     		this.$bvModal.show('modal-xl')
 
-    		axios.post('api/v2/getGroupInHall/' , {hall_id: this.hall_id})
+    		axios.post('api/v2/getGroupInHall' , {hall_id: this.hall_id})
     		.then(response => this.GroupInHall = response.data)
     	},
 
@@ -776,7 +776,7 @@ import 'vue-context/src/sass/vue-context.scss';
     		this.group_id = group_id
     		this.category_time = category_time
 
-    		axios.post('api/v2/gettest/' , {id : id})
+    		axios.post('api/v2/gettest' , {id : id})
     		.then(response => this.children = response.data.data)
 
     		this.$bvModal.show('addChildren')
