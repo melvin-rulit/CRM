@@ -13,7 +13,7 @@ export default {
   },
       methods: {
         redirect(){
-          axios.post('api/v2/getinfo/', {id: 14})
+          axios.post('api/v2/getinfo', {id: 14})
             },
       }
 };
