@@ -56,6 +56,7 @@ Vue.component('filter-component', require('./components/Filter/FilterComponent.v
 Vue.component('calendar-component', require('./components/Calendar.vue').default);
 Vue.component('input-form', require('./components/InputComponent.vue').default);
 Vue.component('journal-component', require('./components/JournalComponent.vue').default);
+Vue.component('post-component', require('./components/PostComponent.vue').default);
 Vue.component('permissions-component', require('./components/PermissionsComponent.vue').default);
 
 

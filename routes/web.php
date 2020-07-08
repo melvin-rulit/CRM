@@ -18,6 +18,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('base', 'PagesController@vue');
     Route::get('journal', 'PagesController@journal');
+    Route::get('post', 'PagesController@post');
     Route::get('permissions', 'PagesController@permissions');
     Route::get('product', 'ProductController@index');  // Удалить
     Route::get('products', 'ProductController@index'); // Удалить
