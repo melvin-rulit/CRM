@@ -33,11 +33,6 @@ class PagesController extends Controller
         return view('pages.journal');
     }
 
-    public function post(){
-
-        return view('pages.post');
-    }
-
     public function permissions(){
 
         return view('pages.permissions');

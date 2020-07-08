@@ -34,12 +34,6 @@ use Illuminate\Support\Facades\Auth;
 class BaseController extends Controller
 {
 
-    public function redirect(Request $request)
-    {      
-
-         return "RDIRECT2";
-    }
-
     public function deleteSchedule(Request $request)
     {
         Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->where('time', $request->time)->delete();

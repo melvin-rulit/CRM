@@ -1,32 +1,6 @@
 <template>
   <div>
 
-
-									<!-- {{ sheduling.map(index_day => index_day.find(i => i.id === 8)) }} -->
-
-									<!-- {{ sheduling[index_day].find( e => e.id === curr) }} -->
-
-
-
-											<!-- {{ sheduling[1].find(item => item.id === curr) }} -->
-
-<!-- 											<p>Hall id: {{ hall_id }}</p>
-											<p>Day: {{ index_day + 1 }}</p>
-											<p>Time: {{ curr }}</p> -->
-
-
-<!-- <pre><code>{{ sheduling[0] }}</code></pre> -->
-<!-- <pre v-if="getUserInGroupArray"><code>{{ computedSelect }}</code></pre> -->
-<!-- <span v-if="schedule"><pre><code>{{ schedule.find(item => item.time === 8) }}</code></pre></span> -->
-<!-- {{ sheduling[0].map(a => a.find(i => i.id === 8)) }} -->
-
-<!-- <p v-if="sheduling[0].find(item => item.id === 9)">{{ sheduling[0].find(item => item.id === 9).id }}</p> -->
-
-<!-- <pre><code>{{ sheduling1 }}</code></pre> -->
-
-
-<button class="btn btn-success" @click="redirect">REDIRECT</button>
-
 <vue-context ref="menu">
         <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
         <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
@@ -113,22 +87,16 @@
     <div class="row flex-nowrap test">
         <div class="col-12 col-lg-12" v-for="(day, index_day) in days">
             <div class="card">
-<!--                 <div class="card-header">
-                    <div class="row align-items-center">
-                        <a href="#" class="col">{{ day }}</a>
-                    </div>
-                </div> -->
                 <div class="card-body">
-
-        <dynamic-select 
-		  v-if="!isAdd"
-          :options="days2" 
-          option-value="id" 
-          option-text="name"  
-          @input="daySelect"
-          class="mb-4"
-          v-model="selectDayInModalXl"
-          placeholder="День недели" />
+			        <dynamic-select 
+					  v-if="!isAdd"
+			          :options="days2" 
+			          option-value="id" 
+			          option-text="name"  
+			          @input="daySelect"
+			          class="mb-4"
+			          v-model="selectDayInModalXl"
+			          placeholder="День недели" />
 
                     <div class="card card-sm mb-2" v-for="(curr, index) in 21" v-if="index + 1 >= n">
                         <div class="card-body">
@@ -354,10 +322,8 @@ import 'vue-context/src/sass/vue-context.scss';
     },
 
 	  created() {
-	  	// document.addEventListener('keydown', this.onKeyDown)
 
 	  	this.getHalls();
-
 
 	  	// Получаем глобально значение дня, месяца и года
 		var D = new Date();
@@ -366,26 +332,6 @@ import 'vue-context/src/sass/vue-context.scss';
 	  	this.date = D.getDate();
 	  	this.dateDay = D.getDay();
 	  	this.calendar =  D.getFullYear() + ',' + ('0' + (D.getMonth() + 1)).slice(-2) + ',' + ('0' + D.getDate()).slice(-2) 
-
-	  	// this.getHallAtributes(1);
-	  	
-
-	    // this.selectedUsers = this.users.reduce((res, item) => {
-	    //   const tempItem = {
-	    //     id: item.id,
-	    //     name: item.name,
-	    //     year: item.year,
-	    //     days: {}
-	    //   }
-	      
-	    //   tempItem.days = item.days.reduce((carry, {day, name}) => {
-	    //     carry[day] = name;
-	    //     return carry;
-	    //   }, {});
-	    //   res.push(tempItem)
-	    //   return res;
-	    // }, []);
-	    // 
 	  },
 
      computed: {
@@ -421,11 +367,6 @@ import 'vue-context/src/sass/vue-context.scss';
      },
 
     methods: {
-
-
-	      redirect(){
-			axios.post('api/v2/getinfo', {id: 14})
-	      },
 
     	activeTime(curr){
     		this.timeCurrent = curr
@@ -628,22 +569,7 @@ import 'vue-context/src/sass/vue-context.scss';
 
 
 
-    //      /*
-    // 		Реализация управления статусами из клавиатуры
-    // 	 */
-    // 	onKeyDown(e){
-		  // if (event.code == 'Digit1' && (event.ctrlKey || event.metaKey)) {
 
-		  //   axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-alert-circle text-warning'})
-		  //   this.getHallAtributes(this.hall.id);
-		  // }
-		  // if (event.code == 'Digit2') {
-		    
-		  //   axios.post('api/v2/updatetest/' , {base_id : this.rowid, day: this.row, icon: 'fe fe-sun text-primary'})
-		  //   this.getHallAtributes(this.hall.id);
-		  // }
-    // 	},
-    // 	
 
     // 	Метод принимает id группы и получает клиентов в этой группе, если группа не пуста то записывает результат в массив, иначе сообщение
     	getUserInGroup(group_id){
@@ -663,25 +589,6 @@ import 'vue-context/src/sass/vue-context.scss';
 
     		this.getHallAtributes(this.hall_id, this.calendar)
     	},
-
-    	// computedUserData(vals) {
-	    // 	this.selectedUsers = vals.reduce((res, item) => {
-		   //    const tempItem = {
-		   //      id: item.id,
-		   //      surname: item.child_surname,
-		   //      name: item.child_name,
-		   //      year: item.age,
-		   //      journal: {}
-		   //    }
-		      
-		   //    tempItem.journal = item.journal.reduce((carry, {day, icon}) => {
-		   //      carry[day] = icon;
-		   //      return carry;
-		   //    }, {});
-		   //    res.push(tempItem)
-		   //    return res;
-		   //  }, []);
-    	// },
 
     	// Получаем список существующих залов и при условии наличии узнаем id первого элемента из массива и передаем параметр в метод
     	getHalls() {
@@ -785,9 +692,6 @@ import 'vue-context/src/sass/vue-context.scss';
     	alerts(row, id, selectedDays) {
     		this.row = row
     		this.rowid = id
-			// selectedDays ? alert('Колонка- '+ row + ' Ребенок- ' + id + ' Что то заполненно') : alert('Колонка- '+ row + ' Ребенок- ' + id)
-			// axios.post('api/v2/updatetest/' , {base_id : id, day: row, icon: 'fe fe-alert-circle text-warning'})
-			// this.getHallAtributes(this.hall.id);
     	},
     	countUp: function(){
           	this.month +=1
@@ -876,10 +780,6 @@ td:hover{
 	color: white;
 }
 
-
-
-
-
 ul.sub-menu {
     position: absolute;
     background: #fff;
@@ -930,44 +830,3 @@ ul.sub-menu li a:hover {
 
 
 </style>
-
-<!-- 		<div class="row flex-nowrap test">
-
-			<div v-for="n in 20" class="col-3 col-lg-3">
-			    <div class="card">
-			        <div class="card-body">
-							<select class="program form-control">
-					            <option v-for="s in 4" value="value">Значение {{s}}</option>
-					        </select>
-			        </div>
-			    </div>
-			</div> -->
-
-
-<!-- 			<table class="rspn">
-			<tr>	
-				<th colspan="3"><a class="days">Понедельник</a></th>
-				<th colspan="3"><a class="days">Вторник</a></th>
-				<th colspan="3"><a class="days">Среда</a></th>
-				<th colspan="3"><a class="days">Четверг</a></th>
-				<th colspan="3"><a class="days">Пятница</a></th>
-				<th colspan="3"><a class="days">Суббота</a></th>
-				<th colspan="3"><a class="days">Воскресенье</a></th>
-			</tr>
-				<tr v-for="(curr, index) in 21" v-if="index + 1 >= n">
-					<template v-for="k in 7">
-					    <td class="time">{{ curr }}:00</td>
-					    <td>
-					        <select class="program form-control">
-					            <option v-for="s in 4" value="value">Значение {{s}}</option>
-					        </select>
-					    </td>
-					    <td>
-					        <select class="timecat form-control">
-					            <option v-for="d in 4" value="value">{{d}}</option>
-					        </select>
-					    </td>
-					</template>
-				</tr>
-			</table> -->
-		<!-- </div> -->
