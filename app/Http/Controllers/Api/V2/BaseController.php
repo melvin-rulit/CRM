@@ -142,7 +142,7 @@ class BaseController extends Controller
                 $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
             }else{
                 return [
-                    'response'  => "У клиента закончились заморозки",
+                    'response'  => "Клиент пропустил занятие",
                 ];
             }
 
