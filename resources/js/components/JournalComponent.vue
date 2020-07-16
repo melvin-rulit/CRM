@@ -206,7 +206,6 @@
 <!-- DEV -->
 
 
-
 <!-- DEV -->
 
 
@@ -240,7 +239,7 @@
 							            <span class="ml-3">{{ user.surname }}</span>
 							            <span class="ml-1">{{ user.name }}</span>
                                           <b-tooltip :target="'tooltip-target-1' + user.id" triggers="hover" placement="left">
-                                                <img :src="siteURL + user.avatar"><br>
+                                                <b-avatar :src="siteURL + user.avatar" size="6rem"></b-avatar><br>
                                                 <span class="ml-3">{{ user.mother_surname }}</span>
                                                 <span class="ml-1">{{ user.mother_name }}</span>
                                                 <p class="ml-1 pt-1">{{ user.mother_phone }}</p>
