@@ -271,9 +271,9 @@
                         <div class="col-md-4 border-left">
                             <div class="card-body">
                                 <h4 class="text-center mb-4">Документы</h4>
-                                <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Свидетельство о рождении</a></h5>
+<!--                                 <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Свидетельство о рождении</a></h5>
                                 <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Ксерокопия договора</a></h5>
-                                <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Ксерокопия паспорта отца</a></h5>
+                                <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Ксерокопия паспорта отца</a></h5> -->
                             </div>
                         </div>
                     </div>

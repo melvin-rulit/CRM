@@ -11,6 +11,7 @@ class Group extends Model
         'name',
         'hall_id',
         'programm_id',
+        'color',
     ];
 
 

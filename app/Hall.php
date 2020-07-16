@@ -15,4 +15,7 @@ class Hall extends Model
         return $this->hasMany(Schedule_hall::class);
     }
 
+    public function branch(){
+        return $this->hasOne('App\Branch', 'id', 'branch_id');
+    }
 }

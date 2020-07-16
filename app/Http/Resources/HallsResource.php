@@ -14,6 +14,12 @@ class HallsResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'            => $this->id,
+            'name'          => $this->name,
+            'branch_id'     => $this->branch_id,
+            'branch'        => $this->branch,
+            // Метод ->map->only('id', 'name') не работает по чему то
+        ];
     }
 }

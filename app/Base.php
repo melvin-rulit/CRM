@@ -55,6 +55,7 @@ class Base extends Model
         return $this->hasMany(Comments::class);
     }
 
+// Под вопросом
     public function group(){
         return $this->hasOne('App\Group', 'id', 'group_id');
     }

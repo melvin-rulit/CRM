@@ -1,6 +1,7 @@
 <template>
   <div>
 
+
 <vue-context ref="menu">
         <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
         <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
@@ -12,11 +13,13 @@
 <div class="row flex-nowrap halls">
     <div v-if="halls" v-for="hall in halls" class="col-3 col-lg-3">
         <div class="card" :class="hall_id == hall.id ? 'border border-success' : 'not-active'">
-            <div class="card-body">
+            <div class="card-body py-3">
                 <a href="#" @click.prevent="getHallAtributes(hall.id, calendar)">{{ hall.name }}</a>
                 <span class="badge badge-primary ml-3 mb-2">5</span>
                 <i v-if="hall_id == hall.id" @click="showCalendar(hall.id)" class="pointer fe fe-calendar h2 ml-3 mb-0 text-muted"></i>
                 <i v-if="hall_id == hall.id" @click="settingsGroup(hall.id)" class="pointer fe fe-users h2 ml-3 mb-0 text-muted"></i>
+                    <p class="text-muted h5 mb-1 mt-2">{{ hall.branch.name }}</p>
+                    <p class="text-muted h5">{{ hall.branch.geolocation }}</p>
             </div>
         </div>
     </div>
@@ -56,12 +59,20 @@
           v-model="programmForGroup"
           placeholder="Введите для поиска программы" />
         </b-form-group>
+
+        <div class="row">
+            <slider-picker class="ml-6 mb-2" v-model="colors" />
+        </div>
+
+<div class="p-4 my-3" :style="{ 'background-color': colors.hex }"></div>
+
       </form>
 </b-modal>
 
 
 <b-modal id="addChildren" centered ok-only title="Выберите ребенка для добавления в группу" @ok="handleOk">
     <dynamic-select :options="children" option-value="id" option-text="child_surname" placeholder="Введите для поиска" v-model="child" />
+    <pre><code>{{ child }}</code></pre>
 </b-modal>
 
 
@@ -83,7 +94,7 @@
     </form>
 </b-modal>
 
-<b-modal id="modal-xl" ok-only @hidden="resetModalXl">
+<b-modal id="modal-xl" hide-footer @hidden="resetModalXl">
     <div class="row flex-nowrap test">
         <div class="col-12 col-lg-12" v-for="(day, index_day) in days">
             <div class="card">
@@ -190,13 +201,22 @@
     	</div>
         <div class="card" @contextmenu.prevent="$refs.menu.open">
             <div class="card-body">
+
+
+<!-- DEV -->
+
+
+
+<!-- DEV -->
+
+
                 <table class="table table-bordered datatable datatable-User table-collection">
                     <tbody>
                         <tr>
                             <td class="pt-2 pb-2 col-3 text-center h3">
-                            	<!-- <i @click="countDown" class="pointer fe fe-chevrons-left mr-3 text-muted"></i> -->
-                            	{{ this.monthNames[new Date(this.year, this.month).getMonth() - 1] }}, {{ this.year }}
-                            	<!-- <i @click="countUp" class="pointer fe fe-chevrons-right ml-3 text-muted"></i> -->
+                            	<i @click="countDown" class="pointer fe fe-chevrons-left mr-3 text-muted"></i>
+                                	{{ this.monthNames[new Date(this.year, this.month).getMonth() - 1] }}, {{ this.year }}
+                            	<i @click="countUp" class="pointer fe fe-chevrons-right ml-3 text-muted"></i>
                             </td>
                             <td  v-for="(n, index) in dates" :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'" :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
                             </td>
@@ -204,17 +224,27 @@
 
 						<template v-for="val in hall.schedule_hall">
 						    <tr>
-						        <td @click="getUserInGroup(val.id)" data-toggle="collapse" :data-target="'#group_' + val.id" class="accordion-toggle bg-primary text-white">{{ val.time }}:00 - {{ val.group.name }}
-						        <i class="fe fe-plus ml-4" @click="addChildren(hall.branch_id, val.group.name, val.group_id, val.category_time)"></i>
-						    </td>
+    						  <td :style="{ 'background-color': val.group.color }" data-toggle="collapse" :data-target="'#group_' + val.id" class="accordion-toggle text-white">{{ val.time }}:00 - {{ val.group.name }}
+                                <div class="float-right">
+                                    <i class="fe fe-plus" @click="addChildren(hall.branch_id, val.group.name, val.group_id, val.category_time)"></i>
+                                    <i class="fe fe-chevron-down ml-3" @click="getUserInGroup(val.id)"></i>
+                                </div>
+
+    						    </td>
 						    </tr>
 
 							<template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.id">
 								<tr v-if="user.group_id == val.id" v-for="(user, index) in computedSelect">
-							        <td class="pt-2 pb-2 col-3">
+							        <td class="pt-2 pb-2 col-3" :id="'tooltip-target-1' + user.id">
 							            <span class="ml-3">{{ index + 1 }}.</span>
 							            <span class="ml-3">{{ user.surname }}</span>
 							            <span class="ml-1">{{ user.name }}</span>
+                                          <b-tooltip :target="'tooltip-target-1' + user.id" triggers="hover" placement="left">
+                                                <img :src="siteURL + user.avatar"><br>
+                                                <span class="ml-3">{{ user.mother_surname }}</span>
+                                                <span class="ml-1">{{ user.mother_name }}</span>
+                                                <p class="ml-1 pt-1">{{ user.mother_phone }}</p>
+                                          </b-tooltip>
 							        </td>
 							        <td v-for="(n, index) in daysInMonth" 
 							        @click.right="alerts(index +1, user.id, user.journal[n])" 
@@ -243,12 +273,23 @@ import Vue from 'vue';
 import { VueContext } from 'vue-context';
 import 'vue-context/src/sass/vue-context.scss';
 
+import { Slider } from 'vue-color'
+
+    var colors = {
+      hsl: { h: 182.66009852216752, s: 0.5, l: 0.5, a: 1 },
+      hsv: { h: 182.66009852216752, s: 0.66, v: 0.75, a: 1 },
+      rgba: { r: 25, g: 77, b: 51, a: 1 },
+      a: 1
+    }
+
   export default {
   	components: {
-        VueContext
+        VueContext,
+         'slider-picker': Slider,
     },
     data() {
     	return {
+            colors,
     		selectedUsers: [],
     		monthNames: [
 	    		"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
@@ -281,6 +322,7 @@ import 'vue-context/src/sass/vue-context.scss';
     		time: [
 	    		"1", "2", "3", "4"
     		],
+            siteURL: "http://83.220.172.19/",
             halls: [],
             children: [],
             child: '',
@@ -343,6 +385,10 @@ import 'vue-context/src/sass/vue-context.scss';
 	        id: item.id,
 	        name: item.child_name,
 	        surname: item.child_surname,
+            avatar: item.avatar,
+            mother_surname: item.mother_surname,
+            mother_name: item.mother_name,
+            mother_phone: item.mother_phone,
 	        group_id: item.group_id,
 	        year: item.year,
 	        journal: {}
@@ -437,7 +483,7 @@ import 'vue-context/src/sass/vue-context.scss';
 	        this.$nextTick(() => {
 	          this.$bvModal.hide('settingsGroup')
 
-	          axios.post('api/v2/groups', {hall_id: this.hall_id, name: this.name, programm_id: this.programmForGroup.id})
+	          axios.post('api/v2/groups', {hall_id: this.hall_id, name: this.name, programm_id: this.programmForGroup.id, color: this.colors.hex})
 	          Vue.$toast.open({message: 'Группа успешно добавлена',type: 'success',duration: 5000,position: 'top-right'});
 
 	        })
@@ -453,7 +499,7 @@ import 'vue-context/src/sass/vue-context.scss';
 	      },
 
 	      /*
-    		Очищаем массив schedule , v-modal выбора дня недели, статус кнопки добавления нового рассписания и статус activeDay2 - статус выбраного дня и v-model группы, программы, категории времени
+    		Очищаем массив schedule , v-modal выбора дня недели, статус кнопки добавления нового рассписания и статус activeDay2 - статус выбраного дня и v-model группы, программы, категории времени и обновляем список групп, мало ли что то добавилось а мы не знаем
     	 */
 	      resetModalXl(){
 	      	this.schedule = []
@@ -463,6 +509,8 @@ import 'vue-context/src/sass/vue-context.scss';
 	      	this.categoryTimeModel = ''
 	        this.GroupModel = ''
 	        this.ProgrammModel = ''
+
+            this.getHallAtributes(this.hall_id, this.calendar)
 	      },
 
 
@@ -474,16 +522,21 @@ import 'vue-context/src/sass/vue-context.scss';
         	var D = new Date();
 
         	// Если дата меньше текущей возвращаем null
-        	if ( (this.row < D.getDate() && this.month <= D.getMonth() + 1) || this.month < D.getMonth() + 1) {
-        		this.$alert("Назначить посещение тренировки раньше текущей даты - не возможно")
-        		return null
-        	}
+            // Ниже было до изменение в трелло
+        	// if ( (this.row < D.getDate() && this.month <= D.getMonth() + 1) || this.month < D.getMonth() + 1) {
 
+        if ( this.row == D.getDate() && this.month == D.getMonth() + 1 ){
+        	
             axios.post('api/v2/workout' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
             
 			.then((response) => {
 				response.data.response == "success" ? this.getUserInGroup(this.activeGroup_id) : this.$alert(response.data.response)
-			});
+			}); 
+        } else {
+
+            this.$alert("Назначить посещение тренировки раньше текущей даты - не возможно")
+        }
+
 		 
         },
 
@@ -493,14 +546,14 @@ import 'vue-context/src/sass/vue-context.scss';
         freezing () {
         	var D = new Date();
 
-        	this.row == D.getDate() && this.month == D.getMonth() + 1 ? 
+            this.row >= D.getDate() && this.month >= D.getMonth() + 1 ? 
         		axios.post('api/v2/freezing' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
         	.then((response) => {
 
 				response.data.response == "success" ? this.getUserInGroup(this.activeGroup_id) : this.$alert(response.data.response)
 				
 			})
-        	: this.$alert("Выбраная Вами дата не совпадает с текущей");
+        	: this.$alert("Выбраная Вами дата меньше текущей");
 
 		    // this.getHallAtributes(this.hall.id);
         },
@@ -525,7 +578,7 @@ import 'vue-context/src/sass/vue-context.scss';
 				response.data.response == "success" ? this.getUserInGroup(this.activeGroup_id) : this.$alert(response.data.response)
 
 			});
-	    		// Очистить поле коментария
+	    		this.comment = ''
     		}else{   			
 	    		this.$alert("Клиент пропустил занятие. Укажите причину");
     		}
@@ -556,19 +609,17 @@ import 'vue-context/src/sass/vue-context.scss';
     	 */
         addNewComent(){
 
-        	// Если новый комментарий не пустой, то отправляем
+        	// Если новый комментарий не пустой, то отправляем, следом очищаем поле комментарий
         	if (this.newComment) {
         		axios.post('api/v2/addNewComent' , {base_id : this.rowid, comment: this.newComment})
-        		this.getHallAtributes(this.hall.id);
+        		this.getUserInGroup(this.activeGroup_id)
         		Vue.$toast.open({message: 'Комментарий успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
+        		this.newComment = ''
         	}else{
 	        	this.$alert("Комментарий не может быть пустым");
         	}
 
         },
-
-
-
 
 
     // 	Метод принимает id группы и получает клиентов в этой группе, если группа не пуста то записывает результат в массив, иначе сообщение
@@ -590,13 +641,13 @@ import 'vue-context/src/sass/vue-context.scss';
     		this.getHallAtributes(this.hall_id, this.calendar)
     	},
 
-    	// Получаем список существующих залов и при условии наличии узнаем id первого элемента из массива и передаем параметр в метод
+    	// Получаем список существующих залов и при условии наличии узнаем id первого элемента из массива и передаем параметр в метод, вместе с текущей датой
     	getHalls() {
     		axios.get('api/v2/halls')
             .then(response => this.halls = response.data.data)
             if (this.halls) {
                 setTimeout(() => {
-                	this.halls ? this.getHallAtributes(this.halls[0].id) : null;
+                	this.halls ? this.getHallAtributes(this.halls[0].id, this.calendar) : null;
                 },500) 	
             }
 
@@ -619,7 +670,7 @@ import 'vue-context/src/sass/vue-context.scss';
                 this.getUserInGroupArray = ''
     	},
 
-    	// Открываем модальное окно настройки рассписания зала
+    	// Открываем модальное окно настройки рассписания зала, получаем группы в текущем зале
     	showCalendar(hall) {
     		this.$bvModal.show('modal-xl')
 
@@ -627,7 +678,7 @@ import 'vue-context/src/sass/vue-context.scss';
     		.then(response => this.GroupInHall = response.data)
     	},
 
-    	// Открываем модальное окно настройки группы
+    	// Открываем модальное окно настройки группы, получаем программы в текущем филиале
     	settingsGroup(hall) {
     		this.$bvModal.show('settingsGroup')
     		axios.post('api/v2/showprogramms', {branch_id: this.hall.branch_id})
@@ -826,6 +877,12 @@ ul.sub-menu li a:hover {
 
 .active{
 	border-color: red
+}
+
+.wihgt_col{
+    padding: 0;
+    width: 35px;
+    height: 35px;
 }
 
 

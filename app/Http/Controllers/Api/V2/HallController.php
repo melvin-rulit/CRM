@@ -13,13 +13,6 @@ use App\Log;
 class HallController extends Controller
 {
 
-
-        public function redirect(Request $request)
-    {      
-
-         return "RDIRECT";
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +22,7 @@ class HallController extends Controller
     {
         $halls = Hall::all();
 
-       return new HallsResource($halls);
+       return HallsResource::collection($halls);
     }
 
     /**
