@@ -69,9 +69,11 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Group $group)
     {
-        //
+        $group->name = $request['name'];
+        $group->color = $request['color'];
+        $group->save();
     }
 
     /**

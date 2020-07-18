@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="title-collapse">
-                    <a data-toggle="collapse" data-target="#1_products" href="#" class="accordion-toggle">Список продуктов</a>
+                    <a data-toggle="collapse" data-target="#1_products" href="#" class="accordion-toggle">Условия программ обучения</a>
                 </div>
                 <div class="collapse p-3" id="1_products">
                     <div class="table-responsive">
@@ -365,7 +365,7 @@
                     </div>
                 </div>
                 <div class="title-collapse mt-2">
-                    <a data-toggle="collapse" data-target="#3_dopproducts" href="#" class="accordion-toggle">Дополнительные продукты</a>
+                    <a data-toggle="collapse" data-target="#3_dopproducts" href="#" class="accordion-toggle">Дополнительные программы</a>
                 </div>
                 <div class="collapse p-3" id="3_dopproducts">
                     <div class="table-responsive">

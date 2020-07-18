@@ -19,4 +19,8 @@ class Group extends Model
     {
         return $this->hasMany(Base::class);
     }
+
+    public function programm(){
+        return $this->hasOne('App\Programm', 'id', 'programm_id');
+    }
 }

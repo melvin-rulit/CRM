@@ -7,7 +7,7 @@
                         <div class="row align-items-center">
                             <div class="col"></div>
                             <div class="col-auto">
-                                <button class="btn btn-sm btn-success" @click="buttonAddNewPermissions">Добавить разрешение</button>
+                                <!-- <button class="btn btn-sm btn-success" @click="buttonAddNewPermissions">Добавить разрешение</button> -->
                             </div>
                         </div>
                     </div>

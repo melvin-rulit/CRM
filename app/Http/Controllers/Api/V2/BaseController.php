@@ -104,14 +104,28 @@ class BaseController extends Controller
 
     public function getUserInGroup(Request $request){
 
-        $base = Base::where('group_id', $request->group_id)->get();
+        // $base = Base::where('group_id', $request->group_id)->get();
+
+
+        $base = Base::with(['journal' => function($query) use ($request){
+            $query->where('year', $request->year);
+            $query->where('month', $request->month);
+        }])->where('group_id', $request->group_id)->get();
+
 
         if ($base->count() > 0) {
            return GetUserInGroupResource::collection($base);
         }else{
             return 'error';
         }
+    }
 
+    // Метод возвращает группы доступные для редактирование у зала
+    public function getEditingGroup(Request $request){
+
+        $group = Group::where('hall_id', $request->hall_id)->get();
+
+        return $group;
     }
 
 
@@ -148,9 +162,7 @@ class BaseController extends Controller
 
             // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
             $journal = Journal::updateOrCreate(
-              ['day' => $request->day],
-              // ['day' => $request->day, 'day' => $request->day ],
-              // Сюда добавить не только выборку по дням, но и месяца тоже учитывать
+              ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
               [
               'base_id' => $request->base_id, 
               'day' => $request->day, 
@@ -201,7 +213,7 @@ class BaseController extends Controller
 
             // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
             $journal = Journal::updateOrCreate(
-              ['day' => $request->day],
+              ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
               [
                 'base_id'   => $request->base_id, 
                 'day'       => $request->day, 
@@ -330,7 +342,7 @@ class BaseController extends Controller
 
                 // Записываем в журнал как заморозку
                 Journal::updateOrCreate(
-                      ['day' => $request->day],
+                      ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
                       [
                         'base_id'   => $request->base_id, 
                         'day'       => $request->day, 

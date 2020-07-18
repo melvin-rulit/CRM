@@ -55,6 +55,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('deleteSchedule', 'BaseController@deleteSchedule');
     Route::post('saveSchedule', 'BaseController@saveSchedule');
     Route::post('getGroupInHall', 'BaseController@getGroupInHall');
+    Route::post('getEditingGroup', 'BaseController@getEditingGroup');
 
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');

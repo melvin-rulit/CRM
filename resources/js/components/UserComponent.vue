@@ -21,7 +21,6 @@
 
 <!-- <filter-component></filter-component> -->
 
-
 <div class="collapse" id="filter">
     <div class="card card-body">
         <div class="row mb-3">
@@ -177,7 +176,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>
                 <button type="button" class="close p-0 m-0" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
+                    <span ata-toggle="tooltip" title="Зберегти та закрити" aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
             </div>
             <div class="modal-body pb-0">
@@ -366,6 +365,17 @@
                                                     </input-form>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td class="w-25">ЛПР</td>
+                                                <td class="w-75">
+                                                    <b-form-radio 
+                                                        v-model="lpr" 
+                                                        id="1" 
+                                                        @change="sendlpr" 
+                                                        value="mother_lpr">
+                                                    </b-form-radio>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -465,6 +475,17 @@
                                                     </input-form>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td class="w-25">ЛПР</td>
+                                                <td class="w-75">
+                                                    <b-form-radio 
+                                                        v-model="lpr" 
+                                                        id="2" 
+                                                        @change="sendlpr" 
+                                                        value="father_lpr">
+                                                    </b-form-radio>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -561,6 +582,17 @@
                                                         name="other_relative_email" 
                                                         @edit-field="editField">
                                                     </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">ЛПР</td>
+                                                <td class="w-75">
+                                                    <b-form-radio 
+                                                        v-model="lpr" 
+                                                        id="3" 
+                                                        @change="sendlpr" 
+                                                        value="other_relative_lpr">
+                                                    </b-form-radio>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -767,6 +799,7 @@ Vue.use(Loading);
                 new_child_surname: '',
                 new_child_name: '',
                 contract: [],
+                lpr: '',
             }
         },
         validations: {
@@ -852,6 +885,12 @@ Vue.use(Loading);
                 .finally(() => console.log('Посты успешно загружены'));
 
             },
+
+            sendlpr(){
+                // alert(this.lpr);
+                // axios.post('api/v2/666', {id: this.lpr})
+            },
+
             profile(){
                 axios.
                 get('get_email')

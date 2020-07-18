@@ -11,8 +11,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="row modal-body">
-                <div class="col-md-6"><a href="#" @click.prevent="contract('vm')">Контракт на пробное занятие</a></div>
+            <div class="row modal-body pb-4">
+                <div class="col-md-6"><a href="#" @click.prevent="contract('vm')">Контракт на Відкрий можливості</a></div>
                 <div class="col-md-6"><a href="#" @click.prevent="contract('main')">Контракт основной программы</a></div>
             </div>
             <div class="modal-footer">
