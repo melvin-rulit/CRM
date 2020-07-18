@@ -214,7 +214,7 @@
                                         @edit-field="editField">
                                     </input-form>
                                 </h4>
-                                <p class="card-text">
+                                <p ata-toggle="tooltip" title="День рождения" class="card-text">
                                     <input-form 
                                         v-model="dataObject.attributes.child_birthday" 
                                         name="child_birthday" 
@@ -344,6 +344,16 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td class="w-25">Почта</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.mother_email" 
+                                                        name="mother_email" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <td class="w-25">Viber</td>
                                                 <td class="w-75">
                                                     <input-form 
@@ -356,11 +366,31 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="w-25">Почта</td>
+                                                <td class="w-25">Telegram</td>
                                                 <td class="w-75">
                                                     <input-form 
-                                                        v-model="dataObject.attributes.mother_email" 
-                                                        name="mother_email" 
+                                                        v-model="dataObject.attributes.mother_telegram" 
+                                                        name="mother_telegram" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Facebook</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.mother_facebook" 
+                                                        name="mother_facebook" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Instagram</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.mother_instagram" 
+                                                        name="mother_instagram" 
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -453,24 +483,53 @@
                                                     </input-form>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="w-25">Viber</td>
-                                                <td class="w-75">
-                                                    <input-form 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
-                                                        v-model="dataObject.attributes.father_viber" 
-                                                        name="father_viber" 
-                                                        @edit-field="editField">
-                                                    </input-form>
-                                                </td>
-                                            </tr>
-                                            <tr>
                                                 <td class="w-25">Почта</td>
                                                 <td class="w-75">
                                                     <input-form 
                                                         v-model="dataObject.attributes.father_email" 
                                                         name="father_email" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Viber</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.father_viber" 
+                                                        name="father_viber" 
+                                                        placeholder="+38 (926) 123-45-67" 
+                                                        v-mask="'+## (###) ###-##-##'" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Telegram</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.father_telegram" 
+                                                        name="father_telegram" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Facebook</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.father_facebook" 
+                                                        name="father_facebook" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Instagram</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.father_instagram" 
+                                                        name="father_instagram" 
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -562,6 +621,16 @@
                                                     </input-form>
                                                 </td>
                                             </tr>
+                                            </tr>
+                                                <td class="w-25">Почта</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.other_relative_email" 
+                                                        name="other_relative_email" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td class="w-25">Viber</td>
                                                 <td class="w-75">
@@ -575,11 +644,31 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="w-25">Почта</td>
+                                                <td class="w-25">Telegram</td>
                                                 <td class="w-75">
                                                     <input-form 
-                                                        v-model="dataObject.attributes.other_relative_email" 
-                                                        name="other_relative_email" 
+                                                        v-model="dataObject.attributes.other_relative_telegram" 
+                                                        name="other_relative_telegram" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Facebook</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.other_relative_facebook" 
+                                                        name="other_relative_facebook" 
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Instagram</td>
+                                                <td class="w-75">
+                                                    <input-form 
+                                                        v-model="dataObject.attributes.other_relative_instagram" 
+                                                        name="other_relative_instagram" 
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -974,15 +1063,18 @@ Vue.use(Loading);
                 ); 
                   this.submitStatus = 'OK'
                   this.new_child_surname = null
+                  this.new_child_middle_name = ''
                   this.$v.new_child_surname.$reset()
                   this.new_child_name = null
                   this.$v.new_child_name.$reset()
                   this.branch = []
+                  this.manager = []
+                  this.instructor = []
               }
             },
             cancelAddNewUser(){
               this.new_child_surname = null
-              this.new_child_middle_name = null
+              this.new_child_middle_name = ''
               this.$v.new_child_surname.$reset()
               this.new_child_name = null
               this.$v.new_child_name.$reset()

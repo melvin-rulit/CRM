@@ -146,6 +146,7 @@
                 </div>
                 <div class="title-collapse">
                     <a data-toggle="collapse" data-target="#1_products" href="#" class="accordion-toggle">Условия программ обучения</a>
+                    <i class="fe fe-chevron-down h3 text-info pl-2"></i>
                 </div>
                 <div class="collapse p-3" id="1_products">
                     <div class="table-responsive">
@@ -333,6 +334,7 @@
                 </div>
                 <div class="title-collapse mt-2">
                     <a data-toggle="collapse" data-target="#2_programms" href="#" class="accordion-toggle">Основные программы обучения</a>
+                    <i class="fe fe-chevron-down h3 text-info pl-2"></i>
                 </div>
                 <div class="collapse p-3" id="2_programms">
                     <div class="table-responsive">
@@ -366,6 +368,7 @@
                 </div>
                 <div class="title-collapse mt-2">
                     <a data-toggle="collapse" data-target="#3_dopproducts" href="#" class="accordion-toggle">Дополнительные программы</a>
+                    <i class="fe fe-chevron-down h3 text-info pl-2"></i>
                 </div>
                 <div class="collapse p-3" id="3_dopproducts">
                     <div class="table-responsive">
@@ -409,6 +412,7 @@
 
                 <div class="title-collapse mt-2">
                     <a data-toggle="collapse" data-target="#4_hall" href="#" class="accordion-toggle">Зал/Поле</a>
+                    <i class="fe fe-chevron-down h3 text-info pl-2"></i>
                 </div>
                 <div class="collapse p-3" id="4_hall">
                     <div class="table-responsive">

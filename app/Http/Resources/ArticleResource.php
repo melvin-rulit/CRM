@@ -43,6 +43,8 @@ class ArticleResource extends JsonResource
                 'mother_email' => $this->mother_email,
                 'mother_telegram' => $this->mother_telegram,
                 'mother_viber' => $this->mother_viber,
+                'mother_facebook' => $this->mother_facebook,
+                'mother_instagram' => $this->mother_instagram,
                 'mother_notes' => $this->mother_notes,
 
                 'father_surname' => $this->father_surname,
@@ -54,6 +56,8 @@ class ArticleResource extends JsonResource
                 'father_email' => $this->father_email,
                 'father_telegram' => $this->father_telegram,
                 'father_viber' => $this->father_viber,
+                'father_facebook' => $this->father_facebook,
+                'father_instagram' => $this->father_instagram,
                 'father_notes' => $this->father_notes,
 
                 'other_relative_who' => $this->other_relative_who,
@@ -66,7 +70,10 @@ class ArticleResource extends JsonResource
                 'other_relative_email' => $this->other_relative_email,
                 'other_relative_telegram' => $this->other_relative_telegram,
                 'other_relative_viber' => $this->other_relative_viber,
+                'other_relative_facebook' => $this->other_relative_facebook,
+                'other_relative_instagram' => $this->other_relative_instagram,
                 'other_relative_notes' => $this->other_relative_notes,
+
                 'avatar' => $this->avatar,
                 'old_id' => $this->old_id,
             ],
