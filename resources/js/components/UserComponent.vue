@@ -194,40 +194,40 @@
                         <div class="col-md-4">
                             <div class="card-body">
                                 <h4 class="pointer">
-                                    <input-form 
-                                        v-model="dataObject.attributes.child_surname" 
-                                        name="child_surname" 
+                                    <input-form
+                                        v-model="dataObject.attributes.child_surname"
+                                        name="child_surname"
                                         @edit-field="editField">
                                     </input-form>
                                 </h4>
                                 <h4 class="pointer">
-                                    <input-form 
-                                        v-model="dataObject.attributes.child_name" 
-                                        name="child_name" 
+                                    <input-form
+                                        v-model="dataObject.attributes.child_name"
+                                        name="child_name"
                                         @edit-field="editField">
                                     </input-form>
                                 </h4>
                                 <h4 class="pointer">
-                                    <input-form 
-                                        v-model="dataObject.attributes.child_middle_name" 
-                                        name="child_middle_name" 
+                                    <input-form
+                                        v-model="dataObject.attributes.child_middle_name"
+                                        name="child_middle_name"
                                         @edit-field="editField">
                                     </input-form>
                                 </h4>
                                 <p ata-toggle="tooltip" title="День рождения" class="card-text">
-                                    <input-form 
-                                        v-model="dataObject.attributes.child_birthday" 
-                                        name="child_birthday" 
-                                        placeholder="12.05.1988" 
-                                        v-mask="'##.##.####'" 
+                                    <input-form
+                                        v-model="dataObject.attributes.child_birthday"
+                                        name="child_birthday"
+                                        placeholder="12.05.1988"
+                                        v-mask="'##.##.####'"
                                         @edit-field="editField">
                                     </input-form>
                                     <span>({{ dataObject.attributes.age }} лет)</span>
                                 </p>
                                 <h5>Старый ID: <span class="pointer">
-                                        <input-form 
-                                            v-model="dataObject.attributes.old_id" 
-                                            name="old_id" 
+                                        <input-form
+                                            v-model="dataObject.attributes.old_id"
+                                            name="old_id"
                                             @edit-field="editField">
                                         </input-form>
                                     </span>
@@ -269,10 +269,18 @@
                         </div>
                         <div class="col-md-4 border-left">
                             <div class="card-body">
-                                <h4 class="text-center mb-4">Документы</h4>
-<!--                                 <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Свидетельство о рождении</a></h5>
-                                <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Ксерокопия договора</a></h5>
-                                <h5><a class="text-muted mb-2" href="#" @click.prevent="null">Ксерокопия паспорта отца</a></h5> -->
+                                <h4 class="text-center mb-4">Документы<i @click="showUploadForm()" class="fe fe-plus text-success pl-3 pointer"></i></h4>
+                            <h5 v-for="documents in dataObject.attributes.documents">
+                                <a class="text-muted mb-2" :href="'http://127.0.0.1/' + documents.path" @click.prevent="null">{{ documents.name }}</a>
+                            </h5>
+                                <hr>
+<!--                                Форма загрузки файла-->
+                                <b-form-group v-if="showForm">
+                                  <b-form-input v-model="uploadFileName" size="sm" class="mt-3" placeholder="Название файла"></b-form-input>
+<!--                                  <b-form-file :change="handleFileUpload()" class="mt-3" plain id="file" ref="file"></b-form-file>-->
+                                    <input type="file" id="file" ref="file" accept=",.jpg,.jpeg,.png,.txt" v-on:change="handleFileUpload()"/>
+                                  <button @click="submitFile(dataObject.id)" class="btn btn-success center btn-sm mt-3">Загрузить</button>
+                                </b-form-group>
                             </div>
                         </div>
                     </div>
@@ -292,9 +300,9 @@
                                             <tr>
                                                 <td class="w-25">Фамилия</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_surname" 
-                                                        name="mother_surname" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_surname"
+                                                        name="mother_surname"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -302,9 +310,9 @@
                                             <tr>
                                                 <td class="w-25">Имя</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_name" 
-                                                        name="mother_name" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_name"
+                                                        name="mother_name"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -312,9 +320,9 @@
                                             <tr>
                                                 <td class="w-25">Отчество</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_middle_name" 
-                                                        name="mother_middle_name" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_middle_name"
+                                                        name="mother_middle_name"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -322,11 +330,11 @@
                                             <tr>
                                                 <td class="w-25">Телефон</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_phone" 
-                                                        name="mother_phone" 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_phone"
+                                                        name="mother_phone"
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -334,11 +342,11 @@
                                             <tr>
                                                 <td class="w-25">Телефон</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_dop_phone" 
-                                                        name="mother_dop_phone" 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_dop_phone"
+                                                        name="mother_dop_phone"
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -346,9 +354,9 @@
                                             <tr>
                                                 <td class="w-25">Почта</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_email" 
-                                                        name="mother_email" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_email"
+                                                        name="mother_email"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -356,11 +364,11 @@
                                             <tr>
                                                 <td class="w-25">Viber</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_viber" 
-                                                        name="mother_viber" 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_viber"
+                                                        name="mother_viber"
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -368,9 +376,9 @@
                                             <tr>
                                                 <td class="w-25">Telegram</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_telegram" 
-                                                        name="mother_telegram" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_telegram"
+                                                        name="mother_telegram"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -378,9 +386,9 @@
                                             <tr>
                                                 <td class="w-25">Facebook</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_facebook" 
-                                                        name="mother_facebook" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_facebook"
+                                                        name="mother_facebook"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -388,9 +396,9 @@
                                             <tr>
                                                 <td class="w-25">Instagram</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.mother_instagram" 
-                                                        name="mother_instagram" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.mother_instagram"
+                                                        name="mother_instagram"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -398,10 +406,10 @@
                                             <tr>
                                                 <td class="w-25">ЛПР</td>
                                                 <td class="w-75">
-                                                    <b-form-radio 
-                                                        v-model="lpr" 
-                                                        id="1" 
-                                                        @change="sendlpr" 
+                                                    <b-form-radio
+                                                        v-model="lpr"
+                                                        id="1"
+                                                        @change="sendlpr"
                                                         value="mother_lpr">
                                                     </b-form-radio>
                                                 </td>
@@ -412,10 +420,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Примечания:</label>
-                                        <textarea 
-                                            class="form-control" 
-                                            v-model="dataObject.attributes.mother_notes" 
-                                            @blur="event => editField(event, 'mother_notes')" 
+                                        <textarea
+                                            class="form-control"
+                                            v-model="dataObject.attributes.mother_notes"
+                                            @blur="event => editField(event, 'mother_notes')"
                                             rows="3">
                                         </textarea>
                                     </div>
@@ -432,19 +440,19 @@
                                             <tr>
                                                 <td class="w-25">Фамилия</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.father_surname" 
-                                                        name="father_surname" 
-                                                        @edit-field="editField"> 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.father_surname"
+                                                        name="father_surname"
+                                                        @edit-field="editField">
                                                     </input-form>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="w-25">Имя</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.father_name" 
-                                                        name="father_name" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.father_name"
+                                                        name="father_name"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -452,9 +460,9 @@
                                             <tr>
                                                 <td class="w-25">Отчество</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.father_middle_name" 
-                                                        name="father_middle_name" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.father_middle_name"
+                                                        name="father_middle_name"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -462,11 +470,11 @@
                                             <tr>
                                                 <td class="w-25">Телефон</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
-                                                        v-model="dataObject.attributes.father_phone" 
-                                                        name="father_phone" 
+                                                    <input-form
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
+                                                        v-model="dataObject.attributes.father_phone"
+                                                        name="father_phone"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -474,20 +482,20 @@
                                             <tr>
                                                 <td class="w-25">Телефон</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
-                                                        v-model="dataObject.attributes.father_dop_phone" 
-                                                        name="father_dop_phone" 
+                                                    <input-form
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
+                                                        v-model="dataObject.attributes.father_dop_phone"
+                                                        name="father_dop_phone"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
                                             </tr>
                                                 <td class="w-25">Почта</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.father_email" 
-                                                        name="father_email" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.father_email"
+                                                        name="father_email"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -495,11 +503,11 @@
                                             <tr>
                                                 <td class="w-25">Viber</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.father_viber" 
-                                                        name="father_viber" 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.father_viber"
+                                                        name="father_viber"
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -507,9 +515,9 @@
                                             <tr>
                                                 <td class="w-25">Telegram</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.father_telegram" 
-                                                        name="father_telegram" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.father_telegram"
+                                                        name="father_telegram"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -517,9 +525,9 @@
                                             <tr>
                                                 <td class="w-25">Facebook</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.father_facebook" 
-                                                        name="father_facebook" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.father_facebook"
+                                                        name="father_facebook"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -527,9 +535,9 @@
                                             <tr>
                                                 <td class="w-25">Instagram</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.father_instagram" 
-                                                        name="father_instagram" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.father_instagram"
+                                                        name="father_instagram"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -537,10 +545,10 @@
                                             <tr>
                                                 <td class="w-25">ЛПР</td>
                                                 <td class="w-75">
-                                                    <b-form-radio 
-                                                        v-model="lpr" 
-                                                        id="2" 
-                                                        @change="sendlpr" 
+                                                    <b-form-radio
+                                                        v-model="lpr"
+                                                        id="2"
+                                                        @change="sendlpr"
                                                         value="father_lpr">
                                                     </b-form-radio>
                                                 </td>
@@ -551,10 +559,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Примечания:</label>
-                                        <textarea 
-                                            class="form-control" 
-                                            v-model="dataObject.attributes.father_notes" 
-                                            @blur="event => editField(event, 'father_notes')" 
+                                        <textarea
+                                            class="form-control"
+                                            v-model="dataObject.attributes.father_notes"
+                                            @blur="event => editField(event, 'father_notes')"
                                             rows="3">
                                         </textarea>
                                     </div>
@@ -571,9 +579,9 @@
                                             <tr>
                                                 <td class="w-25">Фамилия</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_surname" 
-                                                        name="other_relative_surname" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_surname"
+                                                        name="other_relative_surname"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -581,9 +589,9 @@
                                             <tr>
                                                 <td class="w-25">Имя</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_name" 
-                                                        name="other_relative_name" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_name"
+                                                        name="other_relative_name"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -591,9 +599,9 @@
                                             <tr>
                                                 <td class="w-25">Отчество</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_middle_name" 
-                                                        name="other_relative_middle_name" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_middle_name"
+                                                        name="other_relative_middle_name"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -601,22 +609,22 @@
                                             <tr>
                                                 <td class="w-25">Телефон</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_phone" 
-                                                        name="other_relative_phone" 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_phone"
+                                                        name="other_relative_phone"
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
                                                         @edit-field="editField"></input-form>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="w-25">Телефон</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_dop_phone" 
-                                                        name="other_relative_dop_phone" 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_dop_phone"
+                                                        name="other_relative_dop_phone"
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -624,9 +632,9 @@
                                             </tr>
                                                 <td class="w-25">Почта</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_email" 
-                                                        name="other_relative_email" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_email"
+                                                        name="other_relative_email"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -634,11 +642,11 @@
                                             <tr>
                                                 <td class="w-25">Viber</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_viber" 
-                                                        name="other_relative_viber" 
-                                                        placeholder="+38 (926) 123-45-67" 
-                                                        v-mask="'+## (###) ###-##-##'" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_viber"
+                                                        name="other_relative_viber"
+                                                        placeholder="+38 (926) 123-45-67"
+                                                        v-mask="'+## (###) ###-##-##'"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -646,9 +654,9 @@
                                             <tr>
                                                 <td class="w-25">Telegram</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_telegram" 
-                                                        name="other_relative_telegram" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_telegram"
+                                                        name="other_relative_telegram"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -656,9 +664,9 @@
                                             <tr>
                                                 <td class="w-25">Facebook</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_facebook" 
-                                                        name="other_relative_facebook" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_facebook"
+                                                        name="other_relative_facebook"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -666,9 +674,19 @@
                                             <tr>
                                                 <td class="w-25">Instagram</td>
                                                 <td class="w-75">
-                                                    <input-form 
-                                                        v-model="dataObject.attributes.other_relative_instagram" 
-                                                        name="other_relative_instagram" 
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_instagram"
+                                                        name="other_relative_instagram"
+                                                        @edit-field="editField">
+                                                    </input-form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="w-25">Язык</td>
+                                                <td class="w-75">
+                                                    <input-form
+                                                        v-model="dataObject.attributes.other_relative_language"
+                                                        name="other_relative_language"
                                                         @edit-field="editField">
                                                     </input-form>
                                                 </td>
@@ -676,10 +694,10 @@
                                             <tr>
                                                 <td class="w-25">ЛПР</td>
                                                 <td class="w-75">
-                                                    <b-form-radio 
-                                                        v-model="lpr" 
-                                                        id="3" 
-                                                        @change="sendlpr" 
+                                                    <b-form-radio
+                                                        v-model="lpr"
+                                                        id="3"
+                                                        @change="sendlpr"
                                                         value="other_relative_lpr">
                                                     </b-form-radio>
                                                 </td>
@@ -690,10 +708,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Примечания:</label>
-                                        <textarea 
-                                            class="form-control" 
-                                            v-model="dataObject.attributes.other_relative_notes" 
-                                            @blur="event => editField(event, 'other_relative_notes')" 
+                                        <textarea
+                                            class="form-control"
+                                            v-model="dataObject.attributes.other_relative_notes"
+                                            @blur="event => editField(event, 'other_relative_notes')"
                                             rows="3">
                                         </textarea>
                                     </div>
@@ -800,6 +818,8 @@
 
 <script>
 
+import Vue from "vue";
+
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });
@@ -838,13 +858,13 @@ Vue.use(Loading);
             return{
                 fullPage: true,
                 tabsInCard: [
-                    {name: 'Мать', id: 'mother', selected: 'true'}, 
-                    {name: 'Отец', id: 'father'}, 
+                    {name: 'Мать', id: 'mother', selected: 'true'},
+                    {name: 'Отец', id: 'father'},
                     {name: 'Родственник', id: 'other_relative'},
-                    {name: 'Контракт', id: 'contract'}, 
-                    {name: 'История', id: 'history'}, 
-                    {name: 'Интересы', id: 'interests'}, 
-                    {name: 'Навыки', id: 'skills'}, 
+                    {name: 'Контракт', id: 'contract'},
+                    {name: 'История', id: 'history'},
+                    {name: 'Интересы', id: 'interests'},
+                    {name: 'Навыки', id: 'skills'},
                  ],
                 surname: null,
                 birthday: null,
@@ -859,7 +879,7 @@ Vue.use(Loading);
                 users: [],
                 name:'',
                 qw:'',
-                image: '',  
+                image: '',
                 instructor: '',
                 dataObject: {
                      attributes: {},
@@ -889,6 +909,9 @@ Vue.use(Loading);
                 new_child_name: '',
                 contract: [],
                 lpr: '',
+                showForm: false,
+                uploadFileName: '',
+                file: '',
             }
         },
         validations: {
@@ -917,6 +940,54 @@ Vue.use(Loading);
           },
 
         methods: {
+            showUploadForm(){
+                this.showForm = true
+            },
+
+            submitFile(base_id){
+                let formData = new FormData();
+
+                if (!this.uploadFileName || !formData){
+                    Vue.$toast.open({message: 'Не выбран файл или имя пустое' ,type: 'error',duration: 5000,position: 'top-right'});
+                    return null
+                }
+
+                formData.append('file', this.file);
+                axios.post( '/api/v2/documents',
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        params: {
+                            name: this.uploadFileName,
+                            base_id: base_id
+                        },
+                    }
+                )
+                this.showForm = false
+
+                setTimeout(() => {
+                    axios.post('api/v2/getinfo', {id : base_id})
+                        .then(response => {
+                        this.dataObject = response.data.data
+                    })
+                }, 200)
+
+                //     .then(function(){
+                //     console.log('SUCCESS!!');
+                //     this.showForm = false
+                // })
+                    // .catch(function(){
+                    //     console.log('FAILURE!!');
+                    //     Vue.$toast.open({message: 'Не удалось загрузить файл' ,type: 'error',duration: 5000,position: 'top-right'});
+                    //     this.showForm = false
+                    // });
+            },
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+            },
+
             summPaysActiveContract(pays){
                 let sum = 0
                 pays.forEach(function (value, key) {
@@ -1047,11 +1118,11 @@ Vue.use(Loading);
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();
                 axios.post(this.URLaddNewUser, {
-                    child_surname: this.new_child_surname, 
-                    child_name: this.new_child_name, 
-                    child_middle_name: this.new_child_middle_name, 
-                    manager: this.manager ? this.manager.id : null, 
-                    instructor: this.instructor ? this.instructor.id : null, 
+                    child_surname: this.new_child_surname,
+                    child_name: this.new_child_name,
+                    child_middle_name: this.new_child_middle_name,
+                    manager: this.manager ? this.manager.id : null,
+                    instructor: this.instructor ? this.instructor.id : null,
                     branch: this.branch.id
                 })
                 .then(response =>
@@ -1059,8 +1130,8 @@ Vue.use(Loading);
                         loader.hide()
                         this.getModalForNewUser(response.data)
                         this.fetchArticles()
-                        },500) 
-                ); 
+                        },500)
+                );
                   this.submitStatus = 'OK'
                   this.new_child_surname = null
                   this.new_child_middle_name = ''
@@ -1148,6 +1219,8 @@ Vue.use(Loading);
                 this.indexactiveContract = 0
 
                 this.fetchArticles()
+
+                this.showForm = false
             }
         }
     }
@@ -1190,24 +1263,24 @@ Vue.use(Loading);
 }
 
 .not-photo{
-    display: flex; 
-    width: 250px; 
-    height: 250px; 
-    border-radius: 0px; 
-    font: 100px / 250px Helvetica, Arial, sans-serif; 
-    align-items: center; 
-    justify-content: center; 
-    text-align: center; 
-    user-select: none; 
-    background-color: rgb(255, 193, 7); 
+    display: flex;
+    width: 250px;
+    height: 250px;
+    border-radius: 0px;
+    font: 100px / 250px Helvetica, Arial, sans-serif;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    user-select: none;
+    background-color: rgb(255, 193, 7);
     color: rgb(255, 255, 255);
 }
 
 .photo{
     display: flex;
-    width: 250px; 
-    height: 250px; 
-    border-radius: 0px; 
+    width: 250px;
+    height: 250px;
+    border-radius: 0px;
 }
 
 .form-group--error input, .form-group--error textarea, .form-group--error input:focus, .form-group--error input:hover {
@@ -1234,5 +1307,8 @@ Vue.use(Loading);
 .fix-height{
     min-height: 800px;
 }
-
+    .center{
+        display: block;
+        margin: 0 auto;
+    }
 </style>

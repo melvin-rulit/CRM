@@ -63,7 +63,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Название</th>
-                                <th>Код</th>
+<!--                                <th>Код</th>-->
                                 <th>Описание</th>
                             </tr>
                         </thead>
@@ -71,7 +71,7 @@
                             <tr>
                                 <td>{{ permission.id }}</td>
                                 <td>{{ permission.name }}</td>
-                                <td>{{ permission.title }}</td>
+<!--                                <td>{{ permission.title }}</td>-->
                                 <td>{{ permission.description }}</td>
                             </tr>
                         </tbody>

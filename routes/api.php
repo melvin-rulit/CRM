@@ -2,7 +2,7 @@
 
 // Route::resource('articles', 'Admin\ApiController');
 // Route::post('getinfo', 'Api\V2\BaseController@getInfo');
-// 
+//
 
 Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middleware' => ['auth']], function () {
 
@@ -36,6 +36,9 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // Permissions
     Route::apiResource('apipermissions', 'PermissionsController');
 
+    // Documents
+    Route::apiResource('documents', 'DocumentController');
+
     // Users
     Route::apiResource('users', 'UserController');
     Route::get('getatributes', 'UserController@getAtributes');
@@ -56,6 +59,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('saveSchedule', 'BaseController@saveSchedule');
     Route::post('getGroupInHall', 'BaseController@getGroupInHall');
     Route::post('getEditingGroup', 'BaseController@getEditingGroup');
+    Route::post('uploadDocument', 'BaseController@uploadDocument');
 
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');

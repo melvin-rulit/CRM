@@ -57,6 +57,7 @@ Vue.component('calendar-component', require('./components/Calendar.vue').default
 Vue.component('input-form', require('./components/InputComponent.vue').default);
 Vue.component('journal-component', require('./components/JournalComponent.vue').default);
 Vue.component('permissions-component', require('./components/PermissionsComponent.vue').default);
+Vue.component('upload-component', require('./components/UploadFile.vue').default);
 
 
 /**

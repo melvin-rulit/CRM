@@ -40,11 +40,11 @@
                     <table border="0" width="100%">
                         <td class="tdleft">{{ dataVm.branch.geolocation }}</td>
 <!--                         <td class="tdright">{{ dataVm.date }} рік</td> -->
-                    <date-picker 
-                          v-if="!printvm" 
-                          v-model="dataVm.date" 
-                          :editable="false" 
-                          value-type="DD.MM.YYYY" 
+                    <date-picker
+                          v-if="!printvm"
+                          v-model="dataVm.date"
+                          :editable="false"
+                          value-type="DD.MM.YYYY"
                           format="DD.MM.YYYY">
                     </date-picker>
                         <span v-if="printvm">{{ dataVm.date }}</span>» р.<br>
@@ -172,11 +172,11 @@
                 <div class="Section1">
                     <img src="http://185.146.156.207/logo.png" class="logo">
                     <h1>ЗАЯВА № {{ user_id }} від «
-                        <date-picker 
-                          v-if="!print" 
-                          v-model="dataVm.date" 
-                          :editable="false" 
-                          value-type="DD.MM.YYYY" 
+                        <date-picker
+                          v-if="!print"
+                          v-model="dataVm.date"
+                          :editable="false"
+                          value-type="DD.MM.YYYY"
                           format="DD.MM.YYYY">
                         </date-picker>
                         <span v-if="print">{{ dataVm.date }}</span>» р.<br>
@@ -201,11 +201,11 @@
                             <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
                             <td>, дата народження</td>
                             <td>
-                                <date-picker 
-                                  v-if="!print" 
-                                  v-model="dataVm.child_birthday" 
-                                  :editable="false" 
-                                  value-type="DD.MM.YYYY" 
+                                <date-picker
+                                  v-if="!print"
+                                  v-model="dataVm.child_birthday"
+                                  :editable="false"
+                                  value-type="DD.MM.YYYY"
                                   format="DD.MM.YYYY">
                                 </date-picker>
                                 <span v-if="print">{{ dataVm.child_birthday }}</span>
@@ -217,11 +217,11 @@
                         <tr>
                             <td class="gray">Телефон Замовника</td>
                             <td>
-                              <input v-model="dataVm.parent_phone" class="line" placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'">
+                              <input v-model="dataVm.parent_phone" class="line" placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'">
                             </td>
                             <td class="gray">Viber/Telegram Замовника</td>
                             <td>
-                              <input v-model="dataVm.parent_viber" class="line" placeholder="+3 (926) 123-45-67" v-mask="'+# (###) ###-##-##'">
+                              <input v-model="dataVm.parent_viber" class="line" placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'">
                             </td>
                         </tr>
                         <tr>
@@ -233,24 +233,55 @@
                         </tr>
                     </table>
                     Прошуприйняти вище вказану дитину на навчання за програмою навчання:<br>
-                    <dynamic-select 
-                      v-if="!print" 
-                      :options="dataVm.programms" 
-                      option-value="id" 
-                      option-text="name" 
-                      placeholder="Введите для поиска программы" 
+                    <dynamic-select
+                      v-if="!print"
+                      :options="dataVm.programms"
+                      option-value="id"
+                      option-text="name"
+                      placeholder="Введите для поиска программы"
                       v-model="programm" />
                     <span v-if="print">{{ programm.name }}</span>
                     з наступними умовами:
-                    <dynamic-select 
-                      v-if="!print" 
-                      :options="dataVm.products" 
-                      option-value="id" 
-                      option-text="name" 
-                      placeholder="Введите для поиска продукта" 
-                      v-model="product" 
+                    <dynamic-select
+                      v-if="!print"
+                      :options="dataVm.products"
+                      option-value="id"
+                      option-text="name"
+                      placeholder="Введите для поиска продукта"
+                      v-model="product"
                       @input="stopDate(product.id)" />
                     <span v-if="print">{{ product.name }}</span>
+                    <br>
+                    зал
+                    <select class="form-control">
+                        <option>Большой зал</option>
+                        <option>Вт-Чт</option>
+                        <option>Сб-Вс</option>
+                        <option>Пт</option>
+                    </select>
+                    <br>
+                    дни посещения
+                    <select class="form-control">
+                        <option>Понедельник</option>
+                        <option>Вт-Чт</option>
+                        <option>Сб-Вс</option>
+                        <option>Пт</option>
+                    </select>
+                    время посещения
+                    <select class="form-control">
+                        <option>9:00</option>
+                        <option>10:00</option>
+                        <option>11:00</option>
+                        <option>12:00</option>
+                        <option>13:00</option>
+                        <option>14:00</option>
+                        <option>15:00</option>
+                        <option>16:00</option>
+                        <option>17:00</option>
+                        <option>18:00</option>
+                        <option>19:00</option>
+                        <option>20:00</option>
+                    </select>
                     <br>
                     <table class="tabs">
                         <tr>
@@ -471,10 +502,10 @@ Vue.use(VueHtmlToPaper, options);
 
                 if (contract_type == 'vm') {
                     if (
-                    !this.dataVm.parent_surname || 
-                    !this.dataVm.parent_name || 
-                    !this.dataVm.parent_middle_name || 
-                    !this.dataVm.child_surname || 
+                    !this.dataVm.parent_surname ||
+                    !this.dataVm.parent_name ||
+                    !this.dataVm.parent_middle_name ||
+                    !this.dataVm.child_surname ||
                     !this.dataVm.child_name) {
                         this.$alert("Не все поля заполнены");
                         return false
@@ -482,16 +513,16 @@ Vue.use(VueHtmlToPaper, options);
 
 
                 axios.post('api/v2/savecontract', {
-                  contract_type: contract_type, 
-                  base_id: this.user_id , 
-                  name_vm: this.contracts_vm, 
-                  date: this.dataVm.date, 
-                  child_surname: this.dataVm.child_surname, 
-                  child_name: this.dataVm.child_name, 
-                  child_middle_name: this.dataVm.child_middle_name, 
-                  parent_surname: this.dataVm.parent_surname, 
+                  contract_type: contract_type,
+                  base_id: this.user_id ,
+                  name_vm: this.contracts_vm,
+                  date: this.dataVm.date,
+                  child_surname: this.dataVm.child_surname,
+                  child_name: this.dataVm.child_name,
+                  child_middle_name: this.dataVm.child_middle_name,
+                  parent_surname: this.dataVm.parent_surname,
                   parent_name: this.dataVm.parent_name,
-                  parent_middle_name: this.dataVm.parent_middle_name, 
+                  parent_middle_name: this.dataVm.parent_middle_name,
                   currency: this.dataVm.branch.currency,
                   adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
                 })
@@ -505,12 +536,12 @@ Vue.use(VueHtmlToPaper, options);
                 }else{
 
 
-                if (!this.dataVm.parent_surname || 
-                    !this.dataVm.parent_name || 
-                    !this.dataVm.parent_middle_name || 
-                    !this.dataVm.child_surname || 
-                    !this.dataVm.child_name || 
-                    !this.programm || 
+                if (!this.dataVm.parent_surname ||
+                    !this.dataVm.parent_name ||
+                    !this.dataVm.parent_middle_name ||
+                    !this.dataVm.child_surname ||
+                    !this.dataVm.child_name ||
+                    !this.programm ||
                     !this.product
                     ) {
                         this.$alert("Не все поля заполнены");
@@ -521,31 +552,31 @@ Vue.use(VueHtmlToPaper, options);
             var D = new Date(this.dataVm.end_actualy);
             this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
                 axios.post('api/v2/savecontract', {
-                  contract_type: contract_type, 
-                  base_id: this.user_id , 
-                  name: this.product.name, 
-                  name_vm: this.contracts_vm, 
+                  contract_type: contract_type,
+                  base_id: this.user_id ,
+                  name: this.product.name,
+                  name_vm: this.contracts_vm,
                   date: this.dataVm.date,
                   start: this.startA,
-                  end: this.stopContract, 
-                  end_actually: this.stopContract, 
-                  price: this.product.price, 
-                  child_surname: this.dataVm.child_surname, 
-                  child_name: this.dataVm.child_name, 
-                  child_middle_name: this.dataVm.child_middle_name, 
-                  child_birthday: this.dataVm.child_birthday, 
-                  parent_surname: this.dataVm.parent_surname, 
+                  end: this.stopContract,
+                  end_actually: this.stopContract,
+                  price: this.product.price,
+                  child_surname: this.dataVm.child_surname,
+                  child_name: this.dataVm.child_name,
+                  child_middle_name: this.dataVm.child_middle_name,
+                  child_birthday: this.dataVm.child_birthday,
+                  parent_surname: this.dataVm.parent_surname,
                   parent_name: this.dataVm.parent_name,
-                  parent_middle_name: this.dataVm.parent_middle_name, 
-                  parent_phone: this.dataVm.parent_phone, 
-                  parent_viber: this.dataVm.parent_viber, 
-                  parent_email: this.dataVm.parent_email, 
-                  parent_facebook: this.dataVm.parent_facebook, 
-                  parent_instagram: this.dataVm.parent_instagram, 
-                  form_size: this.form_size, 
+                  parent_middle_name: this.dataVm.parent_middle_name,
+                  parent_phone: this.dataVm.parent_phone,
+                  parent_viber: this.dataVm.parent_viber,
+                  parent_email: this.dataVm.parent_email,
+                  parent_facebook: this.dataVm.parent_facebook,
+                  parent_instagram: this.dataVm.parent_instagram,
+                  form_size: this.form_size,
                   classes_week: this.product.classes_week,
-                  classes_total: this.product.classes_total,          
-                  freezing_total: this.product.freezing_total,  
+                  classes_total: this.product.classes_total,
+                  freezing_total: this.product.freezing_total,
                   freezing_kolvo: this.product.freezing_kolvo,
                   pays: this.pays.pays,
                   programm: this.programm.name,
@@ -603,10 +634,10 @@ Vue.use(VueHtmlToPaper, options);
 Size : 8.27in and 11.69 inches
 
 @page Section1 {
-size:8.27in 11.69in; 
-margin:.5in .5in .5in .5in; 
-mso-header-margin:.5in; 
-mso-footer-margin:.5in; 
+size:8.27in 11.69in;
+margin:.5in .5in .5in .5in;
+mso-header-margin:.5in;
+mso-footer-margin:.5in;
 mso-paper-source:0;
 }
 
@@ -620,7 +651,7 @@ mso-paper-source:0;
 div.Section1 {
 page:Section1;
 border: solid 0px;
-} 
+}
 .logo{
   display: block;
   width: 1.917in;

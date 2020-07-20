@@ -73,9 +73,12 @@ class ArticleResource extends JsonResource
                 'other_relative_facebook' => $this->other_relative_facebook,
                 'other_relative_instagram' => $this->other_relative_instagram,
                 'other_relative_notes' => $this->other_relative_notes,
+                'other_relative_language' => $this->other_relative_language,
 
                 'avatar' => $this->avatar,
                 'old_id' => $this->old_id,
+
+                'documents' => $this->documents,
             ],
                 'base_branch' => $this->base_branch->name,
                 'manager' => $this->base_manager ?  $this->base_manager->surname . ' ' .$this->base_manager->name : 'Нет' ,

@@ -19,7 +19,7 @@
                             </tr>
                         </thead>
                         <tbody v-for="(user, index) in users">
-                            <tr @click="getShowModal(user.id)">
+                            <tr>
                                 <td class="text-center">
                                     <span class="text-success">●</span>
                                 </td>
@@ -30,6 +30,7 @@
                                 <td><span v-for="branch in user.branches" class="badge badge-info mr-2">{{ branch.name }}</span></td>
                                 <td class="text-center">
                                     <span class="fe fe-trash-2 h3 text-danger" @click="deleteUser(index, user.id, user.surname)"></span>
+                                    <span class="fe fe-eye h3 text-warning" @click="getShowModal(user.id)"></span>
                                 </td>
                             </tr>
                         </tbody>

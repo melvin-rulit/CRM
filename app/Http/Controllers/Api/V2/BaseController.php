@@ -131,12 +131,12 @@ class BaseController extends Controller
 
     public function workout(Request $request){
 
-        // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать 
+        // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать
         $base = Base::find($request->base_id);
 
         // Выбираем только активные контракты и с типом основной контракт
         $contracts = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->where('contract_type', 'main');
-        
+
         if ($contracts->count() == 1) {
 
             $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 1)->get();
@@ -148,7 +148,7 @@ class BaseController extends Controller
                 ];
             }
 
-            // Проверяем стоит ли сейчас пропущенная тренировка на текущей ячейки 
+            // Проверяем стоит ли сейчас пропущенная тренировка на текущей ячейки
             $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 3)->get();
 
             // Если записи нет и количество тренировок в контракте больше нуля то списываем одну тренировку
@@ -164,10 +164,10 @@ class BaseController extends Controller
             $journal = Journal::updateOrCreate(
               ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
               [
-              'base_id' => $request->base_id, 
-              'day' => $request->day, 
-              'month' => $request->month, 
-              'year' => $request->year, 
+              'base_id' => $request->base_id,
+              'day' => $request->day,
+              'month' => $request->month,
+              'year' => $request->year,
               'icon' => 'fe fe-check text-success',
               'type' => 1
               ]
@@ -203,7 +203,7 @@ class BaseController extends Controller
 
         if ($contracts->count() == 1) {
 
-            // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки 
+            // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
             $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 1)->get();
 
             // Если записи нет то списываем одну тренировку
@@ -215,10 +215,10 @@ class BaseController extends Controller
             $journal = Journal::updateOrCreate(
               ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
               [
-                'base_id'   => $request->base_id, 
-                'day'       => $request->day, 
-                'month'     => $request->month, 
-                'year'      => $request->year, 
+                'base_id'   => $request->base_id,
+                'day'       => $request->day,
+                'month'     => $request->month,
+                'year'      => $request->year,
                 'icon'      => 'fe fe-x text-danger',
                 'type'      => 3,
               ]
@@ -252,17 +252,17 @@ class BaseController extends Controller
 
     public function newWorkout(Request $request){
 
-            // Проверяем стоит ли на текущей ячейки какие нибудь данные 
+            // Проверяем стоит ли на текущей ячейки какие нибудь данные
             $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->get();
 
             // Если записи нет то спросто назначаем тренировку
             if ($journal->isEmpty()) {
                     $journal = Journal::create(
                       [
-                        'base_id' => $request->base_id, 
-                        'day' => $request->day, 
-                        'month' => $request->month, 
-                        'year' => $request->year, 
+                        'base_id' => $request->base_id,
+                        'day' => $request->day,
+                        'month' => $request->month,
+                        'year' => $request->year,
                         'icon' => 'fe fe-alert-circle text-warning',
                         'type' => 4,
                       ]
@@ -274,7 +274,7 @@ class BaseController extends Controller
 
     public function freezing(Request $request){
 
-        // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать 
+        // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать
         $base = Base::find($request->base_id);
 
         // Выбираем только активные контракты и с типом основной контракт
@@ -283,7 +283,7 @@ class BaseController extends Controller
         // Если найден один активный контракт
         if ($contracts->count() == 1) {
 
-            // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки 
+            // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
             $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 1)->get();
 
             // Если есть запись посещенной тренировки, то останавливаем
@@ -293,7 +293,7 @@ class BaseController extends Controller
                 ];
             }
 
-            // Проверяем стоит ли сейчас новая тренировка на текущей ячейки 
+            // Проверяем стоит ли сейчас новая тренировка на текущей ячейки
             $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 4)->get();
 
             // Если есть запись новой тренировки, то останавливаем
@@ -344,10 +344,10 @@ class BaseController extends Controller
                 Journal::updateOrCreate(
                       ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
                       [
-                        'base_id'   => $request->base_id, 
-                        'day'       => $request->day, 
-                        'month'     => $request->month, 
-                        'year'      => $request->year, 
+                        'base_id'   => $request->base_id,
+                        'day'       => $request->day,
+                        'month'     => $request->month,
+                        'year'      => $request->year,
                         'icon'      => 'fe fe-sun text-primary',
                         'type'      => 2,
                       ]
@@ -357,7 +357,7 @@ class BaseController extends Controller
                 return [
                     'response'  => "success",
                 ];
-            
+
     }
                 if ($contracts->count() == 0) {
                     return [
@@ -380,6 +380,19 @@ class BaseController extends Controller
                 'user_id'   => Auth::user()->id,
                 'comment'   => $request->comment,
             ]);
+    }
+
+
+    public function uploadDocument(Request $request){
+
+        $path = $request['file']->store('public/files');
+        $path = str_replace("public","storage", $path);
+
+        $document = Document::create([
+            'base_id'   => $request->base_id,
+            'name'   => $request->name,
+            '$path'   => $path,
+        ]);
     }
 
 
@@ -432,28 +445,28 @@ class BaseController extends Controller
 	public function addNewUser(Request $request){
 
         $base = Base::create($request->all());
-        
+
         Log::create(array(
              'user_id' => Auth::id(),
-             'channel' => '2', 
-             'level_name' => 'success', 
+             'channel' => '2',
+             'level_name' => 'success',
              'message' => 'добавил клиента '.$base->id)
         );
-        
+
         return $base->id;
     }
 
     public function getInfo(Request $request){
 
         $base = Base::find($request->id);
-        
+
         return new ArticleResource($base);
     }
 
    	public function getVmContract(Request $request){
 
         $base = Base::find($request->id);
-        
+
         return new VmContractResource($base->load(['base_branch']));
     }
 
@@ -497,7 +510,7 @@ class BaseController extends Controller
     public function getProgramms(Request $request){
 
         $base = Base::find($request->id)->base_branch->programms;
-        
+
         return new UsersResource($base);
     }
 
@@ -509,7 +522,7 @@ class BaseController extends Controller
     public function upload(Request $request){
 
         $path = $request['file']->store('public/avatars');
-        $path = str_replace("public","storage", $path); 
+        $path = str_replace("public","storage", $path);
 
         $base = Base::find($request['id']);
         $base->avatar = $path;
@@ -517,8 +530,8 @@ class BaseController extends Controller
 
         Log::create(array(
              'user_id' => Auth::id(),
-             'channel' => '2', 
-             'level_name' => 'success', 
+             'channel' => '2',
+             'level_name' => 'success',
              'message' => 'изменил аватар '.$base->id)
         );
 

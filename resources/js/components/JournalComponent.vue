@@ -1,8 +1,6 @@
 <template>
   <div>
 
-<!-- Тут будет примет того что файл синхронизировался --> 
-
 <vue-context ref="menu">
         <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
         <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
@@ -172,7 +170,8 @@
 			          v-model="selectDayInModalXl"
 			          placeholder="День недели" />
 
-                    <div class="card card-sm mb-2" v-for="(curr, index) in 21" v-if="index + 1 >= n">
+                    <div class="card card-sm mb-2" v-for="(curr, index) in 21" v-if="index + 1 >= n"
+                         :style="{ 'background-color': schedule.find(item => item.time === curr) ? schedule.find(item => item.time === curr).group.color : null}">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-3 col-md">
