@@ -570,4 +570,19 @@ class BaseController extends Controller
         return view('pages.product', compact('users'));
     }
 
+//    Обновляем ЛПР родителя
+    public function updateLpr(Request $request){
+//        Очищаем список всех ЛПР
+        Base::where('id', $request->id)->update(array('mother_lpr' => '0', 'father_lpr' => '0', 'other_relative_lpr' => '0'));
+
+        $curent_lpr = $request->lpr;
+        $base = Base::find($request->id);
+        $base->$curent_lpr = 1;
+        $base->save();
+
+        return [
+            'success' => 'ok'
+        ];
+    }
+
 }

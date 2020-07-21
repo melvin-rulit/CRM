@@ -1,11 +1,15 @@
 <template>
     <div class="container">
-        <div class="large-12 medium-12 small-12 cell">
-            <label>File
-                <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-            </label>
-            <button v-on:click="submitFile()">Submit</button>
-        </div>
+        <input @change="send" type="radio" id="one" value="mother_lpr" v-model="picked">
+        <label for="one">Один</label>
+        <br>
+        <input @change="send" type="radio" id="two" value="father_lpr" v-model="picked">
+        <label for="two">Два</label>
+        <br>
+        <input @change="send" type="radio" id="three" value="other_relative_lpr" v-model="picked">
+        <label for="two">Три</label>
+        <br>
+        <span>Выбрано: {{ picked }}</span>
     </div>
 </template>
 
@@ -13,11 +17,16 @@
     export default {
         data(){
             return {
-                file: ''
+                file: '',
+                picked: ''
             }
         },
 
         methods: {
+
+            send(){
+                axios.post( '/api/V2/halls/', {test: this.picked})
+            },
 
             submitFile(){
                 let formData = new FormData();

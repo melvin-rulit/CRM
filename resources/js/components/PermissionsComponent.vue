@@ -15,6 +15,7 @@
             </div>
         </div>
 
+
 <!-- Модальное окно с добавлением нового доступа -->
 <div class="modal fade" id="modalPermission" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

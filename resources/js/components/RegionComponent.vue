@@ -85,42 +85,42 @@
                     <div class="col-md-6">
                         <p class="mb-1 ml-3">Название:
                             <span class="card-text text-muted mb-1 ml-2">
-                                <input-form 
-                                    v-model="branch.name" 
-                                    name="name" 
-                                    :id="branch.id" 
+                                <input-form
+                                    v-model="branch.name"
+                                    name="name"
+                                    :id="branch.id"
                                     @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
                         </p>
                         <p class="mb-1 ml-3">Город:
                             <span class="card-text text-muted mb-1 ml-2">
-                                <input-form 
-                                    v-model="branch.geolocation" 
-                                    name="geolocation" 
-                                    :id="branch.id" 
+                                <input-form
+                                    v-model="branch.geolocation"
+                                    name="geolocation"
+                                    :id="branch.id"
                                     @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
                         </p>
                         <p class="mb-1 ml-3">Адрес:
                             <span class="card-text text-muted mb-1 ml-2">
-                                <input-form 
-                                    v-model="branch.adress" 
-                                    name="adress" 
-                                    :id="branch.id" 
+                                <input-form
+                                    v-model="branch.adress"
+                                    name="adress"
+                                    :id="branch.id"
                                     @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
                         </p>
                         <p class="mb-1 ml-3">Телефон:
                             <span class="card-text text-muted mb-1 ml-2">
-                                <input-form 
-                                v-model="branch.phone" 
-                                    name="phone" 
-                                    placeholder="+38 (926) 123-45-67" 
-                                    v-mask="'+## (###) ###-##-##'" 
-                                    :id="branch.id" 
+                                <input-form
+                                v-model="branch.phone"
+                                    name="phone"
+                                    placeholder="+38 (926) 123-45-67"
+                                    v-mask="'+## (###) ###-##-##'"
+                                    :id="branch.id"
                                     @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
@@ -183,72 +183,72 @@
                             <tbody v-for="(product, int) in branch.products">
                                 <tr>
                                     <td>
-                                        <input-form 
-                                            v-model="product.name" 
-                                            name="name" 
-                                            :id="product.id" 
+                                        <input-form
+                                            v-model="product.name"
+                                            name="name"
+                                            :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
                                     <td class="text-center">
-                                        <input-form 
-                                            v-model="product.price" 
-                                            name="price" 
-                                            :id="product.id" 
+                                        <input-form
+                                            v-model="product.price"
+                                            name="price"
+                                            :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
                                     <td class="text-center">
-                                        <input-form 
-                                            v-model="product.classes_total" 
-                                            name="classes_total" 
-                                            v-mask="'###'" 
-                                            :id="product.id" 
+                                        <input-form
+                                            v-model="product.classes_total"
+                                            name="classes_total"
+                                            v-mask="'###'"
+                                            :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
                                     <td class="text-center">
-                                        <input-form 
-                                            v-model="product.classes_week" 
-                                            name="classes_week" 
-                                            v-mask="'###'" 
-                                            :id="product.id" 
+                                        <input-form
+                                            v-model="product.classes_week"
+                                            name="classes_week"
+                                            v-mask="'###'"
+                                            :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
                                     <td class="text-center">
-                                        <input-form 
-                                            v-model="product.category_time" 
-                                            name="category_time" 
-                                            v-mask="'###'" 
-                                            :id="product.id" 
+                                        <input-form
+                                            v-model="product.category_time"
+                                            name="category_time"
+                                            v-mask="'###'"
+                                            :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
                                     <td class="text-center">
-                                        <input-form 
-                                            v-model="product.freezing_total" 
-                                            name="freezing_total" 
-                                            v-mask="'###'" 
-                                            :id="product.id" 
+                                        <input-form
+                                            v-model="product.freezing_total"
+                                            name="freezing_total"
+                                            v-mask="'###'"
+                                            :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
                                     <td class="text-center">
-                                        <input-form 
-                                            v-model="product.months" 
-                                            name="months" 
-                                            v-mask="'###'" 
-                                            :id="product.id" 
+                                        <input-form
+                                            v-model="product.months"
+                                            name="months"
+                                            v-mask="'###'"
+                                            :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
                                     <td class="text-center">
-                                        <input-form 
-                                            v-model="product.days" 
-                                            name="days" 
-                                            v-mask="'###'" 
-                                            :id="product.id" 
+                                        <input-form
+                                            v-model="product.days"
+                                            name="days"
+                                            v-mask="'###'"
+                                            :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -277,20 +277,20 @@
                                                             <tr v-for="(pay, index) in product.pays">
                                                                 <td class="text-center">{{ index+1 }}</td>
                                                                 <td class="text-center">
-                                                                    <input-form 
-                                                                        v-model="pay.pay" 
-                                                                        name="pay" 
-                                                                        v-mask="'######'" 
-                                                                        :id="pay.id" 
+                                                                    <input-form
+                                                                        v-model="pay.pay"
+                                                                        name="pay"
+                                                                        v-mask="'######'"
+                                                                        :id="pay.id"
                                                                         @edit-field="editFieldProductPay">
                                                                     </input-form>
                                                                 </td>
                                                                 <td class="text-center">
-                                                                    <input-form 
-                                                                        v-model="pay.day" 
-                                                                        name="day" 
-                                                                        v-mask="'####'" 
-                                                                        :id="pay.id" 
+                                                                    <input-form
+                                                                        v-model="pay.day"
+                                                                        name="day"
+                                                                        v-mask="'####'"
+                                                                        :id="pay.id"
                                                                         @edit-field="editFieldProductPay">
                                                                     </input-form>
                                                                 </td>
@@ -313,12 +313,21 @@
                                                             <option>3</option>
                                                         </select>
                                                     </p>
-                                                    <p>Дата окончания продукта: 
-                                                        <input-form 
-                                                            v-model="product.date_end" 
-                                                            name="date_end" 
-                                                            :id="product.id" 
-                                                            :placeholder="'20.05.2020'" 
+                                                    <p>Дата окончания продукта:
+                                                        <input-form
+                                                            v-model="product.date_end"
+                                                            name="date_end"
+                                                            :id="product.id"
+                                                            :placeholder="'20.05.2020'"
+                                                            @edit-field="editField">
+                                                        </input-form>
+                                                    </p>
+                                                    <p>Описание:
+                                                        <input-form
+                                                            v-model="product.description"
+                                                            name="description"
+                                                            textarea="true"
+                                                            :id="product.id"
                                                             @edit-field="editField">
                                                         </input-form>
                                                     </p>
@@ -348,10 +357,10 @@
                             <tbody v-for="(programm, int) in branch.programms">
                                 <tr>
                                     <td>
-                                        <input-form 
-                                            v-model="programm.name" 
-                                            name="name" 
-                                            :id="programm.id" 
+                                        <input-form
+                                            v-model="programm.name"
+                                            name="name"
+                                            :id="programm.id"
                                             @edit-field="editFieldProgramm">
                                         </input-form>
                                     </td>
@@ -383,18 +392,18 @@
                             <tbody v-for="(dopproduct, int) in branch.dopproducts">
                                 <tr>
                                     <td>
-                                        <input-form 
-                                            v-model="dopproduct.name" 
-                                            name="name" 
-                                            :id="dopproduct.id" 
+                                        <input-form
+                                            v-model="dopproduct.name"
+                                            name="name"
+                                            :id="dopproduct.id"
                                             @edit-field="editFieldDopProduct">
                                         </input-form>
                                     </td>
                                     <td>
-                                        <input-form 
-                                            v-model="dopproduct.price" 
-                                            name="price" 
-                                            :id="dopproduct.id" 
+                                        <input-form
+                                            v-model="dopproduct.price"
+                                            name="price"
+                                            :id="dopproduct.id"
                                             @edit-field="editFieldDopProduct">
                                         </input-form>
                                     </td>
@@ -426,10 +435,10 @@
                             <tbody v-for="(hall, int) in branch.halls">
                                 <tr>
                                     <td>
-                                        <input-form 
-                                            v-model="hall.name" 
-                                            name="name" 
-                                            :id="hall.id" 
+                                        <input-form
+                                            v-model="hall.name"
+                                            name="name"
+                                            :id="hall.id"
                                             @edit-field="editFieldHall">
                                         </input-form>
                                     </td>
@@ -503,10 +512,10 @@ Vue.use(VueSimpleAlert);
             return{
                 addNewBranchFields: {},
                 newBranchFields: [
-                    {label: 'Название филиала', 'v-model': 'name'}, 
-                    {label: 'Город', 'v-model': 'town'}, 
-                    {label: 'Адресс', 'v-model': 'adress'}, 
-                    {label: 'Телефон', 'v-model': 'phone', 'placeholder': '+38 (926) 123-45-67', 'mask': '+## (###) ###-##-##'}, 
+                    {label: 'Название филиала', 'v-model': 'name'},
+                    {label: 'Город', 'v-model': 'town'},
+                    {label: 'Адресс', 'v-model': 'adress'},
+                    {label: 'Телефон', 'v-model': 'phone', 'placeholder': '+38 (926) 123-45-67', 'mask': '+## (###) ###-##-##'},
                  ],
                 price: 'Базовая цена продукта',
                 classes_total: 'Общее количество тренировок в контракте',
@@ -531,7 +540,7 @@ Vue.use(VueSimpleAlert);
                     products: {
                         pays: [],
                     },
-                    programm: [], 
+                    programm: [],
                     dopproducts: [],
                     halls: [],
                 },
@@ -557,7 +566,7 @@ Vue.use(VueSimpleAlert);
                 this.$alert("Программа добавлена");
                     setTimeout(() => {
                         this.getBranch(id)
-                        },500) 
+                        },500)
             },
             saveProgramm(id){
                 this.branch.programms[this.branch.programms.length - 1].rowNew = '';
@@ -565,7 +574,7 @@ Vue.use(VueSimpleAlert);
                 axios.post('api/v2/programms',this.branch.programms[this.branch.programms.length - 1])
                         setTimeout(() => {
                         this.getBranch(id)
-                        },500) 
+                        },500)
             },
             saveDopProduct(id){
                 this.branch.dopproducts[this.branch.dopproducts.length - 1].rowNew = '';
@@ -573,7 +582,7 @@ Vue.use(VueSimpleAlert);
                 axios.post('api/v2/dopproducts',this.branch.dopproducts[this.branch.dopproducts.length - 1])
                         setTimeout(() => {
                         this.getBranch(id)
-                        },500) 
+                        },500)
             },
             saveHall(id){
                 this.branch.halls[this.branch.halls.length - 1].rowNew = '';
@@ -581,19 +590,19 @@ Vue.use(VueSimpleAlert);
                 axios.post('api/v2/halls',this.branch.halls[this.branch.halls.length - 1])
                         setTimeout(() => {
                         this.getBranch(id)
-                        },500) 
+                        },500)
             },
             addRow(branch){
                this.branch.products.unshift({
-                    rowNew: true, 
-                    name: null, 
-                    price: null, 
-                    classes_total: null, 
-                    classes_week: null, 
-                    category_time: null, 
-                    freezing_total: null, 
-                    months: null, 
-                    days: null, 
+                    rowNew: true,
+                    name: null,
+                    price: null,
+                    classes_total: null,
+                    classes_week: null,
+                    category_time: null,
+                    freezing_total: null,
+                    months: null,
+                    days: null,
                     active: true ,
                     price_title: null ,
                     branch_id: branch
@@ -602,30 +611,30 @@ Vue.use(VueSimpleAlert);
             addRowPay(int, product_id){
                this.busy = true
                this.branch.products[int].pays.push({
-                    rowNewPay: true, 
-                    pay: null, 
-                    day: null, 
+                    rowNewPay: true,
+                    pay: null,
+                    day: null,
                     product_id: product_id
                 });
             },
             addRowProgramm(branch){
                this.branch.programms.push({
-                    rowNew: true, 
-                    name: null, 
+                    rowNew: true,
+                    name: null,
                     branch_id: branch
                 });
             },
             addRowDopProduct(branch){
                this.branch.dopproducts.push({
-                    rowNew: true, 
-                    name: null, 
+                    rowNew: true,
+                    name: null,
                     branch_id: branch
                 });
             },
             addRowHall(branch){
                this.branch.halls.push({
-                    rowNew: true, 
-                    name: null, 
+                    rowNew: true,
+                    name: null,
                     branch_id: branch
                 });
             },
@@ -636,7 +645,7 @@ Vue.use(VueSimpleAlert);
                 this.$alert("Платёж добавлен");
                         setTimeout(() => {
                         this.getBranch(id)
-                        },500) 
+                        },500)
             },
             removeRow(index, id, name){
                 this.$confirm("Удалить программу " + name + " ?").then(() => {

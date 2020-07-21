@@ -333,9 +333,10 @@
 							            <span class="ml-1">{{ user.name }}</span>
                                           <b-tooltip :target="'tooltip-target-1' + user.id" triggers="hover" placement="left">
                                                 <b-avatar :src="siteURL + user.avatar" size="6rem"></b-avatar><br>
-                                                <span class="ml-3">{{ user.mother_surname }}</span>
-                                                <span class="ml-1">{{ user.mother_name }}</span>
-                                                <p class="ml-1 pt-1">{{ user.mother_phone }}</p>
+                                                <p class="text-center font-weight-bold">{{ user.parent_type }}</p>
+                                                <span class="ml-3">{{ user.parent_surname }}</span>
+                                                <span class="ml-1">{{ user.parent_name }}</span>
+                                                <p class="ml-1 pt-1">{{ user.parent_phone }}</p>
                                           </b-tooltip>
 							        </td>
 							        <td v-for="(n, index) in daysInMonth"
@@ -480,9 +481,10 @@ import { Slider } from 'vue-color'
     	        name: item.child_name,
     	        surname: item.child_surname,
                 avatar: item.avatar,
-                mother_surname: item.mother_surname,
-                mother_name: item.mother_name,
-                mother_phone: item.mother_phone,
+                parent_surname: item.parent_surname,
+                parent_name: item.parent_name,
+                parent_type: item.parent_type,
+                parent_phone: item.parent_phone,
     	        group_id: item.group_id,
     	        year: item.year,
     	        journal: {}

@@ -2,25 +2,12 @@
 	<div>
 
 <!-- Модальное окно с выбором контрактом -->
-<div class="modal fade" id="selectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLongTitle">Выберите контракт</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="row modal-body pb-4">
+        <b-modal id="selectModal" centered hide-footer @hidden="resetSettingsGroup" title="Выберите контракт">
+            <div class="row modal-body pb-5 pt-2 px-0">
                 <div class="col-md-6"><a href="#" @click.prevent="contract('vm')">Контракт на Відкрий можливості</a></div>
                 <div class="col-md-6"><a href="#" @click.prevent="contract('main')">Контракт основной программы</a></div>
             </div>
-            <div class="modal-footer">
-                <button @click="closeSelectModal" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
+        </b-modal>
 
 
 <!-- Модальное окно с пробным контрактом -->
@@ -489,10 +476,10 @@ Vue.use(VueHtmlToPaper, options);
                 });
                 if (contract_type == 'vm') {
                     $('#vmModal').modal('show');
-                    $('#selectModal').modal('hide');
+                    this.$bvModal.hide('selectModal')
                 }else{
                     $('#mainModal').modal('show');
-                    $('#selectModal').modal('hide');
+                    this.$bvModal.hide('selectModal')
                 }
             },
 

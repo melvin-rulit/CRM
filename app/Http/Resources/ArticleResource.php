@@ -11,6 +11,7 @@ use App\Http\Resources\ContractForGetInfo;
 use App\Http\Resources\CommentsResource;
 use Carbon\Carbon;
 use Gate;
+use function GuzzleHttp\Psr7\_caseless_remove;
 
 class ArticleResource extends JsonResource
 {
@@ -79,6 +80,9 @@ class ArticleResource extends JsonResource
                 'old_id' => $this->old_id,
 
                 'documents' => $this->documents,
+
+                'lpr' => ($this->mother_lpr) ? 'mother_lpr' : (($this->father_lpr) ? 'father_lpr' : 'other_relative_lpr'),
+
             ],
                 'base_branch' => $this->base_branch->name,
                 'manager' => $this->base_manager ?  $this->base_manager->surname . ' ' .$this->base_manager->name : 'Нет' ,

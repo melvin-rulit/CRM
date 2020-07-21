@@ -20,9 +20,10 @@ class GetUserInGroupResource extends JsonResource
             'child_surname'     =>  $this->child_surname,
             'child_name'        =>  $this->child_name,
             'avatar'            =>  $this->avatar,
-            'mother_surname'    =>  $this->mother_surname,
-            'mother_name'       =>  $this->mother_name,
-            'mother_phone'      =>  $this->mother_phone,
+            'parent_surname'    => ($this->mother_lpr) ? $this->mother_surname : (($this->father_lpr) ? $this->father_surname : $this->other_relative_surname),
+            'parent_name'       => ($this->mother_lpr) ? $this->mother_name : (($this->father_lpr) ? $this->father_name : $this->other_relative_name),
+            'parent_phone'      => ($this->mother_lpr) ? $this->mother_phone : (($this->father_lpr) ? $this->father_phone : $this->other_relative_phone),
+            'parent_type'       => ($this->mother_lpr) ? 'Мать' : (($this->father_lpr) ? 'Отец' : 'Другой родственник'),
             'group_id'          =>  $this->group_id,
             'journal'           =>  $this->journal
 
