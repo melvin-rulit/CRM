@@ -2,20 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd7b6f58-f3dd-4a31-927e-6ee29f270af5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_07_20_173819_add_description_to_products.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Filters/UsersFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Filters/UsersFilter.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/BaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/ArticleResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/ArticleResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/GetUserInGroupResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/GetUserInGroupResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/DogovorComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/DogovorComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/JournalComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/JournalComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/PermissionsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/PermissionsComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/RegionComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/RegionComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/UploadFile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/UploadFile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/UserComponent (2).vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/UserComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/UserComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Users/AddNewUserComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Users/AddNewUserComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Users/ShowUserComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Users/ShowUserComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Users/UsersComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Users/UsersComponent.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,9 +201,12 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JavaScript" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
-  <component name="RunManager" selected="PHPUnit.phpunit.xml">
+  <component name="RunManager" selected="JavaScript Debug.JournalComponent.vue">
+    <configuration name="JournalComponent.vue" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/CRM/resources/js/components/JournalComponent.vue" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <CommandLine>
         <PhpTestInterpreterSettings>
@@ -228,6 +229,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.watch" />
+        <item itemvalue="JavaScript Debug.JournalComponent.vue" />
       </list>
     </recent_temporary>
   </component>
@@ -259,12 +261,33 @@
       <workItem from="1595252271946" duration="5536000" />
       <workItem from="1595261155244" duration="8327000" />
       <workItem from="1595310092650" duration="10835000" />
-      <workItem from="1595323572147" duration="5434000" />
+      <workItem from="1595323572147" duration="13577000" />
+      <workItem from="1595340653339" duration="1293000" />
+      <workItem from="1595351917057" duration="338000" />
+      <workItem from="1595421105468" duration="8127000" />
+      <workItem from="1595491675866" duration="2871000" />
+      <workItem from="1595494937366" duration="5700000" />
+      <workItem from="1595511667968" duration="6888000" />
+      <workItem from="1595574525805" duration="20223000" />
+      <workItem from="1595752104019" duration="99000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -282,6 +305,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="567" y="215" width="800" height="684" key="#Scopes/0.27.1920.1053@0.27.1920.1053" timestamp="1594997890068" />
+    <state x="589" y="240" width="800" height="684" key="#Web_Browsers" timestamp="1595497236525">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="589" y="240" width="800" height="684" key="#Web_Browsers/0.27.1920.1053@0.27.1920.1053" timestamp="1595497236525" />
     <state x="555" y="215" width="800" height="684" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1595237367516">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -294,40 +321,76 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="586" y="201" width="737" height="718" key="#phpunit.xml/0.27.1920.1053@0.27.1920.1053" timestamp="1595174450538" />
-    <state x="46" y="167" width="1770" height="902" key="CommitChangelistDialog2" timestamp="1595174887328">
+    <state x="251" y="109" width="1598" height="815" key="CommitChangelistDialog2" timestamp="1595352261825">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="46" y="167" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1595174887328" />
+    <state x="251" y="109" width="1598" height="815" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1595352261825" />
     <state x="96" y="164" width="1770" height="902" key="CommitChangelistDialog2/51.24.1869.1056@51.24.1869.1056" timestamp="1592554679765" />
-    <state x="704" y="297" width="501" height="520" key="FileChooserDialogImpl" timestamp="1595251901021">
+    <state x="165" y="123" width="1536" height="879" key="DiffContextDialog" timestamp="1595511837489">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="704" y="297" width="501" height="520" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1595251901021" />
-    <state width="1733" height="175" key="GridCell.Tab.0.bottom" timestamp="1595323642337">
+    <state x="165" y="123" width="1536" height="879" key="DiffContextDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1595511837489" />
+    <state x="704" y="297" width="501" height="520" key="FileChooserDialogImpl" timestamp="1595511376747">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1733" height="175" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1595323642337" />
-    <state width="1733" height="175" key="GridCell.Tab.0.center" timestamp="1595323642335">
+    <state x="704" y="297" width="501" height="520" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376747" />
+    <state width="1671" height="278" key="GridCell.Tab.0.bottom" timestamp="1595588195127">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1733" height="175" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1595323642335" />
-    <state width="1733" height="175" key="GridCell.Tab.0.left" timestamp="1595323642331">
+    <state width="1671" height="278" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1595588195127" />
+    <state width="1671" height="278" key="GridCell.Tab.0.center" timestamp="1595588195127">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1733" height="175" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1595323642331" />
-    <state width="1733" height="175" key="GridCell.Tab.0.right" timestamp="1595323642337">
+    <state width="1671" height="278" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1595588195127" />
+    <state width="1671" height="278" key="GridCell.Tab.0.left" timestamp="1595588195127">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1733" height="175" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1595323642337" />
-    <state x="898" y="152" width="1022" height="801" key="SettingsEditor" timestamp="1595229762885">
+    <state width="1671" height="278" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1595588195127" />
+    <state width="1671" height="278" key="GridCell.Tab.0.right" timestamp="1595588195127">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="898" y="152" width="1022" height="801" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1595229762885" />
+    <state width="1671" height="278" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1595588195127" />
+    <state width="1752" height="440" key="GridCell.Tab.1.bottom" timestamp="1595511376893">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1752" height="440" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376893" />
+    <state width="1752" height="440" key="GridCell.Tab.1.center" timestamp="1595511376893">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1752" height="440" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376893" />
+    <state width="1752" height="440" key="GridCell.Tab.1.left" timestamp="1595511376893">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1752" height="440" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376893" />
+    <state width="1752" height="440" key="GridCell.Tab.1.right" timestamp="1595511376893">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1752" height="440" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376893" />
+    <state width="1752" height="440" key="GridCell.Tab.2.bottom" timestamp="1595511376895">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1752" height="440" key="GridCell.Tab.2.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376895" />
+    <state width="1752" height="440" key="GridCell.Tab.2.center" timestamp="1595511376894">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1752" height="440" key="GridCell.Tab.2.center/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376894" />
+    <state width="1752" height="440" key="GridCell.Tab.2.left" timestamp="1595511376894">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1752" height="440" key="GridCell.Tab.2.left/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376894" />
+    <state width="1752" height="440" key="GridCell.Tab.2.right" timestamp="1595511376894">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1752" height="440" key="GridCell.Tab.2.right/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376894" />
+    <state x="585" y="265" width="910" height="815" key="SettingsEditor" timestamp="1595497570985">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="585" y="265" width="910" height="815" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1595497570985" />
     <state x="423" y="178" key="SettingsEditor/51.24.1869.1056@51.24.1869.1056" timestamp="1592554736499" />
-    <state x="616" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1595261157464">
+    <state x="616" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1595751890201">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="616" y="381" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1595261157464" />
+    <state x="616" y="381" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1595751890201" />
     <state x="728" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1595174894951">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -340,5 +403,9 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="638" y="257" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1594997092519" />
+    <state x="712" y="471" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1595595887181">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="712" y="471" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1595595887181" />
   </component>
 </project>

@@ -40,7 +40,7 @@ class BaseController extends Controller
 
         $schedule_hall = Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->get();
 
-         return Schedule_hallResource::collection($schedule_hall);
+        return Schedule_hallResource::collection($schedule_hall);
     }
 
     public function getGroupInHall(Request $request)
@@ -55,14 +55,14 @@ class BaseController extends Controller
 
         $schedule_hall = Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->get();
 
-         return Schedule_hallResource::collection($schedule_hall);
+        return Schedule_hallResource::collection($schedule_hall);
     }
 
     public function Schedule(Request $request)
     {
         $schedule_hall = Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->get();
 
-         return Schedule_hallResource::collection($schedule_hall);
+        return Schedule_hallResource::collection($schedule_hall);
     }
 
     public function showHall(Request $request)
@@ -71,7 +71,7 @@ class BaseController extends Controller
             $query->with('group')->where('day', $request->day);
         }]);
 
-         return new HallResource($hall);
+        return new HallResource($hall);
     }
 
 
@@ -79,7 +79,7 @@ class BaseController extends Controller
     {
         $programm = Programm::where('branch_id', $request->branch_id)->get();
 
-         return $programm;
+        return $programm;
     }
 
 
@@ -114,7 +114,7 @@ class BaseController extends Controller
 
 
         if ($base->count() > 0) {
-           return GetUserInGroupResource::collection($base);
+            return GetUserInGroupResource::collection($base);
         }else{
             return 'error';
         }
@@ -162,34 +162,34 @@ class BaseController extends Controller
 
             // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
             $journal = Journal::updateOrCreate(
-              ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
-              [
-              'base_id' => $request->base_id,
-              'day' => $request->day,
-              'month' => $request->month,
-              'year' => $request->year,
-              'icon' => 'fe fe-check text-success',
-              'type' => 1
-              ]
+                ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+                [
+                    'base_id' => $request->base_id,
+                    'day' => $request->day,
+                    'month' => $request->month,
+                    'year' => $request->year,
+                    'icon' => 'fe fe-check text-success',
+                    'type' => 1
+                ]
             );
 
-                return [
-                    'response'  => "success",
-                ];
+            return [
+                'response'  => "success",
+            ];
             // Если и так уже стоит значение, то ничего не делать
         }
 
-                if ($contracts->count() == 0) {
-                    return [
-                        'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
-                    ];
-                }
+        if ($contracts->count() == 0) {
+            return [
+                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
+            ];
+        }
 
-                if ($contracts->count() > 1) {
-                    return [
-                        'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
-                    ];
-                }
+        if ($contracts->count() > 1) {
+            return [
+                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
+            ];
+        }
 
     }
 
@@ -213,15 +213,15 @@ class BaseController extends Controller
 
             // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
             $journal = Journal::updateOrCreate(
-              ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
-              [
-                'base_id'   => $request->base_id,
-                'day'       => $request->day,
-                'month'     => $request->month,
-                'year'      => $request->year,
-                'icon'      => 'fe fe-x text-danger',
-                'type'      => 3,
-              ]
+                ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+                [
+                    'base_id'   => $request->base_id,
+                    'day'       => $request->day,
+                    'month'     => $request->month,
+                    'year'      => $request->year,
+                    'icon'      => 'fe fe-x text-danger',
+                    'type'      => 3,
+                ]
             );
 
             // И добавляем комментарий
@@ -231,44 +231,44 @@ class BaseController extends Controller
                 'comment'   => $request->comment,
             ]);
 
-                return [
-                    'response'  => "success",
-                ];
+            return [
+                'response'  => "success",
+            ];
         }
 
-                if ($contracts->count() == 0) {
-                    return [
-                        'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
-                    ];
-                }
+        if ($contracts->count() == 0) {
+            return [
+                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
+            ];
+        }
 
-                if ($contracts->count() > 1) {
-                    return [
-                        'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
-                    ];
-                }
+        if ($contracts->count() > 1) {
+            return [
+                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
+            ];
+        }
 
     }
 
     public function newWorkout(Request $request){
 
-            // Проверяем стоит ли на текущей ячейки какие нибудь данные
-            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->get();
+        // Проверяем стоит ли на текущей ячейки какие нибудь данные
+        $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->get();
 
-            // Если записи нет то спросто назначаем тренировку
-            if ($journal->isEmpty()) {
-                    $journal = Journal::create(
-                      [
-                        'base_id' => $request->base_id,
-                        'day' => $request->day,
-                        'month' => $request->month,
-                        'year' => $request->year,
-                        'icon' => 'fe fe-alert-circle text-warning',
-                        'type' => 4,
-                      ]
-                    );
-                return "success";
-            }
+        // Если записи нет то спросто назначаем тренировку
+        if ($journal->isEmpty()) {
+            $journal = Journal::create(
+                [
+                    'base_id' => $request->base_id,
+                    'day' => $request->day,
+                    'month' => $request->month,
+                    'year' => $request->year,
+                    'icon' => 'fe fe-alert-circle text-warning',
+                    'type' => 4,
+                ]
+            );
+            return "success";
+        }
 
     }
 
@@ -325,61 +325,61 @@ class BaseController extends Controller
                 // 2 заморозки прибавляем к дате окончания контракта 7 дней
                 // 3 заморозки прибавляем к дате окончания контракта 10 дней
 
-                 switch ($contracts->first()->freezing_kolvo) {
+                switch ($contracts->first()->freezing_kolvo) {
                     case 1:
-                         $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(3);
-                         $contracts->first()->save();
-                      break;
+                        $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(3);
+                        $contracts->first()->save();
+                        break;
                     case 2:
-                         $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(7);
-                         $contracts->first()->save();
-                      break;
+                        $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(7);
+                        $contracts->first()->save();
+                        break;
                     case 3:
-                         $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(10);
-                         $contracts->first()->save();
-                      break;
-                  }
+                        $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(10);
+                        $contracts->first()->save();
+                        break;
+                }
 
                 // Записываем в журнал как заморозку
                 Journal::updateOrCreate(
-                      ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
-                      [
+                    ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+                    [
                         'base_id'   => $request->base_id,
                         'day'       => $request->day,
                         'month'     => $request->month,
                         'year'      => $request->year,
                         'icon'      => 'fe fe-sun text-primary',
                         'type'      => 2,
-                      ]
-                    );
+                    ]
+                );
             }
 
-                return [
-                    'response'  => "success",
-                ];
+            return [
+                'response'  => "success",
+            ];
 
+        }
+        if ($contracts->count() == 0) {
+            return [
+                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
+            ];
+        }
+
+        if ($contracts->count() > 1) {
+            return [
+                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
+            ];
+        }
     }
-                if ($contracts->count() == 0) {
-                    return [
-                        'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
-                    ];
-                }
-
-                if ($contracts->count() > 1) {
-                    return [
-                        'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
-                    ];
-                }
-}
 
     public function addNewComent(Request $request){
 
-            // Добавляем комментарий
-            $comment = Comments::create([
-                'base_id'   => $request->base_id,
-                'user_id'   => Auth::user()->id,
-                'comment'   => $request->comment,
-            ]);
+        // Добавляем комментарий
+        $comment = Comments::create([
+            'base_id'   => $request->base_id,
+            'user_id'   => Auth::user()->id,
+            'comment'   => $request->comment,
+        ]);
     }
 
 
@@ -426,7 +426,7 @@ class BaseController extends Controller
         return BaseAllResource::collection($collection->all());
     }
 
-	public function index(){
+    public function index(){
 
         $user = User::find(Auth::user()->id);
 
@@ -440,17 +440,17 @@ class BaseController extends Controller
 
         return BaseAllResource::collection($collection->all());
 
-	}
+    }
 
-	public function addNewUser(Request $request){
+    public function addNewUser(Request $request){
 
         $base = Base::create($request->all());
 
         Log::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '2',
-             'level_name' => 'success',
-             'message' => 'добавил клиента '.$base->id)
+                'user_id' => Auth::id(),
+                'channel' => '2',
+                'level_name' => 'success',
+                'message' => 'добавил клиента '.$base->id)
         );
 
         return $base->id;
@@ -463,7 +463,7 @@ class BaseController extends Controller
         return new ArticleResource($base);
     }
 
-   	public function getVmContract(Request $request){
+    public function getVmContract(Request $request){
 
         $base = Base::find($request->id);
 
@@ -483,10 +483,10 @@ class BaseController extends Controller
 
         $collection = collect();
 
-            foreach ($roles as $role) {
-                foreach ($role->rolesUsers as $value) {
-                    $collection->push($value);
-                }
+        foreach ($roles as $role) {
+            foreach ($role->rolesUsers as $value) {
+                $collection->push($value);
+            }
         }
 
         return new UsersResource($collection);
@@ -498,10 +498,10 @@ class BaseController extends Controller
 
         $collection = collect();
 
-            foreach ($roles as $role) {
-                foreach ($role->rolesUsers as $value) {
-                    $collection->push($value);
-                }
+        foreach ($roles as $role) {
+            foreach ($role->rolesUsers as $value) {
+                $collection->push($value);
+            }
         }
 
         return new UsersResource($collection);
@@ -529,10 +529,10 @@ class BaseController extends Controller
         $base->save();
 
         Log::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '2',
-             'level_name' => 'success',
-             'message' => 'изменил аватар '.$base->id)
+                'user_id' => Auth::id(),
+                'channel' => '2',
+                'level_name' => 'success',
+                'message' => 'изменил аватар '.$base->id)
         );
 
         return $path;

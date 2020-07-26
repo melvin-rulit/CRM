@@ -3,39 +3,29 @@
         <addnewuser-component v-if="add"></addnewuser-component>
         <showuser-component ref="getmodal"></showuser-component>
 
+
         <div class="card">
             <div class="card-body pb-0">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Cеть</th>
-                                <th>Имя</th>
-                                <th>Фамилия</th>
-                                <th>Логин (почта)</th>
-                                <th>Должность</th>
-                                <th>Филиалы</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody v-for="(user, index) in users">
-                            <tr>
-                                <td class="text-center">
-                                    <span class="text-success">●</span>
-                                </td>
-                                <td>{{ user.name }}</td>
-                                <td>{{ user.surname }}</td>
-                                <td>{{ user.email }}</td>
-                                <td><span v-for="role in user.roles" class="badge badge-info mr-2">{{ role.title }}</span></td>
-                                <td><span v-for="branch in user.branches" class="badge badge-info mr-2">{{ branch.name }}</span></td>
-                                <td class="text-center">
-                                    <span class="fe fe-trash-2 h3 text-danger" @click="deleteUser(index, user.id, user.surname)"></span>
-                                    <span class="fe fe-eye h3 text-warning" @click="getShowModal(user.id)"></span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <b-table
+                    sticky-header="650px"
+                    :items="users"
+                    :fields="fields"
+                    :sort-by.sync="sortBy"
+                    :sort-desc.sync="sortDesc"
+                    head-variant="light">
+
+                    <template v-slot:cell(show_details)="row">
+                        <span class="fe fe-eye h3 text-warning" @click="getShowModal(row.item.id)"></span>
+                        <span class="fe fe-trash-2 h3 text-danger" @click="deleteUser(row.index, row.item.id, row.item.surname)"></span>
+                    </template>
+
+                    <template v-slot:cell(network)="row">
+                        <td>
+                            <span class="text-success">●</span>
+                        </td>
+                    </template>
+
+                </b-table>
             </div>
         </div>
     </div>
@@ -47,6 +37,34 @@
             return {
                 users: {},
                 add: true,
+                sortBy: 'id',
+                sortDesc: false,
+                fields: [
+                    {
+                        key: 'id',
+                        label: 'ID',
+                    },
+                    {
+                        key: 'network',
+                        label: 'В сети',
+                    },
+                    {
+                        key: 'name',
+                        label: 'Имя',
+                    },
+                    {
+                        key: 'surname',
+                        label: 'Фамилия',
+                    },
+                    {
+                        key: 'email',
+                        label: 'Логин (почта)',
+                    },
+                    {
+                        key: 'show_details',
+                        label: 'Действия',
+                    },
+                ],
             }
         },
 
@@ -73,3 +91,17 @@
         },
     }
 </script>
+
+<style scoped>
+    table {
+        width:100%;
+        table-layout: fixed;
+    }
+
+    .tbl-content {
+        height: 800px;
+        overflow-x: auto;
+        margin-top: 0px;
+    }
+</style>
+

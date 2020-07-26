@@ -29,7 +29,7 @@ class UserController extends Controller
                 $collection->push($user);
             }
         }
-
+        //Отсортировать коллекцию на дубли
         return UsersAllResource::collection($collection->all());
     }
 

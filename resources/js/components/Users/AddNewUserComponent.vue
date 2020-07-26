@@ -61,14 +61,14 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Должность</label>
                     <div class="col-sm-9">
-                    <multiselect 
-                        v-if="access.roles" 
-                        v-model="role" 
-                        placeholder="Выберите должность" 
-                        label="title" 
-                        track-by="id" 
-                        :options="access.roles" 
-                        :multiple="true" 
+                    <multiselect
+                        v-if="access.roles"
+                        v-model="role"
+                        placeholder="Выберите должность"
+                        label="title"
+                        track-by="id"
+                        :options="access.roles"
+                        :multiple="true"
                         :taggable="true">
                     </multiselect>
                     </div>
@@ -76,14 +76,14 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Филиалы</label>
                     <div class="col-sm-9">
-                    <multiselect 
-                        v-if="access.branches" 
-                        v-model="branch" 
-                        placeholder="Выберите филиал" 
-                        label="name" 
-                        track-by="id" 
-                        :options="access.branches" 
-                        :multiple="true" 
+                    <multiselect
+                        v-if="access.branches"
+                        v-model="branch"
+                        placeholder="Выберите филиал"
+                        label="name"
+                        track-by="id"
+                        :options="access.branches"
+                        :multiple="true"
                         :taggable="true">
                     </multiselect>
                     </div>

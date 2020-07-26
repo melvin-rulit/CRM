@@ -150,7 +150,8 @@
                 </div>
                 <div class="collapse p-3" id="1_products">
                     <div class="table-responsive">
-                        <table class=" table table-bordered datatable datatable-User">
+                        <div class="table-responsive tbl-content">
+                        <table class="table table-bordered datatable datatable-User">
                             <thead>
                                 <tr>
                                     <th>Название</th>
@@ -339,6 +340,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
                 <div class="title-collapse mt-2">
@@ -792,7 +794,13 @@ Vue.use(VueSimpleAlert);
 	}
 </script>
 
-<style type="text/css">
+<style scoped>
+
+    .table td, .table th {
+        padding: 10px;
+        font-size: 14px;
+    }
+
 .pointer {
     cursor: pointer;
 }
@@ -825,4 +833,14 @@ Vue.use(VueSimpleAlert);
   max-width: 1000px;
 }
 
+    .table_fixed {
+        width:100%;
+        table-layout: fixed;
+    }
+
+    .tbl-content {
+        height: 800px;
+        overflow-x: auto;
+        margin-top: 0px;
+    }
 </style>

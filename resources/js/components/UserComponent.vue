@@ -1,6 +1,7 @@
 
 <template>
 <div>
+<!--    666-->
 <div class="row">
     <div class="col-lg-12">
         <div class="card mb-2">
@@ -31,7 +32,9 @@
                         <input v-model="name" class="form-control" placeholder="Имя">
                     </div>
                     <div class="filter">
-                        <input v-model="birthday" class="form-control" placeholder="Год рождения">
+                        <select class="form-control" v-model="birthday" >
+                            <option v-for="(curr, index) in new Date().getFullYear()" v-if="index + 1 >= 1980">{{ curr }}</option>
+                        </select>
                     </div>
                     <div class="submit">
                         <button type="submit" @click.prevent="fetch" class="btn btn-success" :disabled="busy">
@@ -40,7 +43,7 @@
                         </button>
                     </div>
                     <div class="submit">
-                        <button type="submit" @click.prevent="resetFilter" class="btn btn-primary" :disabled="busy">
+                        <button type="submit" @click.prevent="resetFilter()" class="btn btn-primary" :disabled="busy">
                             Сброс
                         </button>
                     </div>
@@ -134,17 +137,20 @@
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="card">
             <div class="card-body pb-0">
-                <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Фамилия</th>
+                        <th>Имя</th>
+                        <th>Отчество</th>
+                        <th>Возраст</th>
+                        <th class="text-center">?</th>
+                    </tr>
+                    </thead>
+                </table>
+
+                <div class="table-responsive tbl-content">
                     <table class="table table-bordered table-hover datatable datatable-User table-collection">
-                        <thead>
-                            <tr>
-                                <th>Фамилия</th>
-                                <th>Имя</th>
-                                <th>Отчество</th>
-                                <th>Возраст</th>
-                                <th class="text-center">?</th>
-                            </tr>
-                        </thead>
                         <tbody v-for="article in articles">
 <!--                            <tr data-toggle="modal" data-target="#addNew" @click="getModal(article.id)">-->
                             <tr @click="getModal(article.id)">
@@ -793,649 +799,6 @@
         </b-tabs>
     </b-modal>
 
-<!-- Modal -->
-<!--<div class="modal fade bd-example-modal-lg" id="addNew" ref="vuemodals" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
-<!--    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">-->
-<!--        <div class="modal-content fix-height">-->
-<!--            <div class="modal-header">-->
-<!--                <h4 class="modal-title" id="exampleModalCenterTitle">Карточка ребенка &nbsp {{ dataObject.attributes['child_surname'] }} {{ dataObject.attributes['child_name'] }}</h4>-->
-<!--                <button type="button" class="close p-0 m-0" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span data-toggle="tooltip" title="Зберегти та закрити" aria-hidden="true"><i class="fe fe-x h2"></i></span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body pb-0">-->
-<!--                <div class="card mb-3">-->
-<!--                    <div class="row no-gutters">-->
-<!--                        <div class="col-md-4">-->
-<!--                            <input type="file" ref="avatar" @change="onFileChange" style="display: none;">-->
-<!--                            <div v-if="!dataObject.attributes.avatar">-->
-<!--                                <div @click="$refs.avatar.click()" class="hoverim not-photo"><span>?</span></div>-->
-<!--                            </div>-->
-<!--                            <div v-else>-->
-<!--                                <img @click="$refs.avatar.click()" class="hoverim photo" :src="siteURL+dataObject.attributes.avatar" />-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-4">-->
-<!--                            <div class="card-body">-->
-<!--                                <h4 class="pointer">-->
-<!--                                    <input-form-->
-<!--                                        v-model="dataObject.attributes.child_surname"-->
-<!--                                        name="child_surname"-->
-<!--                                        @edit-field="editField">-->
-<!--                                    </input-form>-->
-<!--                                </h4>-->
-<!--                                <h4 class="pointer">-->
-<!--                                    <input-form-->
-<!--                                        v-model="dataObject.attributes.child_name"-->
-<!--                                        name="child_name"-->
-<!--                                        @edit-field="editField">-->
-<!--                                    </input-form>-->
-<!--                                </h4>-->
-<!--                                <h4 class="pointer">-->
-<!--                                    <input-form-->
-<!--                                        v-model="dataObject.attributes.child_middle_name"-->
-<!--                                        name="child_middle_name"-->
-<!--                                        @edit-field="editField">-->
-<!--                                    </input-form>-->
-<!--                                </h4>-->
-<!--                                <p data-toggle="tooltip" title="День рождения" class="card-text">-->
-<!--                                    <input-form-->
-<!--                                        v-model="dataObject.attributes.child_birthday"-->
-<!--                                        name="child_birthday"-->
-<!--                                        placeholder="12.05.1988"-->
-<!--                                        v-mask="'##.##.####'"-->
-<!--                                        @edit-field="editField">-->
-<!--                                    </input-form>-->
-<!--                                    <span>({{ dataObject.attributes.age }} лет)</span>-->
-<!--                                </p>-->
-<!--                                <h5>Старый ID: <span class="pointer">-->
-<!--                                        <input-form-->
-<!--                                            v-model="dataObject.attributes.old_id"-->
-<!--                                            name="old_id"-->
-<!--                                            @edit-field="editField">-->
-<!--                                        </input-form>-->
-<!--                                    </span>-->
-<!--                                </h5>-->
-
-<!--                                <h5 class="text-muted mb-2">Менеджер:-->
-<!--                                    <a v-show="!showManager" v-if="dataObject.manager" href="#" @click.prevent="editManager" class="text-dark">{{ dataObject.manager }}</a>-->
-<!--                                    <a v-show="showManager" href="#" @click.prevent="editManager">{{dataObject.manager.surname}} {{dataObject.manager.name}}</a>-->
-<!--                                </h5>-->
-<!--                                <select v-show="showManager" @change="saveManager" class="form-control" v-model="dataObject.manager">-->
-<!--                                    <option v-for="manager in managers" v-bind:value="manager">{{ manager.surname }} {{ manager.name }}</option>-->
-<!--                                </select>-->
-
-<!--                                <h5 class="text-muted mb-2">Тренер:-->
-<!--                                    <a v-show="!showInstructor" v-if="dataObject.instructor" href="#" @click.prevent="editInstructor" class="text-dark">{{ dataObject.instructor }}</a>-->
-<!--                                    <a v-show="showInstructor" href="#" @click.prevent="editInstructor">{{dataObject.instructor.surname}} {{dataObject.instructor.name}}</a>-->
-<!--                                </h5>-->
-<!--                                <select v-show="showInstructor" @change="saveInstructor" class="form-control" v-model="dataObject.instructor">-->
-<!--                                    <option v-for="instructor in instructors" v-bind:value="instructor">{{ instructor.surname }} {{ instructor.name }}</option>-->
-<!--                                </select>-->
-
-<!--                                <h5 class="text-muted mb-2">Программа:-->
-<!--                                    <a v-show="!showProgramm" v-if="dataObject.programm" href="#" @click.prevent="editProgramm" class="text-dark">{{ dataObject.programm }}</a>-->
-<!--                                    <a v-show="showProgramm" href="#" @click.prevent="editProgramm">{{dataObject.programm.name}} {{dataObject.programm.name}}</a>-->
-<!--                                </h5>-->
-<!--                                <select v-show="showProgramm" @change="saveProgramm" class="form-control" v-model="dataObject.programms">-->
-<!--                                    <option v-for="programm in programms" v-bind:value="programm">{{ programm.name }}</option>-->
-<!--                                </select>-->
-
-<!--                                <h5 class="text-muted mb-2">Группа:-->
-<!--                                    <span class="text-dark">Первая группа</span>-->
-<!--                                </h5>-->
-
-<!--                                <h6 class="text-uppercase text-muted mb-2 mt-4">-->
-<!--                                    <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>-->
-<!--                                    <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>-->
-<!--                                    <a v-if="dataObject.base_branch.name" href="#" @click.prevent="saveBranch" v-show="showBranch" class="fe fe-save h3 text-success"></a>-->
-<!--                                </h6>-->
-<!--                                <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">-->
-<!--                                    <option v-for="branch in branches.branches" v-bind:value="branch">{{ branch.name }}</option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-4 border-left">-->
-<!--                            <div class="card-body">-->
-<!--                                <h4 class="text-center mb-4">Документы<i @click="showUploadForm()" class="fe fe-plus text-success pl-3 pointer"></i></h4>-->
-<!--                            <h5 v-for="documents in dataObject.attributes.documents">-->
-<!--                                <a class="text-muted mb-2" :href="siteURL + documents.path" download>{{ documents.name }}</a>-->
-<!--                            </h5-->
-<!--                                <hr>-->
-<!--&lt;!&ndash;                                Форма загрузки файла&ndash;&gt;-->
-<!--                                <b-form-group v-if="showForm">-->
-<!--                                  <b-form-input v-model="uploadFileName" size="sm" class="my-3" placeholder="Название файла"></b-form-input>-->
-<!--                                    <div class="input__wrapper">-->
-<!--                                        <input  v-on:change="handleFileUpload()" type="file" ref="file" id="file" class="input input__file" accept=",.jpg,.jpeg,.png,.txt">-->
-<!--                                        <label for="file" class="btn btn-success center btn-sm">-->
-<!--                                            <span class="input__file-button-text">Выберите файл</span>-->
-<!--                                        </label>-->
-<!--                                    </div>-->
-<!--                                  <button @click="submitFile(dataObject.id)" class="btn btn-primary center btn-sm mt-3">Загрузить</button>-->
-<!--                                </b-form-group>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <ul class="nav nav-tabs" id="info" role="tablist">-->
-<!--                    <li class="nav-item" v-for="tabs in tabsInCard">-->
-<!--                        <a class="nav-link" :id="tabs.id + '-tab'" data-toggle="tab" :href="'#' + tabs.id" role="tab" :aria-controls="tabs.id" :aria-selected="tabs.selected">{{tabs.name}}</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--                <div class="tab-content" id="infoContent" style="min-height: 150px">-->
-<!--                    <div class="tab-pane fade show active" id="mother" role="tabpanel" aria-labelledby="mother-tab">-->
-<!--                        <div class="card-body pb-0 pb-0">-->
-<!--                            <div class="row">-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <table class=" table table-bordered">-->
-<!--                                        <tbody>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Фамилия</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_surname"-->
-<!--                                                        name="mother_surname"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Имя</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_name"-->
-<!--                                                        name="mother_name"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Отчество</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_middle_name"-->
-<!--                                                        name="mother_middle_name"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Телефон</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_phone"-->
-<!--                                                        name="mother_phone"-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Телефон</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_dop_phone"-->
-<!--                                                        name="mother_dop_phone"-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Почта</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_email"-->
-<!--                                                        name="mother_email"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Viber</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_viber"-->
-<!--                                                        name="mother_viber"-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Telegram</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_telegram"-->
-<!--                                                        name="mother_telegram"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Facebook</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_facebook"-->
-<!--                                                        name="mother_facebook"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Instagram</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.mother_instagram"-->
-<!--                                                        name="mother_instagram"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">ЛПР</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-->
-<!--                                                        @change="sendLpr(dataObject.id, 'mother_lpr')"-->
-<!--                                                        type="radio"-->
-<!--                                                        id="mother_lpr"-->
-<!--                                                        name="mother_lpr"-->
-<!--                                                        value="mother_lpr"-->
-<!--                                                        v-model="dataObject.attributes.lpr">-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                        </tbody>-->
-<!--                                    </table>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="">Примечания:</label>-->
-<!--                                        <textarea-->
-<!--                                            class="form-control"-->
-<!--                                            v-model="dataObject.attributes.mother_notes"-->
-<!--                                            @blur="event => editField(event, 'mother_notes')"-->
-<!--                                            rows="3">-->
-<!--                                        </textarea>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="tab-pane fade" id="father" role="tabpanel" aria-labelledby="father-tab">-->
-<!--                        <div class="card-body pb-0">-->
-<!--                            <div class="row">-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <table class=" table table-bordered">-->
-<!--                                        <tbody>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Фамилия</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.father_surname"-->
-<!--                                                        name="father_surname"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Имя</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.father_name"-->
-<!--                                                        name="father_name"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Отчество</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.father_middle_name"-->
-<!--                                                        name="father_middle_name"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Телефон</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        v-model="dataObject.attributes.father_phone"-->
-<!--                                                        name="father_phone"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Телефон</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        v-model="dataObject.attributes.father_dop_phone"-->
-<!--                                                        name="father_dop_phone"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                                <td class="w-25">Почта</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.father_email"-->
-<!--                                                        name="father_email"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Viber</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.father_viber"-->
-<!--                                                        name="father_viber"-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Telegram</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.father_telegram"-->
-<!--                                                        name="father_telegram"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Facebook</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.father_facebook"-->
-<!--                                                        name="father_facebook"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Instagram</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.father_instagram"-->
-<!--                                                        name="father_instagram"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">ЛПР</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input @change="sendLpr(dataObject.id, 'father_lpr')" type="radio" id="father_lpr" value="father_lpr" v-model="dataObject.attributes.lpr">-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                        </tbody>-->
-<!--                                    </table>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="">Примечания:</label>-->
-<!--                                        <textarea-->
-<!--                                            class="form-control"-->
-<!--                                            v-model="dataObject.attributes.father_notes"-->
-<!--                                            @blur="event => editField(event, 'father_notes')"-->
-<!--                                            rows="3">-->
-<!--                                        </textarea>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="tab-pane fade" id="other_relative" role="tabpanel" aria-labelledby="other_relative-tab">-->
-<!--                        <div class="card-body pb-0">-->
-<!--                            <div class="row">-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <table class=" table table-bordered">-->
-<!--                                        <tbody>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Фамилия</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_surname"-->
-<!--                                                        name="other_relative_surname"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Имя</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_name"-->
-<!--                                                        name="other_relative_name"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Отчество</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_middle_name"-->
-<!--                                                        name="other_relative_middle_name"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Телефон</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_phone"-->
-<!--                                                        name="other_relative_phone"-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        @edit-field="editField"></input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Телефон</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_dop_phone"-->
-<!--                                                        name="other_relative_dop_phone"-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            </tr>-->
-<!--                                                <td class="w-25">Почта</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_email"-->
-<!--                                                        name="other_relative_email"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Viber</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_viber"-->
-<!--                                                        name="other_relative_viber"-->
-<!--                                                        placeholder="+38 (926) 123-45-67"-->
-<!--                                                        v-mask="'+## (###) ###-##-##'"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Telegram</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_telegram"-->
-<!--                                                        name="other_relative_telegram"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Facebook</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_facebook"-->
-<!--                                                        name="other_relative_facebook"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">Instagram</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_instagram"-->
-<!--                                                        name="other_relative_instagram"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">р.зв'язок</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input-form-->
-<!--                                                        v-model="dataObject.attributes.other_relative_language"-->
-<!--                                                        name="other_relative_language"-->
-<!--                                                        @edit-field="editField">-->
-<!--                                                    </input-form>-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <td class="w-25">ЛПР</td>-->
-<!--                                                <td class="w-75">-->
-<!--                                                    <input @change="sendLpr(dataObject.id, 'other_relative_lpr')" type="radio" id="other_relative_lpr" value="other_relative_lpr" v-model="dataObject.attributes.lpr">-->
-<!--                                                </td>-->
-<!--                                            </tr>-->
-<!--                                        </tbody>-->
-<!--                                    </table>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="">Примечания:</label>-->
-<!--                                        <textarea-->
-<!--                                            class="form-control"-->
-<!--                                            v-model="dataObject.attributes.other_relative_notes"-->
-<!--                                            @blur="event => editField(event, 'other_relative_notes')"-->
-<!--                                            rows="3">-->
-<!--                                        </textarea>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="contract-tab">-->
-<!--                        <div class="card-body pb-0 pt-3">-->
-<!--                            <div class="row">-->
-<!--                                <div class="col-md-6 border-bottom">-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="btn-group btn-group-sm mb-3 text-center mx-auto" v-if="dataObject.contracts_active.length > 0">-->
-<!--                                            <button class="btn btn-sm btn-outline-secondary mr-4" @click="indexactiveContract&#45;&#45;" :disabled="indexactiveContract <= 0">Предыдущий</button>-->
-<!--                                            <button class="btn btn-sm btn-outline-secondary ml-4" @click="indexactiveContract++" :disabled="indexactiveContract === dataObject.contracts_active.length - 1">Следующий</button>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <hr>-->
-<!--                                <div class="col-md-6 border-bottom">-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="center mb-3">-->
-<!--                                            <button @click="closeModal()" class="btn btn-sm btn-success">Добавить контракт</button>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <hr>-->
-<!--                            </div>-->
-<!--                            <div class="row">-->
-<!--                                <div class="col-md-6 mt-3">-->
-<!--                                    <transition name="fade" mode="out-in">-->
-<!--                                        <div v-if="dataObject.contracts_active.length > 0" class="table-responsive" :key="indexactiveContract">-->
-<!--                                            <div v-if="activeContract">-->
-<!--                                                <p @click="showContract(activeContract.id)" class="card-text text-center pointer">"{{ activeContract.name }}"</p>-->
-<!--                                                <table class="table table-bordered table-hover datatable datatable-User">-->
-<!--                                                    <tbody>-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Дата составления:</td>-->
-<!--                                                            <td>{{ activeContract.date }}</td>-->
-<!--                                                        </tr>-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Начало:</td>-->
-<!--                                                            <td>{{ activeContract.start }}</td>-->
-<!--                                                        </tr>-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Окончание:</td>-->
-<!--                                                            <td>{{ activeContract.end }}</td>-->
-<!--                                                        </tr>-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Окончание факт:</td>-->
-<!--                                                            <td>{{ activeContract.end_actually }}</td>-->
-<!--                                                        </tr>-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Заморозки:</td>-->
-<!--                                                            <td>{{ activeContract.freezing_total }}</td>-->
-<!--                                                        </tr>-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Тренировки:</td>-->
-<!--                                                            <td>{{ activeContract.classes_total }}</td>-->
-<!--                                                        </tr>-->
-<!--                                                    </tbody>-->
-<!--                                                </table>-->
-<!--                                                <p>Оплаты:-->
-<!--                                                    <span v-for="pays in activeContract.pays" data-toggle="tooltip" data-placement="top" :title="pays.date" class="text-muted ml-2 pointer">{{ pays.pay }}</span>-->
-<!--                                                </p>-->
-<!--                                                <p>Сумма и остаток: <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span>-->
-<!--                                                </p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>-->
-<!--                                    </transition>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6 mt-3">-->
-<!--                                    <div class="form-group">-->
-<!--                                        <p class="card-text text-center">Прошлые контракты</p>-->
-<!--                                        <p v-for="contracts_not_active in dataObject.contracts_not_active">-->
-<!--                                            <a @click.prevent="showContract(contracts_not_active.id)" href="#" class="text-muted">"{{contracts_not_active.name}}" &nbsp {{contracts_not_active.start}} - {{contracts_not_active.end_actually}}</a>-->
-<!--                                        </p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">-->
-<!--                        <div class="card mt-3">-->
-<!--                            <div class="card-body">-->
-<!--                                <p v-if="dataObject.comments" v-for="comment in dataObject.comments" :key="comment.id" class="mb-2">-->
-<!--                                {{ comment.date }} - {{ comment.user }} - {{ comment.comment }}-->
-<!--                            </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="tab-pane fade" id="interests" role="tabpanel" aria-labelledby="interests-tab"></div>-->
-<!--                    <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab"></div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-
 </div>
 </template>
 
@@ -1480,15 +843,6 @@ Vue.use(Loading);
         data() {
             return{
                 fullPage: true,
-                tabsInCard: [
-                    {name: 'Мать', id: 'mother', selected: 'true'},
-                    {name: 'Отец', id: 'father'},
-                    {name: 'Родственник', id: 'other_relative'},
-                    {name: 'Контракт', id: 'contract'},
-                    {name: 'История', id: 'history'},
-                    {name: 'Интересы', id: 'interests'},
-                    {name: 'Навыки', id: 'skills'},
-                 ],
                 surname: null,
                 birthday: null,
                 users: [],
@@ -1673,11 +1027,6 @@ Vue.use(Loading);
 
             },
 
-            sendlpr(){
-                // alert(this.lpr);
-                // axios.post('api/v2/666', {id: this.lpr})
-            },
-
             profile(){
                 axios.
                 get('get_email')
@@ -1852,7 +1201,7 @@ Vue.use(Loading);
     }
 </script>
 
-<style type="text/css">
+<style scoped>
     .table td, .table th {
         padding: 10px;
         font-size: 14px;
@@ -1863,9 +1212,10 @@ Vue.use(Loading);
          margin: 0 auto;
     }
 
-.slide-fade-enter-active {
+    .slide-fade-enter-active {
   transition: all .3s ease;
-}
+    }
+
 .slide-fade-leave-active {
   transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
@@ -1879,9 +1229,9 @@ Vue.use(Loading);
     max-width: 1200px;
 }
 
-.table-collection tr {
-    cursor: pointer;
-}
+    .table-collection tr {
+        cursor: pointer;
+    }
 
 .hoverim:hover{
     opacity: 0.5;
@@ -1944,4 +1294,14 @@ Vue.use(Loading);
         position: absolute;
     }
 
+    table {
+        width:100%;
+        table-layout: fixed;
+    }
+
+    .tbl-content {
+        height: 800px;
+        overflow-x: auto;
+        margin-top: 0px;
+    }
 </style>

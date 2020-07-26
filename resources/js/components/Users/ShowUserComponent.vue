@@ -1,89 +1,170 @@
 <template>
     <div>
-        <div class="modal fade bd-example-modal-lg" id="showUser" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalCenterTitle">Карточка сотрудника</h4>
-              </div>
-              <div class="modal-body pb-0">
-                <div class="card mb-3">
-                    <div class="row no-gutters">
-                        <div class="col-md-4">
-                            <div>
-                                <img class="hoverim photo mt-4"/>
-                            </div>
+        <b-modal id="showUser" size="lg" title="Карточка сотрудника" centered hide-footer @hidden="null">
+            <div class="mb-3">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <div class="py-2">
+                            <b-img
+                                center
+                                thumbnail
+                                fluid
+                                src="https://picsum.photos/250/250/?image=54"
+                                alt="Image 1"
+                                class="hoverim">
+                            </b-img>
                         </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <table class=" table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <td>Фамилия</td>
-                                            <td><input-form v-model="user.surname" name="surname" @edit-field="editField"></input-form></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Имя</td>
-                                            <td><input-form v-model="user.name" name="name" @edit-field="editField"></input-form></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Телефон</td>
-                                            <td><input-form v-model="user.phone" v-mask="'+## (###) ###-##-##'" name="phone" @edit-field="editField"></input-form></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email</td>
-                                            <td><input-form v-model="user.email" name="email" @edit-field="editField"></input-form></td>
-                                        </tr>
-                                        <tr>
-                                            <td>День рождения</td>
-                                            <td><input-form v-model="user.birthday" v-mask="'##.##.####'" name="birthday" @edit-field="editField"></input-form></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Facebook</td>
-                                            <td><input-form v-model="user.facebook" name="facebook" @edit-field="editField"></input-form></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Instagram</td>
-                                            <td><input-form v-model="user.instagram" name="instagram" @edit-field="editField"></input-form></td>
-                                        </tr>
-                                        <tr>
-                                            <td>О себе</td>
-                                            <td><input-form v-model="user.about_as" textarea="true" name="about_as" @edit-field="editField"></input-form></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Филиал</td>
-                                            <td @click="editBranch"><span v-for="item in user.branch" class="badge badge-info mr-2">{{item.name}}</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Роль</td>
-                                            <td><span v-for="item in user.role" class="badge badge-info mr-2">{{item.title}}</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Последнее изменение</td>
-                                            <td>{{ user.updated_at }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <b-button block squared class="mt-3">Информация</b-button>
+                        <b-button block squared disabled variant="outline-secondary">Карьера</b-button>
+                        <b-button block squared disabled variant="outline-secondary">История действий</b-button>
+                        <b-button @click="" block squared variant="danger">Удалить</b-button>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body py-2">
+                            <table class=" table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td>Фамилия</td>
+                                    <td><input-form
+                                        v-model="user.surname"
+                                        name="surname"
+                                        @edit-field="editField">
+                                    </input-form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Имя</td>
+                                    <td><input-form
+                                        v-model="user.name"
+                                        name="name"
+                                        @edit-field="editField">
+                                    </input-form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Телефон</td>
+                                    <td><input-form
+                                        v-model="user.phone"
+                                        v-mask="'+## (###) ###-##-##'"
+                                        name="phone"
+                                        @edit-field="editField">
+                                    </input-form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><input-form
+                                        v-model="user.email"
+                                        name="email"
+                                        @edit-field="editField">
+                                    </input-form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>День рождения</td>
+                                    <td><input-form
+                                        v-model="user.birthday"
+                                        v-mask="'##.##.####'"
+                                        name="birthday"
+                                        @edit-field="editField">
+                                    </input-form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Facebook</td>
+                                    <td><input-form
+                                        v-model="user.facebook"
+                                        name="facebook"
+                                        @edit-field="editField">
+                                    </input-form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Instagram</td>
+                                    <td><input-form
+                                        v-model="user.instagram"
+                                        name="instagram"
+                                        @edit-field="editField">
+                                    </input-form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>О себе</td>
+                                    <td><input-form
+                                        v-model="user.about_as"
+                                        textarea="true"
+                                        name="about_as"
+                                        @edit-field="editField">
+                                    </input-form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Филиал</td>
+                                    <td @click="editBranch">
+                                        <span v-for="item in user.branch" class="badge badge-info mr-2">
+                                            {{item.name}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Роль</td>
+                                    <td><span v-for="item in user.role" class="badge badge-info mr-2">
+                                        {{item.title}}
+                                    </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Роль</td>
+                                    <td>
+                                        <!--                                        <multiselect-->
+                                        <!--                                            v-model="user.branch"-->
+                                        <!--                                            placeholder="Выберите филиал"-->
+                                        <!--                                            label="name"-->
+                                        <!--                                            track-by="id"-->
+                                        <!--                                            :options="items"-->
+                                        <!--                                            :multiple="true"-->
+                                        <!--                                            :taggable="true">-->
+                                        <!--                                        </multiselect>-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Последнее изменение</td>
+                                    <td>{{ user.updated_at }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-              </div>
-              <div class="modal-footer pt-3 pb-3">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-              </div>
             </div>
-          </div>
-        </div>
-
+        </b-modal>
     </div>
 </template>
 
 <script>
+
+    import Multiselect from 'vue-multiselect'
+
+    Vue.use(Multiselect);
+    import 'vue-multiselect/dist/vue-multiselect.min.css';
+
+
     export default {
+        components: { Multiselect },
         data() {
             return {
                 user: {},
+                infoModal: {
+                    title: '',
+                    content: ''
+                },
+                roletest: '',
+                items: [
+                    { name: 'MacDonald', id: 40 },
+                    { name: 'Shaw', id: 21 },
+                    { name: 'Wilson', id: 89 },
+                    { name: 'Carney', id: 38 }
+                ]
             }
         },
         methods: {
@@ -96,10 +177,43 @@
                 alert("OK");
             },
             addNewUserModal(id){
-                $('#showUser').modal('show');
+                this.$bvModal.show('showUser')
                 axios.get('api/v2/users/' + id)
                     .then(response => {this.user = response.data.data})
             },
         },
     }
 </script>
+
+<style scoped>
+
+    .table td, .table th {
+        padding: 10px;
+    }
+
+    .hoverim:hover{
+        opacity: 0.5;
+        cursor: pointer;
+    }
+
+    .not-photo{
+        display: flex;
+        width: 250px;
+        height: 250px;
+        border-radius: 0px;
+        font: 100px / 250px Helvetica, Arial, sans-serif;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        user-select: none;
+        background-color: rgb(255, 193, 7);
+        color: rgb(255, 255, 255);
+    }
+
+    .photo{
+        display: flex;
+        width: 250px;
+        height: 250px;
+        border-radius: 0px;
+    }
+</style>
