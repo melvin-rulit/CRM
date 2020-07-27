@@ -47,8 +47,8 @@ class HallController extends Controller
 
         Log::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'добавил зал '.$hall->id)
         );
     }
@@ -67,9 +67,9 @@ class HallController extends Controller
         }]);
 
          return new HallResource($hall);
-     
+
         //$hall = Hall::find($id);
-        
+
        // return new HallResource($hall->load(['schedule_hall.programm.children.journal']));
 
         //$hall = Hall::find($id)->schedule_hall()->where('day',1)->get();
@@ -119,10 +119,17 @@ class HallController extends Controller
 
         Log::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'удалил зал '.$hall->id)
         );
 
+    }
+
+    public function getHalls(Request $request){
+
+        $halls = Hall::where('branch_id', $request['branch_id'])->get();
+
+        return HallResource::collection($halls);
     }
 }

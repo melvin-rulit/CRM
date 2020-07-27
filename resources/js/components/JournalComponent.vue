@@ -1,6 +1,5 @@
 <template>
   <div>
-
       <vue-context ref="menu">
           <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
           <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
@@ -260,17 +259,17 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <date-picker
-                    v-model="calendar"
-                    :editable="false"
-                    value-type="YYYY,MM,DD"
-                    format="DD.MM.YYYY"
-                    @change="changeSelect">
-                </date-picker>
-            </div>
-        </div>
+<!--        <div class="card">-->
+<!--            <div class="card-body">-->
+<!--                <date-picker-->
+<!--                    v-model="calendar"-->
+<!--                    :editable="false"-->
+<!--                    value-type="YYYY,MM,DD"-->
+<!--                    format="DD.MM.YYYY"-->
+<!--                    @change="changeSelect">-->
+<!--                </date-picker>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="card" @contextmenu.prevent="$refs.menu.open">
             <div class="card-body">
                 <table class="table table-bordered datatable datatable-User table-collection">
@@ -282,7 +281,7 @@
                             <i @click="countUp" class="float-right pr-4 pointer fe fe-chevrons-right ml-3"></i>
                         </td>
 
-                        <td  v-for="(n, index) in dates" :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'" :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
+                        <td @click="changeSelect(n)" v-for="(n, index) in dates" :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'" :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
                         </td>
                     </tr>
 
@@ -296,14 +295,13 @@
                             <td :style="{ 'background-color': val.group.color }" data-toggle="collapse" :data-target="'#group_' + val.id" class="accordion-toggle text-white">{{ val.time }}:00 - {{ val.group.name }}
                                 <div class="float-right">
                                     <i class="fe fe-plus" @click="addChildren(hall.branch_id, val.group.name, val.group_id, val.category_time)"></i>
-                                    <i class="fe fe-chevron-down ml-3" @click="getUserInGroup(val.id)"></i>
+                                    <i class="fe fe-chevron-down ml-3" @click="getUserInGroup(val.group_id)"></i>
                                 </div>
-
                             </td>
                         </tr>
 
-                        <template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.id">
-                            <tr v-if="user.group_id == val.id" v-for="(user, index) in computedSelect">
+                        <template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.group_id">
+                            <tr v-if="user.group_id == val.group_id" v-for="(user, index) in computedSelect">
                                 <td class="pt-2 pb-2 col-3" :id="'tooltip-target-1' + user.id">
                                     <span class="ml-3">{{ index + 1 }}.</span>
                                     <span class="ml-3">{{ user.surname }}</span>
@@ -751,8 +749,9 @@
             },
 
             // Метод получает v-model календаря и вызвает getHallAtributes с параметрами текущего активного зала и дня недели
-            changeSelect(){
-                this.getHallAtributes(this.hall_id, this.calendar)
+            changeSelect(date){
+                this.getHallAtributes(this.hall_id, date)
+                this.calendar = date
             },
 
             // Получаем список существующих залов и при условии наличии узнаем id первого элемента из массива и передаем параметр в метод, вместе с текущей датой
@@ -767,19 +766,23 @@
 
             },
 
-            // Запускаем эмулятор загрузки, получаем атрибуты зала по его id
+            // Запускаем эмулятор загрузки, получаем атрибуты зала по его id (убрал эмулятор загрузки)
             getHallAtributes(hall, day) {
                 var D = new Date(day);
 
                 this.hall_id = hall
-                let loader = this.$loading.show({
-                    container: this.fullPage ? null : this.$refs.formContainer,
-                    color: '#0080ff',
-                });
+
+                // let loader = this.$loading.show({
+                //     container: this.fullPage ? null : this.$refs.formContainer,
+                //     color: '#0080ff',
+                // });
                 axios.post('api/v2/showhall' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
                     .then(response => this.hall = response.data.data)
                 setTimeout(() => {
-                    loader.hide()
+                    // loader.hide()
+                    if(this.hall.schedule_hall.length == 0){
+                        Vue.$toast.open({message: 'Нет занятий на этот день',type: 'info',duration: 5000,position: 'top-right'});
+                    }
                 },500)
                 this.getUserInGroupArray = ''
             },

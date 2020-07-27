@@ -61,6 +61,8 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('getEditingGroup', 'BaseController@getEditingGroup');
     Route::post('uploadDocument', 'BaseController@uploadDocument');
     Route::post('updateLpr', 'BaseController@updateLpr');
+    Route::post('gethalls', 'HallController@getHalls');
+    Route::post('getgroup', 'GroupController@getgroup');
 
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');

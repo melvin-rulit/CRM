@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\Schedule_hallDogovorResource;
 
 use App\Group;
 
@@ -86,4 +87,12 @@ class GroupController extends Controller
     {
         //
     }
+
+    public function getgroup(Request $request)
+    {
+        $group = Group::where('programm_id', $request['programm_id'])->where('hall_id', $request['hall_id'])->get();
+
+        return Schedule_hallDogovorResource::collection($group);
+    }
+
 }

@@ -74,6 +74,7 @@ class ContractController extends Controller
     	$base->child_name = $request['child_name'];
     	$base->child_middle_name = $request['child_middle_name'];
     	$base->child_birthday = $request['child_birthday'];
+    	$base->group_id = $request['group_id'];
     	$base->save();
 
 
@@ -114,15 +115,15 @@ class ContractController extends Controller
 		$contract->date = Carbon::createFromDate($request['date']);
 		$contract->active = true;
 		$contract->form_size = $request['form_size'];
-        $contract->classes_total =  $request['classes_total'];      
-        $contract->classes_week =  $request['classes_week'];      
-        $contract->freezing_total =  $request['freezing_total'];      
-        $contract->freezing_kolvo = $request['freezing_kolvo'];    
-        $contract->programm = $request['programm'];    
-        $contract->currency = $request['currency'];    
-        $contract->adress = $request['adress'];  
+        $contract->classes_total =  $request['classes_total'];
+        $contract->classes_week =  $request['classes_week'];
+        $contract->freezing_total =  $request['freezing_total'];
+        $contract->freezing_kolvo = $request['freezing_kolvo'];
+        $contract->programm = $request['programm'];
+        $contract->currency = $request['currency'];
+        $contract->adress = $request['adress'];
         $contract->price_title = $request['price_title'];
-        $contract->category_time = $request['category_time']; 
+        $contract->category_time = $request['category_time'];
         $contract->contract_type = $request['contract_type'];
 		$contract->save();
 
@@ -137,7 +138,7 @@ class ContractController extends Controller
             $contract_pays->save();
         }
 
-	} 
+	}
 
     	return [
     		'success' => "ok",

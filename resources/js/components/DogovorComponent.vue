@@ -226,7 +226,8 @@
                                 option-value="id"
                                 option-text="name"
                                 placeholder="Введите для поиска программы"
-                                v-model="programm" />
+                                v-model="programm"
+                                @input="getHalls()" />
                             <span v-if="print">{{ programm.name }}</span>
                             з наступними умовами:
                             <dynamic-select
@@ -239,35 +240,33 @@
                                 @input="stopDate(product.id)" />
                             <span v-if="print">{{ product.name }}</span>
                             <hr>
-                            Зал филиала
-                            <select class="form-control">
-                                <option>Большое поле</option>
-                                <option>Малый зал</option>
-                                <option>Средний зал</option>
-                            </select>
-                            дни посещения
-                            <select class="form-control">
-                                <option>Понедельник</option>
-                                <option>Вт-Чт</option>
-                                <option>Сб-Вс</option>
-                                <option>Пт</option>
-                            </select>
-                            время посещения
-                            <select class="form-control">
-                                <option>9:00</option>
-                                <option>10:00</option>
-                                <option>11:00</option>
-                                <option>12:00</option>
-                                <option>13:00</option>
-                                <option>14:00</option>
-                                <option>15:00</option>
-                                <option>16:00</option>
-                                <option>17:00</option>
-                                <option>18:00</option>
-                                <option>19:00</option>
-                                <option>20:00</option>
-                            </select>
+
+                            выберите зал
+                            <b-form-select
+                                v-model="hall"
+                                :options="halls"
+                                value-field="id"
+                                text-field="name"
+                                :disabled="!programm"
+                                @change="getGroup()"
+                            ></b-form-select>
+
+                            выберите группу
+                            <dynamic-select
+                                :options="shedule_hall"
+                                option-value="id"
+                                option-text="name"
+                                placeholder="Введите для поиска продукта"
+                                v-model="shedule"
+                                />
+
+                            <div class="my-3">рассписание посещения группы :
+                                <span v-if="shedule" v-for="schedule in shedule.schedule_hall">
+                                    {{getWeekDay(schedule.day - 1)}} {{schedule.time}}:00 -
+                                </span>
+                            </div>
                             <br>
+                            <hr>
                             <table class="tabs">
                                 <tr>
                                     <td class="gray" width="25%">Дата початку договору</td>
@@ -429,6 +428,8 @@ Vue.use(VueHtmlToPaper, options);
                   {time: '20:00'},
                   {time: '21:00'},
               ],
+                halls: [],
+                shedule_hall: [],
                 contracts_vm: 'Відкрий можливості',
                 form_size: '',
                 classes_week: '',
@@ -441,14 +442,37 @@ Vue.use(VueHtmlToPaper, options);
                 resultMessage: '',
                 days: null,
                 startA: null,
+                hall: '',
+                shedule: '',
             }
         },
         methods: {
+
+            // Получаем сокращеное название дня по дате
+            getWeekDay(day) {
+                var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+                return days[day];
+            },
+
+            getGroup(){
+                axios.post('api/v2/getgroup', {hall_id : this.hall, programm_id: this.programm.id})
+                    .then(response => {
+                        this.shedule_hall = response.data.data
+                    })
+          },
+
+            getHalls(){
+                this.hall = ''
+                axios.post('api/v2/gethalls', {branch_id : this.dataVm.branch.id})
+                    .then(response => {
+                        this.halls = response.data.data
+                    })
+          },
             reversedMessage(days) {
-              var D = new Date(this.dataVm.end_actualy);
-              D.setDate(D.getDate() + days);
-              return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
-              this.stoped();
+                var D = new Date(this.dataVm.end_actualy);
+                D.setDate(D.getDate() + days);
+                return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+                this.stoped();
             },
 
             stoped() {
@@ -569,6 +593,7 @@ Vue.use(VueHtmlToPaper, options);
                   adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
                   price_title: this.product.price_title,
                   category_time: this.product.category_time,
+                  group_id: this.shedule.id,
 
                 })
                 this.print = true

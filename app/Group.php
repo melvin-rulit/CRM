@@ -20,6 +20,11 @@ class Group extends Model
         return $this->hasMany(Base::class);
     }
 
+    public function schedule_hall()
+    {
+        return $this->hasMany(Schedule_hall::class);
+    }
+
     public function programm(){
         return $this->hasOne('App\Programm', 'id', 'programm_id');
     }
