@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd7b6f58-f3dd-4a31-927e-6ee29f270af5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/Schedule_hallDogovorResource.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Group.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Group.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/ContractController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/ContractController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/GroupController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/GroupController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/HallController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/HallController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Schedule_hall.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Schedule_hall.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/DogovorComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/DogovorComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/JournalComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/JournalComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,7 +261,7 @@
       <workItem from="1595574525805" duration="20223000" />
       <workItem from="1595752104019" duration="11277000" />
       <workItem from="1595837625462" duration="4212000" />
-      <workItem from="1595842384562" duration="8233000" />
+      <workItem from="1595842384562" duration="10022000" />
     </task>
     <servers />
   </component>

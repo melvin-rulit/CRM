@@ -86,7 +86,7 @@ class ContractController extends Controller
 		$contract->start = Carbon::createFromDate($request['start']);
 		$contract->end = Carbon::createFromDate($request['end']);
 		$contract->end_actually = Carbon::createFromDate($request['end_actually']);
-		$contract->date = Carbon::now();
+		$contract->date = Carbon::createFromDate($request['date']);
 		$contract->active = true;
         $contract->contract_type = $request['contract_type'];
 		$contract->save();
