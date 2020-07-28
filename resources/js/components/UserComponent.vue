@@ -1032,8 +1032,7 @@ Vue.use(Loading);
                 })
             },
             fetchArticles(){
-                axios.
-                get('api/v2/collection')
+                axios.get('api/v2/collection')
                 .then(response => this.articles = response.data.data)
                 .finally(() => console.log('Посты успешно загружены'));
 
@@ -1086,6 +1085,13 @@ Vue.use(Loading);
                 const value = e.target.value;
                 const key = e.currentTarget.getAttribute('name');
                 axios.post(this.postURL, { user_id: this.dataObject.id, field_name: name ? name : key, field_value: value })
+
+                // Если мы меняем значение день рождения. то перезагружаем всю карточку, заебали
+                if(key == 'child_birthday'){
+                    axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
+                        this.dataObject = response.data.data
+                    })
+                }
             },
             closeModal(){
                 // $('#addNew').modal('hide');
