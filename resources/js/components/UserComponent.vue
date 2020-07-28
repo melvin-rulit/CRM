@@ -427,7 +427,6 @@
                     </div>
                 </div>
             </b-tab>
-
             <b-tab title="Отец">
                 <div class="card-body pb-0">
                     <div class="row">
