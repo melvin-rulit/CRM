@@ -214,7 +214,8 @@
                                 @edit-field="editField">
                             </input-form>
                         </h4>
-                        <p data-toggle="tooltip" title="День рождения" class="card-text">
+<!--                        <p data-toggle="tooltip" title="День рождения" class="card-text">-->
+                        <p>
                             <input-form
                                 v-model="dataObject.attributes.child_birthday"
                                 name="child_birthday"

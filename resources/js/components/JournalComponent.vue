@@ -1,6 +1,6 @@
 <template>
-<<<<<<< HEAD
   <div>
+
       <vue-context ref="menu">
           <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
           <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
@@ -127,207 +127,77 @@
       <b-modal id="addChildren" centered ok-only title="Выберите ребенка для добавления в группу" @ok="handleOk">
           <dynamic-select :options="children" option-value="id" option-text="child_surname" placeholder="Введите для поиска" v-model="child" />
       </b-modal>
-=======
-    <div>
-
-        <vue-context ref="menu">
-            <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
-            <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
-            <li><a href="#" @click.prevent="notVisit()"><i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a></li>
-            <li><a href="#" @click.prevent="newWorkout()"><i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Тренировка</a></li>
-            <li><a href="#" v-b-modal="'addNewCommentGetModal'"><i class="fe fe-message-circle text-primary ml-1 mr-3"></i>Комментарий</a></li>
-        </vue-context>
-
-        <div class="row flex-nowrap halls">
-            <div v-if="halls" v-for="hall in halls" class="col-3 col-lg-3">
-                <div class="card" :class="hall_id == hall.id ? 'border border-success' : ''">
-                    <div class="card-body p-3">
-                        <a href="#" @click.prevent="getHallAtributes(hall.id, calendar)">{{ hall.name }}</a>
-                        <template v-if="hall_id == hall.id" >
-                            <span class="badge badge-primary ml-3 mb-2">5</span>
-                            <i @click="showCalendar(hall.id)" class="pointer fe fe-calendar h2 ml-3 mb-0 text-muted"></i>
-                            <i @click="settingsGroup(hall.id)" class="pointer fe fe-users h2 ml-3 mb-0 text-muted"></i>
-                            <i @click="editGroup(hall.id)" class="pointer fe fe-user-x h2 ml-3 mb-0 text-muted"></i>
-                        </template>
-                        <p class="text-muted h5 mb-1 mt-2">{{ hall.branch.name }}</p>
-                        <p class="text-muted h5">{{ hall.branch.geolocation }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Добавление новой группы -->
-        <b-modal id="settingsGroup" centered ok-only @hidden="resetSettingsGroup" @ok="OkSettingsGroup">
-            <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
-                <b-form-group
-                    :state="nameState"
-                    label-cols-sm="4"
-                    label-cols-lg="4"
-                    label="Название группы"
-                    label-for="name-input"
-                    invalid-feedback="Поле обязательно для заполнения"
-                >
-                    <b-form-input
-                        id="name-input"
-                        v-model="name"
-                        :state="nameState"
-                        required
-                    ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                    :state="programmState"
-                    label-cols-sm="4"
-                    label-cols-lg="4"
-                    label="Программа обучения"
-                    label-for="name-input"
-                    invalid-feedback="Поле обязательно для заполнения"
-                >
-                    <dynamic-select
-                        :state="programmState"
-                        :options="programms"
-                        option-value="id"
-                        option-text="name"
-                        v-model="programmForGroup"
-                        placeholder="Введите для поиска программы" />
-                </b-form-group>
-                <div class="row">
-                    <slider-picker class="ml-6 mb-2" v-model="colors" />
-                </div>
-                <div class="p-4 my-3" :style="{ 'background-color': colors.hex }"></div>
-            </form>
-        </b-modal>
-
-
-        <!-- Редактирование группы -->
-        <b-modal id="editGroup" centered ok-only ok-title="Сохранить" @hidden="resetEditGroup" @ok="OkEditGroup">
-            <b-form-group
-                label-cols-sm="4"
-                label-cols-lg="4"
-                label="Выберите группу"
-                label-for="name-input"
-                invalid-feedback="Поле обязательно для заполнения"
-            >
-                <dynamic-select
-                    :options="editGroupModelArray"
-                    option-value="id"
-                    option-text="name"
-                    v-model="editGroupModel"
-                    placeholder="Введите для поиска программы" />
-            </b-form-group>
-
-            <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
-                <b-form-group
-                    :state="nameState"
-                    label-cols-sm="4"
-                    label-cols-lg="4"
-                    label="Название группы"
-                    label-for="name-input"
-                    invalid-feedback="Поле обязательно для заполнения"
-                >
-                    <b-form-input
-                        id="name-input"
-                        v-model="editGroupModel.name"
-                        :state="nameState"
-                        required
-                    ></b-form-input>
-                </b-form-group>
-
-                <div class="p-2 my-3" :style="{ 'background-color': editGroupModel.color }">
-                    <p class="text-center m-0 text-white p-2">Старый цвет ярлыка группы</p>
-                </div>
-
-                <div class="row">
-                    <slider-picker class="ml-6 mb-2" v-model="colors" />
-                </div>
-
-                <div v-if="colors.hex" class="p-2 my-3" :style="{ 'background-color': colors.hex }">
-                    <p class="text-center m-0 text-white p-2">Новый цвет ярлыка группы</p>
-                </div>
-
-                <div v-else="" class="p-2 my-3" :style="{ 'background-color': editGroupModel.color }">
-                    <p class="text-center m-0 text-white p-2">Новый цвет ярлыка группы</p>
-                </div>
-
-            </form>
-        </b-modal>
-
-
-        <b-modal id="addChildren" centered ok-only title="Выберите ребенка для добавления в группу" @ok="handleOk">
-            <dynamic-select :options="children" option-value="id" option-text="child_surname" placeholder="Введите для поиска" v-model="child" />
-        </b-modal>
->>>>>>> release-1.0
 
 
 <!-- Окно добавления комментария после присвоения статуса не посетил тренировку -->
-        <b-modal id="comment" title="Введите комментарий" centered ok-title="Добавить" cancel-title="Отмена" @ok="addComent">
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-                <b-form-group label-for="name-input">
-                    <b-form-textarea id="textarea" v-model="comment"></b-form-textarea>
-                </b-form-group>
-            </form>
-        </b-modal>
+      <b-modal id="comment" title="Введите комментарий" centered ok-title="Добавить" cancel-title="Отмена" @ok="addComent">
+          <form ref="form" @submit.stop.prevent="handleSubmit">
+              <b-form-group label-for="name-input">
+                  <b-form-textarea id="textarea" v-model="comment"></b-form-textarea>
+              </b-form-group>
+          </form>
+      </b-modal>
 
-        <!-- Окно добавления нового комментария -->
-        <b-modal id="addNewCommentGetModal" title="Добавить комментарий" centered ok-title="Добавить" cancel-title="Отмена" @ok="addNewComent">
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-                <b-form-group label-for="name-input">
-                    <b-form-textarea id="textarea" v-model="newComment"></b-form-textarea>
-                </b-form-group>
-            </form>
-        </b-modal>
+      <!-- Окно добавления нового комментария -->
+      <b-modal id="addNewCommentGetModal" title="Добавить комментарий" centered ok-title="Добавить" cancel-title="Отмена" @ok="addNewComent">
+          <form ref="form" @submit.stop.prevent="handleSubmit">
+              <b-form-group label-for="name-input">
+                  <b-form-textarea id="textarea" v-model="newComment"></b-form-textarea>
+              </b-form-group>
+          </form>
+      </b-modal>
 
-        <b-modal id="modal-xl" hide-footer @hidden="resetModalXl">
-            <div class="row flex-nowrap test">
-                <div class="col-12 col-lg-12" v-for="(day, index_day) in days">
-                    <div class="card">
-                        <div class="card-body">
-                            <dynamic-select
-                                v-if="!isAdd"
-                                :options="days2"
-                                option-value="id"
-                                option-text="name"
-                                @input="daySelect"
-                                class="mb-4"
-                                v-model="selectDayInModalXl"
-                                placeholder="День недели" />
+      <b-modal id="modal-xl" hide-footer @hidden="resetModalXl">
+          <div class="row flex-nowrap test">
+              <div class="col-12 col-lg-12" v-for="(day, index_day) in days">
+                  <div class="card">
+                      <div class="card-body">
+                          <dynamic-select
+                              v-if="!isAdd"
+                              :options="days2"
+                              option-value="id"
+                              option-text="name"
+                              @input="daySelect"
+                              class="mb-4"
+                              v-model="selectDayInModalXl"
+                              placeholder="День недели" />
 
-                            <div class="card card-sm mb-2"
-                                 v-for="(curr, index) in 21"
-                                 v-if="index + 1 >= n"
-                                 :style="{ 'background-color': schedule.find(item => item.time === curr) ?
+                          <div class="card card-sm mb-2"
+                               v-for="(curr, index) in 21"
+                               v-if="index + 1 >= n"
+                               :style="{ 'background-color': schedule.find(item => item.time === curr) ?
                                schedule.find(item => item.time === curr).group.color : null}">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-3 col-md">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-2">
-                                                        <a v-if="!isAdd && activeDay2"
-                                                           v-b-toggle="'collapse_' + index_day + '_' + index"
-                                                           href="#"
-                                                           @click.prevent="activeTime(curr)"
-                                                           class=" mb-md-0 text-primary"
-                                                        >{{ curr }}:00</a>
-                                                        <span v-if="isAdd || !activeDay2">{{ curr }}:00</span>
-                                                    </div>
-                                                    <div class="col-md-4" v-if="schedule.find(item => item.time === curr)">
-                                                        {{ schedule.find(item => item.time === curr).group.name }}
-                                                    </div>
-                                                    <div class="col-md-4" v-if="schedule.find(item => item.time === curr)">
-                                                        {{ schedule.find(item => item.time === curr).group.programm.name }}
-                                                    </div>
-                                                    <div class="col-md-2" v-if="schedule.find(item => item.time === curr)">
-                                                        <b-badge pill variant="primary">{{ schedule.find(item => item.time === curr).children_count }}</b-badge>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                              <div class="card-body">
+                                  <div class="row align-items-center">
+                                      <div class="col-3 col-md">
+                                          <div class="container">
+                                              <div class="row">
+                                                  <div class="col-md-2">
+                                                      <a v-if="!isAdd && activeDay2"
+                                                         v-b-toggle="'collapse_' + index_day + '_' + index"
+                                                         href="#"
+                                                         @click.prevent="activeTime(curr)"
+                                                         class=" mb-md-0 text-primary"
+                                                      >{{ curr }}:00</a>
+                                                      <span v-if="isAdd || !activeDay2">{{ curr }}:00</span>
+                                                  </div>
+                                                  <div class="col-md-4" v-if="schedule.find(item => item.time === curr)">
+                                                      {{ schedule.find(item => item.time === curr).group.name }}
+                                                  </div>
+                                                  <div class="col-md-4" v-if="schedule.find(item => item.time === curr)">
+                                                      {{ schedule.find(item => item.time === curr).group.programm.name }}
+                                                  </div>
+                                                  <div class="col-md-2" v-if="schedule.find(item => item.time === curr)">
+                                                      <b-badge pill variant="primary">{{ schedule.find(item => item.time === curr).children_count }}</b-badge>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
 
-                                    <b-collapse :id="'collapse_' + index_day + '_' + index" accordion="my-accordion" class="mt-2">
+                                  <b-collapse :id="'collapse_' + index_day + '_' + index" accordion="my-accordion" class="mt-2">
 
-                                        <!-- 									<dynamic-select
+                                      <!-- 									<dynamic-select
 								      v-show="isAdd"
 								      class="pb-2"
 							          :options="groups"
@@ -337,68 +207,70 @@
 							          placeholder="Выберите группу" />
 							        </b-form-group> -->
 
-                                        <dynamic-select
-                                            v-if="isAdd"
-                                            class="pb-2"
-                                            :options="GroupInHall"
-                                            option-value="id"
-                                            option-text="name"
-                                            v-model="GroupModel"
-                                            placeholder="Выберите группу" />
-                                        </b-form-group>
+                                      <dynamic-select
+                                          v-if="isAdd"
+                                          class="pb-2"
+                                          :options="GroupInHall"
+                                          option-value="id"
+                                          option-text="name"
+                                          v-model="GroupModel"
+                                          placeholder="Выберите группу" />
+                                      </b-form-group>
 
-                                        <dynamic-select
-                                            v-if="isAdd"
-                                            class="pb-2"
-                                            :options="categoryTime"
-                                            option-value="id"
-                                            option-text="name"
-                                            v-model="categoryTimeModel"
-                                            placeholder="Выберите категорию времени" />
-                                        </b-form-group>
+                                      <dynamic-select
+                                          v-if="isAdd"
+                                          class="pb-2"
+                                          :options="categoryTime"
+                                          option-value="id"
+                                          option-text="name"
+                                          v-model="categoryTimeModel"
+                                          placeholder="Выберите категорию времени" />
+                                      </b-form-group>
 
-                                        <b-button
-                                            v-if="schedule.find(item => item.time === curr)"
-                                            size="sm"
-                                            variant="danger"
-                                            class="mt-2"
-                                            @click="deleteSchedule">
-                                            Удалить
-                                        </b-button>
-                                        <b-button
-                                            v-if="!schedule.find(item => item.time === curr)"
-                                            size="sm"
-                                            variant="primary"
-                                            class="mt-2"
-                                            @click="addSchedule">
-                                            Добавить
-                                        </b-button>
-                                        <b-button v-if="isAdd" size="sm" variant="success" class="mt-2" @click="saveSchedule">Сохранить</b-button>
-                                        <b-button v-if="isAdd" size="sm" variant="danger" class="mt-2" @click="cancelSchedule">Отменить</b-button>
-                                    </b-collapse>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </b-modal>
+                                      <!-- 									<ul class="list-group" v-if="schedule.find(item => item.time === curr)">
+										<a href="#" @click.prevent="test" class="list-group-item list-group-item-action pt-3 pb-3">
+											<i class="fe fe-users text-primary text-bold mr-3"></i>
+											{{ schedule.find(item => item.time === curr).total_children }}
+										</a>
+										<a href="#" class="list-group-item list-group-item-action pt-3 pb-3">
+											<i class="fe fe-users text-danger text-bold mr-3"></i>
+											{{ schedule.find(item => item.time === curr).group.name }}
+										</a>
+										<a href="#" class="list-group-item list-group-item-action pt-3 pb-3">
+											<i class="fe fe-clock text-success text-bold mr-3"></i>
+											{{ schedule.find(item => item.time === curr).category_time }}
+										</a>
+									</ul> -->
+
+                                      <!-- <b-button v-if="schedule.find(item => item.time === curr)" size="sm" variant="warning" class="mt-2">Редактировать</b-button> -->
+                                      <b-button v-if="schedule.find(item => item.time === curr)" size="sm" variant="danger" class="mt-2" @click="deleteSchedule">Удалить</b-button>
+                                      <b-button v-if="!schedule.find(item => item.time === curr)" size="sm" variant="primary" class="mt-2" @click="addSchedule">Добавить</b-button>
+                                      <b-button v-if="isAdd" size="sm" variant="success" class="mt-2" @click="saveSchedule">Сохранить</b-button>
+                                      <b-button v-if="isAdd" size="sm" variant="danger" class="mt-2" @click="cancelSchedule">Отменить</b-button>
+                                  </b-collapse>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </b-modal>
 
 
 
 <div class="row">
     <div class="col-12">
-<!--        <div class="card">-->
-<!--            <div class="card-body">-->
-<!--                <date-picker-->
-<!--                    v-model="calendar"-->
-<!--                    :editable="false"-->
-<!--                    value-type="YYYY,MM,DD"-->
-<!--                    format="DD.MM.YYYY"-->
-<!--                    @change="changeSelect">-->
-<!--                </date-picker>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="card">
+            <div class="card-body">
+                <date-picker
+                    v-model="calendar"
+                    :editable="false"
+                    value-type="YYYY,MM,DD"
+                    format="DD.MM.YYYY"
+                    @change="changeSelect">
+                </date-picker>
+            </div>
+        </div>
         <div class="card" @contextmenu.prevent="$refs.menu.open">
             <div class="card-body">
                 <table class="table table-bordered datatable datatable-User table-collection">
@@ -410,10 +282,7 @@
                             <i @click="countUp" class="float-right pr-4 pointer fe fe-chevrons-right ml-3"></i>
                         </td>
 
-                        <td @click="changeSelect(n), active = index"
-                            v-for="(n, index) in dates"
-                            :class="index === active || index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'"
-                            :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
+                        <td  v-for="(n, index) in dates" :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'" :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
                         </td>
                     </tr>
 
@@ -427,13 +296,14 @@
                             <td :style="{ 'background-color': val.group.color }" data-toggle="collapse" :data-target="'#group_' + val.id" class="accordion-toggle text-white">{{ val.time }}:00 - {{ val.group.name }}
                                 <div class="float-right">
                                     <i class="fe fe-plus" @click="addChildren(hall.branch_id, val.group.name, val.group_id, val.category_time)"></i>
-                                    <i class="fe fe-chevron-down ml-3" @click="getUserInGroup(val.group_id)"></i>
+                                    <i class="fe fe-chevron-down ml-3" @click="getUserInGroup(val.id)"></i>
                                 </div>
+
                             </td>
                         </tr>
 
-                        <template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.group_id">
-                            <tr v-if="user.group_id == val.group_id" v-for="(user, index) in computedSelect">
+                        <template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.id">
+                            <tr v-if="user.group_id == val.id" v-for="(user, index) in computedSelect">
                                 <td class="pt-2 pb-2 col-3" :id="'tooltip-target-1' + user.id">
                                     <span class="ml-3">{{ index + 1 }}.</span>
                                     <span class="ml-3">{{ user.surname }}</span>
@@ -449,7 +319,7 @@
                                 <td v-for="(n, index) in daysInMonth"
                                     @click.right="alerts(index +1, user.id, user.journal[n])"
                                     class="pt-2 pb-2 text-center border-left-0 border-white"
-                                    :class="index === active ? 'white' : 'grey'">
+                                    :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'white' : 'grey'">
                                     <i v-if="user.journal[n]" :class="user.journal[n]"></i>
                                 </td>
                             </tr>
@@ -462,7 +332,7 @@
     </div>
 </div>
 
-    </div>
+  </div>
 </template>
 
 <script>
@@ -561,7 +431,6 @@
                 editGroupModel: '',
                 editGroupModelArray: [],
                 selectDayInModalXl: '',
-                active: null,
             }
         },
 
@@ -882,9 +751,8 @@
             },
 
             // Метод получает v-model календаря и вызвает getHallAtributes с параметрами текущего активного зала и дня недели
-            changeSelect(date){
-                this.getHallAtributes(this.hall_id, date)
-                this.calendar = date
+            changeSelect(){
+                this.getHallAtributes(this.hall_id, this.calendar)
             },
 
             // Получаем список существующих залов и при условии наличии узнаем id первого элемента из массива и передаем параметр в метод, вместе с текущей датой
@@ -899,23 +767,19 @@
 
             },
 
-            // Запускаем эмулятор загрузки, получаем атрибуты зала по его id (убрал эмулятор загрузки)
+            // Запускаем эмулятор загрузки, получаем атрибуты зала по его id
             getHallAtributes(hall, day) {
                 var D = new Date(day);
 
                 this.hall_id = hall
-
-                // let loader = this.$loading.show({
-                //     container: this.fullPage ? null : this.$refs.formContainer,
-                //     color: '#0080ff',
-                // });
+                let loader = this.$loading.show({
+                    container: this.fullPage ? null : this.$refs.formContainer,
+                    color: '#0080ff',
+                });
                 axios.post('api/v2/showhall' , {hall_id: hall, day: D.getDay() == 0 ? 7 :  D.getDay()})
                     .then(response => this.hall = response.data.data)
                 setTimeout(() => {
-                    // loader.hide()
-                    if(this.hall.schedule_hall.length == 0){
-                        Vue.$toast.open({message: 'Нет занятий на этот день',type: 'info',duration: 5000,position: 'top-right'});
-                    }
+                    loader.hide()
                 },500)
                 this.getUserInGroupArray = ''
             },
@@ -1045,7 +909,13 @@
             }
         }
     }
+
+    // getHallAtributes - Принимает id зала и делает запрос на получение программ обучения и всех основных данных
+    // showCalendar - Принимает id зала и отображает модальное окно с настройками расписания зала (shedule_hall)
 </script>
+
+
+
 
 <style scoped>
 
