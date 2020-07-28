@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 public/js/app.js
+.idea/workspace.xml
 /vendor
 .env
 .env.backup
