@@ -1086,7 +1086,7 @@ Vue.use(Loading);
                 const key = e.currentTarget.getAttribute('name');
                 axios.post(this.postURL, { user_id: this.dataObject.id, field_name: name ? name : key, field_value: value })
 
-                // Если мы меняем значение день рождения. то перезагружаем всю карточку, заебали
+                // Если мы меняем значение день рождения. то перезагружаем всю карточку, заебали ныть
                 if(key == 'child_birthday'){
                     axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
                         this.dataObject = response.data.data
