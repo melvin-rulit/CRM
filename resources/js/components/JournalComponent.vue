@@ -281,7 +281,10 @@
                             <i @click="countUp" class="float-right pr-4 pointer fe fe-chevrons-right ml-3"></i>
                         </td>
 
-                        <td @click="changeSelect(n)" v-for="(n, index) in dates" :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'" :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
+                        <td @click="changeSelect(n), active = index"
+                            v-for="(n, index) in dates"
+                            :class="index === active || index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'"
+                            :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
                         </td>
                     </tr>
 
@@ -317,7 +320,7 @@
                                 <td v-for="(n, index) in daysInMonth"
                                     @click.right="alerts(index +1, user.id, user.journal[n])"
                                     class="pt-2 pb-2 text-center border-left-0 border-white"
-                                    :class="index + 1 == date && month == new Date().getMonth() + 1 ? 'white' : 'grey'">
+                                    :class="index === active ? 'white' : 'grey'">
                                     <i v-if="user.journal[n]" :class="user.journal[n]"></i>
                                 </td>
                             </tr>
@@ -429,6 +432,7 @@
                 editGroupModel: '',
                 editGroupModelArray: [],
                 selectDayInModalXl: '',
+                active: null,
             }
         },
 

@@ -241,8 +241,9 @@
                             <span v-if="print">{{ product.name }}</span>
                             <hr>
 
-                            выберите зал
+                            <span v-if="!print">выберите зал</span>
                             <b-form-select
+                                v-if="!print"
                                 v-model="hall"
                                 :options="halls"
                                 value-field="id"
@@ -251,20 +252,19 @@
                                 @change="getGroup()"
                             ></b-form-select>
 
-                            выберите группу
-                            <dynamic-select
-                                :options="shedule_hall"
-                                option-value="id"
-                                option-text="name"
-                                placeholder="Введите для поиска продукта"
-                                v-model="shedule"
-                                />
+                            <span v-if="!print">выберите группу</span>
+                            <select class="form-control" v-if="shedule_hall && !print" v-model="shedule">
+                                <option
+                                    v-bind:value="t.id" v-for="t in shedule_hall" :key="t.id">{{ t.name }}
+                                    <span v-for="sp in t.hall"> - ( {{ getWeekDay(sp.day - 1) }} - {{ sp.time }}:00 )</span>
+                                </option>
+                                </option>
+                            </select>
 
-                            <div class="my-3">рассписание посещения группы :
-                                <span v-if="shedule" v-for="schedule in shedule.schedule_hall">
-                                    {{getWeekDay(schedule.day - 1)}} {{schedule.time}}:00 -
-                                </span>
-                            </div>
+                            <span v-if="print" v-for="t in shedule_hall" :key="t.id">
+                                {{ t.name }}<span v-for="sp in t.hall"> - ( {{ getWeekDay(sp.day - 1) }} - {{ sp.time }}:00 )</span>
+                            </span>
+
                             <br>
                             <hr>
                             <table class="tabs">
@@ -593,7 +593,7 @@ Vue.use(VueHtmlToPaper, options);
                   adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
                   price_title: this.product.price_title,
                   category_time: this.product.category_time,
-                  group_id: this.shedule.id,
+                  group_id: this.shedule,
 
                 })
                 this.print = true
@@ -604,12 +604,16 @@ Vue.use(VueHtmlToPaper, options);
                 this.print = false
                 this.programm = ''
                 this.product = ''
+                this.hall = ''
+                this.shedule = ''
                                 }
              },
 
              closeModal(){
                 this.programm = ''
                 this.product = ''
+                 this.hall = ''
+                 this.shedule = ''
                 $('#mainModal').modal('hide');
                 $('#info li:first-child a').tab('show')
                 $(document.body).removeClass("modal-open");

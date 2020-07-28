@@ -80,6 +80,7 @@ class ArticleResource extends JsonResource
                 'old_id' => $this->old_id,
 
                 'documents' => $this->documents,
+                'group' => $this->group,
 
                 'lpr' => ($this->mother_lpr) ? 'mother_lpr' : (($this->father_lpr) ? 'father_lpr' : 'other_relative_lpr'),
 

@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="fd7b6f58-f3dd-4a31-927e-6ee29f270af5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/ContractController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V2/ContractController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/ArticleResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/ArticleResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/Schedule_hallDogovorResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/Schedule_hallDogovorResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/DogovorComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/DogovorComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/JournalComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/JournalComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/UserComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/UserComponent.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,6 +267,9 @@
       <workItem from="1595752104019" duration="11277000" />
       <workItem from="1595837625462" duration="4212000" />
       <workItem from="1595842384562" duration="10022000" />
+      <workItem from="1595857281124" duration="1969000" />
+      <workItem from="1595914638979" duration="724000" />
+      <workItem from="1595915705218" duration="7329000" />
     </task>
     <servers />
   </component>
@@ -326,22 +334,22 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="704" y="297" width="501" height="520" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1595511376747" />
-    <state width="1671" height="237" key="GridCell.Tab.0.bottom" timestamp="1595842580810">
+    <state width="1671" height="237" key="GridCell.Tab.0.bottom" timestamp="1595915724159">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1671" height="237" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1595842580810" />
-    <state width="1671" height="237" key="GridCell.Tab.0.center" timestamp="1595842580810">
+    <state width="1671" height="237" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1595915724159" />
+    <state width="1671" height="237" key="GridCell.Tab.0.center" timestamp="1595915724158">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1671" height="237" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1595842580810" />
-    <state width="1671" height="237" key="GridCell.Tab.0.left" timestamp="1595842580809">
+    <state width="1671" height="237" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1595915724158" />
+    <state width="1671" height="237" key="GridCell.Tab.0.left" timestamp="1595915724158">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1671" height="237" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1595842580809" />
-    <state width="1671" height="237" key="GridCell.Tab.0.right" timestamp="1595842580810">
+    <state width="1671" height="237" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1595915724158" />
+    <state width="1671" height="237" key="GridCell.Tab.0.right" timestamp="1595915724158">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1671" height="237" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1595842580810" />
+    <state width="1671" height="237" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1595915724158" />
     <state width="1752" height="440" key="GridCell.Tab.1.bottom" timestamp="1595511376893">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -399,5 +407,16 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="712" y="471" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1595595887181" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/resources/js/components/JournalComponent.vue</url>
+          <line>29</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

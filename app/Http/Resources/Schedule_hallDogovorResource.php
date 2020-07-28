@@ -17,7 +17,7 @@ class Schedule_hallDogovorResource extends JsonResource
         return [
             'id'                => $this->id,
             'name'              => $this->name,
-            'schedule_hall'     => $this->schedule_hall,
+            'hall'              => $this->schedule_hall,
         ];
     }
 }

@@ -180,7 +180,15 @@
                         <div @click="$refs.avatar.click()" class="hoverim not-photo"><span>?</span></div>
                     </div>
                     <div v-else>
-                        <img @click="$refs.avatar.click()" class="hoverim photo" :src="siteURL+dataObject.attributes.avatar" />
+<!--                        <img @click="$refs.avatar.click()" class="hoverim photo" :src="siteURL+dataObject.attributes.avatar" />-->
+                        <b-img
+                            @click="$refs.avatar.click()"
+                            center
+                            fluid
+                            :src="siteURL+dataObject.attributes.avatar"
+                            alt="Фото"
+                            class="hoverim">
+                        </b-img>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -250,7 +258,7 @@
                         </select>
 
                         <h5 class="text-muted mb-2">Группа:
-                            <span class="text-dark">Первая группа</span>
+                            <span v-if="dataObject.attributes.group" class="text-dark">{{dataObject.attributes.group.name}}</span>
                         </h5>
 
                         <h6 class="text-uppercase text-muted mb-2 mt-4">
@@ -265,7 +273,11 @@
                 </div>
                 <div class="col-md-4 border-left">
                     <div class="card-body">
-                        <h4 class="text-center mb-4">Документы<i @click="showUploadForm()" class="fe fe-plus text-success pl-3 pointer"></i></h4>
+                        <h4 class="text-center mb-4">
+                            <a href="#" @click.prevent="showUploadForm()"> Документы
+                                <i  class="fe fe-plus text-success pl-3 pointer"></i>
+                            </a>
+                        </h4>
                         <h5 v-for="documents in dataObject.attributes.documents">
                             <a class="text-muted mb-2" :href="siteURL + documents.path" download>{{ documents.name }}</a>
                         </h5
