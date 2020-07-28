@@ -125,6 +125,7 @@ class ContractController extends Controller
         $contract->price_title = $request['price_title'];
         $contract->category_time = $request['category_time'];
         $contract->contract_type = $request['contract_type'];
+        $contract->group_id = $request['group_id'];
 		$contract->save();
 
 
