@@ -75,6 +75,7 @@ class ContractController extends Controller
     	$base->child_middle_name = $request['child_middle_name'];
     	$base->child_birthday = $request['child_birthday'];
     	$base->group_id = $request['group_id'];
+    	$base->programm_id = $request['programm_id'];
     	$base->save();
 
 
@@ -125,7 +126,6 @@ class ContractController extends Controller
         $contract->price_title = $request['price_title'];
         $contract->category_time = $request['category_time'];
         $contract->contract_type = $request['contract_type'];
-        $contract->group_id = $request['group_id'];
 		$contract->save();
 
 

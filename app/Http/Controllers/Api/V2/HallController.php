@@ -9,6 +9,7 @@ use App\Http\Resources\HallsResource;
 use App\Http\Resources\HallResource;
 use App\Hall;
 use App\Log;
+use App\User;
 
 class HallController extends Controller
 {
@@ -18,11 +19,22 @@ class HallController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $halls = Hall::all();
+    public function index(){
 
-       return HallsResource::collection($halls);
+        $user = User::find(Auth::user()->id);
+
+        $collection = collect();
+
+        foreach ($user->branches as $branch) {
+            foreach ($branch->halls as $hall) {
+                $collection->push($hall);
+            }
+        }
+
+        return HallsResource::collection($collection->all());
+
+
+
     }
 
     /**

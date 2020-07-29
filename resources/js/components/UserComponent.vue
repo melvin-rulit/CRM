@@ -251,7 +251,10 @@
                         </select>
 
                         <h5 class="text-muted mb-2">Программа:
-                            <a v-show="!showProgramm" v-if="dataObject.programm" href="#" @click.prevent="editProgramm" class="text-dark">{{ dataObject.programm }}</a>
+<!--                            Возможность редактирования программы-->
+<!--                            <a v-show="!showProgramm" v-if="dataObject.programm" href="#" @click.prevent="editProgramm" class="text-dark">{{ dataObject.programm }}</a>-->
+                            <span v-show="!showProgramm" v-if="dataObject.programm" class="text-dark">{{ dataObject.programm }}</span>
+
                             <a v-show="showProgramm" href="#" @click.prevent="editProgramm">{{dataObject.programm.name}} {{dataObject.programm.name}}</a>
                         </h5>
                         <select v-show="showProgramm" @change="saveProgramm" class="form-control" v-model="dataObject.programms">
@@ -260,6 +263,10 @@
 
                         <h5 class="text-muted mb-2">Группа:
                             <span v-if="dataObject.attributes.group" class="text-dark">{{dataObject.attributes.group.name}}</span>
+                            <span
+                                v-if="dataObject.attributes.schedule_hall"
+                                v-for="schedule_hall in dataObject.attributes.schedule_hall"
+                                class="text-dark">( {{ getWeekDay(schedule_hall.day) }} - {{ schedule_hall.time }}:00 )</span>
                         </h5>
 
                         <h6 class="text-uppercase text-muted mb-2 mt-4">
@@ -931,6 +938,12 @@ Vue.use(Loading);
           },
 
         methods: {
+
+            // Получаем сокращеное название дня по дате
+            getWeekDay(day) {
+                var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+                return days[day];
+            },
 
             sendLpr(id, lpr){
                 axios.post( '/api/v2/updateLpr/', {id: id, lpr: lpr})

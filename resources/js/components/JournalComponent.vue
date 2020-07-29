@@ -27,7 +27,7 @@
         </div>
 
         <!-- Добавление новой группы -->
-        <b-modal id="settingsGroup" centered ok-only @hidden="resetSettingsGroup" @ok="OkSettingsGroup">
+        <b-modal id="settingsGroup" title="Добавление новой группы" centered ok-only @hidden="resetSettingsGroup" @ok="OkSettingsGroup">
             <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
                 <b-form-group
                     :state="nameState"
@@ -70,7 +70,7 @@
 
 
         <!-- Редактирование группы -->
-        <b-modal id="editGroup" centered ok-only ok-title="Сохранить" @hidden="resetEditGroup" @ok="OkEditGroup">
+        <b-modal id="editGroup" title="Редактирование группы" centered ok-only ok-title="Сохранить" @hidden="resetEditGroup" @ok="OkEditGroup">
             <b-form-group
                 label-cols-sm="4"
                 label-cols-lg="4"

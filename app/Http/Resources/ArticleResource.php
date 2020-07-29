@@ -81,6 +81,7 @@ class ArticleResource extends JsonResource
 
                 'documents' => $this->documents,
                 'group' => $this->group,
+                'schedule_hall' => $this->group ? $this->group->schedule_hall : null,
 
                 'lpr' => ($this->mother_lpr) ? 'mother_lpr' : (($this->father_lpr) ? 'father_lpr' : 'other_relative_lpr'),
 

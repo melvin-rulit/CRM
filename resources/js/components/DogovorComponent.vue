@@ -589,6 +589,7 @@ Vue.use(VueHtmlToPaper, options);
                   freezing_kolvo: this.product.freezing_kolvo,
                   pays: this.pays.pays,
                   programm: this.programm.name,
+                  programm_id: this.programm.id,
                   currency: this.dataVm.branch.currency,
                   adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
                   price_title: this.product.price_title,
