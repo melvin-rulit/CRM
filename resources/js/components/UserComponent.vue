@@ -1102,9 +1102,11 @@ Vue.use(Loading);
 
                 // Если мы меняем значение день рождения. то перезагружаем всю карточку, заебали ныть
                 if(key == 'child_birthday'){
-                    axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
-                        this.dataObject = response.data.data
-                    })
+                    setTimeout(() => {
+                        axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
+                            this.dataObject = response.data.data
+                        })
+                    },100)
                 }
             },
             closeModal(){
