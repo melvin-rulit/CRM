@@ -1,7 +1,12 @@
 
 <template>
 <div>
-<!--    999-->
+
+    <vue-headful
+        title="Title from vue-headful"
+        description="Description from vue-headful"
+    />
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card mb-2">
@@ -216,13 +221,21 @@
                         </h4>
 <!--                        <p data-toggle="tooltip" title="День рождения" class="card-text">-->
                         <p>
+<!--                            <input-form-->
+<!--                                v-model="dataObject.attributes.child_birthday"-->
+<!--                                name="child_birthday"-->
+<!--                                placeholder="12.05.1988"-->
+<!--                                v-mask="'##.##.####'"-->
+<!--                                @edit-field="editField">-->
+<!--                            </input-form>-->
+
                             <input-form
                                 v-model="dataObject.attributes.child_birthday"
                                 name="child_birthday"
-                                placeholder="12.05.1988"
-                                v-mask="'##.##.####'"
+                                datePicker="true"
                                 @edit-field="editField">
                             </input-form>
+
                             <span>({{ dataObject.attributes.age }} лет)</span>
                         </p>
                         <h5>Старый ID: <span class="pointer">
@@ -826,6 +839,9 @@
 
 import Vue from "vue";
 
+import vueHeadful from 'vue-headful';
+Vue.component('vue-headful', vueHeadful);
+
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });
@@ -1095,20 +1111,36 @@ Vue.use(Loading);
                 this.showProgramm = false
                 this.dataObject.programm = this.dataObject.programms.name
             },
-            editField(e, name) {
-                const value = e.target.value;
-                const key = e.currentTarget.getAttribute('name');
-                axios.post(this.postURL, { user_id: this.dataObject.id, field_name: name ? name : key, field_value: value })
+            editField(e, name, type) {
 
-                // Если мы меняем значение день рождения. то перезагружаем всю карточку, заебали ныть
-                if(key == 'child_birthday'){
-                    setTimeout(() => {
-                        axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
-                            this.dataObject = response.data.data
-                        })
-                    },100)
+                if (type){
+                    axios.post(this.postURL, {user_id: this.dataObject.id, field_name: name, field_value: e })
+
+                    // Если мы меняем значение день рождения. то перезагружаем всю карточку, заебали ныть
+                    if(name == 'child_birthday'){
+                        setTimeout(() => {
+                            axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
+                                this.dataObject = response.data.data
+                            })
+                        },100)
+                    }
+                }else{
+                    const value = e.target.value;
+                    const key = e.currentTarget.getAttribute('name');
+                    axios.post(this.postURL, { user_id: this.dataObject.id, field_name: name ? name : key, field_value: value })
                 }
             },
+
+            // editField(e, name, type) {
+            //     if (type){
+            //         axios.put('api/v2/users/' + this.user.id, {field_name: name, field_value: e })
+            //     }else{
+            //         const value = e.target.value;
+            //         const key = e.currentTarget.getAttribute('name');
+            //         axios.put('api/v2/users/' + this.user.id, {field_name: key, field_value: value })
+            //     }
+            // },
+
             closeModal(){
                 // $('#addNew').modal('hide');
                 // $('#selectModal').modal('show');

@@ -29,7 +29,7 @@ class GetUser extends JsonResource
             'instagram'     => $this->instagram,
             'branch'        => $this->branches->map->only('id', 'name'),
             'role'          => $this->roles->map->only('id', 'title'),
-            'updated_at'    => Carbon::parse($this->updated_at)->translatedFormat('Y.m.d H:m:s'),
+            'updated_at'    => Carbon::parse($this->updated_at)->translatedFormat('d.m.Y H:m:s'),
         ];
     }
 }

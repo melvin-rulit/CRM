@@ -1,6 +1,11 @@
 <template>
 	<div>
 
+        <vue-headful
+            :title="'ЗАЯВА №' +  user_id "
+            description="Description from vue-headful"
+        />
+
 <!-- Модальное окно с выбором контрактом -->
 <b-modal id="selectModal" centered hide-footer @hidden="resetSettingsGroup" title="Выберите контракт">
             <div class="row modal-body pb-5 pt-2 px-0">
@@ -28,6 +33,7 @@
 <!--                         <td class="tdright">{{ dataVm.date }} рік</td> -->
                     <date-picker
                           v-if="!printvm"
+                          :lang="lang"
                           v-model="dataVm.date"
                           :editable="false"
                           value-type="DD.MM.YYYY"
@@ -160,6 +166,7 @@
                             <h1>ЗАЯВА № {{ user_id }} від «
                                 <date-picker
                                     v-if="!print"
+                                    :lang="lang"
                                     v-model="dataVm.date"
                                     :editable="false"
                                     value-type="DD.MM.YYYY"
@@ -189,6 +196,7 @@
                                     <td>
                                         <date-picker
                                             v-if="!print"
+                                            :lang="lang"
                                             v-model="dataVm.child_birthday"
                                             :editable="false"
                                             value-type="DD.MM.YYYY"
@@ -253,17 +261,12 @@
                             ></b-form-select>
 
                             <span v-if="!print">выберите группу</span>
+
                             <select class="form-control" v-if="shedule_hall && !print" v-model="shedule">
-                                <option
-                                    v-bind:value="t.id" v-for="t in shedule_hall" :key="t.id">{{ t.name }}
-                                    <span v-for="sp in t.hall"> - ( {{ getWeekDay(sp.day - 1) }} - {{ sp.time }}:00 )</span>
-                                </option>
-                                </option>
+                                <option :value="item" v-for="item in shedule_hall">{{ item.name }} - ({{ select_schedule(item.hall) }})</option>
                             </select>
 
-                            <span v-if="print" v-for="t in shedule_hall" :key="t.id">
-                                {{ t.name }}<span v-for="sp in t.hall"> - ( {{ getWeekDay(sp.day - 1) }} - {{ sp.time }}:00 )</span>
-                            </span>
+                                <span v-if="shedule && print">{{ shedule.name }} - {{ select_schedule(shedule.hall) }}</span>
 
                             <br>
                             <hr>
@@ -271,7 +274,7 @@
                                 <tr>
                                     <td class="gray" width="25%">Дата початку договору</td>
                                     <td width="25%">
-                                        <date-picker v-if="!print" v-model="dataVm.end_actualy" :editable="false" value-type="YYYY-MM-DD" format="DD.MM.YYYY"></date-picker>
+                                        <date-picker v-if="!print" :lang="lang" v-model="dataVm.end_actualy" :editable="false" value-type="YYYY-MM-DD" format="DD.MM.YYYY"></date-picker>
                                         <span v-if="print">{{ dataVm.end_actualy }}</span>
                                     </td>
                                     <td class="gray" width="25%">Дата закінчення договору</td>
@@ -428,6 +431,13 @@ Vue.use(VueHtmlToPaper, options);
                   {time: '20:00'},
                   {time: '21:00'},
               ],
+                lang: {
+                    formatLocale: {
+                        firstDayOfWeek: 1,
+                        weekdaysMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                        monthsShort: ['Янв', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                    },
+                },
                 halls: [],
                 shedule_hall: [],
                 contracts_vm: 'Відкрий можливості',
@@ -448,10 +458,10 @@ Vue.use(VueHtmlToPaper, options);
         },
         methods: {
 
-            // Получаем сокращеное название дня по дате
-            getWeekDay(day) {
+            // Получаем сокращеное название дня по дате и формируем селект
+            select_schedule(items) {
                 var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-                return days[day];
+                return items.map(x => ` ${days[x.day - 1]} - ${x.time}:00 `).join(', ' )
             },
 
             getGroup(){
@@ -594,7 +604,7 @@ Vue.use(VueHtmlToPaper, options);
                   adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
                   price_title: this.product.price_title,
                   category_time: this.product.category_time,
-                  group_id: this.shedule,
+                  group_id: this.shedule.id,
 
                 })
                 this.print = true

@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UsersAllResource;
 use App\Http\Resources\GetUser;
 use App\Http\Resources\GetBranchAndRolesUser;
+use App\Http\Resources\UserHistory;
 use App\User;
+use App\Log;
 
 
 class UserController extends Controller
@@ -30,7 +32,7 @@ class UserController extends Controller
             }
         }
         //Отсортировать коллекцию на дубли
-        return UsersAllResource::collection($collection->all());
+        return UsersAllResource::collection($collection->unique('id'));
     }
 
     /**
@@ -43,6 +45,18 @@ class UserController extends Controller
         $user = User::find(Auth::user()->id);
 
         return new GetBranchAndRolesUser($user);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function history(Request $request)
+    {
+        $history = Log::where('user_id', $request->user_id)->get();
+
+        return UserHistory::collection($history);
     }
 
     /**

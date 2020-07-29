@@ -42,6 +42,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // Users
     Route::apiResource('users', 'UserController');
     Route::get('getatributes', 'UserController@getAtributes');
+    Route::post('history', 'UserController@history');
 
     Route::post('gettest', 'BaseController@getTest');
     Route::post('savetest', 'BaseController@saveTest');
