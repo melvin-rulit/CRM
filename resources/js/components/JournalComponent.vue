@@ -765,7 +765,7 @@
                 if (this.halls) {
                     setTimeout(() => {
                         this.halls ? this.getHallAtributes(this.halls[0].id, this.calendar) : null;
-                    },500)
+                    },600)
                 }
 
             },

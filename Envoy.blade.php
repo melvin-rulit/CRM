@@ -84,12 +84,19 @@
 	echo "#5 - Symlink has been set"
 @endtask
 
+@task('npm')
+    echo "#6 - Start npm section"
+
+    echo "#6 - End npm section"
+@endtask
+
 @macro('deploy', ['on' => 'production'])
 	clone
 	composer
 	artisan
 	chmod
 	update_symlinks
+    npm
 @endmacro
 
 
