@@ -1,5 +1,8 @@
 <template>
     <div>
+        Year: {{year}}
+        Month: {{month}}
+        Day: {{row}}
         <vue-context ref="menu">
             <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
             <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
@@ -656,6 +659,10 @@
              */
             freezing () {
                 var D = new Date();
+                alert(this.row)
+                alert(D.getDate())
+                alert(this.month)
+                alert(D.getMonth() + 1)
 
                 this.row >= D.getDate() && this.month >= D.getMonth() + 1 ?
                     axios.post('api/v2/freezing' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })

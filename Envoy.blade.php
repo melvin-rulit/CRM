@@ -22,7 +22,7 @@
 
 @endsetup
 
-@servers(['production' => 'root@83.220.172.19'])
+@servers(['production' => 'root@62.109.26.106'])
 
 	@task('clone', ['on' => $on])
 	mkdir -p {{ $release }}
@@ -86,7 +86,8 @@
 
 @task('npm')
     echo "#6 - Start npm section"
-
+        cd {{ $release }}
+        npm run prod
     echo "#6 - End npm section"
 @endtask
 
