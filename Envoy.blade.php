@@ -86,8 +86,7 @@
 
 @task('npm')
     echo "#6 - Start npm section"
-        cd {{ $release }}
-        npm run prod
+
     echo "#6 - End npm section"
 @endtask
 
