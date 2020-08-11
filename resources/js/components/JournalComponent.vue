@@ -7,6 +7,7 @@
             <li><a href="#" @click.prevent="notVisit()"><i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a></li>
             <li><a href="#" @click.prevent="newWorkout()"><i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Тренировка</a></li>
             <li><a href="#" v-b-modal="'addNewCommentGetModal'"><i class="fe fe-message-circle text-primary ml-1 mr-3"></i>Комментарий</a></li>
+            <li><a href="#" v-b-modal="'showHistory'" @click.prevent="getHistory()"><i class="fe fe-menu text-primary ml-1 mr-3"></i>Смотреть историю</a></li>
         </vue-context>
 
         <div class="row flex-nowrap halls">
@@ -145,6 +146,15 @@
                     <b-form-textarea id="textarea" v-model="newComment"></b-form-textarea>
                 </b-form-group>
             </form>
+        </b-modal>
+
+        <!-- Окно просмотра истории -->
+        <b-modal id="showHistory" title="История" centered hide-footer>
+            <div class="card-body">
+                <p v-if="comments" v-for="comment in comments" :key="comment.id" class="mb-2">
+                    {{ comment.date }} - {{ comment.user }} - {{ comment.comment }}
+                </p>
+            </div>
         </b-modal>
 
         <b-modal id="modal-xl" hide-footer @hidden="resetModalXl">
@@ -434,6 +444,7 @@
                 editGroupModelArray: [],
                 selectDayInModalXl: '',
                 active: null,
+                comments: null,
             }
         },
 
@@ -490,6 +501,10 @@
         },
 
         methods: {
+
+            getHistory(){
+                axios.post('api/v2/showHistory', {base_id: this.rowid}).then(response => this.comments = response.data.data)
+            },
 
             // Получаем сокращеное название дня по дате
             getWeekDay(day) {
@@ -656,12 +671,6 @@
                 Списания заморозки
              */
             freezing () {
-                var D = new Date();
-                alert(this.row)
-                alert(D.getDate())
-                alert(this.month)
-                alert(D.getMonth() + 1)
-
                 this.row >= D.getDate() && this.month >= D.getMonth() + 1 ?
                     axios.post('api/v2/freezing' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
                         .then((response) => {

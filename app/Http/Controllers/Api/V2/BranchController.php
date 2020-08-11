@@ -44,8 +44,8 @@ class BranchController extends Controller
 
         Log::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'добавил филиал '.$branch->id)
         );
 
@@ -55,13 +55,31 @@ class BranchController extends Controller
     }
 
 
+//    public function show(Branch $branch)
+//    {
+//
+//        return (new BranchResource($branch->load(['products.pays','programms','dopproducts', 'halls'])))
+//                ->response()
+//                ->setStatusCode(Response::HTTP_CREATED);
+//    }
+
+
+
     public function show(Branch $branch)
     {
-
-        return (new BranchResource($branch->load(['products.pays','programms','dopproducts', 'halls'])))
-                ->response()
-                ->setStatusCode(Response::HTTP_CREATED);
-    }
+        $branch->load([
+            'products' => function($query){
+                $query->orderBy('date_end');
+            },
+            'products.pays',
+            'programms',
+            'dopproducts',
+            'halls'
+        ]);
+    return (new BranchResource($branch))
+        ->response()
+        ->setStatusCode(Response::HTTP_CREATED);
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -82,8 +100,8 @@ class BranchController extends Controller
 
         Log::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'изменил поле '.$request['field_name'].' филиала '.$branch->id.' на '.$request['field_value'])
         );
     }
@@ -100,8 +118,8 @@ class BranchController extends Controller
 
         Log::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'удалил филиал '.$branch->id)
         );
     }

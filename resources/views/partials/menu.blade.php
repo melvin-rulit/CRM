@@ -18,7 +18,7 @@
               <div class="dropup">
                 <a href="#" id="sidebarIconCopy" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="avatar avatar-xl avatar-online">
-                    <img src="http://83.220.172.19/images/photo_LI.jpg
+                    <img src="http://62.109.26.106//images/photo_LI.jpg
                     " class="avatar-img rounded-circle" alt="...">
                   </div>
                 </a>
@@ -86,7 +86,7 @@
                   <a class="nav-link" href="/">
                     <i class="fe fe-git-branch"></i>{{ trans('cruds.menu.home') }}
                   </a>
-                </li>  
+                </li>
                 <li class="nav-item">
                       @can('user_management_access')
                                         @can('role_access')
@@ -223,19 +223,19 @@
               </ul>
               <div class="mt-auto"></div>
 
-            </div> 
+            </div>
 
           </div>
         </nav>
-      
+
 
         <nav class="navbar navbar-vertical navbar-vertical-sm fixed-left navbar-expand-md " id="sidebarSmall">
           <div class="container-fluid">
           </div>
         </nav>
-      
-    
-    
+
+
+
       <nav class="navbar navbar-expand-lg " id="topnav">
         <div class="container">
 
@@ -264,7 +264,7 @@
                 <div class="card-header">
                   <div class="row align-items-center">
                     <div class="col">
-                
+
                       <!-- Title -->
                       <h5 class="card-header-title">
                         Уведомления
@@ -272,7 +272,7 @@
 
                     </div>
                     <div class="col-auto">
-                
+
 
                       <a href="#!" class="small">
                         Посмотреть все
@@ -284,10 +284,10 @@
                 <div class="card-body">
                   <div class="list-group list-group-flush my-n3">
                     <a class="list-group-item text-reset px-0" href="#!">
-              
+
                       <div class="row">
                         <div class="col-auto">
-                    
+
                           <div class="avatar avatar-sm">
                             <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" alt="..." class="avatar-img rounded-circle">
                           </div>

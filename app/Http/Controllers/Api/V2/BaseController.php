@@ -12,6 +12,7 @@ use App\Http\Resources\AddChildrenGroupResource;
 use App\Http\Resources\GetUserInGroupResource;
 use App\Http\Resources\HallResource;
 use App\Http\Resources\Schedule_hallResource;
+use App\Http\Resources\BaseComments;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Filters\UsersFilter;
@@ -393,6 +394,14 @@ class BaseController extends Controller
             'name'   => $request->name,
             '$path'   => $path,
         ]);
+    }
+
+
+    public function showHistory(Request $request){
+
+        $comments = Comments::where('base_id', $request->base_id)->get();
+
+        return BaseComments::collection($comments);
     }
 
 

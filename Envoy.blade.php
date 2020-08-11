@@ -88,7 +88,7 @@
     echo "#6 - Start npm section"
         cd {{ $release }}
         npm install -D babel-loader @babel/core @babel/preset-env webpack
-        npm run dev
+        npm run production
     echo "#6 - End npm section"
 @endtask
 

@@ -160,7 +160,7 @@
                             <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                         </button>
                     </div>
-                    <div class="modal-body modal-lg" id="printmain">
+                    <div class="modal-body modal-lg pt-0" id="printmain">
                         <div class="Section1">
                             <img src="http://185.146.156.207/logo.png" class="logo">
                             <h1>ЗАЯВА № {{ user_id }} від «
@@ -269,7 +269,6 @@
                                 <span v-if="shedule && print">{{ shedule.name }} - {{ select_schedule(shedule.hall) }}</span>
 
                             <br>
-                            <hr>
                             <table class="tabs">
                                 <tr>
                                     <td class="gray" width="25%">Дата початку договору</td>
@@ -295,12 +294,34 @@
                             </table>
                             Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
                             <br>Графік оплати:<br>
-                            <table width="100%">
-                                <tr v-if="pays" v-for="(time, index) in pays.pays">
-                                    <td>{{time.pay}} {{ dataVm.branch.currency }}. до {{ reversedMessage(time.day) }}</td>
-                                </tr>
-                            </table>
+                            <div class="mt-2 mb-2">
+                            <span v-if="pays" v-for="(time, index) in pays.pays">
+                                <strong>{{(index+1)}}.</strong>{{time.pay}} {{ dataVm.branch.currency }}. до {{ reversedMessage(time.day) }}  |                             </span>
+                            </div>
                             <table>
+
+
+
+<!--                                <table width="100%">-->
+<!--                                    <tr>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                        <td>2000 грн. до 30.05.2020</td>-->
+<!--                                    </tr>-->
+<!--                                </table>-->
+
+
+
                                 <tr>
                                     <td>Кількість акційних заморозок (<span v-if="product">{{product.freezing_total}}</span>)</td>
                                     <td>Включаються заморозки по: (<span v-if="product">{{product.freezing_kolvo}}</span>) тренування</td>

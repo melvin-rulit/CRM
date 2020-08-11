@@ -182,7 +182,7 @@
                                 </tr>
                             </thead>
                             <tbody v-for="(product, int) in branch.products">
-                                <tr>
+                                <tr :class="{'bg-light text-muted' : product.product_active}">
                                     <td>
                                         <input-form
                                             v-model="product.name"
@@ -332,6 +332,14 @@
                                                             @edit-field="editField">
                                                         </input-form>
                                                     </p>
+<!--                                                    <p>Программа :-->
+<!--                                                        <select v-model="product.freezing_kolvo" @change="editProduct(product.id, product.freezing_kolvo)">-->
+<!--                                                            <option>0</option>-->
+<!--                                                            <option>1</option>-->
+<!--                                                            <option>2</option>-->
+<!--                                                            <option>3</option>-->
+<!--                                                        </select>-->
+<!--                                                    </p>-->
                                                 </div>
                                             </div>
                                         </div>
