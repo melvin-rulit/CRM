@@ -21,7 +21,7 @@
 
                     <template v-slot:cell(network)="row">
                         <td>
-                            <span class="text-success">●</span>
+                            <span v-if="row.item.online" class="text-success">●</span>
                         </td>
                     </template>
 

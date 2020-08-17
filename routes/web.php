@@ -2,7 +2,7 @@
 
 Route::redirect('/', '/login');
 // Route::get('/home', function () {
-//     $routeName = auth()->user() && (auth()->user()->is_student || auth()->user()->is_teacher) ? 'admin.calendar.index' : 'admin.home'; 
+//     $routeName = auth()->user() && (auth()->user()->is_student || auth()->user()->is_teacher) ? 'admin.calendar.index' : 'admin.home';
 //     if (session('status')) {
 //         return redirect()->route($routeName)->with('status', session('status'));
 //     }
@@ -19,8 +19,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::get('base', 'PagesController@vue');
     Route::get('journal', 'PagesController@journal');
     Route::get('permissions', 'PagesController@permissions');
-    Route::get('product', 'ProductController@index');  // Удалить
-    Route::get('products', 'ProductController@index'); // Удалить
+    Route::get('users', 'PagesController@users');
     Route::get('page-region', 'PagesController@regions');
     Route::get('get', 'VueController@get');
     Route::get('get_email', 'VueController@getEmail');
@@ -36,8 +35,8 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::resource('roles', 'RolesController');
 
     // Users
-    Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
-    Route::resource('users', 'UsersController');
+//    Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
+//    Route::resource('users', 'UsersController');
 
     // Lessons
     Route::delete('lessons/destroy', 'LessonsController@massDestroy')->name('lessons.massDestroy');

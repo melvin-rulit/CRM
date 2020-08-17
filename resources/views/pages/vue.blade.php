@@ -3,8 +3,7 @@
 
 <div id="app">
 
-<user-component :adduser="{{Gate::check('user_create')}}"></user-component>
-<!-- <example-component></example-component> -->
+<base-component :adduser="{{Gate::check('user_create')}}"></base-component>
 
 
 </div>

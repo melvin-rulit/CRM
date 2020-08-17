@@ -118,29 +118,13 @@
                                         @endcan
                                         @can('user_access')
                                             <li class="nav-item">
-                                                <a href="{{ route("admin.users.index") }}" class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
+                                                <a href="/users" class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
                                                     <i class="fe fe-user">
 
                                                     </i>
                                                     {{ trans('cruds.menu.users') }}
                                                 </a>
                                             </li>
-<!--                                             <li class="nav-item">
-                                                <a href="{{ route("admin.users.index") }}?role=3" class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
-                                                    <i class="fe fe-git-branch">
-
-                                                    </i>
-                                                    Учителя
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route("admin.users.index") }}?role=4" class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
-                                                    <i class="fe fe-git-branch">
-
-                                                    </i>
-                                                    Студенты
-                                                </a>
-                                            </li> -->
                                         @endcan
                                 </li>
                             @endcan

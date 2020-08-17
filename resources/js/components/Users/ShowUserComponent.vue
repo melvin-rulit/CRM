@@ -5,18 +5,19 @@
 <!--                <div class="row card">-->
 <!--                    <a href="#" class="m-2"><i class="fe fe-arrow-left h3 text-danger pr-3"></i>Назад</a>-->
 <!--                </div>-->
-                <b-table v-if="user_history"
-                         :sort-by.sync="sortBy"
-                         :sort-desc.sync="sortDesc"
-                         sticky-header="700px"
-                         hover
-                         :items="user_history"
-                         :fields="fields">
-                </b-table>
+<!--                <b-table v-if="user_history"-->
+<!--                         :sort-by.sync="sortBy"-->
+<!--                         :sort-desc.sync="sortDesc"-->
+<!--                         sticky-header="700px"-->
+<!--                         hover-->
+<!--                         :items="user_history"-->
+<!--                         :fields="fields">-->
+<!--                </b-table>-->
                 <div class="row no-gutters">
                     <div class="col-md-4">
                         <div class="py-2">
                             <b-img
+                                @click="editAvatar"
                                 center
                                 thumbnail
                                 fluid
@@ -27,8 +28,8 @@
                         </div>
                         <b-button block squared class="mt-3">Информация</b-button>
                         <b-button block squared disabled variant="outline-secondary">Карьера</b-button>
-                        <b-button @click="history" block squared variant="outline-secondary">История действий</b-button>
-                        <b-button block squared variant="danger">Удалить</b-button>
+                        <b-button @click="history" disabled block squared variant="outline-secondary">История действий</b-button>
+                        <b-button block squared variant="danger" @click="deleteuser">Удалить</b-button>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body py-2">
@@ -119,7 +120,8 @@
                                 </tr>
                                 <tr>
                                     <td>Роль</td>
-                                    <td><span v-for="item in user.role" class="badge badge-info mr-2">
+                                    <td @click="editRole">
+                                        <span v-for="item in user.role" class="badge badge-info mr-2">
                                         {{item.title}}
                                     </span>
                                     </td>
@@ -128,17 +130,21 @@
                                     <td>Последнее изменение</td>
                                     <td>{{ user.updated_at }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Последний раз в сети</td>
+                                    <td>{{ user.last_online_at }}</td>
+                                </tr>
                                 </tbody>
                             </table>
-                            <multiselect
-                                v-model="user.branch"
-                                placeholder="Выберите филиал"
-                                label="name"
-                                track-by="id"
-                                :options="items"
-                                :multiple="true"
-                                :taggable="true">
-                            </multiselect>
+<!--                            <multiselect-->
+<!--                                v-model="user.branch"-->
+<!--                                placeholder="Выберите филиал"-->
+<!--                                label="name"-->
+<!--                                track-by="id"-->
+<!--                                :options="items"-->
+<!--                                :multiple="true"-->
+<!--                                :taggable="true">-->
+<!--                            </multiselect>-->
                         </div>
                     </div>
                 </div>
@@ -203,8 +209,21 @@
             },
 
             editBranch() {
-                alert("OK");
+                alert("Изменение филиалов временно не доступно");
             },
+
+            editRole() {
+                alert("Изменение ролей временно не доступно");
+            },
+
+            editAvatar() {
+                alert("Изменение аватара временно не доступно");
+            },
+
+            deleteuser() {
+                alert("Удаление сотрудника временно ограниченно");
+            },
+
 
             history(){
                 axios.post('api/v2/history/' ,{ user_id: this.user.id })

@@ -15,6 +15,8 @@ class User extends Authenticatable
 {
     use SoftDeletes, Notifiable, HasApiTokens;
 
+    protected $casts = ["last_online_at" => "datetime"];
+
     public $table = 'users';
 
     protected $hidden = [

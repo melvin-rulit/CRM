@@ -41,12 +41,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 //Users
-Vue.component('users2-component', require('./components/Users/UsersComponent.vue').default);
+Vue.component('users-component', require('./components/Users/UsersComponent.vue').default);
 Vue.component('addnewuser-component', require('./components/Users/AddNewUserComponent.vue').default);
 Vue.component('showuser-component', require('./components/Users/ShowUserComponent.vue').default);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('user-component', require('./components/UserComponent.vue').default);
+Vue.component('base-component', require('./components/BaseComponent.vue').default);
+Vue.component('base-modal-component', require('./components/BaseModal.vue').default);
 Vue.component('dogovor-component', require('./components/DogovorComponent.vue').default);
 Vue.component('show-dogovor-component', require('./components/ShowDogovorComponent.vue').default);
 Vue.component('product-component', require('./components/ProductComponent.vue').default);

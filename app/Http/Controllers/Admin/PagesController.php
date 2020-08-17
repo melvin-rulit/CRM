@@ -38,11 +38,9 @@ class PagesController extends Controller
         return view('pages.permissions');
     }
 
-    public function product(){
+    public function users(){
 
-        // Log::create(array('user_id' => Auth::id(), 'level_name' => 'success', 'message' => 'Добавлен новый регион'));
-        return view('pages.product');
-
+        return view('pages.users');
     }
 
     public function regions(){

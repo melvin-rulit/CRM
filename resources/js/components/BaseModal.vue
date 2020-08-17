@@ -1,179 +1,5 @@
-
 <template>
     <div>
-
-        <vue-headful
-            title="Title from vue-headful"
-            description="Description from vue-headful"
-        />
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card mb-2">
-                    <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col">
-                            </div>
-                            <div class="col-auto">
-                                <a v-if="adduser" class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches() , getUsers()" data-target="#addNewUser">Добавить клиента</a>
-                                <button class="btn btn-sm btn-info" @click="showCollapse(), filter = !filter">Фильтр</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Фильтр -->
-        <div class="collapse" id="filter">
-            <div class="card card-body">
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <form class="d-flex justify-content-around">
-                            <div class="filter">
-                                <input v-model="surname" class="form-control" placeholder="Фамилия">
-                            </div>
-                            <div class="filter">
-                                <input v-model="name" class="form-control" placeholder="Имя">
-                            </div>
-                            <div class="filter">
-                                <select class="form-control" v-model="birthday" >
-                                    <option v-for="(curr, index) in new Date().getFullYear()" v-if="index + 1 >= 1980">{{ curr }}</option>
-                                </select>
-                            </div>
-                            <div class="submit">
-                                <button type="submit" @click.prevent="fetch" class="btn btn-success" :disabled="busy">
-                                    <i v-if="busy" class="fa fa-spin fa-spinner"></i>
-                                    Фильтр
-                                </button>
-                            </div>
-                            <div class="submit">
-                                <button type="submit" @click.prevent="resetFilter()" class="btn btn-primary" :disabled="busy">
-                                    Сброс
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Модальное окно с добавление нового клиента -->
-        <div class="modal fade" id="addNewUser" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового клиента</h4>
-                        <button type="button" @click="cancelAddNewUser" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form @submit.prevent="addNewUser">
-                            <div class="form-group row" :class="{ 'form-group--error': $v.new_child_surname.$error }">
-                                <label class="col-sm-3 col-form-label required">Фамилия</label>
-                                <div class="col-sm-9">
-                                    <input v-model.trim="$v.new_child_surname.$model" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row" :class="{ 'form-group--error': $v.new_child_name.$error }">
-                                <label class="col-sm-3 col-form-label required">Имя</label>
-                                <div class="col-sm-9">
-                                    <input v-model.trim="$v.new_child_name.$model" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Отчество</label>
-                                <div class="col-sm-9">
-                                    <input v-model.trim="new_child_middle_name" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label required">Филиал</label>
-                                <div class="col-sm-9">
-                                    <dynamic-select :options="branches.branches" option-value="id" option-text="name" placeholder="Введите для поиска" v-model="branch" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Менеджер</label>
-                                <div class="col-sm-9">
-                                    <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="manager" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Тренер</label>
-                                <div class="col-sm-9">
-                                    <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="instructor" />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button @click="cancelAddNewUser" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                                <button type="submit" class="btn btn-success">Добавить</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <dogovor-component :user_id="dataObject.id"></dogovor-component>
-        <show-dogovor-component ref="showmodal"></show-dogovor-component>
-
-        <!-- Табы основного интерфейса -->
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false">Все</a>
-            </li>
-            <li class="nav-item">
-                <a v-on:click="contact()" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Текущие</a>
-            </li>
-            <li class="nav-item">
-                <a v-on:click="profile()" class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">В работе</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Продления</a>
-            </li>
-        </ul>
-
-        <!-- Список клиентов -->
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab"></div>
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="card">
-                    <div class="card-body pb-0">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-                                <th>Фамилия</th>
-                                <th>Имя</th>
-                                <th>Отчество</th>
-                                <th>Возраст</th>
-                                <th class="text-center">?</th>
-                            </tr>
-                            </thead>
-                        </table>
-
-                        <div class="table-responsive tbl-content">
-                            <table class="table table-bordered table-hover datatable datatable-User table-collection">
-                                <tbody v-for="article in articles">
-                                <!--                            <tr data-toggle="modal" data-target="#addNew" @click="getModal(article.id)">-->
-                                <tr @click="getModal(article.id)">
-                                    <td>{{ article.child_surname }}</td>
-                                    <td>{{ article.child_name }}</td>
-                                    <td>{{ article.child_middle_name }}</td>
-                                    <td>{{ article.age }} лет</td>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"></div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"></div>
-        </div>
 
         <!-- Модальное окно карточки клиента -->
         <b-modal id="userShow" centered hide-footer size="lg" title="Карточка клиента" @hidden="closeUserModal">
@@ -832,6 +658,8 @@
             </b-tabs>
         </b-modal>
 
+        <dogovor-component :user_id="dataObject.id"></dogovor-component>
+        <show-dogovor-component ref="showmodal"></show-dogovor-component>
     </div>
 </template>
 
@@ -872,7 +700,7 @@
 
     export default {
         props: {
-            adduser: {
+            user_id: {
                 type: String,
             },
         },
@@ -937,7 +765,10 @@
             }
         },
         created(){
-            this.fetchArticles();
+            // this.fetchArticles();
+            axios.post('api/v2/getinfo', {id : user_id}).then(response => {
+                this.dataObject = response.data.data
+            })
         },
         mounted(){
             $('#addNew').on('hide.bs.modal', () => this.closeModalView())
@@ -955,6 +786,12 @@
 
         methods: {
 
+            showModa(id){
+                this.$bvModal.show('userShow')
+                axios.post('api/v2/getinfo', {id : id}).then(response => {
+                    this.dataObject = response.data.data
+                })
+            },
             // Получаем сокращеное название дня по дате
             getWeekDay(day) {
                 var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
@@ -1039,9 +876,6 @@
                 this.birthday = null
                 this.fetchArticles()
             },
-            contact(){
-                this.fetchArticles();
-            },
             showContract(id){
                 this.$confirm("Показать контракт ?").then(() => {
                     $('#addNew').modal('hide')
@@ -1068,13 +902,6 @@
 
             },
 
-            profile(){
-                axios.
-                get('get_email')
-                    .then(response => this.users = response.data)
-                    .finally(() => console.log('Посты успешно загружены'));
-
-            },
             editBranch(){
                 this.showBranch = true
                 this.getBranches()
@@ -1146,6 +973,9 @@
                 // $('#selectModal').modal('show');
                 this.$bvModal.show('selectModal')
                 this.$bvModal.hide('userShow')
+            },
+            BaseModal(){
+                this.$bvModal.show('userShow')
             },
             addNewUser(){
                 this.$v.$touch()

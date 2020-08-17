@@ -1,6 +1,8 @@
 <template>
     <div>
 
+        <base-modal-component ref="showmoda"></base-modal-component>
+
         <vue-context ref="menu">
             <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
             <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
@@ -316,7 +318,7 @@
 
                                 <template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.group_id">
                                     <tr v-if="user.group_id == val.group_id" v-for="(user, index) in computedSelect">
-                                        <td class="pt-2 pb-2 col-3" :id="'tooltip-target-1' + user.id">
+                                        <td @click="BaseModal(user.id)" class="pt-2 pb-2 col-3" :id="'tooltip-target-1' + user.id">
                                             <span class="ml-3">{{ index + 1 }}.</span>
                                             <span class="ml-3">{{ user.surname }}</span>
                                             <span class="ml-1">{{ user.name }}</span>
@@ -501,6 +503,10 @@
         },
 
         methods: {
+
+            BaseModal(id){
+                this.$refs.showmoda.showModa(id)
+            },
 
             getHistory(){
                 axios.post('api/v2/showHistory', {base_id: this.rowid}).then(response => this.comments = response.data.data)

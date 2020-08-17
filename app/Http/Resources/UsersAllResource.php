@@ -3,6 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Auth;
+use Cache;
+
 
 class UsersAllResource extends JsonResource
 {
@@ -21,6 +24,7 @@ class UsersAllResource extends JsonResource
             'email'         => $this->email,
             'branches'      => $this->branches,
             'roles'         => $this->roles,
+            'online'        => Cache::has('user-is-online-' . $this->id),
         ];
     }
 }
