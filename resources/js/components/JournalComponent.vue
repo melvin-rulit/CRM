@@ -677,6 +677,7 @@
                 Списания заморозки
              */
             freezing () {
+                var D = new Date();
                 this.row >= D.getDate() && this.month >= D.getMonth() + 1 ?
                     axios.post('api/v2/freezing' , {base_id : this.rowid, day: this.row, month: this.month, year: this.year })
                         .then((response) => {

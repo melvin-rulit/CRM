@@ -211,11 +211,11 @@
                                 <tr>
                                     <td class="gray">Телефон Замовника</td>
                                     <td>
-                                        <input v-model="dataVm.parent_phone" class="line" placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'">
+                                        <input v-model="dataVm.parent_phone" class="line" v-mask="'+## (###) ###-##-##'">
                                     </td>
                                     <td class="gray">Viber/Telegram Замовника</td>
                                     <td>
-                                        <input v-model="dataVm.parent_viber" class="line" placeholder="+38 (926) 123-45-67" v-mask="'+## (###) ###-##-##'">
+                                        <input v-model="dataVm.parent_viber" class="line" v-mask="'+## (###) ###-##-##'">
                                     </td>
                                 </tr>
                                 <tr>

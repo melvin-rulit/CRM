@@ -43,7 +43,7 @@ export default {
   methods: {
     submit() {
       console.log('submit!')
-      this.$v.$touch()
+        this.$v.$touch()
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
         alert("BED");

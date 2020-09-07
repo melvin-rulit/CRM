@@ -39,6 +39,14 @@
                                 <input v-model="name" class="form-control" placeholder="Имя">
                             </div>
                             <div class="filter">
+                                <input
+                                    v-model="phone"
+                                    class="form-control"
+                                    placeholder="Телефон"
+                                    v-mask="'+## (###) ###-##-##'"
+                                >
+                            </div>
+                            <div class="filter">
                                 <select class="form-control" v-model="birthday" >
                                     <option v-for="(curr, index) in new Date().getFullYear()" v-if="index + 1 >= 1980">{{ curr }}</option>
                                 </select>
@@ -200,6 +208,7 @@
             return{
                 surname: null,
                 name:'',
+                phone:'',
                 birthday: null,
                 busy: false,
                 filter: false,
@@ -238,6 +247,7 @@
                         surname: this.surname,
                         name: this.name,
                         birthday: this.birthday,
+                        phone: this.phone,
                     }
                 })
                     .then(response => {
@@ -249,6 +259,7 @@
                 this.surname = null
                 this.name = null
                 this.birthday = null
+                this.phone = null
                 this.fetchArticles()
             },
 

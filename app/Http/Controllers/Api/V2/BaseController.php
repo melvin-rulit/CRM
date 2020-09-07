@@ -550,7 +550,6 @@ class BaseController extends Controller
     public function filter(Request $request, UsersFilter $filters)
     {
 
-
         $user = User::find(Auth::user()->id);
 
         $collection = collect();
@@ -564,6 +563,8 @@ class BaseController extends Controller
         // Исправить костыль с фильтром
 
         $users = Base::filter($filters)->get();
+
+        dd($filters);
 
 
         $collectionA = $users->keyBy('id');
