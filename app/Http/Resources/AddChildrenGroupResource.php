@@ -18,7 +18,7 @@ class AddChildrenGroupResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id'                => $this->id,
-            'child_surname'     => $this->child_surname,
+            'child_surname'     => $this->child_surname . ' ' . $this->child_name,
             'child_name'        => $this->child_name,
             'programm_id'       => $this->programm_id,
             'group_id'          => $this->group_id,
