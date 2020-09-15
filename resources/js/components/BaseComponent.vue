@@ -2,6 +2,7 @@
 <template>
     <div>
 
+
         <vue-headful
             title="Title from vue-headful"
         />

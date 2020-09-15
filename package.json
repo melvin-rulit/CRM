@@ -58,7 +58,7 @@
         "vue-spinkit": "^1.7.12",
         "vue-tabs-component": "^1.5.0",
         "vue-the-mask": "^0.11.1",
-        "vue-toast-notification": "^0.2.0",
+        "vue-toast-notification": "^0.5.0",
         "vue2-datepicker": "^3.6.1",
         "vue2-simplert-plugin": "^0.5.3",
         "vuelidate": "^0.7.5",

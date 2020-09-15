@@ -2,7 +2,6 @@
     <div>
         <div class="card">
             <div class="card-body pb-0">
-
                 <form @submit.prevent="send">
                 <div class="form-group">
                     <label class="required">Имя ребёнка</label>
@@ -10,8 +9,19 @@
                 </div>
                 <div class="form-group">
                     <label class="required">Телефон родителя</label>
-                    <input class="form__input" v-model="phone">
+                    <input class="form__input" v-mask="'+## (###) ###-##-##'" placeholder="+__ (___) ___ __ __" v-model="phone">
                 </div>
+                    <b-form-group label="Родственная связь">
+                        <b-form-radio-group
+                            v-model="selected"
+                            :options="options"
+                            name="radio-inline"
+                        ></b-form-radio-group>
+                    </b-form-group>
+                    <div class="form-group">
+                        <label class="required">Филиал</label>
+                        <input class="form__input" v-model="branch">
+                    </div>
                 <div class="form-group">
                     <label class="required">Дата</label>
                     <input class="form__input" type="date" min="2019-01-01" max="2030-01-01" v-model="date">
@@ -19,10 +29,6 @@
                 <div class="form-group">
                     <label class="required">Время</label>
                     <input class="form__input" type="time" min="00:01" max="23:59" v-model="time">
-                </div>
-                <div class="form-group">
-                    <label class="required">Филиал</label>
-                    <input class="form__input" v-model="branch">
                 </div>
                 <div class="form-group">
                     <label>Заметка</label>
@@ -39,17 +45,29 @@
 
 <script>
 
+    import VueToast from 'vue-toast-notification';
+    import 'vue-toast-notification/dist/theme-sugar.css';
+    Vue.use(VueToast);
+
     import Vuelidate from 'vuelidate'
     Vue.use(Vuelidate)
     import { required, minLength, between } from 'vuelidate/lib/validators'
+    import Vue from "vue";
 
     export default {
         data() {
             return {
+                selected: 'mother_lpr',
+                options: [
+                    { text: 'Мать', value: 'mother_lpr' },
+                    { text: 'Отец', value: 'father_lpr' },
+                    { text: 'Другой родственник', value: 'other_relative_lpr' }
+                ],
                 name: '',
                 age: 0,
                 child_name: '',
                 phone: '',
+                branch: '',
                 date: '',
                 time: '',
                 notes: '',
@@ -82,6 +100,7 @@
             },
 
             send(){
+                Vue.$toast.open({message: 'Нет занятий на этот день',type: 'info',duration: 5000,position: 'top-right'});
                 axios.post( '/api/v2/addClientFromPromoter/', {
                     child_name: this.child_name,
                     phone: this.phone,
@@ -89,6 +108,7 @@
                     time: this.time,
                     branch: this.branch,
                     notes: this.notes,
+                    lpr: this.selected,
                 })
             }
         },
@@ -96,10 +116,7 @@
 </script>
 
 
-<style>
-
-
-
+<style scoped>
 
     .form {
         position: relative; }
