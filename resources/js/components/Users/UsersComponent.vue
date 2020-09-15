@@ -7,18 +7,14 @@
         <div class="card">
             <div class="card-body pb-0">
                 <b-table
+                    hover
                     sticky-header="650px"
                     :items="users"
                     :fields="fields"
                     :sort-by.sync="sortBy"
                     :sort-desc.sync="sortDesc"
+                    @row-clicked="getShowModal"
                     head-variant="light">
-
-                    <template v-slot:cell(show_details)="row">
-                        <span class="fe fe-eye h3 text-warning" @click="getShowModal(row.item.id)"></span>
-                        <span class="fe fe-trash-2 h3 text-danger" @click="deleteUser(row.index, row.item.id, row.item.surname)"></span>
-                    </template>
-
                     <template v-slot:cell(network)="row">
                         <td>
                             <span v-if="row.item.online" class="text-success">●</span>
@@ -59,11 +55,7 @@
                     {
                         key: 'email',
                         label: 'Логин (почта)',
-                    },
-                    {
-                        key: 'show_details',
-                        label: 'Действия',
-                    },
+                    }
                 ],
             }
         },
@@ -73,8 +65,8 @@
         },
 
         methods: {
-            getShowModal(id){
-                this.$refs.getmodal.addNewUserModal(id)
+            getShowModal(index){
+                this.$refs.getmodal.addNewUserModal(index.id)
             },
             fetch() {
                 axios.get(`api/v2/users`)

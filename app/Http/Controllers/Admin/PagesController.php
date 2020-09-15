@@ -48,5 +48,10 @@ class PagesController extends Controller
         return view('pages.region');
     }
 
+    public function promoter(){
+
+        return view('pages.promoter');
+    }
+
 
 }

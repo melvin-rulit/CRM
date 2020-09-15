@@ -78,9 +78,8 @@ class BaseController extends Controller
 
     public function showHProgramms(Request $request)
     {
-        $programm = Programm::where('branch_id', $request->branch_id)->get();
+        return Programm::where('branch_id', $request->branch_id)->get();
 
-        return $programm;
     }
 
 
@@ -124,9 +123,8 @@ class BaseController extends Controller
     // Метод возвращает группы доступные для редактирование у зала
     public function getEditingGroup(Request $request){
 
-        $group = Group::where('hall_id', $request->hall_id)->get();
+        return Group::where('hall_id', $request->hall_id)->get();
 
-        return $group;
     }
 
 
@@ -564,9 +562,6 @@ class BaseController extends Controller
 
         $users = Base::filter($filters)->get();
 
-        dd($filters);
-
-
         $collectionA = $users->keyBy('id');
 
         $collectionB = $collection->keyBy('id');
@@ -593,6 +588,11 @@ class BaseController extends Controller
         return [
             'success' => 'ok'
         ];
+    }
+
+    public function addClientFromPromoter(Request $request){
+
+        return 'Promoter';
     }
 
 }

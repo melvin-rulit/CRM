@@ -65,6 +65,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('gethalls', 'HallController@getHalls');
     Route::post('getgroup', 'GroupController@getgroup');
     Route::post('showHistory', 'BaseController@showHistory');
+    Route::post('addClientFromPromoter', 'BaseController@addClientFromPromoter');
 
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');

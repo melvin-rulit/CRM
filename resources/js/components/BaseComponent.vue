@@ -148,31 +148,16 @@
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="card">
                     <div class="card-body pb-0">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-                                <th>Фамилия</th>
-                                <th>Имя</th>
-                                <th>Отчество</th>
-                                <th>Возраст</th>
-                                <th class="text-center">?</th>
-                            </tr>
-                            </thead>
-                        </table>
-
-                        <div class="table-responsive tbl-content">
-                            <table class="table table-bordered table-hover datatable datatable-User table-collection">
-                                <tbody v-for="article in articles">
-                                <tr @click="BaseModal(article.id)">
-                                    <td>{{ article.child_surname }}</td>
-                                    <td>{{ article.child_name }}</td>
-                                    <td>{{ article.child_middle_name }}</td>
-                                    <td>{{ article.age }} лет</td>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <b-table
+                            hover
+                            sticky-header="650px"
+                            :items="articles"
+                            :fields="fields"
+                            :sort-by.sync="sortBy"
+                            :sort-desc.sync="sortDesc"
+                            @row-clicked="BaseModal"
+                            head-variant="light">
+                        </b-table>
                     </div>
                 </div>
             </div>
@@ -206,6 +191,39 @@
     export default {
         data() {
             return{
+                sortBy: 'child_surname',
+                sortDesc: false,
+                fields: [
+                    {
+                        key: 'child_surname',
+                        label: 'Фамилия',
+                    },
+                    {
+                        key: 'child_name',
+                        label: 'Имя',
+                    },
+                    {
+                        key: 'child_middle_name',
+                        label: 'Отчество',
+                    },
+                    {
+                        key: 'age',
+                        label: 'Возраст',
+                    },
+                    {
+                        key: 'status',
+                        label: 'Статус',
+                    },
+                    {
+                        key: 'step',
+                        label: 'Этап',
+                    },
+                    {
+                        key: 'next_call_date',
+                        label: 'Дата звонка',
+                    },
+
+                ],
                 surname: null,
                 name:'',
                 phone:'',
@@ -268,8 +286,8 @@
                     .then(response => this.articles = response.data.data)
             },
 
-            BaseModal(id){
-                this.$refs.showmoda.showModa(id)
+            BaseModal(index){
+                this.$refs.showmoda.showModa(index.id)
             },
             addNewUser(){
                 this.$v.$touch()

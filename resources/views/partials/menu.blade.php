@@ -223,75 +223,75 @@
       <nav class="navbar navbar-expand-lg " id="topnav">
         <div class="container">
 
-          <form class="form-inline mr-4 d-none d-lg-flex">
-            <div class="input-group input-group-rounded input-group-merge" data-toggle="lists" data-options='{"valueNames": ["name"]}'>
-              <input type="search" class="form-control form-control-prepended  dropdown-toggle search" data-toggle="dropdown" placeholder="Поиск" aria-label="Search">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <i class="fe fe-search"></i>
-                </div>
-              </div>
-            </div>
-          </form>
+{{--          <form class="form-inline mr-4 d-none d-lg-flex">--}}
+{{--            <div class="input-group input-group-rounded input-group-merge" data-toggle="lists" data-options='{"valueNames": ["name"]}'>--}}
+{{--              <input type="search" class="form-control form-control-prepended  dropdown-toggle search" data-toggle="dropdown" placeholder="Поиск" aria-label="Search">--}}
+{{--              <div class="input-group-prepend">--}}
+{{--                <div class="input-group-text">--}}
+{{--                  <i class="fe fe-search"></i>--}}
+{{--                </div>--}}
+{{--              </div>--}}
+{{--            </div>--}}
+{{--          </form>--}}
 
 
 
-          <div class="navbar-user">
-            <div class="dropdown mr-4 d-none d-lg-flex">
-              <a href="#" class="navbar-user-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="icon active">
-                  <i class="fe fe-bell"></i>
-                </span>
-              </a>
+{{--          <div class="navbar-user">--}}
+{{--            <div class="dropdown mr-4 d-none d-lg-flex">--}}
+{{--              <a href="#" class="navbar-user-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--                <span class="icon active">--}}
+{{--                  <i class="fe fe-bell"></i>--}}
+{{--                </span>--}}
+{{--              </a>--}}
 
-              <div class="dropdown-menu dropdown-menu-right dropdown-menu-card">
-                <div class="card-header">
-                  <div class="row align-items-center">
-                    <div class="col">
+{{--              <div class="dropdown-menu dropdown-menu-right dropdown-menu-card">--}}
+{{--                <div class="card-header">--}}
+{{--                  <div class="row align-items-center">--}}
+{{--                    <div class="col">--}}
 
-                      <!-- Title -->
-                      <h5 class="card-header-title">
-                        Уведомления
-                      </h5>
+{{--                      <!-- Title -->--}}
+{{--                      <h5 class="card-header-title">--}}
+{{--                        Уведомления--}}
+{{--                      </h5>--}}
 
-                    </div>
-                    <div class="col-auto">
+{{--                    </div>--}}
+{{--                    <div class="col-auto">--}}
 
 
-                      <a href="#!" class="small">
-                        Посмотреть все
-                      </a>
+{{--                      <a href="#!" class="small">--}}
+{{--                        Посмотреть все--}}
+{{--                      </a>--}}
 
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="list-group list-group-flush my-n3">
-                    <a class="list-group-item text-reset px-0" href="#!">
+{{--                    </div>--}}
+{{--                  </div>--}}
+{{--                </div>--}}
+{{--                <div class="card-body">--}}
+{{--                  <div class="list-group list-group-flush my-n3">--}}
+{{--                    <a class="list-group-item text-reset px-0" href="#!">--}}
 
-                      <div class="row">
-                        <div class="col-auto">
+{{--                      <div class="row">--}}
+{{--                        <div class="col-auto">--}}
 
-                          <div class="avatar avatar-sm">
-                            <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" alt="..." class="avatar-img rounded-circle">
-                          </div>
+{{--                          <div class="avatar avatar-sm">--}}
+{{--                            <img src="https://dashkit.goodthemes.co/assets/img/avatars/profiles/avatar-1.jpg" alt="..." class="avatar-img rounded-circle">--}}
+{{--                          </div>--}}
 
-                        </div>
-                        <div class="col ml-n2">
-                          <div class="small">
-                            <strong>Dianna Smiley</strong> shared your post with Ab Hadley, Adolfo Hess, and 3 others.
-                          </div>
-                          <small class="text-muted">
-                            2m ago
-                          </small>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+{{--                        </div>--}}
+{{--                        <div class="col ml-n2">--}}
+{{--                          <div class="small">--}}
+{{--                            <strong>Dianna Smiley</strong> shared your post with Ab Hadley, Adolfo Hess, and 3 others.--}}
+{{--                          </div>--}}
+{{--                          <small class="text-muted">--}}
+{{--                            2m ago--}}
+{{--                          </small>--}}
+{{--                        </div>--}}
+{{--                      </div>--}}
+{{--                    </a>--}}
+{{--                  </div>--}}
+{{--                </div>--}}
+{{--              </div>--}}
+{{--            </div>--}}
+{{--          </div>--}}
 
 
           <div class="collapse navbar-collapse mr-auto order-lg-first" id="navbar">

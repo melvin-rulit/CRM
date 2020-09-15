@@ -11,7 +11,7 @@
 
 <div class="row">
           <div class="col-12 col-lg-6 col-xl">
-            
+
             <!-- Card -->
             <div class="card">
               <div class="card-body">
@@ -22,7 +22,7 @@
                     <h6 class="card-title text-uppercase text-muted mb-2">
                       Продажи
                     </h6>
-                    
+
                     <!-- Heading -->
                     <span class="h2 mb-0">
                       $24,500
@@ -35,7 +35,7 @@
 
                   </div>
                   <div class="col-auto">
-                    
+
                     <!-- Icon -->
                     <span class="h2 fe fe-dollar-sign text-muted mb-0"></span>
 
@@ -47,7 +47,7 @@
 
           </div>
           <div class="col-12 col-lg-6 col-xl">
-            
+
             <!-- Card -->
             <div class="card">
               <div class="card-body">
@@ -58,7 +58,7 @@
                     <h6 class="card-title text-uppercase text-muted mb-2">
                       Количество часов
                     </h6>
-                    
+
                     <!-- Heading -->
                     <span class="h2 mb-0">
                       763.5
@@ -66,7 +66,7 @@
 
                   </div>
                   <div class="col-auto">
-                    
+
                     <!-- Icon -->
                     <span class="h2 fe fe-briefcase text-muted mb-0"></span>
 
@@ -75,10 +75,10 @@
 
               </div>
             </div>
-              
+
           </div>
           <div class="col-12 col-lg-6 col-xl">
-            
+
             <!-- Card -->
             <div class="card">
               <div class="card-body">
@@ -97,10 +97,10 @@
                         <span class="h2 mr-2 mb-0">
                           84.5%
                         </span>
-                        
+
                       </div>
                       <div class="col">
-                        
+
                         <!-- Progress -->
                         <div class="progress progress-sm">
                           <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
@@ -111,7 +111,7 @@
 
                   </div>
                   <div class="col-auto">
-                    
+
                     <!-- Icon -->
                     <span class="h2 fe fe-clipboard text-muted mb-0"></span>
 
@@ -120,10 +120,10 @@
 
               </div>
             </div>
-              
+
           </div>
           <div class="col-12 col-lg-6 col-xl">
-            
+
             <!-- Card -->
             <div class="card">
               <div class="card-body">
@@ -134,7 +134,7 @@
                     <h6 class="card-title text-uppercase text-muted mb-2">
                       Еденица стоимости
                     </h6>
-                    
+
                     <!-- Heading -->
                     <span class="h2 mb-0">
                       $5.50
@@ -142,7 +142,7 @@
 
                   </div>
                   <div class="col-auto">
-                    
+
                     <!-- Chart -->
                     <div class="chart chart-sparkline"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                       <canvas class="chart-canvas chartjs-render-monitor" id="sparklineChart" style="display: block; width: 75px; height: 35px;" width="75" height="35"></canvas>
@@ -153,26 +153,26 @@
 
               </div>
             </div>
-              
+
           </div>
         </div>
         <div class="row">
           <div class="col-12 col-xl-8">
-            
+
             <!-- Orders -->
             <div class="card">
               <div class="card-header">
                 <div class="row align-items-center">
                   <div class="col">
-                
+
                     <!-- Title -->
                     <h4 class="card-header-title">
-                      Заказы по филиалам 
+                      Заказы по филиалам
                     </h4>
 
                   </div>
                   <div class="col-auto mr-n3">
-                    
+
                     <!-- Caption -->
                     <span class="text-muted">
                       Показать партнера:
@@ -192,7 +192,7 @@
 
               </div>
               <div class="card-body">
-                
+
                 <!-- Chart -->
                 <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                   <canvas id="ordersChart" class="chart-canvas chartjs-render-monitor" style="display: block; width: 906px; height: 300px;" width="906" height="300"></canvas>
@@ -209,7 +209,7 @@
               <div class="card-header">
                 <div class="row align-items-center">
                   <div class="col">
-                
+
                     <!-- Title -->
                     <h4 class="card-header-title">
                       Devices
@@ -237,7 +237,7 @@
 
               </div>
               <div class="card-body">
-                
+
                 <!-- Chart -->
                 <div class="chart chart-appended"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                   <canvas id="devicesChart" class="chart-canvas chartjs-render-monitor" data-toggle="legend" data-target="#devicesChartLegend" style="display: block; width: 416px; height: 241px;" width="416" height="241"></canvas>
@@ -248,7 +248,7 @@
 
               </div>
             </div>
-            
+
           </div>
         </div>
 @endsection

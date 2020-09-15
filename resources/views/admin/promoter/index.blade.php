@@ -9,11 +9,11 @@
   </div> -->
 
 
-          <div class="card-body">
+          <div class="card-body mt-3">
             <form method="POST" action="{{ route("admin.promoter.store") }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label class="required" for="child_name">{{ trans('cruds.promoter.fields.child_name') }}</label>
+                    <label class="required" for="child_name">Имя ребёнка</label>
                     <input class="form-control {{ $errors->has('child_name') ? 'is-invalid' : '' }}" type="text" name="child_name" id="child_name" value="{{ old('child_name', '') }}" required>
                     @if($errors->has('child_name'))
                         <div class="invalid-feedback">
@@ -86,6 +86,7 @@
                 </div>
             </form>
         </div>
+
 </div>
 
 @endsection
