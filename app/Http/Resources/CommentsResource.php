@@ -18,7 +18,7 @@ class CommentsResource extends JsonResource
         return [
             'id'        => $this->id,
             'user'      => $this->user->surname . ' ' . $this->user->name,
-            'comment'   => $this->comment,
+            'comment'   => $this->message,
             'date'      => $this->created_at->format('d.m.Y H:i:s'),
         ];
     }

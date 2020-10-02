@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Programm;
-use App\Log;
+use App\Loger;
 use Illuminate\Support\Facades\Auth;
 
 class ProgrammController extends Controller
@@ -40,10 +40,10 @@ class ProgrammController extends Controller
     {
         $programm = Programm::create($request->all());
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'добавил программу '.$programm->id)
         );
     }
@@ -94,13 +94,13 @@ class ProgrammController extends Controller
     {
         $programm->delete();
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'удалил программу '.$programm->id)
         );
 
-        return response(null, Response::HTTP_NO_CONTENT);
+//        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -3,12 +3,11 @@
 
 <div id="app">
 
-<base-component :adduser="{{Gate::check('user_create')}}"></base-component>
-
-{{--<mask-component></mask-component>--}}
+<agregator-component></agregator-component>
 
 
 </div>
 <script src="{{ asset('js/app.js') }}"></script>
 
 @endsection
+

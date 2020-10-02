@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\User;
 use DB;
-use App\Log;
+use App\Loger;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\UsersFilter;
 
@@ -54,10 +54,10 @@ class ProductController extends Controller
 
         $product = Product::create($request->all());
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'добавил продукт '.$product->id)
         );
     }
@@ -99,10 +99,10 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
-             'channel' => '3', 
-             'level_name' => 'success', 
+             'channel' => '3',
+             'level_name' => 'success',
              'message' => 'удалил продукт '.$product->id)
         );
 

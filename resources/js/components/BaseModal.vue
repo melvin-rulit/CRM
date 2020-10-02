@@ -2,7 +2,7 @@
     <div>
 
         <!-- Модальное окно карточки клиента -->
-        <b-modal id="userShow" centered hide-footer size="lg" title="Карточка клиента" @hidden="closeUserModal">
+        <b-modal id="userShow" centered hide-footer size="lg" title="Карточка клиента" @hide="closeUserModal">
             <div class="card mb-3">
                 <div class="row no-gutters">
                     <div class="col-md-4">
@@ -120,6 +120,22 @@
                     </div>
                     <div class="col-md-4 border-left">
                         <div class="card-body">
+                            <h6 class="text-uppercase text-muted mb-2 text-center">Дата следующего звонка</h6>
+                            <date-picker
+                                v-model="dataObject.call_date"
+                                :editable="false"
+                                format="DD.MM.YYYY"
+                                value-type="DD.MM.YYYY"
+                                class="mb-3"
+                                @input="changeCallDate">
+                            </date-picker>
+                            <select class="form-control mb-3">
+                                <option value="0">Не дозвон</option>
+                                <option value="1">Дозвон</option>
+                            </select>
+
+                            <span>Статус - <span :style="{ color: dataObject.status_color }">{{ dataObject.status }}</span></span>
+                            <hr>
                             <h4 class="text-center mb-4">
                                 <a href="#" @click.prevent="showUploadForm()"> Документы
                                     <i  class="fe fe-plus text-success pl-3 pointer"></i>
@@ -188,7 +204,7 @@
                                                 v-model="dataObject.attributes.mother_phone"
                                                 name="mother_phone"
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -200,7 +216,7 @@
                                                 v-model="dataObject.attributes.mother_dop_phone"
                                                 name="mother_dop_phone"
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -222,7 +238,7 @@
                                                 v-model="dataObject.attributes.mother_viber"
                                                 name="mother_viber"
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -327,7 +343,7 @@
                                         <td class="w-75">
                                             <input-form
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 v-model="dataObject.attributes.father_phone"
                                                 name="father_phone"
                                                 @edit-field="editField">
@@ -339,7 +355,7 @@
                                         <td class="w-75">
                                             <input-form
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 v-model="dataObject.attributes.father_dop_phone"
                                                 name="father_dop_phone"
                                                 @edit-field="editField">
@@ -362,7 +378,7 @@
                                                 v-model="dataObject.attributes.father_viber"
                                                 name="father_viber"
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -463,7 +479,7 @@
                                                 v-model="dataObject.attributes.other_relative_phone"
                                                 name="other_relative_phone"
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 @edit-field="editField"></input-form>
                                         </td>
                                     </tr>
@@ -474,7 +490,7 @@
                                                 v-model="dataObject.attributes.other_relative_dop_phone"
                                                 name="other_relative_dop_phone"
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -496,7 +512,7 @@
                                                 v-model="dataObject.attributes.other_relative_viber"
                                                 name="other_relative_viber"
                                                 placeholder="+38 (926) 123-45-67"
-                                                v-mask="'+## (###) ###-##-##'"
+                                                mask="+## (###) ###-##-##"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -665,6 +681,10 @@
 
 <script>
 
+    import DatePicker from 'vue2-datepicker';
+    Vue.use(DatePicker);
+    import 'vue2-datepicker/index.css';
+
     import Vue from "vue";
 
     import vueHeadful from 'vue-headful';
@@ -688,11 +708,6 @@
     import 'vue-toast-notification/dist/theme-sugar.css';
     Vue.use(VueToast);
 
-
-    import DynamicSelect from 'vue-dynamic-select'
-    Vue.use(DynamicSelect)
-
-
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
     Vue.use(Loading);
@@ -707,6 +722,8 @@
         data() {
             return{
                 fullPage: true,
+                call_date: '',
+                call_status: '',
                 surname: null,
                 birthday: null,
                 users: [],
@@ -766,9 +783,9 @@
         },
         created(){
             // this.fetchArticles();
-            axios.post('api/v2/getinfo', {id : user_id}).then(response => {
-                this.dataObject = response.data.data
-            })
+            // axios.post('api/v2/getinfo', {id : this.user_id}).then(response => {
+            //     this.dataObject = response.data.data
+            // })
         },
         mounted(){
             $('#addNew').on('hide.bs.modal', () => this.closeModalView())
@@ -787,9 +804,13 @@
         methods: {
 
             showModa(id){
-                this.$bvModal.show('userShow')
                 axios.post('api/v2/getinfo', {id : id}).then(response => {
-                    this.dataObject = response.data.data
+                    if(response.data.response == "block"){
+                        this.$alert(`В данный момент с карточкой работает пользователь ${response.data.user_block_name}`)
+                    }else{
+                        this.dataObject = response.data.data
+                        this.$bvModal.show('userShow')
+                    }
                 })
             },
             // Получаем сокращеное название дня по дате
@@ -870,12 +891,6 @@
                         this.busy = false;
                     })
             },
-            resetFilter() {
-                this.surname = null
-                this.name = null
-                this.birthday = null
-                this.fetchArticles()
-            },
             showContract(id){
                 this.$confirm("Показать контракт ?").then(() => {
                     $('#addNew').modal('hide')
@@ -888,18 +903,16 @@
                     this.dataObject = response.data.data
                 })
             },
-            getModalForNewUser(id){
-                // $('#addNew').modal('show');
-                this.$bvModal.show('userShow')
-                axios.post('api/v2/getinfo', {id : id}).then(response => {
-                    this.dataObject = response.data.data
-                })
-            },
             fetchArticles(){
                 axios.get('api/v2/collection')
                     .then(response => this.articles = response.data.data)
                     .finally(() => console.log('Посты успешно загружены'));
 
+            },
+
+            getBranches(){
+                axios.get('api/v2/getbranches')
+                    .then(response => this.branches = response.data.data)
             },
 
             editBranch(){
@@ -977,76 +990,6 @@
             BaseModal(){
                 this.$bvModal.show('userShow')
             },
-            addNewUser(){
-                this.$v.$touch()
-                if (!this.$v.$invalid) {
-                    if (!this.branch.id) {
-                        this.$alert("Выберите филиал");
-                        return false
-                    }
-                    let loader = this.$loading.show({
-                        container: this.fullPage ? null : this.$refs.formContainer,
-                        color: '#0080ff',
-                    });
-                    $('#addNewUser').modal('hide');
-                    $(document.body).removeClass("modal-open");
-                    $(".modal-backdrop.show").hide();
-                    axios.post(this.URLaddNewUser, {
-                        child_surname: this.new_child_surname,
-                        child_name: this.new_child_name,
-                        child_middle_name: this.new_child_middle_name,
-                        manager: this.manager ? this.manager.id : null,
-                        instructor: this.instructor ? this.instructor.id : null,
-                        branch: this.branch.id
-                    })
-                        .then(response =>
-                            setTimeout(() => {
-                                loader.hide()
-                                this.getModalForNewUser(response.data)
-                                this.fetchArticles()
-                            },500)
-                        );
-                    this.submitStatus = 'OK'
-                    this.new_child_surname = null
-                    this.new_child_middle_name = ''
-                    this.$v.new_child_surname.$reset()
-                    this.new_child_name = null
-                    this.$v.new_child_name.$reset()
-                    this.branch = []
-                    this.manager = []
-                    this.instructor = []
-                }
-            },
-            cancelAddNewUser(){
-                this.new_child_surname = null
-                this.new_child_middle_name = ''
-                this.$v.new_child_surname.$reset()
-                this.new_child_name = null
-                this.$v.new_child_name.$reset()
-                this.branch = []
-                this.manager = []
-                this.instructor = []
-            },
-            getBranches(){
-                axios.get('api/v2/getbranches')
-                    .then(response => this.branches = response.data.data)
-            },
-            getManagers(){
-                axios.get('api/v2/getmanagers')
-                    .then(response => this.managers = response.data.data)
-            },
-            getInstructors(){
-                axios.get('api/v2/getinstructors')
-                    .then(response => this.instructors = response.data.data)
-            },
-            getProgramm(){
-                axios.post('api/v2/getprogramms', {id: this.dataObject.id})
-                    .then(response => this.programms = response.data.data)
-            },
-            getUsers(){
-                axios.get('api/v2/getusers')
-                    .then(response => this.users = response.data.data)
-            },
             onFileChange(e) {
                 var files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
@@ -1080,7 +1023,13 @@
                     })
                 }, 200)
             },
-            closeUserModal(){
+            closeUserModal(bvModalEvt){
+                if(!this.dataObject.call_date){
+                    bvModalEvt.preventDefault()
+                    this.$alert('Ты долбоеб не заполнил дату следующего звонка')
+                    return false
+                }
+                this.removeBlock()
                 this.showBranch = false
                 this.showManager = false
                 this.showInstructor = false
@@ -1092,6 +1041,19 @@
                 this.indexactiveContract = 0
                 this.fetchArticles()
                 this.showForm = false
+                this.call_status = ''
+                this.call_date = ''
+            },
+
+            removeBlock(){
+                axios.post('api/v2/removeblock', {id : this.dataObject['id']})
+            },
+
+            changeCallDate(){
+                axios.post('api/v2/changeCallDate', {
+                    id : this.dataObject['id'],
+                    call_date: this.dataObject.call_date
+                })
             }
         }
     }

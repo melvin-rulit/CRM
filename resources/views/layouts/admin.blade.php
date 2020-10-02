@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/libs/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/libs/quill/dist/quill.core.css">
     <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/libs/select2/dist/css/select2.min.css">
-    <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/libs/highlight.js/styles/vs2015.css">
+{{--    <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/libs/highlight.js/styles/vs2015.css">--}}
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/css/theme.min.css" id="stylesheetLight">
     <link rel="stylesheet" href="https://dashkit.goodthemes.co/assets/css/theme-dark.min.css" id="stylesheetDark">
@@ -36,7 +36,7 @@
 
     @yield('styles')
     <style>body { display: none; }</style>
-    
+
     <style type="text/css">
   .test {
     overflow-x: auto;
@@ -103,7 +103,7 @@
     <script src="https://dashkit.goodthemes.co/assets/libs/list.js/dist/list.min.js"></script>
     <script src="https://dashkit.goodthemes.co/assets/libs/quill/dist/quill.min.js"></script>
     <script src="https://dashkit.goodthemes.co/assets/libs/select2/dist/js/select2.min.js"></script>
-    <script src="https://dashkit.goodthemes.co/assets/libs/chart.js/Chart.extension.min.js"></script>
+{{--    <script src="https://dashkit.goodthemes.co/assets/libs/chart.js/Chart.extension.min.js"></script>--}}
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
     <script src="https://dashkit.goodthemes.co/assets/js/theme.min.js"></script>
     <!-- Скрипты из нового шаблона -->

@@ -30,6 +30,10 @@ class Base extends Model
     	return $this->hasOne('App\Branch', 'id', 'branch');
     }
 
+    public function user_block_name(){
+        return $this->hasOne('App\User', 'id', 'user_block_id');
+    }
+
     public function base_manager(){
         return $this->hasOne('App\User', 'id', 'manager');
     }
@@ -51,12 +55,20 @@ class Base extends Model
         return $this->hasMany(Journal::class);
     }
 
-    public function comments(){
-        return $this->hasMany(Comments::class);
+//    public function comments(){
+//        return $this->hasMany(Comments::class);
+//    }
+
+    public function loger(){
+        return $this->hasMany(Loger::class);
     }
 
     public function documents(){
         return $this->hasMany(Document::class);
+    }
+
+    public function statuses(){
+        return $this->hasOne(Statuses::class);
     }
 
 // Под вопросом

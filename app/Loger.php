@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class Loger extends Model
 {
     protected $fillable = [
         'channel',
@@ -13,4 +13,9 @@ class Log extends Model
         'message',
         'base_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 }

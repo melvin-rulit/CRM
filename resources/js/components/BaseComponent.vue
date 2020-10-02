@@ -2,11 +2,6 @@
 <template>
     <div>
 
-
-        <vue-headful
-            title="Title from vue-headful"
-        />
-
         <base-modal-component ref="showmoda"></base-modal-component>
 
         <!-- Панель над фильтром -->
@@ -171,8 +166,8 @@
 
 <script>
 
-    import vueHeadful from 'vue-headful';
-    Vue.component('vue-headful', vueHeadful);
+    // import vueHeadful from 'vue-headful';
+    // Vue.component('vue-headful', vueHeadful);
 
 
     import Vuelidate from 'vuelidate'
@@ -211,21 +206,12 @@
                         key: 'age',
                         label: 'Возраст',
                     },
-                    {
-                        key: 'status',
-                        label: 'Статус',
-                    },
-                    {
-                        key: 'step',
-                        label: 'Этап',
-                    },
-                    {
-                        key: 'next_call_date',
-                        label: 'Дата звонка',
-                    },
-
                 ],
                 surname: null,
+                branch: null,
+                manager: null,
+                instructor: null,
+                new_child_middle_name: '',
                 name:'',
                 phone:'',
                 birthday: null,
@@ -315,8 +301,7 @@
                         .then(response =>
                             setTimeout(() => {
                                 loader.hide()
-                                this.BaseModal(response.data)
-                                // this.getModalForNewUser(response.data)
+                                Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'}),
                                 this.fetchArticles()
                             },500)
                         );

@@ -53,5 +53,10 @@ class PagesController extends Controller
         return view('pages.promoter');
     }
 
+    public function agregator(){
+
+        return view('pages.agregator');
+    }
+
 
 }

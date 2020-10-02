@@ -1,9 +1,9 @@
 <template>
     <span>
         <span>
-            <a class="text-success" href="#" v-if="value == '' || value == null && !keyInputForm" @click.prevent="focus">Добавить</a>
+            <a class="text-success" href="#" v-if="thisValue == '' || thisValue == null && !keyInputForm" @click.prevent="focus">Добавить</a>
         </span>
-          <span v-if="!keyInputForm" class="card-title" @click="focus">{{ value }}</span>
+          <span v-if="!keyInputForm" class="card-title" @click="focus">{{ thisValue }}</span>
 
         <textarea
             v-if="textarea && keyInputForm"
@@ -11,9 +11,9 @@
             class="form-control"
             :id="id"
             :name="name"
-            v-model="value"
+            v-model="thisValue"
             @input="$emit('input', value)"
-            @blur="keyInputForm = false;$emit('edit-field', $event)">
+            @blur="keyInputForm = false; $emit('edit-field', $event)">
         </textarea>
 
         <input
@@ -25,30 +25,31 @@
             :placeholder="placeholder"
             :id="id"
             :name="name"
-            v-model="value"
+            v-model="thisValue"
             @input="$emit('input', value)"
             @keyup.enter="keyInputForm = false;$emit('edit-field', $event)"
-            @blur="keyInputForm = false;$emit('edit-field', $event)">
+            @blur="keyInputForm = false; $emit('edit-field', $event)">
 
         <date-picker
             v-if="keyInputForm && datePicker"
             :lang="lang"
             ref="edit"
-            v-model="value"
+            v-model="thisValue"
             :editable="false"
             value-type="DD.MM.YYYY"
             format="DD.MM.YYYY"
-            @close="keyInputForm = false;$emit('edit-field', value, name ,datePicker)">
+            @close="keyInputForm = false; $emit('edit-field', value, name ,datePicker)">
         </date-picker>
     </span>
 </template>
 
 <script>
+    import {TheMask} from 'vue-the-mask'
     export default {
+        components: {TheMask},
         props: {
             value: {
                 type: String,
-                required: true
             },
             name: {
                 type: String,
@@ -58,6 +59,9 @@
                 type: String,
             },
             placeholder: {
+                type: String,
+            },
+            mask: {
                 type: String,
             },
             // Свойство вывод textarea
@@ -78,7 +82,6 @@
                         monthsShort: ['Янв', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
                     },
                 },
-                textarea: null,
                 keyInputForm: null,
                 thisValue: this.value,
             }

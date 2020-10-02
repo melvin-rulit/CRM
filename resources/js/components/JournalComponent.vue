@@ -151,7 +151,7 @@
         </b-modal>
 
         <!-- Окно просмотра истории -->
-        <b-modal id="showHistory" title="История" centered hide-footer>
+        <b-modal id="showHistory" size="lg" title="История" scrollable centered hide-footer>
             <div class="card-body">
                 <p v-if="comments" v-for="comment in comments" :key="comment.id" class="mb-2">
                     {{ comment.date }} - {{ comment.user }} - {{ comment.comment }}
@@ -159,9 +159,10 @@
             </div>
         </b-modal>
 
+        <!-- Окно с расписанием -->
         <b-modal id="modal-xl" hide-footer @hidden="resetModalXl">
             <div class="row flex-nowrap test">
-                <div class="col-12 col-lg-12" v-for="(day, index_day) in days">
+                <div class="col-12 col-lg-12">
                     <div class="card">
                         <div class="card-body">
                             <dynamic-select
@@ -175,93 +176,69 @@
                                 placeholder="День недели" />
 
                             <div class="card card-sm mb-2"
-                                 v-for="(curr, index) in 21"
-                                 v-if="index + 1 >= n"
-                                 :style="{ 'background-color': schedule.find(item => item.time === curr) ?
-                               schedule.find(item => item.time === curr).group.color : null}">
+                                 v-for="(schedul, index) in schedule"
+                                 :key="index"
+                                 :style="{ 'background-color': schedul.group.color}">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-3 col-md">
                                             <div class="container">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <a v-if="!isAdd && activeDay2"
-                                                           v-b-toggle="'collapse_' + index_day + '_' + index"
-                                                           href="#"
-                                                           @click.prevent="activeTime(curr)"
-                                                           class=" mb-md-0 text-primary"
-                                                        >{{ curr }}:00</a>
-                                                        <span v-if="isAdd || !activeDay2">{{ curr }}:00</span>
+                                                        <span>{{ schedul.time }}:00</span>
                                                     </div>
-                                                    <div class="col-md-4" v-if="schedule.find(item => item.time === curr)">
-                                                        {{ schedule.find(item => item.time === curr).group.name }}
+                                                    <div class="col-md-4">{{ schedul.group.name }}</div>
+
+                                                    <div class="col-md-4">{{ schedul.group.programm.name }}</div>
+
+                                                    <div class="col-md-1">
+                                                        <b-badge pill variant="primary">{{ schedul.children_count }}</b-badge>
                                                     </div>
-                                                    <div class="col-md-4" v-if="schedule.find(item => item.time === curr)">
-                                                        {{ schedule.find(item => item.time === curr).group.programm.name }}
-                                                    </div>
-                                                    <div class="col-md-2" v-if="schedule.find(item => item.time === curr)">
-                                                        <b-badge pill variant="primary">{{ schedule.find(item => item.time === curr).children_count }}</b-badge>
+                                                    <div class="col-md-1">
+                                                        <a href="#" @click.prevent="deleteSchedule(schedul.time)">
+                                                            <i class="fe fe-trash-2 text-danger ml-1 mr-3"></i>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <b-collapse :id="'collapse_' + index_day + '_' + index" accordion="my-accordion" class="mt-2">
-
-                                        <!-- 									<dynamic-select
-                                        v-show="isAdd"
-                                        class="pb-2"
-                                        :options="groups"
-                                        option-value="id"
-                                        option-text="name"
-                                        v-model="ProgrammModel"
-                                        placeholder="Выберите группу" />
-                                      </b-form-group> -->
-
+                            <div class="card-body" v-if="isAdd">
+                                <div class="row align-items-center">
+                                    <div class="col-3 col-md">
                                         <dynamic-select
-                                            v-if="isAdd"
                                             class="pb-2"
                                             :options="GroupInHall"
                                             option-value="id"
                                             option-text="name"
                                             v-model="GroupModel"
                                             placeholder="Выберите группу" />
-                                        </b-form-group>
 
                                         <dynamic-select
-                                            v-if="isAdd"
                                             class="pb-2"
                                             :options="categoryTime"
                                             option-value="id"
                                             option-text="name"
                                             v-model="categoryTimeModel"
                                             placeholder="Выберите категорию времени" />
-                                        </b-form-group>
 
-                                        <!-- 									<ul class="list-group" v-if="schedule.find(item => item.time === curr)">
-                                          <a href="#" @click.prevent="test" class="list-group-item list-group-item-action pt-3 pb-3">
-                                              <i class="fe fe-users text-primary text-bold mr-3"></i>
-                                              {{ schedule.find(item => item.time === curr).total_children }}
-                                          </a>
-                                          <a href="#" class="list-group-item list-group-item-action pt-3 pb-3">
-                                              <i class="fe fe-users text-danger text-bold mr-3"></i>
-                                              {{ schedule.find(item => item.time === curr).group.name }}
-                                          </a>
-                                          <a href="#" class="list-group-item list-group-item-action pt-3 pb-3">
-                                              <i class="fe fe-clock text-success text-bold mr-3"></i>
-                                              {{ schedule.find(item => item.time === curr).category_time }}
-                                          </a>
-                                      </ul> -->
+                                        <dynamic-select
+                                           class="pb-2"
+                                           :options="times"
+                                           option-value="id"
+                                           option-text="name"
+                                           v-model="TimeModel"
+                                           placeholder="Выберите время" />
 
-                                        <!-- <b-button v-if="schedule.find(item => item.time === curr)" size="sm" variant="warning" class="mt-2">Редактировать</b-button> -->
-                                        <b-button v-if="schedule.find(item => item.time === curr)" size="sm" variant="danger" class="mt-2" @click="deleteSchedule">Удалить</b-button>
-                                        <b-button v-if="!schedule.find(item => item.time === curr)" size="sm" variant="primary" class="mt-2" @click="addSchedule">Добавить</b-button>
-                                        <b-button v-if="isAdd" size="sm" variant="success" class="mt-2" @click="saveSchedule">Сохранить</b-button>
-                                        <b-button v-if="isAdd" size="sm" variant="danger" class="mt-2" @click="cancelSchedule">Отменить</b-button>
-                                    </b-collapse>
+                                        <b-button size="sm" variant="success" class="mt-2" @click="saveSchedule">Сохранить</b-button>
+                                        <b-button size="sm" variant="danger" class="mt-2" @click="cancelSchedule">Отменить</b-button>
+                                    </div>
                                 </div>
                             </div>
+                            <b-button v-if="!isAdd && selectDayInModalXl" size="sm" variant="primary" class="mt-2" @click="addSchedule">Добавить</b-button>
                         </div>
                     </div>
                 </div>
@@ -377,8 +354,14 @@
                     "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
                     "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
                 ],
-                days: [
-                    "Понедельник"
+                times: [
+                    {id:8, name: "8"},
+                    {id:9, name: "9"},
+                    {id:10, name: "10"},
+                    {id:11, name: "11"},
+                    {id:12, name: "12"},
+                    {id:13, name: "13"},
+                    {id:14, name: "14"},
                 ],
 
                 days2: [
@@ -437,6 +420,7 @@
                 programmForGroup: '',
                 DaySelect: '',
                 categoryTimeModel: '',
+                TimeModel: '',
                 GroupModel: '',
                 ProgrammModel: '',
                 timeCurrent: '',
@@ -524,11 +508,13 @@
                 this.timeCurrent = curr
             },
 
-            deleteSchedule(){
+            deleteSchedule(time){
+                // this.$alert("Вы уверены что хотите удалить группу из расписания ?")
+
                 axios.post('api/v2/deleteSchedule', {
                     hall_id: this.hall_id,
                     day: this.selectDayInModalXl.id,
-                    time: this.timeCurrent
+                    time: time
                 })
                     .then(response => this.schedule = response.data.data)
             },
@@ -541,6 +527,7 @@
                 this.isAdd = false
                 this.categoryTimeModel = ''
                 this.GroupModel = ''
+                this.TimeModel = ''
                 this.ProgrammModel = ''
             },
 
@@ -557,7 +544,7 @@
                 axios.post('api/v2/saveSchedule', {
                     hall_id: this.hall_id,
                     day: this.selectDayInModalXl.id,
-                    time: this.timeCurrent,
+                    time: this.TimeModel.id,
                     category_time: this.categoryTimeModel.id,
                     group_id: this.GroupModel.id
                 })
@@ -566,6 +553,7 @@
                 this.isAdd = false
                 this.categoryTimeModel = ''
                 this.GroupModel = ''
+                this.TimeModel = ''
                 this.ProgrammModel = ''
             },
 
@@ -601,6 +589,12 @@
 
                     if (!this.programmForGroup) {
                         this.$alert("Не выбрана программа");
+                        return false
+                    }
+
+                    if (!this.colors.hex) {
+                        this.$alert("Не выбран цвет программы");
+                        return false
                     }
 
                     axios.post('api/v2/groups', {
@@ -667,7 +661,7 @@
                         });
                 } else {
 
-                    this.$alert("Назначить посещение тренировки раньше текущей даты - невозможно")
+                    this.$alert("Назначить посещение тренировки раньше или позже текущей даты - невозможно")
                 }
 
 
@@ -926,6 +920,7 @@
 
                 if (this.month > 12) {
                     this.month = 1
+                    this.year ++
                 }
 
                 this.getUserInGroup(this.activeGroup_id)
@@ -936,6 +931,7 @@
 
                 if (this.month < 1) {
                     this.month = 12
+                    this.year --
                 }
 
                 this.getUserInGroup(this.activeGroup_id)

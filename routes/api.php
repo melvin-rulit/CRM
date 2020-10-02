@@ -39,52 +39,61 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // Documents
     Route::apiResource('documents', 'DocumentController');
 
-    // Users
-    Route::apiResource('users', 'UserController');
-    Route::get('getatributes', 'UserController@getAtributes');
-    Route::post('history', 'UserController@history');
-
-    Route::post('gettest', 'BaseController@getTest');
-    Route::post('savetest', 'BaseController@saveTest');
-    Route::post('updatetest', 'BaseController@updateTest');
-    Route::post('workout', 'BaseController@workout');
-    Route::post('notVisit', 'BaseController@notVisit');
-    Route::post('newWorkout', 'BaseController@newWorkout');
-    Route::post('addNewComent', 'BaseController@addNewComent');
-    Route::post('freezing', 'BaseController@freezing');
-    Route::post('getuseringroup', 'BaseController@getUserInGroup');
-    Route::post('showhall', 'BaseController@showHall');
-    Route::post('showprogramms', 'BaseController@showHProgramms');
-    Route::post('schedule', 'BaseController@Schedule');
-    Route::post('deleteSchedule', 'BaseController@deleteSchedule');
-    Route::post('saveSchedule', 'BaseController@saveSchedule');
-    Route::post('getGroupInHall', 'BaseController@getGroupInHall');
-    Route::post('getEditingGroup', 'BaseController@getEditingGroup');
-    Route::post('uploadDocument', 'BaseController@uploadDocument');
-    Route::post('updateLpr', 'BaseController@updateLpr');
-    Route::post('gethalls', 'HallController@getHalls');
-    Route::post('getgroup', 'GroupController@getgroup');
-    Route::post('showHistory', 'BaseController@showHistory');
-    Route::post('addClientFromPromoter', 'BaseController@addClientFromPromoter');
-
-    Route::post('getinfo', 'BaseController@getInfo');
-    Route::get('collection', 'BaseController@index');
-    Route::post('image', 'BaseController@upload');
-    Route::get('getbranches', 'BaseController@getBranches');
-    Route::get('getmanagers', 'BaseController@getManagers');
-    Route::get('getinstructors', 'BaseController@getInstructors');
-    Route::post('getprogramms', 'BaseController@getProgramms');
-    Route::get('getusers', 'BaseController@getUsers');
-    Route::post('addnewuser', 'BaseController@addNewUser');
-    Route::post('getvmcontract', 'BaseController@getVmContract');
-    Route::get('filter', 'BaseController@filter');
-    Route::get('test', 'BaseController@test');
-
+    // Contracts
     Route::post('getcontract', 'ContractController@getContract');
     Route::post('getcontracts', 'ContractController@getContracts');
     Route::post('showcontract', 'ContractController@showContract');
     Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
 
+    // Journals
+    Route::post('workout', 'BaseController@workout');
+    Route::post('notVisit', 'BaseController@notVisit');
+    Route::post('newWorkout', 'BaseController@newWorkout');
+    Route::post('freezing', 'BaseController@freezing');
+    Route::post('addNewComent', 'BaseController@addNewComent');
+    Route::post('showHistory', 'BaseController@showHistory');
+    Route::post('showhall', 'BaseController@showHall');
+    Route::post('schedule', 'BaseController@Schedule');
+    Route::post('deleteSchedule', 'BaseController@deleteSchedule');
+    Route::post('saveSchedule', 'BaseController@saveSchedule');
+    Route::post('getGroupInHall', 'BaseController@getGroupInHall');
+    Route::post('getEditingGroup', 'BaseController@getEditingGroup');
+
+    // Base
+    Route::post('getinfo', 'BaseController@getInfo');
+    Route::get('collection', 'BaseController@index');
+    Route::post('image', 'BaseController@upload');
+    Route::post('updateLpr', 'BaseController@updateLpr');
+    Route::post('removeblock', 'BaseController@removeBlock');
+    Route::post('changeCallDate', 'StatusesController@changeCallDate');
+    Route::post('addnewuser', 'BaseController@addNewUser');
+    Route::get('filter', 'BaseController@filter');
+
+
+    // Users
+    Route::apiResource('users', 'UserController');
+    Route::get('getatributes', 'UserController@getAtributes');
+    Route::post('history', 'UserController@history');
+    Route::post('gettest', 'BaseController@getTest');
+    Route::post('savetest', 'BaseController@saveTest');
+    Route::post('updatetest', 'BaseController@updateTest');
+
+
+    Route::post('getuseringroup', 'BaseController@getUserInGroup');
+    Route::post('showprogramms', 'BaseController@showHProgramms');
+    Route::post('uploadDocument', 'BaseController@uploadDocument');
+    Route::post('gethalls', 'HallController@getHalls');
+    Route::post('getgroup', 'GroupController@getgroup');
+    Route::post('addClientFromPromoter', 'BaseController@addClientFromPromoter');
+
+
+    Route::get('getbranches', 'BaseController@getBranches');
+    Route::get('getmanagers', 'BaseController@getManagers');
+    Route::get('getinstructors', 'BaseController@getInstructors');
+    Route::post('getprogramms', 'BaseController@getProgramms');
+    Route::get('getusers', 'BaseController@getUsers');
+    Route::post('getvmcontract', 'BaseController@getVmContract');
+    Route::get('test', 'BaseController@test');
 });
 
 

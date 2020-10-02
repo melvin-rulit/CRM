@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\BranchesResource;
+use App\Http\Resources\CommentsResource;
 use App\Http\Resources\UsersResource;
 use App\Http\Resources\BaseAllResource;
 use App\Http\Resources\VmContractResource;
@@ -12,8 +13,8 @@ use App\Http\Resources\AddChildrenGroupResource;
 use App\Http\Resources\GetUserInGroupResource;
 use App\Http\Resources\HallResource;
 use App\Http\Resources\Schedule_hallResource;
-use App\Http\Resources\BaseComments;
 use App\Http\Controllers\Controller;
+use App\Statuses;
 use Illuminate\Http\Request;
 use App\Filters\UsersFilter;
 use App\Base;
@@ -22,7 +23,7 @@ use App\Branch;
 use App\User;
 use App\Role;
 use App\Journal;
-use App\Log;
+use App\Loger;
 use App\Comments;
 use App\Hall;
 use App\Group;
@@ -37,6 +38,7 @@ class BaseController extends Controller
 
     public function deleteSchedule(Request $request)
     {
+
         Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->where('time', $request->time)->delete();
 
         $schedule_hall = Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->get();
@@ -128,36 +130,154 @@ class BaseController extends Controller
     }
 
 
+
     public function workout(Request $request){
 
         // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать
         $base = Base::find($request->base_id);
 
+
         // Выбираем только активные контракты и с типом основной контракт
         $contracts = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->where('contract_type', 'main');
 
-        if ($contracts->count() == 1) {
+        // Выбираем только активные контракты и с типом ВМ
+        $contractsVM = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->where('contract_type', 'vm');
 
-            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 1)->get();
+        if ($contracts->count() == 1 || $contractsVM->count() == 1) {
 
-            // Если уже стоит этот статус то выдаем ошибку
-            if (!$journal->isEmpty()) {
+            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('month', $request->month)->get();
+
+            // Если уже стоит тренировка то выдаем ошибку
+            if ($journal[0]->type == 1) {
                 return [
                     'response'  => "Уже стоит тренировка, выберите другой статус",
                 ];
             }
 
-            // Проверяем стоит ли сейчас пропущенная тренировка на текущей ячейки
-            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 3)->get();
-
-            // Если записи нет и количество тренировок в контракте больше нуля то списываем одну тренировку
-            if ($journal->isEmpty() && $contracts[0]->classes_total > 0) {
-                $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
-            }else{
+            // Если стоит пропусщеная тренировка то выдаем ошибку
+            if($journal[0]->type == 3){
                 return [
                     'response'  => "Клиент пропустил занятие",
                 ];
             }
+
+
+            // Если на текущей ячейки не стоит пропущенная тренировка и количество тренировок в контракте больше нуля то списываем одну тренировку
+            if ($journal[0]->type !== 3 && $contracts->count()) {
+                if($contracts[0]->classes_total > 0){
+                    $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
+                }
+            }
+
+
+            // Проверяем состоит ли клиент в группе с программой ПК
+            $group = Base::find($request->base_id)->group->programm;
+
+            if($group->pk && $journal[0]->type == 4){
+                // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 4,
+                        'steps_id' => 2,
+                    ]
+                );
+
+                // Добавляем в лог запись
+                Loger::create(array(
+                        'user_id' => Auth::id(),
+                        'channel' => '4',
+                        'base_id' => $request->base_id,
+                        'level_name' => 'success',
+                        'message' => 'Присвоен статус Явка ПК')
+                );
+            }
+
+            // Если группа ВМ, стоит тренировка и статус Покупка ВМ
+            if($group->vm && $journal[0]->type == 4 && $base->statuses->status_id == 5){
+                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 1
+
+                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+                $jour = Journal::where('base_id', $request->base_id)
+                    ->where('type', 4)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 6,
+                        'steps_id' => 3,
+                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                    ]
+                );
+
+                // Добавляем в лог запись
+                Loger::create(array(
+                        'user_id' => Auth::id(),
+                        'channel' => '4',
+                        'base_id' => $request->base_id,
+                        'level_name' => 'success',
+                        'message' => 'Присвоен статус Явка ВМ 1')
+                );
+            }
+
+            // Если группа ВМ, стоит тренировка и статус Явка ВМ 1
+            if($group->vm && $journal[0]->type == 4 && $base->statuses->status_id == 6){
+                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 2
+
+                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+                $jour = Journal::where('base_id', $request->base_id)
+                    ->where('type', 4)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 7,
+                        'steps_id' => 3,
+                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                    ]
+                );
+
+                // Добавляем в лог запись
+                Loger::create(array(
+                        'user_id' => Auth::id(),
+                        'channel' => '4',
+                        'base_id' => $request->base_id,
+                        'level_name' => 'success',
+                        'message' => 'Присвоен статус Явка ВМ 2')
+                );
+
+            }
+
+            // Если группа ВМ, стоит тренировка и статус Явка ВМ 2
+            if($group->vm && $journal[0]->type == 4 && $base->statuses->status_id == 7){
+                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 3
+
+                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+                $jour = Journal::where('base_id', $request->base_id)
+                    ->where('type', 4)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 8,
+                        'steps_id' => 3,
+                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                    ]
+                );
+
+                // Добавляем в лог запись
+                Loger::create(array(
+                        'user_id' => Auth::id(),
+                        'channel' => '4',
+                        'base_id' => $request->base_id,
+                        'level_name' => 'success',
+                        'message' => 'Присвоен статус Явка ВМ 3')
+                );
+            }
+
+
 
             // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
             $journal = Journal::updateOrCreate(
@@ -171,6 +291,7 @@ class BaseController extends Controller
                     'type' => 1
                 ]
             );
+
 
             return [
                 'response'  => "success",
@@ -224,11 +345,13 @@ class BaseController extends Controller
             );
 
             // И добавляем комментарий
-            $comment = Comments::create([
-                'base_id'   => $request->base_id,
-                'user_id'   => Auth::user()->id,
-                'comment'   => $request->comment,
-            ]);
+            Loger::create(array(
+                    'user_id' => Auth::id(),
+                    'channel' => '5',
+                    'base_id' => $request->base_id,
+                    'level_name' => 'success',
+                    'message' => $request->comment)
+            );
 
             return [
                 'response'  => "success",
@@ -254,6 +377,11 @@ class BaseController extends Controller
         // Проверяем стоит ли на текущей ячейки какие нибудь данные
         $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->get();
 
+        // Проверяем в какой группе состоит клиент (ВМ или ПК)
+        $group = Base::find($request->base_id)->group->programm;
+
+
+
         // Если записи нет то спросто назначаем тренировку
         if ($journal->isEmpty()) {
             $journal = Journal::create(
@@ -266,6 +394,45 @@ class BaseController extends Controller
                     'type' => 4,
                 ]
             );
+
+            if($group->pk){
+                // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 3,
+                        'steps_id' => 2,
+                        'call_date' => Carbon::createFromDate($request->year, $request->month, $request->day)->addDays(-1)
+                    ]
+                );
+                // Добавляем в лог запись
+                Loger::create(array(
+                        'user_id' => Auth::id(),
+                        'channel' => '4',
+                        'base_id' => $request->base_id,
+                        'level_name' => 'success',
+                        'message' => 'Присвоен статус Запись ПК')
+                );
+            }
+
+            if($group->vm){
+                // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 5,
+                        'steps_id' => 3,
+                        'call_date' => Carbon::createFromDate($request->year, $request->month, $request->day)->addDays(-1)
+                    ]
+                );
+                // Добавляем в лог запись
+                Loger::create(array(
+                        'user_id' => Auth::id(),
+                        'channel' => '4',
+                        'base_id' => $request->base_id,
+                        'level_name' => 'success',
+                        'message' => 'Присвоен статус Покупка ВМ')
+                );
+            }
+
             return "success";
         }
 
@@ -374,11 +541,13 @@ class BaseController extends Controller
     public function addNewComent(Request $request){
 
         // Добавляем комментарий
-        $comment = Comments::create([
-            'base_id'   => $request->base_id,
-            'user_id'   => Auth::user()->id,
-            'comment'   => $request->comment,
-        ]);
+        Loger::create(array(
+                'user_id' => Auth::id(),
+                'channel' => '5',
+                'base_id' => $request->base_id,
+                'level_name' => 'success',
+                'message' => $request->comment)
+        );
     }
 
 
@@ -397,9 +566,9 @@ class BaseController extends Controller
 
     public function showHistory(Request $request){
 
-        $comments = Comments::where('base_id', $request->base_id)->get();
+        $comments = Loger::where('base_id', $request->base_id)->get();
 
-        return BaseComments::collection($comments);
+        return CommentsResource::collection($comments);
     }
 
 
@@ -446,19 +615,39 @@ class BaseController extends Controller
         }
 
         return BaseAllResource::collection($collection->all());
-
     }
 
     public function addNewUser(Request $request){
 
+        // Добавляем нового клиента
         $base = Base::create($request->all());
 
-        Log::create(array(
+        // Добавляем в агрегатор лидов
+        $statuses = new Statuses;
+        $statuses->base_id = $base->id;
+        $statuses->steps_id = 1;
+        $statuses->status_id = 1;
+        $statuses->call_date = Carbon::now();
+        $statuses->save();
+
+        // Добавляем в лог информацию что клиент создан
+        Loger::create(array(
                 'user_id' => Auth::id(),
                 'channel' => '2',
+                'base_id' => $base->id,
                 'level_name' => 'success',
-                'message' => 'добавил клиента '.$base->id)
+                'message' => 'Добавил клиента в базу')
         );
+
+        // Добавляем в лог информацию что клиенту присвоен статус
+        Loger::create(array(
+                'user_id' => Auth::id(),
+                'channel' => '4',
+                'base_id' => $base->id,
+                'level_name' => 'success',
+                'message' => 'Присвоен статус Новый')
+        );
+
 
         return $base->id;
     }
@@ -466,6 +655,38 @@ class BaseController extends Controller
     public function getInfo(Request $request){
 
         $base = Base::find($request->id);
+
+        // Если в карточке кто нибудь работает - возвращаем соответствующий response, иначе блокируем
+        if ($base->block){
+            return [
+                'response'          => "block",
+                'user_block_name'   => $base->user_block_name->surname .' '. $base->user_block_name->name,
+            ];
+        }else{
+            $base->block = 1;
+            $base->user_block_id = Auth::user()->id;
+            $base->save();
+        }
+
+        // Меняем на статус В работе если он Новый
+        $statuses = Statuses::where('base_id', $request->id)->where('status_id', 1)->get();
+
+        if (!$statuses->isEmpty()) {
+
+            $statuses = Statuses::where('base_id', $request->id)->update(['status_id' => 2]);
+
+
+
+            // Добавляем в лог запись
+            Loger::create(array(
+                    'user_id' => Auth::id(),
+                    'channel' => '4',
+                    'base_id' => $base->id,
+                    'level_name' => 'success',
+                    'message' => 'Присвоен статус В работе')
+            );
+
+        }
 
         return new ArticleResource($base);
     }
@@ -535,7 +756,7 @@ class BaseController extends Controller
         $base->avatar = $path;
         $base->save();
 
-        Log::create(array(
+        Loger::create(array(
                 'user_id' => Auth::id(),
                 'channel' => '2',
                 'level_name' => 'success',
@@ -594,5 +815,13 @@ class BaseController extends Controller
 
         return 'Promoter';
     }
+
+    // Снимаем блокировку с карточки
+    public function removeBlock(Request $request){
+
+        Base::where('id', $request->id)->update(['block' => 0, 'user_block_id' => 0]);
+
+    }
+
 
 }

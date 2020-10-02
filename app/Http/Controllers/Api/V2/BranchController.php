@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\BranchResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Branch;
-use App\Log;
+use App\Loger;
 use Illuminate\Support\Facades\Auth;
 
 class BranchController extends Controller
@@ -42,7 +42,7 @@ class BranchController extends Controller
     {
         $branch = Branch::create($request->all());
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
              'channel' => '3',
              'level_name' => 'success',
@@ -98,7 +98,7 @@ class BranchController extends Controller
         $branch->$field_name = $request['field_value'];
         $branch->save();
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
              'channel' => '3',
              'level_name' => 'success',
@@ -116,7 +116,7 @@ class BranchController extends Controller
     {
         $branch->delete();
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
              'channel' => '3',
              'level_name' => 'success',

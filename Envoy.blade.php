@@ -54,7 +54,7 @@
 	php artisan config:clear
 
 	php artisan migrate
-    php artisan db:seed --class=Steps
+{{--    php artisan db:seed --class=Steps--}}
 	php artisan clear-compiled --env=production;
 	php artisan optimize --env=production;
 	php artisan storage:link

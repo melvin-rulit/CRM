@@ -10,7 +10,7 @@ use App\Http\Resources\GetUser;
 use App\Http\Resources\GetBranchAndRolesUser;
 use App\Http\Resources\UserHistory;
 use App\User;
-use App\Log;
+use App\Loger;
 
 
 class UserController extends Controller
@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function history(Request $request)
     {
-        $history = Log::where('user_id', $request->user_id)->get();
+        $history = Loger::where('user_id', $request->user_id)->get();
 
         return UserHistory::collection($history);
     }

@@ -6,11 +6,16 @@ use App\Http\Resources\ContractResource;
 use App\Http\Resources\ContractsResource;
 use App\Http\Resources\ShowContractResource;
 use App\Http\Controllers\Controller;
+use App\Journal;
+use App\Loger;
+use App\Schedule_hall;
+use App\Statuses;
 use Illuminate\Http\Request;
 use App\Base;
 use App\Contract;
 use App\Contract_pay;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ContractController extends Controller
 {
@@ -91,6 +96,95 @@ class ContractController extends Controller
 		$contract->active = true;
         $contract->contract_type = $request['contract_type'];
 		$contract->save();
+
+        //        ВЫНЕСТИ В ОТДЕЛЬНЫЙ МЕТОД =========================================================================
+
+        Statuses::where('base_id', $request['base_id'])->update(
+            [
+                'status_id' => 5,
+                'steps_id' => 3,
+//                'call_date' => Carbon::createFromDate($request->year, $request->month, $request->day)->addDays(-1)
+            ]
+        );
+
+        // И добавляем комментарий
+        Loger::create(array(
+                'user_id' => Auth::id(),
+                'channel' => '4',
+                'base_id' => $request['base_id'],
+                'level_name' => 'success',
+                'message' => 'Присвоен статус Покупка ВМ')
+        );
+
+        //        ВЫНЕСТИ В ОТДЕЛЬНЫЙ МЕТОД =========================================================================
+
+        $now = Carbon::now();
+        $week = $now->weekday();
+
+        $schedule = Schedule_hall::where('group_id', $request['group_id'])->get();
+
+
+
+        foreach($schedule as $value){
+
+            // Если сегодняшний день
+            if($value->day === $week){
+
+                $now = Carbon::now();
+
+                $journal = Journal::create(
+                    [
+                        'base_id' => $request['base_id'],
+                        'day' => $now->format('d'),
+                        'month' => $now->format('m'),
+                        'year' => $now->format('Y'),
+                        'icon' => 'fe fe-alert-circle text-warning',
+                        'type' => 4,
+                    ]
+                );
+            }
+
+            // Если день недели больше чем текущий
+            if($value->day > $week){
+
+                $now = Carbon::now();
+
+                $journal = Journal::create(
+                    [
+                        'base_id' => $request['base_id'],
+                        'day' => $now->addDays($value->day - $week)->format('d'),
+                        'month' => $now->addDays($value->day - $week)->format('m'),
+                        'year' => $now->addDays($value->day - $week)->format('Y'),
+                        'icon' => 'fe fe-alert-circle text-warning',
+                        'type' => 4,
+                    ]
+                );
+            }
+
+
+            // Если день недели меньше чем текущий
+            if($value->day < $week){
+
+                $itog = 7 - ($week - $value->day);
+
+                $now = Carbon::now();
+
+
+                $journal = Journal::create(
+                    [
+                        'base_id' => $request['base_id'],
+                        'day' => $now->addDays($itog)->format('d'),
+                        'month' => $now->addDays($itog)->format('m'),
+                        'year' => $now->addDays($itog)->format('Y'),
+                        'icon' => 'fe fe-alert-circle text-warning',
+                        'type' => 4,
+                    ]
+                );
+            }
+
+        }
+
+
 	}
 
 	if ($request['contract_type'] == 'main') {
@@ -138,6 +232,24 @@ class ContractController extends Controller
             $contract_pays->date = $value['day'] ? Carbon::createFromDate($request['start'])->addDays($value['day'])->format('d.m.Y') : $request['start'];
             $contract_pays->save();
         }
+
+
+        Statuses::where('base_id', $request['base_id'])->update(
+            [
+                'status_id' => 9,
+                'steps_id' => 4,
+            ]
+        );
+
+        // И добавляем комментарий
+        Loger::create(array(
+                'user_id' => Auth::id(),
+                'channel' => '4',
+                'base_id' => $request['base_id'],
+                'level_name' => 'success',
+                'message' => 'Присвоен статус Занимается')
+        );
+
 
 	}
 

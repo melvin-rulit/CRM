@@ -1,13 +1,8 @@
 <template>
 	<div>
 
-        <vue-headful
-            :title="'ЗАЯВА №' +  user_id "
-            description="Description from vue-headful"
-        />
-
 <!-- Модальное окно с выбором контрактом -->
-<b-modal id="selectModal" centered hide-footer @hidden="resetSettingsGroup" title="Выберите контракт">
+<b-modal id="selectModal" centered hide-footer title="Выберите контракт">
             <div class="row modal-body pb-5 pt-2 px-0">
                 <div class="col-md-6"><a href="#" @click.prevent="contract('vm')">Контракт на Відкрий можливості</a></div>
                 <div class="col-md-6"><a href="#" @click.prevent="contract('main')">Контракт основной программы</a></div>
@@ -75,23 +70,36 @@
                         2.6. Вартість Програми складає {{ dataVm.price }} ({{ dataVm.price_title }}.).<br>
                         2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті
                         п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:<br>
-<!--                         <table class="tabs">
-                            <tr>
-                                <td>дні занять</td>
-                                <td>
-                                    <select v-model="days">
-                                        <option v-for="day in dayselect">{{ day.day }}</option>
-                                    </select>
-                                </td>
-                                <td>, час занять</td>
-                                <td>
-                                    <select v-model="time">
-                                        <option v-for="time in timeselect">{{ time.time }}</option>
-                                    </select>
-                                </td>
-                                <td>, а Вихованець закріплюється за конкретною групою.</td>
-                            </tr>
-                        </table> -->
+
+                        <span v-if="!print">выберите программу обучения</span>
+
+                        <dynamic-select
+                            :options="dataVm.programms_vm"
+                            class="mb-2"
+                            option-value="id"
+                            option-text="name"
+                            placeholder="Введите для поиска программы"
+                            v-model="programm"
+                            @input="getHalls()" />
+
+                        <span v-if="!print">выберите зал</span>
+
+                        <b-form-select
+                            v-model="hall"
+                            class="mb-2"
+                            :options="halls"
+                            value-field="id"
+                            text-field="name"
+                            :disabled="!programm"
+                            @change="getGroup()"
+                        ></b-form-select>
+
+                        <span v-if="!print">выберите группу</span>
+
+                        <select class="form-control mb-2" v-if="shedule_hall && !print" v-model="shedule">
+                            <option :value="item" v-for="item in shedule_hall">{{ item.name }} - ({{ select_schedule(item.hall) }})</option>
+                        </select>
+
                         3. Права та обов’язки Замовника<br>
                         3.1. Замовник має право сплатити послуги за акційною ціною {{ dataVm.price_stock }} ({{ dataVm.price_stock_title }}) грн. у випадку оплати
                         Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні
@@ -299,29 +307,6 @@
                                 <strong>{{(index+1)}}.</strong>{{time.pay}} {{ dataVm.branch.currency }}. до {{ reversedMessage(time.day) }}  |                             </span>
                             </div>
                             <table>
-
-
-
-<!--                                <table width="100%">-->
-<!--                                    <tr>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                        <td>2000 грн. до 30.05.2020</td>-->
-<!--                                    </tr>-->
-<!--                                </table>-->
-
-
-
                                 <tr>
                                     <td>Кількість акційних заморозок (<span v-if="product">{{product.freezing_total}}</span>)</td>
                                     <td>Включаються заморозки по: (<span v-if="product">{{product.freezing_kolvo}}</span>) тренування</td>
@@ -425,7 +410,7 @@ Vue.use(VueHtmlToPaper, options);
               printvm: false,
               stopContract: '00.00.0000',
               pays: [],
-              product: null,
+              product: '',
               programm: null,
               dataVm: {
                 branch:[],
@@ -477,6 +462,7 @@ Vue.use(VueHtmlToPaper, options);
                 shedule: '',
             }
         },
+
         methods: {
 
             // Получаем сокращеное название дня по дате и формируем селект
@@ -565,6 +551,7 @@ Vue.use(VueHtmlToPaper, options);
                   parent_middle_name: this.dataVm.parent_middle_name,
                   currency: this.dataVm.branch.currency,
                   adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                    group_id: this.shedule.id,
                 })
                 this.printvm = true
                 contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printmain');

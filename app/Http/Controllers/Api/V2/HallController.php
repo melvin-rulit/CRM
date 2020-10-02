@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\HallsResource;
 use App\Http\Resources\HallResource;
 use App\Hall;
-use App\Log;
+use App\Loger;
 use App\User;
 
 class HallController extends Controller
@@ -57,7 +57,7 @@ class HallController extends Controller
     {
         $hall = Hall::create($request->all());
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
              'channel' => '3',
              'level_name' => 'success',
@@ -129,7 +129,7 @@ class HallController extends Controller
     {
         $hall->delete();
 
-        Log::create(array(
+        Loger::create(array(
              'user_id' => Auth::id(),
              'channel' => '3',
              'level_name' => 'success',

@@ -164,6 +164,11 @@
                     <i class="fe fe-database"></i> Журнал
                   </a>
                 </li>
+                                            <li class="nav-item">
+                  <a class="nav-link" href="/agregator">
+                    <i class="fe fe-database"></i> Агрегатор лидов
+                  </a>
+                </li>
 <!--                 @can('school_class_access')
                 <li class="nav-item">
                   <a class="nav-link" href="{{ route("admin.school-classes.index") }}">

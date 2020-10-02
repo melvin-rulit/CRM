@@ -19,6 +19,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::get('base', 'PagesController@vue');
     Route::get('journal', 'PagesController@journal');
     Route::get('permissions', 'PagesController@permissions');
+    Route::get('agregator', 'PagesController@agregator');
     Route::get('users', 'PagesController@users');
     Route::get('page-region', 'PagesController@regions');
     Route::get('get', 'VueController@get');

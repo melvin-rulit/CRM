@@ -374,7 +374,7 @@
                                             @edit-field="editFieldProgramm">
                                         </input-form>
                                     </td>
-                                    <td v-if="programm.rowNew" class="text-center" v-on:click="saveProgramm(branch.id)">
+                                    <td v-if="programm.rowNew" class="text-center" @click="saveProgramm(branch.id)">
                                         <span class="fe fe-save h3 text-success"></span>
                                     </td>
                                     <td class="text-center" v-else="">

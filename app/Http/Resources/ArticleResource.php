@@ -90,7 +90,10 @@ class ArticleResource extends JsonResource
                 'manager' => $this->base_manager ?  $this->base_manager->surname . ' ' .$this->base_manager->name : 'Нет' ,
                 'instructor' => $this->base_instructor ? $this->base_instructor->surname . ' ' .$this->base_instructor->name : 'Нет',
                 'programm' => $this->programm ? $this->programm->name : 'Нет',
-                'comments' => CommentsResource::collection($this->comments) ,
+                'comments' => CommentsResource::collection($this->loger) ,
+                'status' => $this->statuses->status->name,
+                'status_color' => $this->statuses->status->color,
+                'call_date' => Carbon::createFromDate($this->statuses->call_date)->format('d.m.Y'),
                 'gate' => $this->permissions(),
         ];
     }

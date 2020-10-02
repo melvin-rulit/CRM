@@ -16,11 +16,8 @@
                     @row-clicked="getShowModal"
                     head-variant="light">
                     <template v-slot:cell(network)="row">
-                        <td>
                             <span v-if="row.item.online" class="text-success">●</span>
-                        </td>
                     </template>
-
                 </b-table>
             </div>
         </div>
