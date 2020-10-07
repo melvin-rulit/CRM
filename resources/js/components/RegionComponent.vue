@@ -57,7 +57,7 @@
                 <form @submit.prevent="addNewBranch">
                     <div class="col-md form-group" v-for="item in newBranchFields">
                         <label class="form-control-label required">{{ item.label }}</label>
-                        <input class="form-control" v-model="addNewBranchFields[item['v-model']]" :placeholder="item.placeholder" v-mask="item.mask" required>
+                        <input class="form-control" v-model="addNewBranchFields[item['v-model']]" :placeholder="item.placeholder" mask="item.mask" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
@@ -119,7 +119,7 @@
                                 v-model="branch.phone"
                                     name="phone"
                                     placeholder="+38 (926) 123-45-67"
-                                    v-mask="'+## (###) ###-##-##'"
+                                    mask="+## (###) ###-##-##"
                                     :id="branch.id"
                                     @edit-field="editFieldBranch">
                                 </input-form>
@@ -203,7 +203,7 @@
                                         <input-form
                                             v-model="product.classes_total"
                                             name="classes_total"
-                                            v-mask="'###'"
+                                            mask="###"
                                             :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
@@ -212,7 +212,7 @@
                                         <input-form
                                             v-model="product.classes_week"
                                             name="classes_week"
-                                            v-mask="'###'"
+                                            mask="###"
                                             :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
@@ -221,7 +221,7 @@
                                         <input-form
                                             v-model="product.category_time"
                                             name="category_time"
-                                            v-mask="'###'"
+                                            mask="###"
                                             :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
@@ -230,7 +230,7 @@
                                         <input-form
                                             v-model="product.freezing_total"
                                             name="freezing_total"
-                                            v-mask="'###'"
+                                            mask="###"
                                             :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
@@ -239,7 +239,7 @@
                                         <input-form
                                             v-model="product.months"
                                             name="months"
-                                            v-mask="'###'"
+                                            mask="###"
                                             :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
@@ -248,7 +248,7 @@
                                         <input-form
                                             v-model="product.days"
                                             name="days"
-                                            v-mask="'###'"
+                                            mask="###"
                                             :id="product.id"
                                             @edit-field="editField">
                                         </input-form>
@@ -281,7 +281,7 @@
                                                                     <input-form
                                                                         v-model="pay.pay"
                                                                         name="pay"
-                                                                        v-mask="'######'"
+                                                                        mask="######"
                                                                         :id="pay.id"
                                                                         @edit-field="editFieldProductPay">
                                                                     </input-form>
@@ -290,7 +290,7 @@
                                                                     <input-form
                                                                         v-model="pay.day"
                                                                         name="day"
-                                                                        v-mask="'####'"
+                                                                        mask="####"
                                                                         :id="pay.id"
                                                                         @edit-field="editFieldProductPay">
                                                                     </input-form>
@@ -520,6 +520,7 @@ Vue.use(VueSimpleAlert);
     	  },
 		data() {
             return{
+                name: '',
                 addNewBranchFields: {},
                 newBranchFields: [
                     {label: 'Название филиала', 'v-model': 'name'},

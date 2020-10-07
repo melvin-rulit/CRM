@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\PaysResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
 
@@ -25,7 +26,7 @@ class ContractForGetInfo extends JsonResource
             'freezing_total'      => $this->freezing_total,
             'classes_total'       => $this->classes_total,
             'active'              => $this->active,
-            'pays'                => $this->contract_pays,
+            'pays'                => PaysResource::collection($this->contract_pays),
         ];
     }
 }

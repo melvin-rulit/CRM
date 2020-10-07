@@ -11,4 +11,9 @@ class Contract_pay extends Model
         'name',
         'start',
     ];
+
+
+    public function contract(){
+        return $this->belongsTo('App\Contract', 'contract_id');
+    }
 }

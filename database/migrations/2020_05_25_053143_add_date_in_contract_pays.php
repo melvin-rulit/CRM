@@ -14,7 +14,7 @@ class AddDateInContractPays extends Migration
     public function up()
     {
         Schema::table('contract_pays', function (Blueprint $table) {
-            $table->string('date')->nullable();
+            $table->date('date')->nullable();
         });
     }
 

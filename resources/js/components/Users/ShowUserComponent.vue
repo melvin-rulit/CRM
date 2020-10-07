@@ -57,7 +57,7 @@
                                     <td>Телефон</td>
                                     <td><input-form
                                         v-model="user.phone"
-                                        v-mask="'+## (###) ###-##-##'"
+                                        mask="+## (###) ###-##-##"
                                         name="phone"
                                         @edit-field="editField">
                                     </input-form>

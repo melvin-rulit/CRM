@@ -28,6 +28,7 @@ use App\Comments;
 use App\Hall;
 use App\Group;
 use App\Schedule_hall;
+use App\Contract_pay;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
@@ -820,6 +821,57 @@ class BaseController extends Controller
     public function removeBlock(Request $request){
 
         Base::where('id', $request->id)->update(['block' => 0, 'user_block_id' => 0]);
+
+    }
+
+    public function getTest2(){
+
+//        $user = User::find(Auth::user()->id);
+//
+//        $collection = collect();
+//        $collection_itog = collect();
+//
+//        foreach ($user->branches as $branch) {
+//            foreach ($branch->bases as $base) {
+//                $collection->push($base);
+//            }
+//        }
+
+
+//        foreach ($collection as $value){
+//            if ($value->manager === Auth::user()->id){
+//                $collection_itog->push($value);
+//            }
+//        }
+
+        $base = Base::find(50);
+
+
+        foreach ($base->contracts as $value){
+            return $value->contract_pays;
+        }
+
+//        return $collection_itog->count();
+
+
+        // Звонки клиентам дата платежа у которых наступает за 1 день
+        // Получаем дату -1 день до окончания оплаты в контракте
+//        $date = Carbon::today()->addDays(-1)->toDateString();
+//
+//        $pay = Contract_pay::with('contract')->where('date', '=', $date)->get();
+//
+//
+//        $collection = collect();
+//
+//
+//        // Перебираем массив и если у клиента привязан менеджер то добавляем в коллекцию
+//        foreach ($pay as $value) {
+//            if($value->contract->user->manager) {
+//                $collection->push($value->contract->user);
+//            }
+//        }
+//
+//        return $collection;
 
     }
 

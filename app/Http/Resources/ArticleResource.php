@@ -94,6 +94,7 @@ class ArticleResource extends JsonResource
                 'status' => $this->statuses->status->name,
                 'status_color' => $this->statuses->status->color,
                 'call_date' => Carbon::createFromDate($this->statuses->call_date)->format('d.m.Y'),
+                'call_status' => $this->statuses->call_status,
                 'gate' => $this->permissions(),
         ];
     }

@@ -229,7 +229,7 @@ class ContractController extends Controller
             $contract_pays->contract_id = $contract->id;
             $contract_pays->pay = $value['pay'];
             $contract_pays->day = $value['day'] ? $value['day'] : 0;
-            $contract_pays->date = $value['day'] ? Carbon::createFromDate($request['start'])->addDays($value['day'])->format('d.m.Y') : $request['start'];
+            $contract_pays->date = $value['day'] ? Carbon::createFromDate($request['start'])->addDays($value['day'])->format('Y-m-d') : $request['start'];
             $contract_pays->save();
         }
 

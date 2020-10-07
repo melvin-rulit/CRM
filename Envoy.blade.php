@@ -18,7 +18,7 @@
 	];
 
 	$date = new DateTime('now', new DateTimeZone($timezone));
-	$release = $path .'/releases/'. $date->format('YmdHis');
+	$release = $path .'/releases/'. $date->format('d.m.Y_H:i:s');
 
 @endsetup
 

@@ -66,6 +66,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('updateLpr', 'BaseController@updateLpr');
     Route::post('removeblock', 'BaseController@removeBlock');
     Route::post('changeCallDate', 'StatusesController@changeCallDate');
+    Route::post('changeCallStatus', 'StatusesController@changeCallStatus');
     Route::post('addnewuser', 'BaseController@addNewUser');
     Route::get('filter', 'BaseController@filter');
 
@@ -94,6 +95,8 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::get('getusers', 'BaseController@getUsers');
     Route::post('getvmcontract', 'BaseController@getVmContract');
     Route::get('test', 'BaseController@test');
+
+    Route::get('getTest2', 'BaseController@getTest2');
 });
 
 

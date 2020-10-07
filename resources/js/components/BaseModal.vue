@@ -129,9 +129,11 @@
                                 class="mb-3"
                                 @input="changeCallDate">
                             </date-picker>
-                            <select class="form-control mb-3">
-                                <option value="0">Не дозвон</option>
-                                <option value="1">Дозвон</option>
+
+                            <select class="form-control mb-3" @change="changeCallStatus($event)">
+                                <option v-if="dataObject.call_status == null" value=""></option>
+                                <option :selected="dataObject.call_status === 0"" value="0">Не дозвон</option>
+                                <option :selected="dataObject.call_status === 1"" value="1">Дозвон</option>
                             </select>
 
                             <span>Статус - <span :style="{ color: dataObject.status_color }">{{ dataObject.status }}</span></span>
@@ -915,6 +917,16 @@
                     .then(response => this.branches = response.data.data)
             },
 
+            getManagers(){
+                axios.get('api/v2/getmanagers')
+                    .then(response => this.managers = response.data.data)
+            },
+
+            getInstructors(){
+                axios.get('api/v2/getinstructors')
+                    .then(response => this.instructors = response.data.data)
+            },
+
             editBranch(){
                 this.showBranch = true
                 this.getBranches()
@@ -1054,6 +1066,15 @@
                     id : this.dataObject['id'],
                     call_date: this.dataObject.call_date
                 })
+            },
+
+            changeCallStatus(event){
+                if (event.target.value){
+                    axios.post('api/v2/changeCallStatus', {
+                        id : this.dataObject['id'],
+                        call_status: event.target.value
+                    })
+                }
             }
         }
     }

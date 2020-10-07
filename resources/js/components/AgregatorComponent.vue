@@ -3,6 +3,9 @@
 
         <base-modal-component ref="showmoda"></base-modal-component>
 
+        <button class="btn btn-danger m-5" @click="fetchArticles">Получить</button>
+
+
         <!-- Панель над фильтром -->
 <!--        <div class="row">-->
 <!--            <div class="col-lg-12">-->

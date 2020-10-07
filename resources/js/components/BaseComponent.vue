@@ -2,6 +2,8 @@
 <template>
     <div>
 
+<!--        <button class="btn btn-danger m-5" @click="getTest">Получить</button>-->
+
         <base-modal-component ref="showmoda"></base-modal-component>
 
         <!-- Панель над фильтром -->
@@ -346,6 +348,10 @@
                 this.indexactiveContract = 0
                 this.fetchArticles()
                 this.showForm = false
+            },
+
+            getTest(){
+                axios.get('api/v2/getTest2')
             }
         }
     }

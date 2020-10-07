@@ -1,20 +1,20 @@
 <template>
     <span>
         <span>
-            <a class="text-success" href="#" v-if="thisValue == '' || thisValue == null && !keyInputForm" @click.prevent="focus">Добавить</a>
+            <a class="text-success" href="#" v-if="value == '' || value == null && !keyInputForm" @click.prevent="focus">Добавить</a>
         </span>
-          <span v-if="!keyInputForm" class="card-title" @click="focus">{{ thisValue }}</span>
+          <span v-if="!keyInputForm" class="card-title" @click="focus">{{ value }}</span>
 
-        <textarea
-            v-if="textarea && keyInputForm"
-            ref="edit"
-            class="form-control"
-            :id="id"
-            :name="name"
-            v-model="thisValue"
-            @input="$emit('input', value)"
-            @blur="keyInputForm = false; $emit('edit-field', $event)">
-        </textarea>
+<!--        <textarea-->
+<!--            v-if="textarea && keyInputForm"-->
+<!--            ref="edit"-->
+<!--            class="form-control"-->
+<!--            :id="id"-->
+<!--            :name="name"-->
+<!--            v-model="value"-->
+<!--            @input="$emit('input', value)"-->
+<!--            @blur="keyInputForm = false; $emit('edit-field', $event)">-->
+<!--        </textarea>-->
 
         <input
             v-if="keyInputForm && !textarea && !datePicker"
@@ -25,21 +25,22 @@
             :placeholder="placeholder"
             :id="id"
             :name="name"
-            v-model="thisValue"
+            v-model="value"
+            v-mask="mask"
             @input="$emit('input', value)"
             @keyup.enter="keyInputForm = false;$emit('edit-field', $event)"
             @blur="keyInputForm = false; $emit('edit-field', $event)">
 
-        <date-picker
-            v-if="keyInputForm && datePicker"
-            :lang="lang"
-            ref="edit"
-            v-model="thisValue"
-            :editable="false"
-            value-type="DD.MM.YYYY"
-            format="DD.MM.YYYY"
-            @close="keyInputForm = false; $emit('edit-field', value, name ,datePicker)">
-        </date-picker>
+<!--        <date-picker-->
+<!--            v-if="keyInputForm && datePicker"-->
+<!--            :lang="lang"-->
+<!--            ref="edit"-->
+<!--            v-model="value"-->
+<!--            :editable="false"-->
+<!--            value-type="DD.MM.YYYY"-->
+<!--            format="DD.MM.YYYY"-->
+<!--            @close="keyInputForm = false; $emit('edit-field', value, name ,datePicker)">-->
+<!--        </date-picker>-->
     </span>
 </template>
 
@@ -48,22 +49,18 @@
     export default {
         components: {TheMask},
         props: {
-            value: {
-                type: String,
-            },
+            value: [String, Number],
             name: {
                 type: String,
                 required: true
             },
             id: {
-                type: String,
+                type: Number,
             },
             placeholder: {
                 type: String,
             },
-            mask: {
-                type: String,
-            },
+            mask: {},
             // Свойство вывод textarea
             textarea: {
                 type: String,
