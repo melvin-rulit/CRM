@@ -351,7 +351,7 @@
             },
 
             getTest(){
-                axios.get('api/v2/getTest2')
+                axios.get('api/v2/getAgregatorLids')
             }
         }
     }

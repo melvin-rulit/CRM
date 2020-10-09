@@ -17,7 +17,7 @@ class CreateContractsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('base_id');
             $table->string('name');
-            $table->string('start');
+            $table->date('start');
             $table->string('end');
             $table->string('end_actually');
             $table->boolean('active');

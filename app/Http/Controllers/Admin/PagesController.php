@@ -58,5 +58,15 @@ class PagesController extends Controller
         return view('pages.agregator');
     }
 
+    public function kassa(){
+
+        return view('pages.kassa');
+    }
+
+    public function operation(){
+
+        return view('pages.operation');
+    }
+
 
 }

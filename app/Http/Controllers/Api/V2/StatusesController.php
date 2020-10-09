@@ -34,7 +34,7 @@ class StatusesController extends Controller
 
         $call_status = $request->call_status == 1 ? ' Дозвон' : ' Не дозвон';
 
-//         Добавляем в лог информацию что клиент изменил статус звонка
+        // Добавляем в лог информацию что клиент изменил статус звонка
         Loger::create(array(
                 'user_id' => Auth::id(),
                 'channel' => '4',
@@ -42,5 +42,25 @@ class StatusesController extends Controller
                 'level_name' => 'success',
                 'message' => 'Сменил статус звонка на' . $call_status)
         );
+
+        if ($request->comment){
+
+            // Прибавляем 8 часов к дате звонка
+            $statuses = Statuses::query()->where('base_id', $request->id)->first();
+
+            $statuses->update([
+                'call_date' => Carbon::parse($statuses->call_date)->addHours(8)
+            ]);
+
+
+            // Добавляем в лог коментарий
+            Loger::create(array(
+                    'user_id' => Auth::id(),
+                    'channel' => '5',
+                    'base_id' => $request->id,
+                    'level_name' => 'success',
+                    'message' => $request->comment)
+            );
+        }
     }
 }

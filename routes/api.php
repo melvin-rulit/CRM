@@ -62,6 +62,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // Base
     Route::post('getinfo', 'BaseController@getInfo');
     Route::get('collection', 'BaseController@index');
+    Route::get('getAgregatorLids', 'BaseController@getAgregatorLids');
     Route::post('image', 'BaseController@upload');
     Route::post('updateLpr', 'BaseController@updateLpr');
     Route::post('removeblock', 'BaseController@removeBlock');

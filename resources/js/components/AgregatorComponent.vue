@@ -3,8 +3,6 @@
 
         <base-modal-component ref="showmoda"></base-modal-component>
 
-        <button class="btn btn-danger m-5" @click="fetchArticles">Получить</button>
-
 
         <!-- Панель над фильтром -->
 <!--        <div class="row">-->
@@ -38,8 +36,6 @@
                             sticky-header="700px"
                             :items="articles"
                             :fields="fields"
-                            :sort-by.sync="sortBy"
-                            :sort-desc.sync="sortDesc"
                             @row-clicked="BaseModal"
                             head-variant="light">
                             <template v-slot:cell(status)="row">
@@ -64,8 +60,6 @@
     export default {
         data() {
             return{
-                sortBy: 'child_surname',
-                sortDesc: false,
                 fields: [
                     {
                         key: 'child_surname',
@@ -108,7 +102,7 @@
         methods: {
 
             fetchArticles(){
-                axios.get('api/v2/collection')
+                axios.get('api/v2/getAgregatorLids')
                     .then(response => this.articles = response.data.data)
             },
 

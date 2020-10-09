@@ -658,12 +658,12 @@ class BaseController extends Controller
         $base = Base::find($request->id);
 
         // Если в карточке кто нибудь работает - возвращаем соответствующий response, иначе блокируем
-        if ($base->block){
+        if ($request->set_block && $base->block){
             return [
                 'response'          => "block",
                 'user_block_name'   => $base->user_block_name->surname .' '. $base->user_block_name->name,
             ];
-        }else{
+        }else if($request->set_block && !$base->block){
             $base->block = 1;
             $base->user_block_id = Auth::user()->id;
             $base->save();
@@ -675,6 +675,18 @@ class BaseController extends Controller
         if (!$statuses->isEmpty()) {
 
             $statuses = Statuses::where('base_id', $request->id)->update(['status_id' => 2]);
+
+
+
+//            Можно записать так
+//
+//    Statuses::where('base_id', $request->id)
+//        ->where('status_id', 1)
+//        ->update('[
+//                    'status_id' => 2
+//            ]');
+//
+//Если соответствующий записей найдено не будет, следовательно и обновляться ничего не будет...
 
 
 
@@ -824,54 +836,137 @@ class BaseController extends Controller
 
     }
 
-    public function getTest2(){
+    public function getAgregatorLids(){
 
-//        $user = User::find(Auth::user()->id);
-//
-//        $collection = collect();
-//        $collection_itog = collect();
-//
-//        foreach ($user->branches as $branch) {
-//            foreach ($branch->bases as $base) {
-//                $collection->push($base);
-//            }
-//        }
+        $dates = Carbon::now();
+
+        $date = Carbon::today()->addDays(-3)->toDateString();
 
 
-//        foreach ($collection as $value){
-//            if ($value->manager === Auth::user()->id){
-//                $collection_itog->push($value);
-//            }
-//        }
+        $user = User::find(Auth::user()->id);
 
-        $base = Base::find(50);
+        $collection = collect();
+        $collection_itog = collect();
 
-
-        foreach ($base->contracts as $value){
-            return $value->contract_pays;
+        foreach ($user->branches as $branch) {
+            foreach ($branch->bases as $base) {
+                $collection->push($base);
+            }
         }
 
-//        return $collection_itog->count();
+
+        //--------------------------------------------------------------------------------
+//        // Звонки клиентам дата платежа у которых наступает за 1 день.
+        $date = Carbon::today()->addDays(+ 1)->toDateString();
+
+        // Проверяем есть ли клиенты оплаты котороые наступают за день до платежа
+        foreach ($collection as $value){
+            if ($value->contracts->where('contract_type', 'main')->first()){
+                $contract = $value->contracts->where('contract_type', 'main')->first();
+                foreach ($contract->contract_pays as $pay){
+                       if ($pay->date == $date){
+                           $collection_itog->push($value);
+                       }
+                }
+            }
+        }
+        //--------------------------------------------------------------------------------
 
 
-        // Звонки клиентам дата платежа у которых наступает за 1 день
-        // Получаем дату -1 день до окончания оплаты в контракте
-//        $date = Carbon::today()->addDays(-1)->toDateString();
-//
-//        $pay = Contract_pay::with('contract')->where('date', '=', $date)->get();
-//
-//
-//        $collection = collect();
-//
-//
-//        // Перебираем массив и если у клиента привязан менеджер то добавляем в коллекцию
-//        foreach ($pay as $value) {
-//            if($value->contract->user->manager) {
-//                $collection->push($value->contract->user);
-//            }
-//        }
-//
-//        return $collection;
+        //--------------------------------------------------------------------------------
+
+//        // Напоминание прихода на ПК - Проверяем есть ли клиенты тренировка ПК которая наступает за один день от текущей даты
+        foreach ($collection as $value){
+            if ($value->group){
+                if ($value->group->programm->pk){
+                    $journal = Journal::where('base_id', $value->id)
+                        ->where('year', $dates->year)
+                        ->where('month', $dates->month)
+                        ->where('day', $dates->day + 1)
+                        ->where('type', 4)
+                        ->get()
+                        ->first();
+                    if ($journal){
+                        $collection_itog->push($value);
+                    }
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------
+
+
+        //--------------------------------------------------------------------------------
+
+        // Напоминание прихода на ВМ - Проверяем есть ли клиенты тренировка ВМ которая наступает за один день от текущей даты
+        foreach ($collection as $value){
+            if ($value->group){
+                if ($value->group->programm->vm){
+                    $journal = Journal::where('base_id', $value->id)
+                        ->where('year', $dates->year)
+                        ->where('month', $dates->month)
+                        ->where('day', $dates->day + 1)
+                        ->where('type', 4)
+                        ->get()
+                        ->first();
+                    if ($journal){
+                        $collection_itog->push($value);
+                    }
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------
+
+
+        //--------------------------------------------------------------------------------
+
+        // Напоминание клиенту о первой тренировке
+        $date = Carbon::today()->addDays(+ 1)->toDateString();
+
+        // Проверяем есть ли по активным контраактам начала действия договора
+        foreach ($collection as $value){
+            if ($value->contracts->where('contract_type', 'main')->where('start', $date)->first()){
+                    $collection_itog->push($value);
+                }
+            }
+
+        //--------------------------------------------------------------------------------
+
+
+        //--------------------------------------------------------------------------------
+
+//        // Клиенты которые были записаны на ПК но не явились
+        foreach ($collection as $value){
+            if ($value->group){
+                if ($value->group->programm->pk){
+                    $journal = Journal::where('base_id', $value->id)
+                        ->where('type', 3)
+                        ->get()
+                        ->first();
+                    if ($journal){
+                        $collection_itog->push($value);
+                    }
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------
+
+
+        //--------------------------------------------------------------------------------
+
+        // Все со статусом "новые"
+        foreach ($collection as $value){
+            if ($value->statuses->status_id == 1){
+                    $collection_itog->push($value);
+                }
+            }
+
+        //--------------------------------------------------------------------------------
+
+
+        return BaseAllResource::collection($collection_itog->unique());
 
     }
 

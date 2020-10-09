@@ -20,6 +20,8 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::get('journal', 'PagesController@journal');
     Route::get('permissions', 'PagesController@permissions');
     Route::get('agregator', 'PagesController@agregator');
+    Route::get('kassa', 'PagesController@kassa');
+    Route::get('operation', 'PagesController@operation');
     Route::get('users', 'PagesController@users');
     Route::get('page-region', 'PagesController@regions');
     Route::get('get', 'VueController@get');

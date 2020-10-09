@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Statuses extends Model
 {
+
+    protected $fillable = [
+        'call_date',
+    ];
+
     public function steps(){
         return $this->hasOne('App\Step', 'id', 'steps_id');
     }

@@ -134,11 +134,42 @@
                     <i class="fe fe-git-branch"></i> {{ trans('cruds.menu.reports') }}
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/">
-                    <i class="fe fe-dollar-sign"></i> {{ trans('cruds.menu.kassa') }}
-                  </a>
-                </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link collapsed"
+                                                   href="#kassa"
+                                                   data-toggle="collapse"
+                                                   role="button"
+                                                   aria-expanded="false"
+                                                   aria-controls="sidebarDashboards">
+                                                    <i class="fe fe-dollar-sign"></i> {{ trans('cruds.menu.kassa') }}
+                                                </a>
+                                                <div class="collapse" id="kassa" style="">
+                                                    <ul class="nav nav-sm flex-column">
+                                                        <li class="nav-item">
+                                                            <a href="operation" class="nav-link active">
+                                                                Операции
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a href="group" class="nav-link ">
+                                                                Группы
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a href="kassa" class="nav-link ">
+                                                                Касса
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+
+{{--                <li class="nav-item">--}}
+{{--                  <a class="nav-link" href="kassa">--}}
+{{--                    <i class="fe fe-dollar-sign"></i> {{ trans('cruds.menu.kassa') }}--}}
+{{--                  </a>--}}
+{{--                </li>--}}
                 <li class="nav-item">
                   <a class="nav-link" href="/">
                     <i class="fe fe-git-branch"></i> Склад

@@ -5,16 +5,16 @@
         </span>
           <span v-if="!keyInputForm" class="card-title" @click="focus">{{ value }}</span>
 
-<!--        <textarea-->
-<!--            v-if="textarea && keyInputForm"-->
-<!--            ref="edit"-->
-<!--            class="form-control"-->
-<!--            :id="id"-->
-<!--            :name="name"-->
-<!--            v-model="value"-->
-<!--            @input="$emit('input', value)"-->
-<!--            @blur="keyInputForm = false; $emit('edit-field', $event)">-->
-<!--        </textarea>-->
+        <textarea
+            v-if="textarea && keyInputForm"
+            ref="edit"
+            class="form-control"
+            :id="id"
+            :name="name"
+            v-model="value"
+            @input="$emit('input', value)"
+            @blur="keyInputForm = false; $emit('edit-field', $event)">
+        </textarea>
 
         <input
             v-if="keyInputForm && !textarea && !datePicker"
@@ -31,16 +31,16 @@
             @keyup.enter="keyInputForm = false;$emit('edit-field', $event)"
             @blur="keyInputForm = false; $emit('edit-field', $event)">
 
-<!--        <date-picker-->
-<!--            v-if="keyInputForm && datePicker"-->
-<!--            :lang="lang"-->
-<!--            ref="edit"-->
-<!--            v-model="value"-->
-<!--            :editable="false"-->
-<!--            value-type="DD.MM.YYYY"-->
-<!--            format="DD.MM.YYYY"-->
-<!--            @close="keyInputForm = false; $emit('edit-field', value, name ,datePicker)">-->
-<!--        </date-picker>-->
+        <date-picker
+            v-if="keyInputForm && datePicker"
+            :lang="lang"
+            ref="edit"
+            v-model="value"
+            :editable="false"
+            value-type="DD.MM.YYYY"
+            format="DD.MM.YYYY"
+            @close="keyInputForm = false; $emit('edit-field', value, name ,datePicker)">
+        </date-picker>
     </span>
 </template>
 

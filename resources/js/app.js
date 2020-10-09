@@ -61,6 +61,8 @@ Vue.component('permissions-component', require('./components/PermissionsComponen
 Vue.component('upload-component', require('./components/UploadFile.vue').default);
 Vue.component('promoter-component', require('./components/PromoterComponent.vue').default);
 Vue.component('agregator-component', require('./components/AgregatorComponent.vue').default);
+Vue.component('kassa-component', require('./components/KassaComponent.vue').default);
+Vue.component('operation-component', require('./components/OperationComponent.vue').default);
 Vue.component('mask-component', require('./components/Mask.vue').default);
 
 

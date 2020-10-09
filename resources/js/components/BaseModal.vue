@@ -1,6 +1,16 @@
 <template>
     <div>
 
+
+        <!-- Окно добавления комментария после присвоения статуса не посетил тренировку -->
+        <b-modal id="commentModal" title="Введите комментарий" centered ok-title="Добавить" cancel-title="Отмена" @ok="addComent">
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+                <b-form-group label-for="name-input">
+                    <b-form-textarea id="textarea" v-model="comment"></b-form-textarea>
+                </b-form-group>
+            </form>
+        </b-modal>
+
         <!-- Модальное окно карточки клиента -->
         <b-modal id="userShow" centered hide-footer size="lg" title="Карточка клиента" @hide="closeUserModal">
             <div class="card mb-3">
@@ -136,7 +146,12 @@
                                 <option :selected="dataObject.call_status === 1"" value="1">Дозвон</option>
                             </select>
 
-                            <span>Статус - <span :style="{ color: dataObject.status_color }">{{ dataObject.status }}</span></span>
+                            <h4 class="text-center mb-3">Статус - <span :style="{ color: dataObject.status_color }">{{ dataObject.status }}</span></h4>
+
+                            <h4 class="text-center mb-1">
+                                <a href="#" @click.prevent="showCommentForm">Комментарий</a>
+                            </h4>
+
                             <hr>
                             <h4 class="text-center mb-4">
                                 <a href="#" @click.prevent="showUploadForm()"> Документы
@@ -723,6 +738,7 @@
         },
         data() {
             return{
+                comment: '',
                 fullPage: true,
                 call_date: '',
                 call_status: '',
@@ -806,7 +822,7 @@
         methods: {
 
             showModa(id){
-                axios.post('api/v2/getinfo', {id : id}).then(response => {
+                axios.post('api/v2/getinfo', {id : id, set_block : 1}).then(response => {
                     if(response.data.response == "block"){
                         this.$alert(`В данный момент с карточкой работает пользователь ${response.data.user_block_name}`)
                     }else{
@@ -1075,6 +1091,27 @@
                         call_status: event.target.value
                     })
                 }
+            },
+
+            showCommentForm(){
+                this.$bvModal.show('commentModal')
+            },
+
+            addComent(){
+                if (this.comment){
+                    axios.post('api/v2/changeCallStatus', {
+                        id : this.dataObject['id'],
+                        call_status : 1,
+                        comment: this.comment
+                    })
+                    this.comment = ''
+
+                        axios.post('api/v2/getinfo', {id : this.dataObject['id'], set_block : 0}).then(response => {
+                            this.dataObject = response.data.data
+                        })
+                }else{
+                    this.$alert('Коментарий не может быть пустым')
+                }
             }
         }
     }
@@ -1161,6 +1198,8 @@
 
     .fix-height{
         min-height: 300px;
+        max-height: 500px;
+        overflow-y: auto;
     }
     .center{
         display: block;
