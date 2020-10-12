@@ -576,7 +576,7 @@ Vue.use(VueSimpleAlert);
         methods: {
 
             sendTypeProgramm(id, type){
-                axios.post( 'api/v2/updateTypeProgramm/', {id: id, type: type})
+                axios.post( 'api/v2/updateTypeProgramm', {id: id, type: type})
             },
 
             saveProduct(id){

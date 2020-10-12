@@ -838,7 +838,7 @@
             },
 
             sendLpr(id, lpr){
-                axios.post( 'api/v2/updateLpr/', {id: id, lpr: lpr})
+                axios.post( 'api/v2/updateLpr', {id: id, lpr: lpr})
             },
 
             showUploadForm(){
