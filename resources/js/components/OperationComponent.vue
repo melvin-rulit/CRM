@@ -19,13 +19,13 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Операция</label>
+                        <label class="col-sm-3 col-form-label">Группа</label>
                         <div class="col-sm-9">
                             <dynamic-select
                                 :options="articles"
                                 option-value="id"
                                 option-text="name"
-                                placeholder="Введите для поиска операции"/>
+                                placeholder="Введите для поиска группы"/>
                         </div>
                     </div>
                 </form>

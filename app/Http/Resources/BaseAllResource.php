@@ -21,12 +21,6 @@ class BaseAllResource extends JsonResource
                 'child_name'             => $this->child_name,
                 'child_middle_name'      => $this->child_middle_name,
                 'age' => Carbon::createFromDate($this->child_birthday)->diff(Carbon::now())->format('%y,%m'),
-                'statuses' => $this->statuses,
-                'steps' => $this->statuses->steps->name,
-                'status' => $this->statuses->status->name,
-                'color' => $this->statuses->status->color,
-                'steps_color' => $this->statuses->steps->color,
-                'call_date' => Carbon::createFromDate($this->statuses->call_date)->format('d.m.Y'),
         ];
     }
 }

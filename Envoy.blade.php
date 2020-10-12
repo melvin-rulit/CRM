@@ -7,6 +7,8 @@
 
 	$path = '/var/www/html';
 
+	$path_storage = '/var/www/html/stor';
+
 	$current = $path . '/current';
 
 	$repo = "https://github.com/mavrin88/CRM";
@@ -79,7 +81,7 @@
 @endtask
 
 @task('update_symlinks')
-	ln -nfs {{ $release }} {{ $current }};
+	ln -nfs {{ $path_storage }} {{ $current }};
 	chgrp -h www-data {{ $current }};
 
 	echo "#5 - Symlink has been set"

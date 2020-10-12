@@ -8,6 +8,7 @@ use App\Http\Resources\CommentsResource;
 use App\Http\Resources\UsersResource;
 use App\Http\Resources\BaseAllResource;
 use App\Http\Resources\VmContractResource;
+use App\Http\Resources\AgregatorAllResource;
 use App\Http\Resources\TestResource;
 use App\Http\Resources\AddChildrenGroupResource;
 use App\Http\Resources\GetUserInGroupResource;
@@ -757,7 +758,7 @@ class BaseController extends Controller
 
     public function getUsers(){
 
-        return new UsersResource(User::select('id', 'name', 'surname')->get());
+        return UsersResource::collection(User::select('id', 'name', 'surname')->get());
     }
 
     public function upload(Request $request){
@@ -966,7 +967,7 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
 
-        return BaseAllResource::collection($collection_itog->unique());
+        return AgregatorAllResource::collection($collection_itog->unique());
 
     }
 
