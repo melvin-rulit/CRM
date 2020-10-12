@@ -4,7 +4,7 @@
 
 <!--        <button class="btn btn-danger m-5" @click="getTest">Получить</button>-->
 
-        <base-modal-component ref="showmoda"></base-modal-component>
+        <base-modal-component @get-method="fetchArticles" ref="showmoda"></base-modal-component>
 
         <!-- Панель над фильтром -->
         <div class="row">

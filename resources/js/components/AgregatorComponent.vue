@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <base-modal-component ref="showmoda"></base-modal-component>
+        <base-modal-component @get-method="fetchArticles" ref="showmoda"></base-modal-component>
 
 
         <!-- Панель над фильтром -->

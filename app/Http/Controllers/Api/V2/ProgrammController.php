@@ -104,12 +104,10 @@ class ProgrammController extends Controller
 //        return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    //    Обновляем ЛПР родителя
-    public function updateTypeProgramm(Request $request, Programm $programm){
+    //    Обновляем тип программы родителя
+    public function updateTypeProgramm(Request $request){
 
-        $programm = Programm::find($request->id);
-        $programm->type = $request->type;
-        $programm->save();
+        Programm::where('id', $request->id)->update(['type' => $request->type]);
 
         return [
             'success' => 'ok'

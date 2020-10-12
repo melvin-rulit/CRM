@@ -1067,7 +1067,7 @@
 
                 this.dataObject.contracts_active = [];
                 this.indexactiveContract = 0
-                this.fetchArticles()
+                this.$emit('get-method')
                 this.showForm = false
                 this.call_status = ''
                 this.call_date = ''
