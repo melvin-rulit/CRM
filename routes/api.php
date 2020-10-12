@@ -26,6 +26,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
 
     // Programms
     Route::apiResource('programms', 'ProgrammController');
+    Route::post('updateTypeProgramm', 'ProgrammController@updateTypeProgramm');
 
     // Groups
     Route::apiResource('groups', 'GroupController');

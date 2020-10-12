@@ -361,6 +361,9 @@
                             <thead>
                                 <tr>
                                     <th>Название</th>
+                                    <th>Основная</th>
+                                    <th>ПК</th>
+                                    <th>ВМ</th>
                                     <th v-show="buttonAddProgramm" class="text-center bg-success bp" @click="addRowProgramm(branch.id), buttonAddProgramm = !buttonAddProgramm"><span class="fe fe-plus h3 text-white"></span></th>
                                 </tr>
                             </thead>
@@ -374,6 +377,9 @@
                                             @edit-field="editFieldProgramm">
                                         </input-form>
                                     </td>
+                                    <td><input @change="sendTypeProgramm(programm.id, 1)" type="radio" id="main" value="1" v-model="programm.type"></td>
+                                    <td><input @change="sendTypeProgramm(programm.id, 2)" type="radio" id="pk" value="2" v-model="programm.type"></td>
+                                    <td><input @change="sendTypeProgramm(programm.id, 3)" type="radio" id="vm" value="3" v-model="programm.type"></td>
                                     <td v-if="programm.rowNew" class="text-center" @click="saveProgramm(branch.id)">
                                         <span class="fe fe-save h3 text-success"></span>
                                     </td>
@@ -551,7 +557,10 @@ Vue.use(VueSimpleAlert);
                     products: {
                         pays: [],
                     },
-                    programm: [],
+                    programm: [{
+                        pk: '',
+                        vm: ''
+                    }],
                     dopproducts: [],
                     halls: [],
                 },
@@ -565,6 +574,11 @@ Vue.use(VueSimpleAlert);
             $('#getbranch').on('hidden.bs.modal', () => this.closeModal())
         },
         methods: {
+
+            sendTypeProgramm(id, type){
+                axios.post( '/api/v2/updateTypeProgramm/', {id: id, type: type})
+            },
+
             saveProduct(id){
                 this.branch.products[0].rowNew = '';
                 this.buttonAdd = true

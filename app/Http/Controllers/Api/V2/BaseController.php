@@ -174,7 +174,7 @@ class BaseController extends Controller
             // Проверяем состоит ли клиент в группе с программой ПК
             $group = Base::find($request->base_id)->group->programm;
 
-            if($group->pk && $journal[0]->type == 4){
+            if($group->type == 2 && $journal[0]->type == 4){
                 // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
                 Statuses::where('base_id', $request->base_id)->update(
                     [
@@ -194,7 +194,7 @@ class BaseController extends Controller
             }
 
             // Если группа ВМ, стоит тренировка и статус Покупка ВМ
-            if($group->vm && $journal[0]->type == 4 && $base->statuses->status_id == 5){
+            if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 5){
                 // В агрегаторе лидов изменяем статус и этап на Явка ВМ 1
 
                 // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
@@ -222,7 +222,7 @@ class BaseController extends Controller
             }
 
             // Если группа ВМ, стоит тренировка и статус Явка ВМ 1
-            if($group->vm && $journal[0]->type == 4 && $base->statuses->status_id == 6){
+            if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 6){
                 // В агрегаторе лидов изменяем статус и этап на Явка ВМ 2
 
                 // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
@@ -251,7 +251,7 @@ class BaseController extends Controller
             }
 
             // Если группа ВМ, стоит тренировка и статус Явка ВМ 2
-            if($group->vm && $journal[0]->type == 4 && $base->statuses->status_id == 7){
+            if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 7){
                 // В агрегаторе лидов изменяем статус и этап на Явка ВМ 3
 
                 // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
@@ -396,7 +396,7 @@ class BaseController extends Controller
                 ]
             );
 
-            if($group->pk){
+            if($group->type == 2){
                 // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
                 Statuses::where('base_id', $request->base_id)->update(
                     [
@@ -415,7 +415,7 @@ class BaseController extends Controller
                 );
             }
 
-            if($group->vm){
+            if($group->type == 3){
                 // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
                 Statuses::where('base_id', $request->base_id)->update(
                     [
@@ -878,7 +878,7 @@ class BaseController extends Controller
 //        // Напоминание прихода на ПК - Проверяем есть ли клиенты тренировка ПК которая наступает за один день от текущей даты
         foreach ($collection as $value){
             if ($value->group){
-                if ($value->group->programm->pk){
+                if ($value->group->programm->type == 2){
                     $journal = Journal::where('base_id', $value->id)
                         ->where('year', $dates->year)
                         ->where('month', $dates->month)
@@ -901,7 +901,7 @@ class BaseController extends Controller
         // Напоминание прихода на ВМ - Проверяем есть ли клиенты тренировка ВМ которая наступает за один день от текущей даты
         foreach ($collection as $value){
             if ($value->group){
-                if ($value->group->programm->vm){
+                if ($value->group->programm->type == 3){
                     $journal = Journal::where('base_id', $value->id)
                         ->where('year', $dates->year)
                         ->where('month', $dates->month)
@@ -939,7 +939,7 @@ class BaseController extends Controller
 //        // Клиенты которые были записаны на ПК но не явились
         foreach ($collection as $value){
             if ($value->group){
-                if ($value->group->programm->pk){
+                if ($value->group->programm->type == 2){
                     $journal = Journal::where('base_id', $value->id)
                         ->where('type', 3)
                         ->get()

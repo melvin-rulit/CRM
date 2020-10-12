@@ -26,7 +26,7 @@ class BaseAllResource extends JsonResource
                 'status' => $this->statuses->status->name,
                 'color' => $this->statuses->status->color,
                 'steps_color' => $this->statuses->steps->color,
-                'call_date' => Carbon::createFromDate($this->statuses->call_date)->format('d.m.Y h:i'),
+                'call_date' => Carbon::createFromDate($this->statuses->call_date)->format('d.m.Y'),
         ];
     }
 }

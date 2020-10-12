@@ -231,9 +231,10 @@
             },
 
             addNewUserModal(id){
-                this.$bvModal.show('showUser')
                 axios.get('api/v2/users/' + id)
                     .then(response => {this.user = response.data.data})
+
+                this.$bvModal.show('showUser')
             },
 
             closeModel(){
