@@ -11,7 +11,8 @@ use Carbon\Carbon;
 
 class StatusesController extends Controller
 {
-    public function changeCallDate(Request $request){
+    public function changeCallDate(Request $request)
+    {
 
 
         $date = Carbon::parse($request->call_date)->format('Y-m-d h:i:s');
@@ -20,20 +21,21 @@ class StatusesController extends Controller
         $statuses = Statuses::where('base_id', $request->id)->update(['call_date' => $date]);
 
         // Добавляем в лог информацию что клиент изменил дату звонка
-            loger(4, $request->id, 'Сменил дату звонка на '.$dateFormat);
+        loger(4, $request->id, 'Сменил дату звонка на ' . $dateFormat);
     }
 
-    public function changeCallStatus(Request $request){
+    public function changeCallStatus(Request $request)
+    {
 
         $statuses = Statuses::where('base_id', $request->id)->update(['call_status' => $request->call_status]);
 
         $call_status = $request->call_status == 1 ? ' Дозвон' : ' Не дозвон';
 
         // Добавляем в лог информацию что клиент изменил статус звонка
-            loger(4, $request->id, 'Сменил статус звонка на' . $call_status);
+        loger(4, $request->id, 'Сменил статус звонка на' . $call_status);
 
 
-        if ($request->comment){
+        if ($request->comment) {
 
             // Прибавляем 8 часов к дате звонка
             $statuses = Statuses::query()->where('base_id', $request->id)->first();
@@ -48,4 +50,4 @@ class StatusesController extends Controller
 
         }
     }
-
+}
