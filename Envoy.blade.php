@@ -81,7 +81,7 @@
 @endtask
 
 @task('update_symlinks')
-	ln -nfs {{ $path_storage }} {{ $current }};
+	ln -nfs {{ $release }} {{ $current }};
 	chgrp -h www-data {{ $current }};
 
 	echo "#5 - Symlink has been set"

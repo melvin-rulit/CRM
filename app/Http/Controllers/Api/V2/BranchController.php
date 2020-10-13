@@ -42,12 +42,8 @@ class BranchController extends Controller
     {
         $branch = Branch::create($request->all());
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'добавил филиал '.$branch->id)
-        );
+        loger(3, null,'Добавил филиал '.$branch->name);
+
 
         return (new BranchResource($branch))
                 ->response()
@@ -98,12 +94,8 @@ class BranchController extends Controller
         $branch->$field_name = $request['field_value'];
         $branch->save();
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'изменил поле '.$request['field_name'].' филиала '.$branch->id.' на '.$request['field_value'])
-        );
+        loger(3, null,'Изменил поле '.$field_name.' филиала '.$branch->name.' на '.$request['field_value']);
+
     }
 
     /**
@@ -116,11 +108,7 @@ class BranchController extends Controller
     {
         $branch->delete();
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'удалил филиал '.$branch->id)
-        );
+        loger(3, null,'Удалил филиал '.$branch->name);
+
     }
 }

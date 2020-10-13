@@ -135,6 +135,10 @@ class BaseController extends Controller
 
     public function workout(Request $request){
 
+        $checkDay = $this->checkDay($request->base_id, $request->year, $request->month, $request->day);
+
+        if ($checkDay->isEmpty()) return ['response' => "На этот день нет распсисания для текущей группы"];
+
         // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать
         $base = Base::find($request->base_id);
 
@@ -185,13 +189,8 @@ class BaseController extends Controller
                 );
 
                 // Добавляем в лог запись
-                Loger::create(array(
-                        'user_id' => Auth::id(),
-                        'channel' => '4',
-                        'base_id' => $request->base_id,
-                        'level_name' => 'success',
-                        'message' => 'Присвоен статус Явка ПК')
-                );
+                loger(4, $request->base_id, 'Присвоен статус Явка ПК');
+
             }
 
             // Если группа ВМ, стоит тренировка и статус Покупка ВМ
@@ -213,13 +212,8 @@ class BaseController extends Controller
                 );
 
                 // Добавляем в лог запись
-                Loger::create(array(
-                        'user_id' => Auth::id(),
-                        'channel' => '4',
-                        'base_id' => $request->base_id,
-                        'level_name' => 'success',
-                        'message' => 'Присвоен статус Явка ВМ 1')
-                );
+                loger(4, $request->base_id, 'Присвоен статус Явка ВМ 1');
+
             }
 
             // Если группа ВМ, стоит тренировка и статус Явка ВМ 1
@@ -241,13 +235,7 @@ class BaseController extends Controller
                 );
 
                 // Добавляем в лог запись
-                Loger::create(array(
-                        'user_id' => Auth::id(),
-                        'channel' => '4',
-                        'base_id' => $request->base_id,
-                        'level_name' => 'success',
-                        'message' => 'Присвоен статус Явка ВМ 2')
-                );
+                loger(4, $request->base_id, 'Присвоен статус Явка ВМ 2');
 
             }
 
@@ -270,13 +258,8 @@ class BaseController extends Controller
                 );
 
                 // Добавляем в лог запись
-                Loger::create(array(
-                        'user_id' => Auth::id(),
-                        'channel' => '4',
-                        'base_id' => $request->base_id,
-                        'level_name' => 'success',
-                        'message' => 'Присвоен статус Явка ВМ 3')
-                );
+                loger(4, $request->base_id, 'Присвоен статус Явка ВМ 3');
+
             }
 
 
@@ -317,6 +300,10 @@ class BaseController extends Controller
 
     public function notVisit(Request $request){
 
+        $checkDay = $this->checkDay($request->base_id, $request->year, $request->month, $request->day);
+
+        if ($checkDay->isEmpty()) return ['response' => "На этот день нет распсисания для текущей группы"];
+
 
         $base = Base::find($request->base_id);
 
@@ -326,7 +313,7 @@ class BaseController extends Controller
         if ($contracts->count() == 1) {
 
             // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
-            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 1)->get();
+            $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
 
             // Если записи нет то списываем одну тренировку
             if ($journal->isEmpty()) {
@@ -347,13 +334,7 @@ class BaseController extends Controller
             );
 
             // И добавляем комментарий
-            Loger::create(array(
-                    'user_id' => Auth::id(),
-                    'channel' => '5',
-                    'base_id' => $request->base_id,
-                    'level_name' => 'success',
-                    'message' => $request->comment)
-            );
+            loger(5, $request->base_id, $request->comment);
 
             return [
                 'response'  => "success",
@@ -375,6 +356,10 @@ class BaseController extends Controller
     }
 
     public function newWorkout(Request $request){
+
+        $checkDay = $this->checkDay($request->base_id, $request->year, $request->month, $request->day);
+
+        if ($checkDay->isEmpty()) return ['response' => "На этот день нет распсисания для текущей группы"];
 
         // Проверяем стоит ли на текущей ячейки какие нибудь данные
         $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->get();
@@ -407,13 +392,8 @@ class BaseController extends Controller
                     ]
                 );
                 // Добавляем в лог запись
-                Loger::create(array(
-                        'user_id' => Auth::id(),
-                        'channel' => '4',
-                        'base_id' => $request->base_id,
-                        'level_name' => 'success',
-                        'message' => 'Присвоен статус Запись ПК')
-                );
+                loger(4, $request->base_id, 'Присвоен статус Запись ПК');
+
             }
 
             if($group->type == 3){
@@ -426,13 +406,8 @@ class BaseController extends Controller
                     ]
                 );
                 // Добавляем в лог запись
-                Loger::create(array(
-                        'user_id' => Auth::id(),
-                        'channel' => '4',
-                        'base_id' => $request->base_id,
-                        'level_name' => 'success',
-                        'message' => 'Присвоен статус Покупка ВМ')
-                );
+                loger(4, $request->base_id, 'Присвоен статус Покупка ВМ');
+
             }
 
             return "success";
@@ -440,10 +415,19 @@ class BaseController extends Controller
 
     }
 
+
     public function freezing(Request $request){
+
+
+        $checkDay = $this->checkDay($request->base_id, $request->year, $request->month, $request->day);
+
+        if ($checkDay->isEmpty()) return ['response' => "На этот день нет распсисания для текущей группы"];
+
+
 
         // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать
         $base = Base::find($request->base_id);
+
 
         // Выбираем только активные контракты и с типом основной контракт
         $contracts = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->where('contract_type', 'main');
@@ -452,7 +436,7 @@ class BaseController extends Controller
         if ($contracts->count() == 1) {
 
             // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
-            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 1)->get();
+            $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
 
             // Если есть запись посещенной тренировки, то останавливаем
             if (!$journal->isEmpty()) {
@@ -462,7 +446,8 @@ class BaseController extends Controller
             }
 
             // Проверяем стоит ли сейчас новая тренировка на текущей ячейки
-            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 4)->get();
+            $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 4);
+
 
             // Если есть запись новой тренировки, то останавливаем
             if (!$journal->isEmpty()) {
@@ -471,7 +456,7 @@ class BaseController extends Controller
                 ];
             }
 
-            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('type', 2)->get();
+            $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 2);
 
             // Если уже стоит этот статус то выдаем оштбку
             if (!$journal->isEmpty()) {
@@ -543,13 +528,8 @@ class BaseController extends Controller
     public function addNewComent(Request $request){
 
         // Добавляем комментарий
-        Loger::create(array(
-                'user_id' => Auth::id(),
-                'channel' => '5',
-                'base_id' => $request->base_id,
-                'level_name' => 'success',
-                'message' => $request->comment)
-        );
+        loger(5, $request->base_id, $request->comment);
+
     }
 
 
@@ -633,26 +613,17 @@ class BaseController extends Controller
         $statuses->save();
 
         // Добавляем в лог информацию что клиент создан
-        Loger::create(array(
-                'user_id' => Auth::id(),
-                'channel' => '2',
-                'base_id' => $base->id,
-                'level_name' => 'success',
-                'message' => 'Добавил клиента в базу')
-        );
+        loger(2, $base->id, 'Добавил клиента в базу');
+
 
         // Добавляем в лог информацию что клиенту присвоен статус
-        Loger::create(array(
-                'user_id' => Auth::id(),
-                'channel' => '4',
-                'base_id' => $base->id,
-                'level_name' => 'success',
-                'message' => 'Присвоен статус Новый')
-        );
+        loger(4, $base->id, 'Присвоен статус Новый');
 
 
         return $base->id;
     }
+
+
 
     public function getInfo(Request $request){
 
@@ -692,13 +663,7 @@ class BaseController extends Controller
 
 
             // Добавляем в лог запись
-            Loger::create(array(
-                    'user_id' => Auth::id(),
-                    'channel' => '4',
-                    'base_id' => $base->id,
-                    'level_name' => 'success',
-                    'message' => 'Присвоен статус В работе')
-            );
+            loger(4, $base->id, 'Присвоен статус В работе');
 
         }
 
@@ -770,12 +735,8 @@ class BaseController extends Controller
         $base->avatar = $path;
         $base->save();
 
-        Loger::create(array(
-                'user_id' => Auth::id(),
-                'channel' => '2',
-                'level_name' => 'success',
-                'message' => 'изменил аватар '.$base->id)
-        );
+        loger(2, $base->id, 'Изменил аватар '.$base->name);
+
 
         return $path;
     }
@@ -971,5 +932,36 @@ class BaseController extends Controller
 
     }
 
+    /**
+     * Метод проверяет есть ли в рассписании для этого клиента день
+     */
+
+    public function checkDay($base_id, $year, $month, $day){
+
+        $dayOfWeek = Carbon::createFromDate($year, $month, $day)->dayOfWeek;
+
+        $base = Base::find($base_id)->group->schedule_hall;
+
+        $filtered = $base->where('day', $dayOfWeek);
+
+        return $filtered;
+
+    }
+
+
+    /**
+     * Запросы по журналу, есть ли сейчас на ячейки соответствующие значения
+     */
+
+    public function checkJournal($base_id, $year, $month, $day, $type){
+
+        $journal = Journal::where('base_id', $base_id)
+            ->where('year', $year)
+            ->where('month', $month)
+            ->where('day', $day)
+            ->where('type', $type)->get();
+
+        return $journal;
+    }
 
 }

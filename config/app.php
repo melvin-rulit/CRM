@@ -170,6 +170,7 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\HelperServiceProvider::class, // Мои хелперы
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

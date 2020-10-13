@@ -57,12 +57,8 @@ class HallController extends Controller
     {
         $hall = Hall::create($request->all());
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'добавил зал '.$hall->id)
-        );
+        loger(3, null,'Добавил зал '.$hall->name);
+
     }
 
     /**
@@ -129,12 +125,8 @@ class HallController extends Controller
     {
         $hall->delete();
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'удалил зал '.$hall->id)
-        );
+        loger(3, null,'Удалил зал '.$hall->name);
+
 
     }
 

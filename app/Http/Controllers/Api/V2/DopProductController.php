@@ -40,12 +40,8 @@ class DopProductController extends Controller
     {
         $dopproduct = DopProduct::create($request->all());
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'добавил дополнительный продукт '.$dopproduct->id)
-        );
+        loger(3, null,'Добавил дополнительный продукт '.$dopproduct->name);
+
     }
 
     /**
@@ -94,12 +90,7 @@ class DopProductController extends Controller
     {
         $dopproduct->delete();
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'удалил дополнительный продукт '.$dopproduct->id)
-        );
+        loger(3, null,'Удалил дополнительный продукт '.$dopproduct->name);
 
     }
 }

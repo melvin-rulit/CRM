@@ -242,14 +242,8 @@ class ContractController extends Controller
         );
 
         // И добавляем комментарий
-        Loger::create(array(
-                'user_id' => Auth::id(),
-                'channel' => '4',
-                'base_id' => $request['base_id'],
-                'level_name' => 'success',
-                'message' => 'Присвоен статус Занимается')
-        );
 
+        loger(4, $request->base_id,'Присвоен статус Занимается');
 
 	}
 

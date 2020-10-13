@@ -40,12 +40,8 @@ class ProgrammController extends Controller
     {
         $programm = Programm::create($request->all());
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'добавил программу '.$programm->id)
-        );
+        loger(3, null,'Добавил программу '.$programm->name);
+
     }
 
     /**
@@ -94,12 +90,7 @@ class ProgrammController extends Controller
     {
         $programm->delete();
 
-        Loger::create(array(
-             'user_id' => Auth::id(),
-             'channel' => '3',
-             'level_name' => 'success',
-             'message' => 'удалил программу '.$programm->id)
-        );
+        loger(3, null,'Удалил программу '.$programm->name);
 
 //        return response(null, Response::HTTP_NO_CONTENT);
     }
