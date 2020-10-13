@@ -8,6 +8,7 @@ class Statuses extends Model
 {
 
     protected $fillable = [
+        'base_id',
         'call_date',
     ];
 

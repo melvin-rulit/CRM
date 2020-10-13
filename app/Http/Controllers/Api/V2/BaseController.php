@@ -38,6 +38,13 @@ use Illuminate\Support\Facades\Auth;
 class BaseController extends Controller
 {
 
+    public $freezing = 'fe fe-sun text-primary';
+    public $workout = 'fe fe-check text-success';
+    public $notVisit = 'fe fe-x text-danger';
+    public $newWorkout = 'fe fe-alert-circle text-warning';
+
+
+
     public function deleteSchedule(Request $request)
     {
 
@@ -272,7 +279,7 @@ class BaseController extends Controller
                     'day' => $request->day,
                     'month' => $request->month,
                     'year' => $request->year,
-                    'icon' => 'fe fe-check text-success',
+                    'icon' => $this->workout,
                     'type' => 1
                 ]
             );
@@ -328,7 +335,7 @@ class BaseController extends Controller
                     'day'       => $request->day,
                     'month'     => $request->month,
                     'year'      => $request->year,
-                    'icon'      => 'fe fe-x text-danger',
+                    'icon'      => $this->notVisit,
                     'type'      => 3,
                 ]
             );
@@ -377,7 +384,7 @@ class BaseController extends Controller
                     'day' => $request->day,
                     'month' => $request->month,
                     'year' => $request->year,
-                    'icon' => 'fe fe-alert-circle text-warning',
+                    'icon' => $this->newWorkout,
                     'type' => 4,
                 ]
             );
@@ -439,7 +446,7 @@ class BaseController extends Controller
             $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
 
             // Если есть запись посещенной тренировки, то останавливаем
-            if (!$journal->isEmpty()) {
+            if ($journal->isNotEmpty()) {
                 return [
                     'response'  => "Клиент посетил тренировку, поставить заморозку не возможно",
                 ];
@@ -450,7 +457,7 @@ class BaseController extends Controller
 
 
             // Если есть запись новой тренировки, то останавливаем
-            if (!$journal->isEmpty()) {
+            if ($journal->isNotEmpty()) {
                 return [
                     'response'  => "Нельзя поставить заморозку этому клиенту",
                 ];
@@ -459,7 +466,7 @@ class BaseController extends Controller
             $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 2);
 
             // Если уже стоит этот статус то выдаем оштбку
-            if (!$journal->isEmpty()) {
+            if ($journal->isNotEmpty()) {
                 return [
                     'response'  => "Уже стоит заморозка, выберите другой статус",
                 ];
@@ -501,7 +508,7 @@ class BaseController extends Controller
                         'day'       => $request->day,
                         'month'     => $request->month,
                         'year'      => $request->year,
-                        'icon'      => 'fe fe-sun text-primary',
+                        'icon'      => $this->freezing,
                         'type'      => 2,
                     ]
                 );
@@ -605,12 +612,11 @@ class BaseController extends Controller
         $base = Base::create($request->all());
 
         // Добавляем в агрегатор лидов
-        $statuses = new Statuses;
-        $statuses->base_id = $base->id;
-        $statuses->steps_id = 1;
-        $statuses->status_id = 1;
-        $statuses->call_date = Carbon::now();
-        $statuses->save();
+        Statuses::create([
+            'base_id' => $base->id,
+            'call_date' => Carbon::now(),
+        ]);
+
 
         // Добавляем в лог информацию что клиент создан
         loger(2, $base->id, 'Добавил клиента в базу');
@@ -642,30 +648,15 @@ class BaseController extends Controller
         }
 
         // Меняем на статус В работе если он Новый
-        $statuses = Statuses::where('base_id', $request->id)->where('status_id', 1)->get();
-
-        if (!$statuses->isEmpty()) {
-
-            $statuses = Statuses::where('base_id', $request->id)->update(['status_id' => 2]);
+        $statuses = Statuses::where('base_id', $request->id)
+                ->where('status_id', 1)
+                ->update(['status_id' => 2]);
 
 
-
-//            Можно записать так
-//
-//    Statuses::where('base_id', $request->id)
-//        ->where('status_id', 1)
-//        ->update('[
-//                    'status_id' => 2
-//            ]');
-//
-//Если соответствующий записей найдено не будет, следовательно и обновляться ничего не будет...
+        // Добавляем в лог запись если статус поменялся на В работе
+        $statuses ?: loger(4, $base->id, 'Присвоен статус В работе');
 
 
-
-            // Добавляем в лог запись
-            loger(4, $base->id, 'Присвоен статус В работе');
-
-        }
 
         return new ArticleResource($base);
     }
@@ -773,7 +764,7 @@ class BaseController extends Controller
 
 //    Обновляем ЛПР родителя
     public function updateLpr(Request $request){
-//        Очищаем список всех ЛПР
+
         Base::where('id', $request->id)->update(array('mother_lpr' => '0', 'father_lpr' => '0', 'other_relative_lpr' => '0'));
 
         $curent_lpr = $request->lpr;
@@ -955,11 +946,14 @@ class BaseController extends Controller
 
     public function checkJournal($base_id, $year, $month, $day, $type){
 
-        $journal = Journal::where('base_id', $base_id)
-            ->where('year', $year)
-            ->where('month', $month)
-            ->where('day', $day)
-            ->where('type', $type)->get();
+        $journal = Journal::where(
+            [
+                'base_id'   => $base_id,
+                'year'      => $year,
+                'month'     => $month,
+                'day'       => $day,
+                'type'      => $type,
+            ])->get();
 
         return $journal;
     }
