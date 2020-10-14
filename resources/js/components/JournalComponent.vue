@@ -271,9 +271,9 @@
                                     <i @click="countUp" class="float-right pr-4 pointer fe fe-chevrons-right ml-3"></i>
                                 </td>
 
-                                <td @click="changeSelect(n), active = index"
+                                <td @click="changeSelect(n, $event), active = index"
                                     v-for="(n, index) in dates"
-                                    :class="index === active || index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white'"
+                                    :class="[index + 1 == date && month == new Date().getMonth() + 1 ? 'bg-success text-white' : 'white', index === active ? 'bg-primary text-white' : 'white']"
                                     :style="[n.getDay() === 0 || n.getDay() === 6 ? { 'background-color': 'red', color: 'white' } : { color: 'black' },]" class="pt-2 pb-2 text-center">{{ n.getDate() }}
                                 </td>
                             </tr>
@@ -285,10 +285,11 @@
 
                             <template v-for="val in hall.schedule_hall">
                                 <tr>
-                                    <td :style="{ 'background-color': val.group.color }" data-toggle="collapse" :data-target="'#group_' + val.id" class="accordion-toggle text-white">{{ val.time }}:00 - {{ val.group.name }}
+<!--                                    Тут нужно исправить, если кликаешь по добавить в группу то вызывается все равно getUserInGroup-->
+                                    <td @click="getUserInGroup(val.group_id)" :style="{ 'background-color': val.group.color }" data-toggle="collapse" :data-target="'#group_' + val.id" class="accordion-toggle text-white">{{ val.time }}:00 - {{ val.group.name }}
                                         <div class="float-right">
                                             <i class="fe fe-plus" @click="addChildren(hall.branch_id, val.group.name, val.group_id, val.category_time)"></i>
-                                            <i class="fe fe-chevron-down ml-3" @click="getUserInGroup(val.group_id)"></i>
+                                            <i class="fe fe-chevron-down ml-3"></i>
                                         </div>
                                     </td>
                                 </tr>
@@ -773,7 +774,24 @@
             },
 
             // Метод получает v-model календаря и вызвает getHallAtributes с параметрами текущего активного зала и дня недели
-            changeSelect(date){
+            changeSelect(date, event){
+                // let elem = document.querySelectorAll('td');
+
+                // if( elem.style.backgroundColor == "red") { // что-то нашлось, коллекция не пустая
+                //     event.target.style.backgroundColor = "red";
+                // }
+
+
+                // let elements = document.querySelectorAll('td > last-child');
+                //
+                // for (let elem of elements) {
+                //     alert(elem.innerHTML); // "тест", "пройден"
+                // }
+
+                // event.target.addClass("testik");
+                // event.target.style.backgroundColor = "red";
+
+
                 this.getHallAtributes(this.hall_id, date)
                 this.calendar = date
             },
@@ -883,7 +901,7 @@
 
                 if (this.child.group_id) {
                     this.$confirm("Клиент уже состоит в группе " + this.child.group.name + " вы уверены что хотите переместить в группу " + this.namegroup).then(() => {
-                        axios.post('api/v2/savetest', {id: this.child.id, group_id: this.group_id})
+                        axios.post('api/v2/saveClientInGroup', {id: this.child.id, group_id: this.group_id})
                         this.getHallAtributes(this.hall_id, this.calendar)
                         Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
                     });
@@ -891,7 +909,7 @@
                 }
 
                 if (this.child) {
-                    axios.post('api/v2/savetest', {id: this.child.id, group_id: this.group_id})
+                    axios.post('api/v2/saveClientInGroup', {id: this.child.id, group_id: this.group_id})
                     this.getHallAtributes(this.hall_id, this.calendar)
                     Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
                 }
@@ -905,7 +923,7 @@
                 this.group_id = group_id
                 this.category_time = category_time
 
-                axios.post('api/v2/gettest' , {id : id})
+                axios.post('api/v2/addClientInGroup' , {id : id})
                     .then(response => this.children = response.data.data)
 
                 this.$bvModal.show('addChildren')

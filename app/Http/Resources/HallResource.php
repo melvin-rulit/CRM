@@ -14,6 +14,11 @@ class HallResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "id"                => $this->id,
+            "branch_id"         => $this->branch_id,
+            "name"              => $this->name,
+            "schedule_hall"     => $this->schedule_hall,
+        ];
     }
 }

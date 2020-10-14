@@ -9,6 +9,7 @@ class Programm extends Model
     protected $fillable = [
     	'name',
     	'branch_id',
+    	'type',
     ];
 
     public function children()

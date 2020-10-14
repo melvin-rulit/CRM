@@ -43,7 +43,7 @@ class BaseController extends Controller
     public $notVisit = 'fe fe-x text-danger';
     public $newWorkout = 'fe fe-alert-circle text-warning';
 
-
+// СОЗДАТЬ КОНТРОЛЛЕР ЖУРНАЛА И ПЕРЕНЕСТИ ТУДА ВСЕ МЕТОДЫ =================================================
 
     public function deleteSchedule(Request $request)
     {
@@ -81,6 +81,7 @@ class BaseController extends Controller
     {
         $hall = Hall::find($request->hall_id)->load(['schedule_hall' => function ($query) use ($request){
             $query->with('group')->where('day', $request->day);
+            $query->orderBy('time');
         }]);
 
         return new HallResource($hall);
@@ -94,17 +95,18 @@ class BaseController extends Controller
     }
 
 
-    public function getTest(Request $request){
-        $base = Base::where('branch', '=', $request->id)->get();
+    public function addClientInGroup(Request $request){
+        $base = Base::where('branch', $request->id)->get();
 
         return AddChildrenGroupResource::collection($base);
     }
 
-    public function saveTest(Request $request){
+    public function saveClientInGroup(Request $request){
 
         $base = Base::find($request->id);
         $base->group_id = $request->group_id;
         $base->save();
+
     }
 
     public function updateTest(Request $request){

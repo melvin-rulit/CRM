@@ -47,7 +47,7 @@ class VmContractResource extends JsonResource
 
         return [
             'products'                  => $this->base_branch->products,
-            'programms_vm'              => $this->base_branch->programms->where('vm', 1)->toArray(),
+            'programms_vm'              => $this->base_branch->programms->where('type', 3)->toArray(),
             'programms'                 => $this->base_branch->programms,
             'branch'                    => new BranchResource($this->base_branch),
             'date'                      =>  Carbon::now()->format('d.m.Y'),

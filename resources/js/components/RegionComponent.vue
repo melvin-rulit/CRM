@@ -646,14 +646,15 @@ Vue.use(VueSimpleAlert);
                this.branch.programms.push({
                     rowNew: true,
                     name: null,
-                    branch_id: branch
+                    branch_id: branch,
+                    type: 1,
                 });
             },
             addRowDopProduct(branch){
                this.branch.dopproducts.push({
                     rowNew: true,
                     name: null,
-                    branch_id: branch
+                    branch_id: branch,
                 });
             },
             addRowHall(branch){

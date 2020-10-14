@@ -14,7 +14,6 @@ class StatusesController extends Controller
     public function changeCallDate(Request $request)
     {
 
-
         $date = Carbon::parse($request->call_date)->format('Y-m-d h:i:s');
         $dateFormat = Carbon::parse($request->call_date)->format('d.m.Y');
 
