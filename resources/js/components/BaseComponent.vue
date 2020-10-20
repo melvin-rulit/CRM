@@ -99,7 +99,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label required">Филиал</label>
                                 <div class="col-sm-9">
-                                    <dynamic-select :options="branches.branches" option-value="id" option-text="name" placeholder="Введите для поиска" v-model="branch" />
+                                    <dynamic-select :options="branches" option-value="id" option-text="name" placeholder="Введите для поиска" v-model="branch" />
                                 </div>
                             </div>
                             <div class="form-group row">

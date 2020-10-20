@@ -124,7 +124,7 @@
                                 <a v-if="dataObject.base_branch.name" href="#" @click.prevent="saveBranch" v-show="showBranch" class="fe fe-save h3 text-success"></a>
                             </h6>
                             <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">
-                                <option v-for="branch in branches.branches" v-bind:value="branch">{{ branch.name }}</option>
+                                <option v-for="branch in branches" v-bind:value="branch">{{ branch.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -612,7 +612,8 @@
                             <div class="col-md-6 border-bottom">
                                 <div class="row">
                                     <div class="center mb-3">
-                                        <button @click="closeModal()" class="btn btn-sm btn-success">Добавить контракт</button>
+                                        <button @click="getContractMain" class="btn btn-sm btn-success">Добавить контракт</button>
+                                        <button @click="getContractVm" class="btn btn-sm btn-primary">Добавить контракт ВМ</button>
                                     </div>
                                 </div>
                             </div>
@@ -691,7 +692,7 @@
             </b-tabs>
         </b-modal>
 
-        <dogovor-component :user_id="dataObject.id"></dogovor-component>
+        <dogovor-component ref="dogovor" :user_id="dataObject.id"></dogovor-component>
         <show-dogovor-component ref="showmodal"></show-dogovor-component>
     </div>
 </template>
@@ -1015,6 +1016,18 @@
                 this.$bvModal.show('selectModal')
                 this.$bvModal.hide('userShow')
             },
+
+
+            getContractVm(){
+                this.$bvModal.hide('userShow')
+                this.$refs.dogovor.getContractVm()
+            },
+
+            getContractMain(){
+                this.$bvModal.hide('userShow')
+                this.$refs.dogovor.getContractMain()
+            },
+
             BaseModal(){
                 this.$bvModal.show('userShow')
             },

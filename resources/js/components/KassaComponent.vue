@@ -1,89 +1,58 @@
 <template>
     <div>
 
-        <b-modal id="coming" title="Приходная операция" scrollable centered ok-only ok-title="Сохранить">
+<!--        Операции модальное окно-->
+        <b-modal id="coming" :title="text" @ok="handleOk" @hidden="resetModalComing" scrollable centered ok-only ok-title="Сохранить">
             <div class="card-body py-0">
-                <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
-                    <b-form-radio-group
-                        v-model="selected"
-                        :options="options"
-                        class="mb-5 text-center"
-                        value-field="item"
-                        text-field="name"
-                        disabled-field="notEnabled"
-                    ></b-form-radio-group>
-                    <div class="form-group row">
+                <form @submit.stop.prevent="submit">
+                    <div class="form-group row" :class="{ 'form-group--error': $v.sum.$error }">
                         <label class="col-sm-3 col-form-label">Сумма</label>
                         <div class="col-sm-9">
-                            <input class="form-control">
+                            <input v-model.trim="$v.sum.$model" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Касса</label>
+                        <div class="col-sm-9">
+                            <dynamic-select
+                                :options="branches"
+                                v-model="branch"
+                                option-value="id"
+                                option-text="name"
+                                @input="getOperationsType()"
+                                placeholder="Введите для поиска кассы"/>
+<!--                            <div v-if="!branch.id && checkGroup" class="text-danger"><small>Не выбрана касса</small></div>-->
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Операция</label>
                         <div class="col-sm-9">
                             <dynamic-select
-                                :options="articles"
+                                :options="operations_type"
+                                v-model="operations_type_model"
                                 option-value="id"
-                                option-text="comment"
+                                option-text="name"
+                                @input="getRadioButton()"
                                 placeholder="Введите для поиска операции"/>
+<!--                            <div v-if="!operations_type.id && checkOperationType" class="text-danger"><small>Не выбрана операция</small></div>-->
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Сотрудник</label>
+                        <label class="col-sm-3 col-form-label">Оплата</label>
                         <div class="col-sm-9">
-                            <dynamic-select
-                                :options="articles"
-                                option-value="id"
-                                option-text="user"
-                                placeholder="Введите для поиска сотрудника"/>
+                            <b-form-radio-group
+                                v-if="operations_type_model"
+                                v-model="payment"
+                                :options="getRadio"
+                                class="mt-2"
+                                value-field="id"
+                                text-field="name"
+                                disabled-field="disabled"
+                            ></b-form-radio-group>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <textarea class="form-control" rows="3" placeholder="Коментарий"></textarea>
-                    </div>
-                </form>
-            </div>
-        </b-modal>
-
-        <b-modal id="expenditure" title="Расходная операция" scrollable centered ok-only ok-title="Сохранить">
-            <div class="card-body py-0">
-                <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
-                    <b-form-radio-group
-                        v-model="selected"
-                        :options="options"
-                        class="mb-5 text-center"
-                        value-field="item"
-                        text-field="name"
-                        disabled-field="notEnabled"
-                    ></b-form-radio-group>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Сумма</label>
-                        <div class="col-sm-9">
-                            <input class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Операция</label>
-                        <div class="col-sm-9">
-                            <dynamic-select
-                                :options="articles"
-                                option-value="id"
-                                option-text="comment"
-                                placeholder="Введите для поиска операции"/>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Сотрудник</label>
-                        <div class="col-sm-9">
-                            <dynamic-select
-                                :options="articles"
-                                option-value="id"
-                                option-text="user"
-                                placeholder="Введите для поиска сотрудника"/>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <textarea class="form-control" rows="3" placeholder="Коментарий"></textarea>
+                        <textarea v-model="coment" class="form-control" rows="3" placeholder="Коментарий"></textarea>
                     </div>
                 </form>
             </div>
@@ -96,14 +65,14 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <button v-b-modal="'coming'" class="btn btn-sm btn-success">Приход</button>
-                                <button v-b-modal="'expenditure'" class="btn btn-sm btn-danger">Рассход</button>
+                                <button @click=getModal(1) class="btn btn-sm btn-success">Приход</button>
+                                <button @click=getModal(0) class="btn btn-sm btn-danger">Рассход</button>
                                 <button class="ml-4 btn btn-sm btn-info">День</button>
                                 <button class="btn btn-sm btn-info">Неделя</button>
                                 <button class="btn btn-sm btn-info">Месяц</button>
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-sm btn-info">Фильтр</button>
+<!--                                <button class="btn btn-sm btn-info">Фильтр</button>-->
                             </div>
                         </div>
                     </div>
@@ -113,17 +82,12 @@
 
 
         <!-- Список клиентов -->
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab"></div>
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="card">
                     <div class="card-body pb-0">
                         <b-table
-                            hover
                             sticky-header="700px"
-                            :items="articles"
+                            :items="kassa_operations"
                             :fields="fields"
-                            @row-clicked="BaseModal"
                             head-variant="light">
                             <template v-slot:cell(status)="row">
                                     <span :style="{ color: row.item.color }">{{ row.item.status }}</span>
@@ -137,9 +101,6 @@
                         </b-table>
                     </div>
                 </div>
-            </div>
-        </div>
-
 
         <!-- Панель под данными -->
         <div class="row">
@@ -160,13 +121,27 @@
 </template>
 
 <script>
+
+    import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+
     export default {
         data() {
             return{
-                selected: '',
+                text: '',
+                com: 'Приходная операция',
+                ou: 'Расходная операция',
+                type: '',
+                payment: '',
+                sum: '',
+                coment: '',
+                branch: '',
+                kassa_operations: [],
+                operations_type: [],
+                operations_type_model: '',
+                branches: [],
                 fields: [
                     {
-                        key: 'date',
+                        key: 'datetime',
                         label: 'Дата/Время',
                     },
                     {
@@ -174,11 +149,11 @@
                         label: 'Сотрудник',
                     },
                     {
-                        key: 'article',
+                        key: 'operation_type',
                         label: 'Статья расходов',
                     },
                     {
-                        key: 'comment',
+                        key: 'coment',
                         label: 'Комментарий',
                     },
                     {
@@ -186,7 +161,7 @@
                         label: 'Источник',
                     },
                     {
-                        key: 'summ',
+                        key: 'sum',
                         label: 'Сумма',
                     },
                     {
@@ -203,51 +178,109 @@
                     }
 
                 ],
-                articles: [
-                    {
-                        id: 1,
-                        date: '21.02.2020/18:36',
-                        user: 'Марченко А.В',
-                        article: 'Зарплата Маврин А.А',
-                        comment: 'Зарплата',
-                        source: 'Аванс',
-                        summ: '15 000',
-                        balance: '156 000',
-                        operation: 'Безнал',
-                        kassa: 'Школа',
-                    },
-                    {
-                        id: 2,
-                        date: '21.02.2020/18:36',
-                        user: 'Марченко А.В',
-                        article: 'Зарплата Маврин А.А',
-                        comment: 'Зарплата',
-                        source: 'Аванс',
-                        summ: '15 000',
-                        balance: '156 000',
-                        operation: 'Безнал',
-                        kassa: 'Школа',
-                    }
-                ],
-                options: [
-                    { item: 'A', name: 'Наличные' },
-                    { item: 'B', name: 'Карта' },
-                    { item: 'C', name: 'Счет' },
+                options: []
+            }
+        },
+
+        validations: {
+            sum: {
+                required,
+                minLength: minLength(1)
+            }
+        },
+
+        computed:{
+            getRadio(){
+                const radio = [
+                    { name: 'Наличные', id: 1, disabled: !this.options.cash },
+                    { name: 'Безнал', id: 2,  disabled: !this.options.beznal },
                 ]
+
+                return radio
             }
         },
 
         created(){
-            // this.fetchArticles();
+            this.getKassaOperations();
         },
 
         methods: {
 
-            fetchArticles(){
-                axios.get('api/v2/getAgregatorLids')
-                    .then(response => this.articles = response.data.data)
+            resetModalComing(){
+                this.sum = ''
+                this.payment = ''
+                this.branch = []
+                this.operations_type = []
+                this.operations_type_model = ''
+                this.coment = ''
+                this.$v.$reset()
+            },
+
+            handleOk(bvModalEvt) {
+                this.$v.$touch()
+
+                if (this.$v.$invalid || !this.branch || !this.payment || !this.operations_type_model) {
+                    bvModalEvt.preventDefault()
+                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
+                } else {
+                    this.sendOperation()
+                }
+            },
+
+            getModal(type){
+                type === 1 ? this.text = this.com : this.ou
+                this.type = type
+                this.$bvModal.show('coming')
+                this.getBranches()
+            },
+
+            getRadioButton(){
+                this.payment = ''
+                axios.post('api/v2/getRadioButton',{id: this.operations_type_model.id})
+                    .then(response => this.options = response.data)
+            },
+
+            getBranches(){
+                axios.get('api/v2/getbranches')
+                    .then(response => this.branches = response.data.data)
+            },
+
+            getOperationsType(){
+                this.operations_type_model = ''
+                axios.post('api/v2/getOperationsType', {id: this.branch.id, type: this.type})
+                    .then(response => this.operations_type = response.data.data)
+            },
+
+            sendOperation(){
+                axios.post('api/v2/addOperation', {
+                    branch_id: this.branch.id,
+                    operation_type_id: this.operations_type_model.id,
+                    payment: this.payment,
+                    in_or_out: this.type,
+                    sum: this.sum,
+                    coment: this.coment,
+                    type: this.type
+                })
+                this.getKassaOperations()
+            },
+
+            getKassaOperations(){
+                axios.get('api/v2/kassa_operation')
+                    .then(response => this.kassa_operations = response.data.data)
             },
 
         }
     }
 </script>
+
+<style scoped>
+    .select-error{
+        border: 1px solid red;
+    }
+.form-group--error {
+        animation-name: shakeError;
+        animation-fill-mode: forwards;
+        animation-duration: .6s;
+        animation-timing-function: ease-in-out;
+    }
+</style>

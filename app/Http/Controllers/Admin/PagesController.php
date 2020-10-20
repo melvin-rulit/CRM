@@ -63,9 +63,9 @@ class PagesController extends Controller
         return view('pages.kassa');
     }
 
-    public function operation(){
+    public function kassaSetings(){
 
-        return view('pages.operation');
+        return view('pages.kassa_setings');
     }
 
 

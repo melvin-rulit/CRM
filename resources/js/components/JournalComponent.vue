@@ -2,7 +2,6 @@
     <div>
 
         <base-modal-component ref="showmoda"></base-modal-component>
-
         <vue-context ref="menu">
             <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
             <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>

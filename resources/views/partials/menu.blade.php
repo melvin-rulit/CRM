@@ -146,18 +146,13 @@
                                                 <div class="collapse" id="kassa" style="">
                                                     <ul class="nav nav-sm flex-column">
                                                         <li class="nav-item">
-                                                            <a href="operation" class="nav-link active">
+                                                            <a href="kassa" class="nav-link ">
                                                                 Операции
                                                             </a>
                                                         </li>
                                                         <li class="nav-item">
-                                                            <a href="group" class="nav-link ">
-                                                                Группы
-                                                            </a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a href="kassa" class="nav-link ">
-                                                                Касса
+                                                            <a href="kassa_setings" class="nav-link active">
+                                                                Настройки
                                                             </a>
                                                         </li>
                                                     </ul>

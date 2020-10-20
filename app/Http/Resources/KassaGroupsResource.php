@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BranchesResource extends JsonResource
+class KassaGroupsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,10 @@ class BranchesResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
-
-//        return [
-//            'branches' => $this->branches->toArray(),
-//        ];
+        return [
+            'id'        => $this->id,
+            'name'      => $this->name,
+            'branch'    => $this->branch->name,
+        ];
     }
 }

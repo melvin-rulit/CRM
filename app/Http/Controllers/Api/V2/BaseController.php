@@ -103,6 +103,7 @@ class BaseController extends Controller
 
     public function saveClientInGroup(Request $request){
 
+
         $base = Base::find($request->id);
         $base->group_id = $request->group_id;
         $base->save();
@@ -654,9 +655,10 @@ class BaseController extends Controller
                 ->where('status_id', 1)
                 ->update(['status_id' => 2]);
 
-
         // Добавляем в лог запись если статус поменялся на В работе
-        $statuses ?: loger(4, $base->id, 'Присвоен статус В работе');
+        if ($statuses){
+            loger(4, $base->id, 'Присвоен статус В работе');
+        }
 
 
 
@@ -674,7 +676,8 @@ class BaseController extends Controller
 
         $user = User::find(Auth::user()->id);
 
-        return new BranchesResource($user);
+//        return new BranchesResource($user);
+        return BranchesResource::collection($user->branches);
     }
 
     public function getManagers(){
@@ -917,6 +920,18 @@ class BaseController extends Controller
                     $collection_itog->push($value);
                 }
             }
+
+        //--------------------------------------------------------------------------------
+
+
+        //--------------------------------------------------------------------------------
+
+        // Все у кого дата следующего звонка меньше или равно сегодняшней
+        foreach ($collection as $value){
+            if ($value->statuses->call_date < Carbon::today()->toDateString()){
+                $collection_itog->push($value);
+            }
+        }
 
         //--------------------------------------------------------------------------------
 

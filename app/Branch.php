@@ -38,4 +38,9 @@ class Branch extends Model
     public function halls() {
         return $this->hasMany(Hall::class);
     }
+
+    // Получаем все кассы у филиала ????????????????????????????
+    public function kassa() {
+        return $this->hasMany(Kassa::class);
+    }
 }

@@ -40,6 +40,19 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // Documents
     Route::apiResource('documents', 'DocumentController');
 
+    // OperationTypes
+    Route::apiResource('operation_type', 'OperationTypeController');
+
+    // KassaOperation
+    Route::get('kassa_operation', 'KassaOperationController@index');
+    Route::post('addOperation', 'KassaOperationController@addOperation');
+    Route::post('getOperationsType', 'KassaOperationController@getOperationsType');
+    Route::post('getRadioButton', 'KassaOperationController@getRadioButton');
+
+    // KassaGraoup
+    Route::apiResource('kassaGroups', 'KassaGroupController');
+    Route::post('kassas', 'KassaGroupController@getGroupInKassa');
+
     // Contracts
     Route::post('getcontract', 'ContractController@getContract');
     Route::post('getcontracts', 'ContractController@getContracts');

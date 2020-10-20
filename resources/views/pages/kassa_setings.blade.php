@@ -3,7 +3,7 @@
 
 <div id="app">
 
-<operation-component></operation-component>
+<kassa-setings-component></kassa-setings-component>
 
 
 </div>
