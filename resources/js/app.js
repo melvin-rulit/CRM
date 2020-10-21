@@ -65,6 +65,14 @@ Vue.component('kassa-component', require('./components/KassaComponent.vue').defa
 Vue.component('kassa-setings-component', require('./components/KassaSetingsComponent.vue').default);
 
 
+Vue.component('menu-component', require('./components/Menu/MenuComponent.vue').default);
+Vue.component('user-block', require('./components/Menu/UserBlock.vue').default);
+Vue.component('menu-list', require('./components/Menu/MenuList.vue').default);
+
+
+Vue.component('testing-component', require('./components/TestingComponent.vue').default);
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

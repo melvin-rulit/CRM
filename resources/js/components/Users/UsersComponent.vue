@@ -8,7 +8,7 @@
             <div class="card-body pb-0">
                 <b-table
                     hover
-                    sticky-header="650px"
+                    sticky-header="750px"
                     :items="users"
                     :fields="fields"
                     :sort-by.sync="sortBy"

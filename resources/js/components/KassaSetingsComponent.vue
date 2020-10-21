@@ -15,7 +15,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Наименование</label>
                         <div class="col-sm-9">
-                            <input class="form-control" v-model="form.name">
+                            <input class="form-control" v-model="name">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -54,7 +54,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Наименование</label>
                         <div class="col-sm-9">
-                            <input class="form-control" v-model="group.name">
+                            <input class="form-control" v-model="group_name">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -156,6 +156,8 @@
     export default {
         data() {
             return{
+                name: '',
+                group_name: '',
                 coment: '',
                 branch: '',
                 group: '',
@@ -163,12 +165,6 @@
                 groups: [],
                 kassaGroups: [],
                 operation_types: [],
-                form: {
-                    name: '',
-                },
-                group: {
-                    name: '',
-                },
                 checkbox: {
                     coming: '',
                     out: '',
@@ -229,26 +225,26 @@
         methods: {
 
             resetModal(){
-                this.form = ''
+                this.name = ''
                 this.checkbox = ''
                 this.branch = ''
-                this.group = ''
+                this.group_name = ''
                 this.coment = ''
             },
 
             resetModalGroup(){
-                this.group.name = ''
+                this.group_name = ''
                 this.branch = ''
             },
 
             handleSubmit(bvModalEvt){
 
-                if (!this.branch || !this.checkbox || !this.form.name) {
+                if (!this.branch || !this.checkbox || !this.name) {
                     bvModalEvt.preventDefault()
                     Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
                 } else {
                     axios.post('api/v2/operation_type', {
-                        name: this.form.name,
+                        name: this.name,
                         coming: this.checkbox.coming,
                         out: this.checkbox.out,
                         cash: this.checkbox.cash,
@@ -266,12 +262,12 @@
 
             saveGroup(bvModalEvt){
 
-                if (!this.branch || !this.group.name) {
+                if (!this.branch || !this.group_name) {
                     bvModalEvt.preventDefault()
                     Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
                 } else {
                     axios.post('api/v2/kassaGroups', {
-                        name: this.group.name,
+                        name: this.group_name,
                         branch_id: this.branch.id,
                     })
 

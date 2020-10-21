@@ -1,19 +1,19 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card mb-2">
-                    <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col"></div>
-                            <div class="col-auto">
-                                <!-- <button class="btn btn-sm btn-success" @click="buttonAddNewPermissions">Добавить разрешение</button> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="row">-->
+<!--            <div class="col-lg-12">-->
+<!--                <div class="card mb-2">-->
+<!--                    <div class="card-header">-->
+<!--                        <div class="row align-items-center">-->
+<!--                            <div class="col"></div>-->
+<!--                            <div class="col-auto">-->
+<!--                                &lt;!&ndash; <button class="btn btn-sm btn-success" @click="buttonAddNewPermissions">Добавить разрешение</button> &ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
 
 <!-- Модальное окно с добавлением нового доступа -->

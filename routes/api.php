@@ -90,6 +90,13 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::apiResource('users', 'UserController');
     Route::get('getatributes', 'UserController@getAtributes');
     Route::post('history', 'UserController@history');
+    Route::get('getUserName', 'UserController@getUserNameFromMenu');
+    Route::get('getAllBranches', 'UserController@getAllBranches');
+    Route::get('getAllRoles', 'UserController@getAllRoles');
+    Route::post('saveBranches', 'UserController@saveBranches');
+    Route::post('saveRoles', 'UserController@saveRoles');
+
+
     Route::post('addClientInGroup', 'BaseController@addClientInGroup');
     Route::post('saveClientInGroup', 'BaseController@saveClientInGroup');
     Route::post('updatetest', 'BaseController@updateTest');

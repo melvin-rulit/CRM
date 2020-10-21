@@ -3,7 +3,6 @@
 
         <base-modal-component @get-method="fetchArticles" ref="showmoda"></base-modal-component>
 
-
         <!-- Панель над фильтром -->
 <!--        <div class="row">-->
 <!--            <div class="col-lg-12">-->
@@ -18,22 +17,13 @@
 <!--            </div>-->
 <!--        </div>-->
 
-        <!-- Табы основного интерфейса -->
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-<!--                <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">Все</a>-->
-            </li>
-        </ul>
-
         <!-- Список клиентов -->
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab"></div>
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
                 <div class="card">
                     <div class="card-body pb-0">
                         <b-table
                             hover
-                            sticky-header="700px"
+                            sticky-header="800px"
                             :items="articles"
                             :fields="fields"
                             @row-clicked="BaseModal"
@@ -50,8 +40,6 @@
                         </b-table>
                     </div>
                 </div>
-            </div>
-        </div>
 
     </div>
 </template>

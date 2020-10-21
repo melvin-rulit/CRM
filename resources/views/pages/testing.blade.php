@@ -3,7 +3,7 @@
 
 
 
-<agregator-component></agregator-component>
+<testing-component></testing-component>
 
 
 <script src="{{ asset('js/app.js') }}"></script>

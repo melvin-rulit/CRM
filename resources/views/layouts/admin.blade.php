@@ -48,17 +48,21 @@
 </style>
 </head>
 
-@include('partials.menu')
+<div id="app">
+
+
+
+    <menu-component></menu-component>
 
         <div class="main-content">
           <div class="header">
             <div class="container-fluid">
-              <div class="header-body">
-                <div class="row align-items-end">
-                  <div class="col">
-                  </div>
-                </div>
-              </div>
+{{--              <div class="header-body">--}}
+{{--                <div class="row align-items-end">--}}
+{{--                  <div class="col">--}}
+{{--                  </div>--}}
+{{--                </div>--}}
+{{--              </div>--}}
             </div>
           </div>
 
@@ -81,6 +85,7 @@
                 @endif
             @yield('content')
           </div>
+        </div>
 
         </div>
 

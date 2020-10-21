@@ -613,7 +613,7 @@
                                 <div class="row">
                                     <div class="center mb-3">
                                         <button @click="getContractMain" class="btn btn-sm btn-success">Добавить контракт</button>
-                                        <button @click="getContractVm" class="btn btn-sm btn-primary">Добавить контракт ВМ</button>
+                                        <button @click="getContractVm" class="btn btn-sm btn-warning">Добавить контракт ВМ</button>
                                     </div>
                                 </div>
                             </div>

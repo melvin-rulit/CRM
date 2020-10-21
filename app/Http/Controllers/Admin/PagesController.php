@@ -68,5 +68,10 @@ class PagesController extends Controller
         return view('pages.kassa_setings');
     }
 
+    public function testing(){
+
+        return view('pages.testing');
+    }
+
 
 }

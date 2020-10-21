@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Branch;
+use App\Role;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UsersAllResource;
@@ -120,5 +123,49 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+    }
+
+    public function getUserNameFromMenu(){
+
+        $user = User::find(Auth::user()->id);
+
+        return [
+            "surname" => $user->surname,
+            "name" => $user->name,
+        ];
+    }
+
+    public function getPermisions(){
+
+        $user = User::find(Auth::user()->id);
+
+        return $user->branches;
+    }
+
+    public function getAllBranches(){
+
+        return Branch::all();
+
+    }
+
+    public function getAllRoles(){
+
+        return Role::all();
+
+    }
+
+    public function saveBranches(Request $request){
+
+        $user = User::find($request->user_id);
+
+        $user->branches()->sync($request->branches);
+
+    }
+
+    public function saveRoles(Request $request){
+
+        $user = User::find($request->user_id);
+
+        $user->roles()->sync($request->roles);
     }
 }

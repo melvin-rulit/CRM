@@ -112,18 +112,62 @@
                                 </tr>
                                 <tr>
                                     <td>Филиал</td>
-                                    <td @click="editBranch">
-                                        <span v-for="item in user.branch" class="badge badge-info mr-2">
+                                    <td>
+                                        <span v-if="!showEditBranch" v-for="item in user.branch" class="badge badge-info mr-2">
                                             {{item.name}}
                                         </span>
+                                        <multiselect
+                                            v-if="showEditBranch"
+                                            v-model="user.branch"
+                                            label="name"
+                                            track-by="id"
+                                            :options="branches"
+                                            :multiple="true"
+                                            :taggable="true"
+                                            deselectLabel="Удалить"
+                                            selectedLabel="Выбран"
+                                        ></multiselect>
+                                        <hr class="navbar-divider my-3">
+                                        <div class="mt-3">
+                                            <button
+                                                @click="editBranch"
+                                                :disabled="showEditBranch"
+                                                class="btn btn-sm btn-primary">Редактировать</button>
+                                            <button
+                                                @click="saveBranch"
+                                                :disabled="!showEditBranch"
+                                                class="btn btn-sm btn-success">Сохранить</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Роль</td>
-                                    <td @click="editRole">
-                                        <span v-for="item in user.role" class="badge badge-info mr-2">
+                                    <td>
+                                        <span v-if="!showEditRole" v-for="item in user.role" class="badge badge-info mr-2">
                                         {{item.title}}
                                     </span>
+                                        <multiselect
+                                            v-if="showEditRole"
+                                            v-model="user.role"
+                                            label="title"
+                                            track-by="id"
+                                            :options="roles"
+                                            :multiple="true"
+                                            :taggable="true"
+                                            deselectLabel="Удалить"
+                                            selectedLabel="Выбран"
+                                        ></multiselect>
+                                        <hr class="navbar-divider my-3">
+                                        <div class="mt-3">
+                                            <button
+                                                @click="editRole"
+                                                :disabled="showEditRole"
+                                                class="btn btn-sm btn-primary">Редактировать</button>
+                                            <button
+                                                @click="saveRole"
+                                                :disabled="!showEditRole"
+                                                class="btn btn-sm btn-success">Сохранить</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -136,15 +180,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-<!--                            <multiselect-->
-<!--                                v-model="user.branch"-->
-<!--                                placeholder="Выберите филиал"-->
-<!--                                label="name"-->
-<!--                                track-by="id"-->
-<!--                                :options="items"-->
-<!--                                :multiple="true"-->
-<!--                                :taggable="true">-->
-<!--                            </multiselect>-->
                         </div>
                     </div>
                 </div>
@@ -165,6 +200,11 @@
         components: { Multiselect },
         data() {
             return {
+                arrays: ["1", "2", "3"],
+                showEditBranch: false,
+                showEditRole: false,
+                branches: [],
+                roles: [],
                 user: {},
                 infoModal: {
                     title: '',
@@ -196,7 +236,29 @@
                 sortDesc: true,
             }
         },
+
+        computed: {
+            newBranchArray(){
+                return this.user.branch.slice().map(item => item.id.toString());
+            },
+
+            newRoleArray(){
+                return this.user.role.slice().map(item => item.id.toString());
+            }
+        },
+
         methods: {
+
+            getAllBranches(){
+                axios.get('api/v2/getAllBranches')
+                    .then(response => this.branches = response.data)
+            },
+
+            getAllRoles(){
+                axios.get('api/v2/getAllRoles')
+                    .then(response => this.roles = response.data)
+            },
+
             // Костыль события, если призодит type (datePicker), то выполняем блок именно для него
             editField(e, name, type) {
                 if (type){
@@ -209,11 +271,23 @@
             },
 
             editBranch() {
-                alert("Изменение филиалов временно не доступно");
+                this.showEditBranch = !this.showEditBranch
+                this.getAllBranches()
+            },
+
+            saveBranch() {
+                this.showEditBranch = !this.showEditBranch
+                axios.post('api/v2/saveBranches', {user_id: this.user.id, branches: this.newBranchArray})
             },
 
             editRole() {
-                alert("Изменение ролей временно не доступно");
+                this.showEditRole = !this.showEditRole
+                this.getAllRoles()
+            },
+
+            saveRole() {
+                this.showEditRole = !this.showEditRole
+                axios.post('api/v2/saveRoles', {user_id: this.user.id, roles: this.newRoleArray})
             },
 
             editAvatar() {
@@ -239,6 +313,8 @@
 
             closeModel(){
                 this.user_history = []
+                this.showEditBranch = false,
+                    this.showEditRole = false
             }
         },
     }
@@ -274,5 +350,9 @@
         width: 250px;
         height: 250px;
         border-radius: 0px;
+    }
+
+    .multiselect__tags {
+        font-size: 12px;
     }
 </style>
