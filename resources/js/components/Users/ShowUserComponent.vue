@@ -32,6 +32,23 @@
                         <b-button block squared variant="danger" @click="deleteuser">Удалить</b-button>
                     </div>
                     <div class="col-md-8">
+
+<!--                        <b-table-->
+<!--                            sticky-header="700px"-->
+<!--                            :items="kassa_operations"-->
+<!--                            :fields="fields"-->
+<!--                            head-variant="light">-->
+<!--                            <template v-slot:cell(status)="row">-->
+<!--                                <span :style="{ color: row.item.color }">{{ row.item.status }}</span>-->
+<!--                            </template>-->
+<!--                            <template v-slot:cell(step)="row">-->
+<!--                                <span :style="{ color: row.item.steps_color }">{{ row.item.steps }}</span>-->
+<!--                            </template>-->
+<!--                            <template v-slot:cell(next_call_date)="row">-->
+<!--                                <span>{{ row.item.call_date }}</span>-->
+<!--                            </template>-->
+<!--                        </b-table>-->
+
                         <div class="card-body py-2">
                             <table class=" table table-bordered">
                                 <tbody>
@@ -193,7 +210,7 @@
     import Multiselect from 'vue-multiselect'
 
     Vue.use(Multiselect);
-    import 'vue-multiselect/dist/vue-multiselect.min.css';
+    // import 'vue-multiselect/dist/vue-multiselect.min.css';
 
 
     export default {

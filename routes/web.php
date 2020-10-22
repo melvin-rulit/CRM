@@ -23,6 +23,8 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::get('kassa', 'PagesController@kassa');
     Route::get('kassa_setings', 'PagesController@kassaSetings');
     Route::get('users', 'PagesController@users');
+    Route::get('roles', 'PagesController@roles');
+    Route::get('useraccess', 'PagesController@useraccess');
     Route::get('page-region', 'PagesController@regions');
     Route::get('get', 'VueController@get');
     Route::get('get_email', 'VueController@getEmail');
@@ -35,7 +37,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     // Roles
     Route::delete('roles/destroy', 'RolesController@massDestroy')->name('roles.massDestroy');
-    Route::resource('roles', 'RolesController');
+//    Route::resource('roles', 'RolesController');
 
     // Users
 //    Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
@@ -53,7 +55,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::resource('roleaccess', 'RoleAccessController');
 
-    Route::resource('useraccess', 'UserAccessController');
+//    Route::resource('useraccess', 'UserAccessController');
 
     Route::get('/settings', 'SettingsController@index')->name('settings.index');
 

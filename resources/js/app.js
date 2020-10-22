@@ -45,6 +45,16 @@ Vue.component('users-component', require('./components/Users/UsersComponent.vue'
 Vue.component('addnewuser-component', require('./components/Users/AddNewUserComponent.vue').default);
 Vue.component('showuser-component', require('./components/Users/ShowUserComponent.vue').default);
 
+//Roles
+Vue.component('roles-component', require('./components/Role/RolesComponent.vue').default);
+Vue.component('addnewrole-component', require('./components/Role/AddNewRoleComponent.vue').default);
+Vue.component('showrole-component', require('./components/Role/ShowRoleComponent.vue').default);
+
+//UserAccess
+Vue.component('user-access-component', require('./components/Access/UserAccessComponent.vue').default);
+Vue.component('show-user-access-component', require('./components/Access/ShowUserAccessComponent.vue').default);
+
+
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('base-component', require('./components/BaseComponent.vue').default);
 Vue.component('base-modal-component', require('./components/BaseModal.vue').default);

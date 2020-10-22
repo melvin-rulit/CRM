@@ -68,6 +68,16 @@ class PagesController extends Controller
         return view('pages.kassa_setings');
     }
 
+    public function roles(){
+
+        return view('pages.roles');
+    }
+
+    public function useraccess(){
+
+        return view('pages.useraccess');
+    }
+
     public function testing(){
 
         return view('pages.testing');

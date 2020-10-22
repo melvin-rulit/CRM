@@ -34,8 +34,13 @@ class UserController extends Controller
                 $collection->push($user);
             }
         }
-        //Отсортировать коллекцию на дубли
-        return UsersAllResource::collection($collection->unique('id'));
+
+        // Отсортировываем коллекцию на дубли и не показываем Хозяина СРМ
+        $result = $collection->filter(function ($item) {
+            return $item->id > 1;
+        })->unique('id');
+
+        return UsersAllResource::collection($result);
     }
 
     /**

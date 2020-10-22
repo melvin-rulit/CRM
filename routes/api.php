@@ -85,6 +85,15 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('addnewuser', 'BaseController@addNewUser');
     Route::get('filter', 'BaseController@filter');
 
+    // Roles
+    Route::apiResource('roles', 'RoleController');
+    Route::get('getAllPermissions', 'RoleController@getAllPermissions');
+    Route::post('saveRole', 'RoleController@saveRole');
+
+    // UserAccess
+    Route::get('userAccess', 'UserAccessController@index');
+    Route::post('showUserAccess', 'UserAccessController@showUserAccess');
+    Route::post('saveUserAccess', 'UserAccessController@saveUserAccess');
 
     // Users
     Route::apiResource('users', 'UserController');
