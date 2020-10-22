@@ -1,7 +1,7 @@
 <template>
     <div>
-        <showrole-component ref="showRole"></showrole-component>
-        <addnewrole-component></addnewrole-component>
+        <showrole-component @get-method="getAllRoles" ref="showRole"></showrole-component>
+        <addnewrole-component  @get-method="getAllRoles"></addnewrole-component>
 
         <div class="card">
             <div class="card-body pb-0">

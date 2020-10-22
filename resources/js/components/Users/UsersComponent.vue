@@ -1,7 +1,7 @@
 <template>
     <div>
-        <addnewuser-component v-if="add"></addnewuser-component>
-        <showuser-component ref="getmodal"></showuser-component>
+        <addnewuser-component @get-method="fetch" v-if="add"></addnewuser-component>
+        <showuser-component @get-method="fetch" ref="getmodal"></showuser-component>
 
 
         <div class="card">
@@ -28,7 +28,7 @@
     export default {
         data() {
             return {
-                users: {},
+                users: [],
                 add: true,
                 sortBy: 'id',
                 sortDesc: false,

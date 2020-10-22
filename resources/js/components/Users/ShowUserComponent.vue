@@ -332,6 +332,7 @@
                 this.user_history = []
                 this.showEditBranch = false,
                     this.showEditRole = false
+                this.$emit('get-method')
             }
         },
     }

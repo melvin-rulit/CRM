@@ -11,7 +11,7 @@
                                     <td>Фамилия</td>
                                     <td><input-form
                                         v-model="role.name"
-                                        name="name"
+                                        name="title"
                                         @edit-field="editField">
                                     </input-form>
                                     </td>
@@ -104,10 +104,17 @@
                 axios.post('api/v2/saveRole', {id: this.role.id, permissions: this.newPermissionsArray})
             },
 
+            editField(e, name) {
+                    const value = e.target.value;
+                    const key = e.currentTarget.getAttribute('name');
+                    axios.post('api/v2/saveRoleField' , { id: this.role.id, field_name: key, field_value: value })
+            },
+
             closeModal(){
                 this.role = ''
                 this.permissions = ''
                 this.showEditPermissions = false
+                this.$emit('get-method')
             }
 
         }

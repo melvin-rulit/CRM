@@ -89,6 +89,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::apiResource('roles', 'RoleController');
     Route::get('getAllPermissions', 'RoleController@getAllPermissions');
     Route::post('saveRole', 'RoleController@saveRole');
+    Route::post('saveRoleField', 'RoleController@saveRoleField');
 
     // UserAccess
     Route::get('userAccess', 'UserAccessController@index');

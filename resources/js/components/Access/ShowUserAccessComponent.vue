@@ -9,11 +9,7 @@
                                 <tbody>
                                 <tr>
                                     <td>Фамилия</td>
-                                    <td><input-form
-                                        v-model="useraccess.name"
-                                        name="name">
-                                    </input-form>
-                                    </td>
+                                    <td>{{ useraccess.name }}</td>
                                 </tr>
                                 <tr>
                                     <td>Доступы на добавлении должностей</td>
@@ -109,6 +105,7 @@
             closeModal(){
                 this.showEditUserAccess = false,
                     this.useraccess = ''
+                this.$emit('get-method')
             }
 
         }

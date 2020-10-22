@@ -15,85 +15,75 @@
           </div>
         </div>
 
-
-        <!-- Модальное окно с добавлением нового сотрудника -->
-        <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового сотрудника</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="addNewUser">
-                <div class="form-group row">
+        <!-- Модальное окно с добавлением новой роли -->
+        <b-modal id="addNewUser" title="Добавление нового сотрудника" @ok="saveUser" @hidden="closeModal" centered ok-only ok-title="Добавить">
+            <div class="card-body py-0">
+                <div class="form-group row" :class="{ 'form-group--error': $v.name.$error &&  showErrors}">
                     <label class="col-sm-3 col-form-label required">Имя</label>
                     <div class="col-sm-9">
-                        <input v-model="name" class="form-control" required>
+                        <input class="form-control" v-model="$v.name.$model">
+                        <span v-if="!$v.name.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
+                        <span v-if="!$v.name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.name.$params.minLength.min}} символа</span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label required">Фамилия</label>
+                    <label class="col-sm-3 col-form-label">Фамилия</label>
                     <div class="col-sm-9">
-                        <input v-model="surname" class="form-control" required>
+                        <input class="form-control" v-model="surname">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label required">Телефон</label>
+                    <label class="col-sm-3 col-form-label">Телефон</label>
                     <div class="col-sm-9">
-                        <input v-model="phone" class="form-control" required>
+                        <input class="form-control" v-model="phone">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label required">Логин (почта)</label>
+                <div class="form-group row" :class="{ 'form-group--error': $v.login.$error &&  showErrors}">
+                    <label class="col-sm-3 col-form-label required">Почта</label>
                     <div class="col-sm-9">
-                        <input v-model="login" class="form-control" required>
+                        <input class="form-control" v-model="$v.login.$model">
+                        <span v-if="!$v.login.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row" :class="{ 'form-group--error': $v.password.$error &&  showErrors}">
                     <label class="col-sm-3 col-form-label required">Пароль</label>
                     <div class="col-sm-9">
-                        <input type="password" v-model="password" class="form-control" required>
+                        <input class="form-control" v-model="$v.password.$model">
+                        <span v-if="!$v.password.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Должность</label>
                     <div class="col-sm-9">
-                    <multiselect
-                        v-if="access.roles"
-                        v-model="role"
-                        placeholder="Выберите должность"
-                        label="title"
-                        track-by="id"
-                        :options="access.roles"
-                        :multiple="true"
-                        :taggable="true">
-                    </multiselect>
+                        <multiselect
+                                v-if="access.roles"
+                                v-model="role"
+                                placeholder="Выберите должность"
+                                label="title"
+                                track-by="id"
+                                :options="access.roles"
+                                :multiple="true"
+                                :taggable="true">
+                        </multiselect>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label required">Филиалы</label>
                     <div class="col-sm-9">
-                    <multiselect
-                        v-if="access.branches"
-                        v-model="branch"
-                        placeholder="Выберите филиал"
-                        label="name"
-                        track-by="id"
-                        :options="access.branches"
-                        :multiple="true"
-                        :taggable="true">
-                    </multiselect>
+                        <multiselect
+                                v-if="access.branches"
+                                v-model="branch"
+                                placeholder="Выберите филиал"
+                                label="name"
+                                track-by="id"
+                                :options="access.branches"
+                                :multiple="true"
+                                :taggable="true">
+                        </multiselect>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="resetForm">Отменить</button>
-                    <button type="submit" class="btn btn-success">Добавить</button>
-                </div>
-            </form>
-        </div>
+            </div>
+        </b-modal>
     </div>
 </div>
 
@@ -108,6 +98,7 @@
     Vue.use(Multiselect);
     import 'vue-multiselect/dist/vue-multiselect.min.css';
 
+    import { required, minLength } from 'vuelidate/lib/validators';
 
     export default {
         components: { Multiselect },
@@ -122,18 +113,38 @@
                 branch: '',
                 users: {},
                 access: {},
-                newRole: [],
-                newBranch: [],
+                submitStatus: null,
+                showErrors: false,
             }
         },
-        methods: {
-            pushq(){
-                  this.role.forEach((value, key) => {
-                  this.newRole.push(value.id);
-              });
+
+        validations: {
+            name: {
+                required,
+                minLength: minLength(4)
             },
+            login: {
+                required,
+            },
+            password: {
+                required,
+            }
+        },
+
+        computed: {
+            newRoleArray(){
+                return this.role.slice().map(item => item.id.toString());
+            },
+
+            newBranchArray(){
+                return this.branch.slice().map(item => item.id.toString());
+            },
+        },
+
+        methods: {
+
             addNewUserModal(){
-                $('#addNewUser').modal('show');
+                this.$bvModal.show('addNewUser')
                 this.getAtributes();
             },
             getAtributes(){
@@ -141,34 +152,54 @@
                     .then(response => {this.access = response.data.data})
             },
 
-            addNewUser(){
-                this.role.forEach((value, key) => {
-                  this.newRole.push(value.id);
-                });
-                this.branch.forEach((value, key) => {
-                  this.newBranch.push(value.id);
-                });
-                axios.post('api/v2/users', {
-                    name: this.name,
-                    surname: this.surname,
-                    phone: this.phone,
-                    login: this.login,
-                    email: this.login,
-                    password: this.password,
-                    branch: this.newBranch,
-                    role: this.newRole,
-                })
-                $('#addNewUser').modal('hide');
+            saveUser(bvModalEvt){
+                this.$v.$touch()
+
+                if (this.$v.$invalid){
+                    this.showErrors = true
+                    bvModalEvt.preventDefault()
+                }else{
+                    if (!this.branch || !this.roley){
+                        Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
+                        bvModalEvt.preventDefault()
+                    }else{
+                        axios.post('api/v2/users', {
+                            name: this.name,
+                            surname: this.surname,
+                            phone: this.phone,
+                            login: this.login,
+                            email: this.login,
+                            password: this.password,
+                            branch: this.newBranchArray,
+                            role: this.newRoleArray,
+                        })
+                        $('#addNewUser').modal('hide');
+                        this.$emit('get-method')
+                        this.$v.$reset()
+                        this.showErrors = false
+                    }
+                }
             },
-            resetForm(){
-                this.name = '';
-                this.surname = '';
-                this.phone = '';
-                this.login = '';
-                this.password = '';
-                this.role = '';
-                this.access = '';
+
+            closeModal(){
+                this.name = ''
+                this.surname = ''
+                this.phone = ''
+                this.login = ''
+                this.password = ''
+                this.role = ''
+                this.access = ''
+                this.branch = ''
+                this.$v.$reset()
+                this.showErrors = false
             },
         },
     }
 </script>
+
+<style >
+    .form-control:focus {
+        color: #12263f;
+        outline: 0;
+    }
+</style>

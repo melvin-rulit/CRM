@@ -7,7 +7,7 @@
                 <div class="row align-items-center">
                   <div class="col"></div>
                   <div class="col-auto">
-                    <button class="btn btn-sm btn-success" @click="addNewRoleModal">Добавить роль</button>
+                    <button class="btn btn-sm btn-success" @click="addNewRoleModal">Добавить должность</button>
                   </div>
                 </div>
               </div>
@@ -82,8 +82,14 @@
                     .then(response => {this.permissions = response.data.data})
             },
 
-            saveRole(){
+            saveRole(bvModalEvt){
+                if (!this.permission || !this.name){
+                    bvModalEvt.preventDefault()
+                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
+                    return false
+                }
                 axios.post('api/v2/roles', {title: this.name, permissions: this.newRoleArray})
+                this.$emit('get-method')
             },
 
             resetModal(){

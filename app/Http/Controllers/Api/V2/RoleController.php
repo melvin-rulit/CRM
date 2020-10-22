@@ -108,4 +108,11 @@ class RoleController extends Controller
         $role->permissions()->sync($request->permissions);
 
     }
+
+    public function saveRoleField(Request $request)
+    {
+
+        Role::find($request->id)->update([$request->field_name => $request->field_value]);
+
+    }
 }

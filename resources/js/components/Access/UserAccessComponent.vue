@@ -1,6 +1,6 @@
 <template>
     <div>
-        <show-user-access-component ref="showUserAccess"></show-user-access-component>
+        <show-user-access-component @get-method="getAllUserAccess" ref="showUserAccess"></show-user-access-component>
 
         <div class="card">
             <div class="card-body pb-0">
