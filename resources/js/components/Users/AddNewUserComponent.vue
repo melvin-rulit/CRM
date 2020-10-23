@@ -158,8 +158,9 @@
                 if (this.$v.$invalid){
                     this.showErrors = true
                     bvModalEvt.preventDefault()
+                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
                 }else{
-                    if (!this.branch || !this.roley){
+                    if (!this.branch || !this.role){
                         Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
                         bvModalEvt.preventDefault()
                     }else{
@@ -173,7 +174,7 @@
                             branch: this.newBranchArray,
                             role: this.newRoleArray,
                         })
-                        $('#addNewUser').modal('hide');
+                        // $('#addNewUser').modal('hide');
                         this.$emit('get-method')
                         this.$v.$reset()
                         this.showErrors = false

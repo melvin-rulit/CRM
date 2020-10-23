@@ -29,8 +29,11 @@ class ProductsInBranch extends JsonResource
             'months'            => $this->months,
             'days'              => $this->days,
             'freezing_kolvo'    => $this->freezing_kolvo,
-            'date_end'          => $this->date_end,
-            'product_active'    => $this->date_end > Carbon::today()->toDateString() ? true : false,
+            'description'       => $this->description,
+            'programm'          => $this->getProgramm,
+            'date_end'          => Carbon::createFromDate($this->date_end)->format('d.m.Y'),
+            'product_active'    => $this->date_end < Carbon::today()->toDateString() ? true : false,
+            'pays'              => $this->pays,
         ];
     }
 }

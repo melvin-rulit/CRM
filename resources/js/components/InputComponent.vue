@@ -35,11 +35,12 @@
             v-if="keyInputForm && datePicker"
             :lang="lang"
             ref="edit"
+            :id="id"
             v-model="value"
             :editable="false"
             value-type="DD.MM.YYYY"
             format="DD.MM.YYYY"
-            @close="keyInputForm = false; $emit('edit-field', value, name ,datePicker)">
+            @close="keyInputForm = false; $emit('edit-field', value, name ,datePicker, id)">
         </date-picker>
     </span>
 </template>

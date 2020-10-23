@@ -229,8 +229,8 @@
                     <span v-if="print">{{ programm.name }}</span>
                     з наступними умовами:
                     <dynamic-select
-                        v-if="!print"
-                        :options="dataVm.products"
+                        v-if="!print && programm"
+                        :options="newProducts"
                         option-value="id"
                         option-text="name"
                         placeholder="Введите для поиска продукта"
@@ -338,8 +338,10 @@
 
 <script>
 
+    import 'vue-select/dist/vue-select.css';
 
-import DatePick from 'vue-date-pick';
+
+    import DatePick from 'vue-date-pick';
 Vue.use(DatePick);
 import 'vue-date-pick/dist/vueDatePick.css';
 
@@ -380,6 +382,7 @@ Vue.use(VueHtmlToPaper, options);
         },
         data() {
             return{
+                newProducts: [],
               print: false,
               printvm: false,
               stopContract: '00.00.0000',
@@ -454,11 +457,16 @@ Vue.use(VueHtmlToPaper, options);
 
             getHalls(){
                 this.hall = ''
+                this.product = ''
                 axios.post('api/v2/gethalls', {branch_id : this.dataVm.branch.id})
                     .then(response => {
                         this.halls = response.data.data
                     })
+
+                axios.post('api/v2/getProducts', {branch_id : this.dataVm.branch.id, programm_id: this.programm.id})
+                    .then(response => {this.newProducts = response.data.data})
           },
+
             reversedMessage(days) {
                 var D = new Date(this.dataVm.end_actualy);
                 D.setDate(D.getDate() + days);

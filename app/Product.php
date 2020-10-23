@@ -20,9 +20,14 @@ class Product extends Model
         'old_id',
         'months',
         'days',
+        'programm_id',
     ];
 
     public function pays(){
         return $this->hasMany(Product_pay::class);
+    }
+
+    public function getProgramm(){
+        return $this->hasOne('App\Programm', 'id', 'programm_id');
     }
 }

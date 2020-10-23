@@ -65,7 +65,7 @@ class BranchController extends Controller
     {
         $branch->load([
             'products' => function($query){
-                $query->orderBy('date_end');
+                $query->orderBy('date_end', 'desc');
             },
             'products.pays',
             'programms',

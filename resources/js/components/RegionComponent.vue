@@ -319,7 +319,8 @@
                                                             v-model="product.date_end"
                                                             name="date_end"
                                                             :id="product.id"
-                                                            :placeholder="'20.05.2020'"
+                                                            mask="##.##.####"
+                                                            datePicker="true"
                                                             @edit-field="editField">
                                                         </input-form>
                                                     </p>
@@ -332,14 +333,19 @@
                                                             @edit-field="editField">
                                                         </input-form>
                                                     </p>
-<!--                                                    <p>Программа :-->
-<!--                                                        <select v-model="product.freezing_kolvo" @change="editProduct(product.id, product.freezing_kolvo)">-->
-<!--                                                            <option>0</option>-->
-<!--                                                            <option>1</option>-->
-<!--                                                            <option>2</option>-->
-<!--                                                            <option>3</option>-->
-<!--                                                        </select>-->
-<!--                                                    </p>-->
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Программа:</label>
+                                                        <div class="col-sm-9">
+                                                            <dynamic-select
+                                                                :options="branch.programms"
+                                                                option-value="id"
+                                                                option-text="name"
+                                                                placeholder="Поиск программы"
+                                                                v-model="product.programm"
+                                                                @input="saveProductProgramm(product.id, product.programm.id)"
+                                                            />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -575,6 +581,11 @@ Vue.use(VueSimpleAlert);
         },
         methods: {
 
+            saveProductProgramm(id, programm){
+                // Почему то при открытии карточки срабатывает этот метод
+                axios.put('api/v2/products/'+ id, {field_name: 'programm_id', field_value: programm })
+            },
+
             sendTypeProgramm(id, type){
                     axios.post( 'api/v2/updateTypeProgramm', {id: id, type: type})
             },
@@ -708,12 +719,25 @@ Vue.use(VueSimpleAlert);
                     this.$alert("Зал удален");
                 });
             },
-            editField(e, name) {
-                const id = e.target.id;
-                const value = e.target.value;
-                const key = e.currentTarget.getAttribute('name');
-                axios.put('api/v2/products/'+ id, {field_name: key, field_value: value })
+
+            editField(e, name, type, id) {
+                if (type){
+                    axios.put('api/v2/products/'+ id, {field_name: name, field_value: e })
+
+                }else{
+                    const id = e.target.id;
+                    const value = e.target.value;
+                    const key = e.currentTarget.getAttribute('name');
+                    axios.put('api/v2/products/'+ id, {field_name: key, field_value: value })
+                }
             },
+
+            // editField(e, name) {
+            //     const id = e.target.id;
+            //     const value = e.target.value;
+            //     const key = e.currentTarget.getAttribute('name');
+            //     axios.put('api/v2/products/'+ id, {field_name: key, field_value: value })
+            // },
             editFieldBranch(e, name) {
                 const id = e.target.id;
                 const value = e.target.value;

@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\HallsResource;
 use App\Http\Resources\HallResource;
+use App\Http\Resources\GetProductsInDogovorResource;
 use App\Hall;
+use App\Product;
 use App\Loger;
 use App\User;
 
@@ -135,5 +137,13 @@ class HallController extends Controller
         $halls = Hall::where('branch_id', $request['branch_id'])->get();
 
         return HallResource::collection($halls);
+    }
+
+    public function getProducts(Request $request){
+
+        $products = Product::where('branch_id', $request['branch_id'])->where('programm_id', $request['programm_id'])->get();
+
+        return GetProductsInDogovorResource::collection($products);
+
     }
 }

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\BranchResource;
+use App\Http\Resources\PaysInDogovorResource;
 use Illuminate\Http\Request;
 use App\Product;
 use App\User;
@@ -67,7 +69,9 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        return (new BranchResource($product->load(['pays'])))
+//        dd($product);
+
+        return (new PaysInDogovorResource($product->load(['pays'])))
                     ->response()
                     ->setStatusCode(Response::HTTP_CREATED);
     }
@@ -85,8 +89,13 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        if ($request['field_name'] == 'date_end'){
+
+            $correctDate = Carbon::createFromDate($request['field_value'])->format('Y.m.d');
+        }
+
         $field_name = $request['field_name'];
-        $product->$field_name = $request['field_value'];
+        $product->$field_name = $request['field_name'] == 'date_end' ? $correctDate : $request['field_value'];
         $product->save();
     }
 

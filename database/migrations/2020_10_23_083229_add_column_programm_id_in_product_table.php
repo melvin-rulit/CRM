@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDateEndProduct extends Migration
+class AddColumnProgrammIdInProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddDateEndProduct extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dateTime('date_end')->nullable();
+            $table->integer('programm_id')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddDateEndProduct extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('date_end');
+            $table->dropColumn('programm_id');
         });
     }
 }

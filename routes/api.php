@@ -116,6 +116,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('showprogramms', 'BaseController@showHProgramms');
     Route::post('uploadDocument', 'BaseController@uploadDocument');
     Route::post('gethalls', 'HallController@getHalls');
+    Route::post('getProducts', 'HallController@getProducts');
     Route::post('getgroup', 'GroupController@getgroup');
     Route::post('addClientFromPromoter', 'BaseController@addClientFromPromoter');
 
