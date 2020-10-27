@@ -16,7 +16,7 @@ Auth::routes(['register' => false]);
 // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
 
-    Route::get('base', 'PagesController@vue');
+//    Route::get('base', 'PagesController@vue');
 
     Route::get('/{any}', 'PagesController@index')->where('any', '.*');
 
