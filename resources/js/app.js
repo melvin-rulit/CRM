@@ -4,6 +4,43 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+import Agregator from './components/AgregatorComponent.vue'
+import Journal from './components/JournalComponent.vue'
+import Users from './components/Users/UsersComponent'
+import Permissions from './components/PermissionsComponent'
+import UserAccess from './components/Access/UserAccessComponent'
+import Roles from './components/Role/RolesComponent'
+import Region from './components/RegionComponent'
+import Kassa from './components/KassaComponent'
+import KassaSettings from './components/KassaSetingsComponent'
+import Base from './components/BaseComponent'
+
+
+const routes = [
+    { path: '/', component: Region },
+    { path: '/journal', component: Journal },
+    { path: '/agregator', component: Agregator },
+    { path: '/users', component: Users },
+    { path: '/permissions', component: Permissions },
+    { path: '/useraccess', component: UserAccess },
+    { path: '/roles', component: Roles },
+    { path: '/kassa', component: Kassa },
+    { path: '/kassa_setings', component: KassaSettings },
+    { path: '/base', component: Base },
+]
+
+const router = new VueRouter({
+    mode: 'history',
+    routes
+})
+
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -44,6 +81,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.component('users-component', require('./components/Users/UsersComponent.vue').default);
 Vue.component('addnewuser-component', require('./components/Users/AddNewUserComponent.vue').default);
 Vue.component('showuser-component', require('./components/Users/ShowUserComponent.vue').default);
+
+// Base
+Vue.component('add-new-base-component', require('./components/AddNewBaseComponent.vue').default);
 
 //Roles
 Vue.component('roles-component', require('./components/Role/RolesComponent.vue').default);
@@ -89,6 +129,12 @@ Vue.component('testing-component', require('./components/TestingComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+// const app = new Vue({
+//     el: '#app',
+// });
+
 const app = new Vue({
     el: '#app',
+    router,
 });

@@ -17,6 +17,9 @@ Auth::routes(['register' => false]);
 Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
 
     Route::get('base', 'PagesController@vue');
+
+    Route::get('/{any}', 'PagesController@index')->where('any', '.*');
+
     Route::get('journal', 'PagesController@journal');
     Route::get('permissions', 'PagesController@permissions');
     Route::get('agregator', 'PagesController@agregator');
@@ -30,7 +33,9 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::get('get_email', 'VueController@getEmail');
     Route::post('getone', 'VueController@getOne');
 
-    Route::get('/', 'PagesController@index')->name('home');
+//    Route::get('/', 'PagesController@index')->name('home');
+
+
     // Permissions
     // Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
     // Route::resource('permissions', 'PermissionsController');

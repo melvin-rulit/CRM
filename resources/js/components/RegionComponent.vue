@@ -513,17 +513,17 @@
 
 <script>
 
-$('.accordion-toggle').click(function(){
-    $(this).next('tr').find('.hiddenRow').show();
-});
+    $('.accordion-toggle').click(function(){
+        $(this).next('tr').find('.hiddenRow').show();
+    });
 
-$(document).ready(function() {
-    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-});
+    $(document).ready(function() {
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    });
 
-import VueSimpleAlert from "vue-simple-alert";
-
-Vue.use(VueSimpleAlert);
+    // import VueSimpleAlert from "vue-simple-alert";
+    //
+    // Vue.use(VueSimpleAlert);
 
 	export default{
     	   props: {
@@ -573,12 +573,18 @@ Vue.use(VueSimpleAlert);
                 region_id: '',
             }
         },
-        created(){
-            this.getRegions();
+
+        beforeRouteEnter (to, from, next) {
+            axios.get('api/v2/regions')
+                .then(response => {
+                    next(vm => (vm.regions = response.data.data) )
+                })
         },
+
         mounted(){
             $('#getbranch').on('hidden.bs.modal', () => this.closeModal())
         },
+
         methods: {
 
             saveProductProgramm(id, programm){

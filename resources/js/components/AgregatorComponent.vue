@@ -83,8 +83,15 @@
             }
         },
 
+        beforeRouteEnter (to, from, next) {
+            axios.get('api/v2/getAgregatorLids')
+                .then(response => {
+                    next(vm => (vm.articles = response.data.data) )
+                })
+        },
+
         created(){
-            this.fetchArticles();
+            // this.fetchArticles();
         },
 
         methods: {

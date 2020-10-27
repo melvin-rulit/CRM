@@ -57,8 +57,15 @@
             }
         },
 
+        beforeRouteEnter (to, from, next) {
+            axios.get('api/v2/users')
+                .then(response => {
+                    next(vm => (vm.users = response.data.data) )
+                })
+        },
+
         mounted() {
-            this.fetch();
+            // this.fetch();
         },
 
         methods: {

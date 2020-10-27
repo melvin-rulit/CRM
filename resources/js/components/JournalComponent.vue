@@ -166,7 +166,7 @@
                         <div class="card-body">
                             <dynamic-select
                                 v-if="!isAdd"
-                                :options="days2"
+                                :options="days"
                                 option-value="id"
                                 option-text="name"
                                 @input="daySelect"
@@ -362,9 +362,17 @@
                     {id:12, name: "12"},
                     {id:13, name: "13"},
                     {id:14, name: "14"},
+                    {id:15, name: "15"},
+                    {id:16, name: "16"},
+                    {id:17, name: "17"},
+                    {id:18, name: "18"},
+                    {id:19, name: "19"},
+                    {id:20, name: "20"},
+                    {id:21, name: "21"},
+                    {id:22, name: "22"},
                 ],
 
-                days2: [
+                days: [
                     {id:1, name: "Понедельник"},
                     {id:2, name: "Вторник"},
                     {id:3, name: "Среда"},

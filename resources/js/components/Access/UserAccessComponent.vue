@@ -52,8 +52,15 @@
             }
         },
 
+        beforeRouteEnter (to, from, next) {
+            axios.get('api/v2/userAccess')
+                .then(response => {
+                    next(vm => (vm.userAccess = response.data.data) )
+                })
+        },
+
         mounted() {
-            this.getAllUserAccess();
+            // this.getAllUserAccess();
         },
 
         methods: {

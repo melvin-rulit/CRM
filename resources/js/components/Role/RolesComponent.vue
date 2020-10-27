@@ -50,6 +50,13 @@
             }
         },
 
+        beforeRouteEnter (to, from, next) {
+            axios.get('api/v2/roles')
+                .then(response => {
+                    next(vm => (vm.roles = response.data.data) )
+                })
+        },
+
         mounted() {
             this.getAllRoles();
         },

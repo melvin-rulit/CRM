@@ -2,9 +2,8 @@
 <template>
     <div>
 
-<!--        <button class="btn btn-danger m-5" @click="getTest">Получить</button>-->
-
         <base-modal-component @get-method="fetchArticles" ref="showmoda"></base-modal-component>
+        <add-new-base-component @get-method="fetchArticles" ref="showmodal"></add-new-base-component>
 
         <!-- Панель над фильтром -->
         <div class="row">
@@ -15,8 +14,8 @@
                             <div class="col">
                             </div>
                             <div class="col-auto">
-                                <a class="btn btn-sm btn-success" href="#" data-toggle="modal" @click.prevent="getBranches() , getUsers()" data-target="#addNewUser">Добавить клиента</a>
                                 <button class="btn btn-sm btn-info" @click="showCollapse(), filter = !filter">Фильтр</button>
+                                <button class="btn btn-sm btn-success" @click="ShowNewUser">Добавить сотрудника</button>
                             </div>
                         </div>
                     </div>
@@ -67,62 +66,62 @@
         </div>
 
         <!-- Модальное окно с добавление нового клиента -->
-        <div class="modal fade" id="addNewUser" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового клиента</h4>
-                        <button type="button" @click="cancelAddNewUser" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form @submit.prevent="addNewUser">
-                            <div class="form-group row" :class="{ 'form-group--error': $v.new_child_surname.$error }">
-                                <label class="col-sm-3 col-form-label required">Фамилия</label>
-                                <div class="col-sm-9">
-                                    <input v-model.trim="$v.new_child_surname.$model" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row" :class="{ 'form-group--error': $v.new_child_name.$error }">
-                                <label class="col-sm-3 col-form-label required">Имя</label>
-                                <div class="col-sm-9">
-                                    <input v-model.trim="$v.new_child_name.$model" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Отчество</label>
-                                <div class="col-sm-9">
-                                    <input v-model.trim="new_child_middle_name" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label required">Филиал</label>
-                                <div class="col-sm-9">
-                                    <dynamic-select :options="branches" option-value="id" option-text="name" placeholder="Введите для поиска" v-model="branch" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Менеджер</label>
-                                <div class="col-sm-9">
-                                    <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="manager" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Тренер</label>
-                                <div class="col-sm-9">
-                                    <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="instructor" />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button @click="cancelAddNewUser" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                                <button type="submit" class="btn btn-success">Добавить</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="modal fade" id="addNewUser" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
+<!--            <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового клиента</h4>-->
+<!--                        <button type="button" @click="cancelAddNewUser" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                            <span aria-hidden="true"><i class="fe fe-x h2"></i></span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        <form @submit.prevent="addNewUser">-->
+<!--                            <div class="form-group row" :class="{ 'form-group&#45;&#45;error': $v.new_child_surname.$error }">-->
+<!--                                <label class="col-sm-3 col-form-label required">Фамилия</label>-->
+<!--                                <div class="col-sm-9">-->
+<!--                                    <input v-model.trim="$v.new_child_surname.$model" class="form-control">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group row" :class="{ 'form-group&#45;&#45;error': $v.new_child_name.$error }">-->
+<!--                                <label class="col-sm-3 col-form-label required">Имя</label>-->
+<!--                                <div class="col-sm-9">-->
+<!--                                    <input v-model.trim="$v.new_child_name.$model" class="form-control">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group row">-->
+<!--                                <label class="col-sm-3 col-form-label">Отчество</label>-->
+<!--                                <div class="col-sm-9">-->
+<!--                                    <input v-model.trim="new_child_middle_name" class="form-control">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group row">-->
+<!--                                <label class="col-sm-3 col-form-label required">Филиал</label>-->
+<!--                                <div class="col-sm-9">-->
+<!--                                    <dynamic-select :options="branches" option-value="id" option-text="name" placeholder="Введите для поиска" v-model="branch" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group row">-->
+<!--                                <label class="col-sm-3 col-form-label">Менеджер</label>-->
+<!--                                <div class="col-sm-9">-->
+<!--                                    <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="manager" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group row">-->
+<!--                                <label class="col-sm-3 col-form-label">Тренер</label>-->
+<!--                                <div class="col-sm-9">-->
+<!--                                    <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="instructor" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="modal-footer">-->
+<!--                                <button @click="cancelAddNewUser" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>-->
+<!--                                <button type="submit" class="btn btn-success">Добавить</button>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!-- Табы основного интерфейса -->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -172,18 +171,18 @@
     // Vue.component('vue-headful', vueHeadful);
 
 
-    import Vuelidate from 'vuelidate'
-    Vue.use(Vuelidate)
-    import { required, minLength } from 'vuelidate/lib/validators'
-
-
-    import DynamicSelect from 'vue-dynamic-select'
-    Vue.use(DynamicSelect)
-
-
-    import Loading from 'vue-loading-overlay';
-    import 'vue-loading-overlay/dist/vue-loading.css';
-    Vue.use(Loading);
+    // import Vuelidate from 'vuelidate'
+    // Vue.use(Vuelidate)
+    // import { required, minLength } from 'vuelidate/lib/validators'
+    //
+    //
+    // import DynamicSelect from 'vue-dynamic-select'
+    // Vue.use(DynamicSelect)
+    //
+    //
+    // import Loading from 'vue-loading-overlay';
+    // import 'vue-loading-overlay/dist/vue-loading.css';
+    // Vue.use(Loading);
 
 
     export default {
@@ -226,27 +225,23 @@
                 },
                 articles: [],
                 users: [],
-                URLaddNewUser: "api/v2/addnewuser",
             }
         },
 
-        validations: {
-            new_child_surname: {
-                required,
-            },
-            new_child_name: {
-                required,
-            }
+        beforeRouteEnter (to, from, next) {
+            axios.get('api/v2/collection')
+                .then(response => {
+                    next(vm => (vm.articles = response.data.data) )
+                })
         },
-        created(){
-            this.fetchArticles();
-        },
+
 
         methods: {
 
             showCollapse(){
                 this.filter  ? $('#filter').collapse('hide') : $('#filter').collapse('show');
             },
+
             fetch() {
                 this.busy = true;
                 axios.get(`api/v2/filter`, {
@@ -278,81 +273,11 @@
             BaseModal(index){
                 this.$refs.showmoda.showModa(index.id)
             },
-            addNewUser(){
-                this.$v.$touch()
-                if (!this.$v.$invalid) {
-                    if (!this.branch.id) {
-                        this.$alert("Выберите филиал");
-                        return false
-                    }
-                    let loader = this.$loading.show({
-                        container: this.fullPage ? null : this.$refs.formContainer,
-                        color: '#0080ff',
-                    });
-                    $('#addNewUser').modal('hide');
-                    $(document.body).removeClass("modal-open");
-                    $(".modal-backdrop.show").hide();
-                    axios.post(this.URLaddNewUser, {
-                        child_surname: this.new_child_surname,
-                        child_name: this.new_child_name,
-                        child_middle_name: this.new_child_middle_name,
-                        manager: this.manager ? this.manager.id : null,
-                        instructor: this.instructor ? this.instructor.id : null,
-                        branch: this.branch.id
-                    })
-                        .then(response =>
-                            setTimeout(() => {
-                                loader.hide()
-                                Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'}),
-                                this.fetchArticles()
-                            },500)
-                        );
-                    this.submitStatus = 'OK'
-                    this.new_child_surname = null
-                    this.new_child_middle_name = ''
-                    this.$v.new_child_surname.$reset()
-                    this.new_child_name = null
-                    this.$v.new_child_name.$reset()
-                    this.branch = []
-                    this.manager = []
-                    this.instructor = []
-                }
-            },
-            cancelAddNewUser(){
-                this.new_child_surname = null
-                this.new_child_middle_name = ''
-                this.$v.new_child_surname.$reset()
-                this.new_child_name = null
-                this.$v.new_child_name.$reset()
-                this.branch = []
-                this.manager = []
-                this.instructor = []
-            },
-            getBranches(){
-                axios.get('api/v2/getbranches')
-                    .then(response => this.branches = response.data.data)
-            },
-            getUsers(){
-                axios.get('api/v2/getusers')
-                    .then(response => this.users = response.data.data)
-            },
-            closeUserModal(){
-                this.showBranch = false
-                this.showManager = false
-                this.showInstructor = false
-                this.showProgramm = false
 
-                $('#info li:first-child a').tab('show')
-
-                this.dataObject.contracts_active = [];
-                this.indexactiveContract = 0
-                this.fetchArticles()
-                this.showForm = false
+            ShowNewUser(){
+                this.$refs.showmodal.addNewUserModal()
             },
 
-            getTest(){
-                axios.get('api/v2/getAgregatorLids')
-            }
         }
     }
 </script>
