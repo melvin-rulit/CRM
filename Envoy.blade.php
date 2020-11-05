@@ -99,11 +99,14 @@
 
 @task('bascup', ['on' => $on])
     cp -r {{ $current }}/storage/app/public {{ $path }}
+    echo "Copy files in {{ $current }}/storage/app/public to {{ $path }}"
 @endtask
 
 @task('copy', ['on' => $on])
     cp -r {{ $path }}/public {{ $current }}/storage/app/
     rm -r {{ $path }}/public
+    echo "Copy files in {{ $path }}/public to {{ $current }}/storage/app/"
+    echo "Delete catalog {{ $path }}/public"
 @endtask
 
 
