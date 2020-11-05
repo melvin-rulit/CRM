@@ -102,7 +102,7 @@
 @endtask
 
 @task('copy', ['on' => $on])
-    cp -r {{ $path }} {{ $current }}/storage/app/
+    cp -r {{ $path }}/public {{ $current }}/storage/app/
     rm -r {{ $path }}/public
 @endtask
 
