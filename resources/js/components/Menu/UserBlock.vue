@@ -19,7 +19,7 @@
             </div>
 
             <!-- Icon -->
-            <a href="/logout" class="navbar-user-link" data-toggle="modal">
+            <a href="#" @click.prevent="logout()" class="navbar-user-link" data-toggle="modal">
                     <span class="icon">
                         <i class="fe fe-log-out"></i>
                     </span>
@@ -53,9 +53,16 @@
             getUserName(){
                 axios.get('api/v2/getUserName')
                 .then(response => this.user = response.data)
+            },
+
+            logout() {
+                axios.post('/logout')
+                .catch(error => {
+                    window.location.href = '/login';
+                });
             }
         }
-    }
+}
 
 </script>
 

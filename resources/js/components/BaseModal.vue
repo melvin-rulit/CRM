@@ -772,7 +772,7 @@
                 getURL: "api/v2/getinfo",
                 postURL: "getone",
                 URLaddNewUser: "api/v2/addnewuser",
-                siteURL: "http://83.220.172.19/",
+                siteURL: "http://62.109.26.106/",
                 articles: [],
                 users: [],
                 article_id: '',

@@ -141,7 +141,9 @@ class HallController extends Controller
 
     public function getProducts(Request $request){
 
-        $products = Product::where('branch_id', $request['branch_id'])->where('programm_id', $request['programm_id'])->get();
+        $products = Product::where('branch_id', $request['branch_id'])
+            ->where('programm_id', $request['programm_id'])
+            ->get();
 
         return GetProductsInDogovorResource::collection($products);
 

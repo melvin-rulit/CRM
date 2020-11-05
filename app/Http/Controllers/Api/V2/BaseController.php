@@ -32,6 +32,7 @@ use App\Schedule_hall;
 use App\Contract_pay;
 use Carbon\Carbon;
 
+use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -95,7 +96,8 @@ class BaseController extends Controller
     }
 
 
-    public function addClientInGroup(Request $request){
+    public function addClientInGroup(Request $request)
+    {
         $base = Base::where('branch', $request->id)->get();
 
         return AddChildrenGroupResource::collection($base);
@@ -937,9 +939,6 @@ class BaseController extends Controller
 
     }
 
-    /**
-     * Метод проверяет есть ли в рассписании для этого клиента день
-     */
 
     public function checkDay($base_id, $year, $month, $day){
 
