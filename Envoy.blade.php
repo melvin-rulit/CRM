@@ -46,7 +46,6 @@
 	echo "#2 - Composer dependencies have been instalied"
 @endtask
 
-
 @task('artisan', ['on' => $on])
 	cd {{ $release }}
 
@@ -81,6 +80,9 @@
 @endtask
 
 @task('update_symlinks')
+
+    ln -nfs {{ $release }} {{ $current }};
+
 	ln -nfs {{ $release }} {{ $current }};
 	chgrp -h www-data {{ $current }};
 
@@ -95,13 +97,25 @@
     echo "#6 - End npm section"
 @endtask
 
+@task('bascup', ['on' => $on])
+    cp -r {{ $current }}/storage/app/public {{ $path }}
+@endtask
+
+@task('copy', ['on' => $on])
+    cp -r {{ $path }} {{ $current }}/storage/app/
+    rm -r {{ $path }}/public
+@endtask
+
+
 @macro('deploy', ['on' => 'production'])
+    bascup
 	clone
 	composer
 	artisan
 	chmod
 	update_symlinks
     npm
+    copy
 @endmacro
 
 
