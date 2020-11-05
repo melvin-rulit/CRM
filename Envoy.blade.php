@@ -104,6 +104,7 @@
 
 @task('copy', ['on' => $on])
     cp -r {{ $path }}/public {{ $current }}/storage/app/
+    chmod -R 775 {{ $current }}/storage/app/public
     rm -r {{ $path }}/public
     echo "Copy files in {{ $path }}/public to {{ $current }}/storage/app/"
     echo "Delete catalog {{ $path }}/public"
