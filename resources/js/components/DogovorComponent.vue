@@ -238,7 +238,6 @@
                         @input="stopDate(product.id)" />
                     <span v-if="print">{{ product.name }}</span>
                     <hr>
-
                     <span v-if="!print">выберите зал</span>
                     <b-form-select
                         v-if="!print"
@@ -475,9 +474,9 @@ Vue.use(VueHtmlToPaper, options);
             },
 
             stoped() {
-              var D = new Date(this.dataVm.end_actualy);
-              D.setDate(D.getDate() + this.product.days);
-              return this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+                var D = new Date(this.dataVm.end_actualy)
+                D.setDate(D.getDate() + this.product.days);
+                return this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
             },
 
             stopDate(id) {

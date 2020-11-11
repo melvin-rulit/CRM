@@ -90,10 +90,6 @@
                 })
         },
 
-        created(){
-            // this.fetchArticles();
-        },
-
         methods: {
 
             fetchArticles(){

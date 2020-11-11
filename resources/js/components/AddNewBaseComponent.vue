@@ -5,7 +5,7 @@
         <b-modal id="addNewUser" title="Добавление нового клиента" @ok="saveUser" @hidden="closeModal" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
                 <div class="form-group row" :class="{ 'form-group--error': $v.new_child_surname.$error &&  showErrors}">
-                    <label class="col-sm-3 col-form-label required">Имя</label>
+                    <label class="col-sm-3 col-form-label required">Фамилия</label>
                     <div class="col-sm-9">
                         <input class="form-control" v-model="$v.new_child_surname.$model">
                         <span v-if="!$v.new_child_surname.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>

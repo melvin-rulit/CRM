@@ -6,37 +6,22 @@
         <ul class="navbar-nav mb-md-3">
             <li class="nav-item">
                 <router-link to="/" class="nav-link"><i class="fe fe-home"></i>На главную</router-link>
-<!--                <a class="nav-link" href="/">-->
-<!--                    <i class="fe fe-git-branch"></i>На главную-->
-<!--                </a>-->
             </li>
 
             <li class="nav-item">
                 <router-link to="/useraccess" class="nav-link"><i class="fe fe-git-branch"></i>Доступ должностей</router-link>
-<!--                <a href="/useraccess" class="nav-link">-->
-<!--                    <i class="fe fe-git-branch"></i>Доступ должностей-->
-<!--                </a>-->
             </li>
 
             <li class="nav-item">
                 <router-link to="/permissions" class="nav-link"><i class="fe fe-database"></i> Разрешения</router-link>
-<!--                <a class="nav-link" href="/permissions">-->
-<!--                    <i class="fe fe-database"></i> Разрешения-->
-<!--                </a>-->
             </li>
 
             <li class="nav-item">
                 <router-link to="/roles" class="nav-link"><i class="fe fe-git-branch"></i>Должности</router-link>
-<!--                <a class="nav-link" href="/roles">-->
-<!--                    <i class="fe fe-git-branch"></i>Должности-->
-<!--                </a>-->
             </li>
 
             <li class="nav-item">
                 <router-link to="/users" class="nav-link"><i class="fe fe-user"></i>Сотрудники</router-link>
-<!--                <a href="/users" class="nav-link">-->
-<!--                    <i class="fe fe-user"></i>Сотрудники-->
-<!--                </a>-->
             </li>
 
 
@@ -59,15 +44,9 @@
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
                             <router-link to="/kassa" class="nav-link"><i class="fe fe-git-branch"></i> Операции</router-link>
-<!--                            <a href="kassa" class="nav-link ">-->
-<!--                                <i class="fe fe-git-branch"></i> Операции-->
-<!--                            </a>-->
                         </li>
                         <li class="nav-item">
                             <router-link to="/kassa_setings" class="nav-link"><i class="fe fe-git-branch"></i> Настройки</router-link>
-<!--                            <a href="kassa_setings" class="nav-link active">-->
-<!--                                <i class="fe fe-git-branch"></i> Настройки-->
-<!--                            </a>-->
                         </li>
                     </ul>
                 </div>
@@ -92,21 +71,12 @@
             </li>
             <li class="nav-item">
                 <router-link to="/base" class="nav-link"><i class="fe fe-database"></i> База</router-link>
-<!--                <a class="nav-link" href="/base">-->
-<!--                    <i class="fe fe-database"></i> База-->
-<!--                </a>-->
             </li>
             <li class="nav-item">
                 <router-link to="/journal" class="nav-link"><i class="fe fe-database"></i> Журнал</router-link>
-<!--                <a class="nav-link" href="/journal">-->
-<!--                    <i class="fe fe-database"></i> Журнал-->
-<!--                </a>-->
             </li>
             <li class="nav-item">
                 <router-link to="/agregator" class="nav-link"><i class="fe fe-database"></i> Агрегатор лидов</router-link>
-<!--                <a class="nav-link" href="/agregator">-->
-<!--                    <i class="fe fe-database"></i> Агрегатор лидов-->
-<!--                </a>-->
             </li>
         </ul>
 

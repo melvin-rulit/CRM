@@ -758,7 +758,7 @@
                 if (this.newComment) {
                     axios.post('api/v2/addNewComent' , {base_id : this.rowid, comment: this.newComment})
                     this.getUserInGroup(this.activeGroup_id)
-                    Vue.$toast.open({message: 'Комментарий успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
+                    Vue.$toast.open({message: 'Комментарий успешно добавлен',type: 'success',duration: 1000,position: 'top-right'});
                     this.newComment = ''
                 }else{
                     this.$alert("Комментарий не может быть пустым");
@@ -775,7 +775,7 @@
                     .then((response) => {
                         response.data != 'error' ? this.getUserInGroupArray = response.data.data :
 
-                            Vue.$toast.open({message: 'Нет клиентов в этой группе' ,type: 'error',duration: 5000,position: 'top-right'});
+                            Vue.$toast.open({message: 'Нет клиентов в этой группе' ,type: 'error',duration: 1000,position: 'top-right'});
 
                     });
             },
@@ -830,7 +830,7 @@
                 setTimeout(() => {
                     // loader.hide()
                     if(this.hall.schedule_hall.length == 0){
-                        Vue.$toast.open({message: 'Нет занятий на этот день',type: 'info',duration: 5000,position: 'top-right'});
+                        Vue.$toast.open({message: 'Нет занятий на этот день',type: 'info',duration: 1000,position: 'top-right'});
                     }
                 },500)
                 this.getUserInGroupArray = ''
@@ -877,7 +877,7 @@
                     name: this.editGroupModel.name,
                     color: this.colors.hex ? this.colors.hex : this.editGroupModel.color
                 })
-                Vue.$toast.open({message: 'Группа успешно изменена',type: 'success',duration: 5000,position: 'top-right'});
+                Vue.$toast.open({message: 'Группа успешно изменена',type: 'success',duration: 1000,position: 'top-right'});
 
                 this.colors.hex = ''
                 this.editGroupModel.color = ''
@@ -910,7 +910,7 @@
                     this.$confirm("Клиент уже состоит в группе " + this.child.group.name + " вы уверены что хотите переместить в группу " + this.namegroup).then(() => {
                         axios.post('api/v2/saveClientInGroup', {id: this.child.id, group_id: this.group_id})
                         this.getHallAtributes(this.hall_id, this.calendar)
-                        Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
+                        Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 1000,position: 'top-right'});
                     });
                     return null
                 }
@@ -918,7 +918,7 @@
                 if (this.child) {
                     axios.post('api/v2/saveClientInGroup', {id: this.child.id, group_id: this.group_id})
                     this.getHallAtributes(this.hall_id, this.calendar)
-                    Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'});
+                    Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 1000,position: 'top-right'});
                 }
 
 
