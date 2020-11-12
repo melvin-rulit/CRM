@@ -15,7 +15,7 @@
                             </div>
                             <div class="col-auto">
                                 <button class="btn btn-sm btn-info" @click="showCollapse(), filter = !filter">Фильтр</button>
-                                <button class="btn btn-sm btn-success" @click="ShowNewUser">Добавить клиента</button>
+                                <button class="btn btn-sm btn-success" @click="ShowNewUser">Добавить сотрудника</button>
                             </div>
                         </div>
                     </div>

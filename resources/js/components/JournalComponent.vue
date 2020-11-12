@@ -65,7 +65,15 @@
                         placeholder="Введите для поиска программы" />
                 </b-form-group>
                 <div class="row">
-                    <slider-picker class="ml-6 mb-2" v-model="colors" />
+<!--                    <slider-picker class="ml-6 mb-2" v-model="colors" />-->
+                    <compact-picker
+                        class="ml-7 mb-2"
+                        v-model="colors"
+                        :palette="[
+                        '#006400','#8B0000','#008B8B','#FF1493','#FFA500','#FF7F50','#FFFF00','#00FFFF','#F0E68C','#000080','#4B0082','#8B4513',
+'#800000','#778899','#000000'
+  ]"
+                    ></compact-picker>
                 </div>
                 <div class="p-4 my-3" :style="{ 'background-color': colors.hex }"></div>
             </form>
@@ -106,12 +114,38 @@
                     ></b-form-input>
                 </b-form-group>
 
+                <b-form-group
+                    :state="programmState"
+                    label-cols-sm="4"
+                    label-cols-lg="4"
+                    label="Программа обучения"
+                    label-for="name-input"
+                    invalid-feedback="Поле обязательно для заполнения"
+                >
+                    <select class="form-control" @change="changeProgrammValue($event)">
+                        <option
+                            v-for="item in programms"
+                            v-if="editGroupModel.programm_id"
+                            :value="item.id"
+                            :selected="item.id === editGroupModel.programm_id">{{ item.name }}</option>
+                    </select>
+
+                </b-form-group>
+
                 <div class="p-2 my-3" :style="{ 'background-color': editGroupModel.color }">
                     <p class="text-center m-0 text-white p-2">Старый цвет ярлыка группы</p>
                 </div>
 
                 <div class="row">
-                    <slider-picker class="ml-6 mb-2" v-model="colors" />
+<!--                    <slider-picker class="ml-6 mb-2" v-model="colors" />-->
+                    <compact-picker
+                        class="ml-7 mb-2"
+                        v-model="colors"
+                        :palette="[
+                        '#006400','#8B0000','#008B8B','#FF1493','#FFA500','#FF7F50','#FFFF00','#00FFFF','#F0E68C','#000080','#4B0082','#8B4513',
+'#800000','#778899','#000000'
+  ]"
+                    ></compact-picker>
                 </div>
 
                 <div v-if="colors.hex" class="p-2 my-3" :style="{ 'background-color': colors.hex }">
@@ -266,7 +300,7 @@
                             <tr>
                                 <td class="pt-2 pb-2 col-3 text-center h3">
                                     <i @click="countDown" class="float-left pl-4 pointer fe fe-chevrons-left mr-3"></i>
-                                    {{ this.monthNames[new Date(this.year, this.month).getMonth() - 1] }}, {{ this.year }}
+                                    {{ this.monthNames[this.month - 1] }},  {{ this.year }}
                                     <i @click="countUp" class="float-right pr-4 pointer fe fe-chevrons-right ml-3"></i>
                                 </td>
 
@@ -332,7 +366,7 @@
     import { VueContext } from 'vue-context';
     import 'vue-context/src/sass/vue-context.scss';
 
-    import { Slider } from 'vue-color'
+    import { Slider, Compact } from 'vue-color'
 
     var colors = {
         hsl: { h: 182.66009852216752, s: 0.5, l: 0.5, a: 1 },
@@ -345,6 +379,7 @@
         components: {
             VueContext,
             'slider-picker': Slider,
+            'compact-picker': Compact,
         },
         data() {
             return {
@@ -391,6 +426,8 @@
                 ],
 
                 programms: [],
+                gr: '',
+                selected: '',
 
                 time: [
                     "1", "2", "3", "4"
@@ -495,6 +532,10 @@
         },
 
         methods: {
+
+            changeProgrammValue(event){
+                this.gr = event.target.value
+            },
 
             BaseModal(id){
                 this.$refs.showmoda.showModa(id)
@@ -856,10 +897,15 @@
                 this.$bvModal.show('editGroup')
                 axios.post('api/v2/getEditingGroup', {hall_id: this.hall_id})
                     .then(response => this.editGroupModelArray = response.data)
+
+                axios.post('api/v2/showprogramms', {branch_id: this.hall.branch_id})
+                    .then(response => this.programms = response.data)
             },
 
             resetEditGroup(){
                 this.editGroupModel = ''
+                this.programmForGroup = ''
+                this.gr = ''
             },
 
             OkEditGroup(){
@@ -875,7 +921,8 @@
 
                 axios.put('api/v2/groups/' + this.editGroupModel.id, {
                     name: this.editGroupModel.name,
-                    color: this.colors.hex ? this.colors.hex : this.editGroupModel.color
+                    color: this.colors.hex ? this.colors.hex : this.editGroupModel.color,
+                    programm_id: this.gr ? this.gr : this.editGroupModel.programm_id
                 })
                 Vue.$toast.open({message: 'Группа успешно изменена',type: 'success',duration: 1000,position: 'top-right'});
 
@@ -973,6 +1020,14 @@
 
 
 <style scoped>
+
+    .vc-compact{
+        width: 305px;
+    }
+
+    .test{
+        min-height: 500px;
+    }
 
     .pointer {
         cursor: pointer;

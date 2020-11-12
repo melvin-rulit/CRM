@@ -66,12 +66,12 @@ class VmContractResource extends JsonResource
             'parent_facebook'           =>  $parent_facebook,
             'parent_instagram'          =>  $parent_instagram,
             'contract_name'             =>  'Відкрий можливості',
-            'organization'              =>  'Булик І.В.',
-            'requisites'                =>  'ЮЖНЕ ГРУ АТ КБ «Приватбанк», МФО 328704',
-            'price_stock'               =>  '250',
-            'price_stock_title'         =>  'двісті п’ятдесят',
-            'price_pledge'              =>  '400',
-            'price_pledge_title'        =>  'чотириста',
+            'organization'              =>  $this->base_branch->organization,
+            'requisites'                =>  $this->base_branch->requisites,
+//            'price_stock'               =>  '250',
+//            'price_stock_title'         =>  'двісті п’ятдесят',
+//            'price_pledge'              =>  '400',
+//            'price_pledge_title'        =>  'чотириста',
         ];
     }
 }

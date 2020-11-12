@@ -74,6 +74,7 @@ class GroupController extends Controller
     {
         $group->name = $request['name'];
         $group->color = $request['color'];
+        $group->programm_id = $request['programm_id'];
         $group->save();
     }
 

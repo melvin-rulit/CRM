@@ -640,6 +640,8 @@ class BaseController extends Controller
 
         $base = Base::find($request->id);
 
+        $base->increment('total_open');
+
         // Если в карточке кто нибудь работает - возвращаем соответствующий response, иначе блокируем
         if ($request->set_block && $base->block){
             return [
@@ -652,17 +654,16 @@ class BaseController extends Controller
             $base->save();
         }
 
-        // Меняем на статус В работе если он Новый
-        $statuses = Statuses::where('base_id', $request->id)
+        if ($base->total_open == 1){
+            $statuses = Statuses::where('base_id', $request->id)
                 ->where('status_id', 1)
                 ->update(['status_id' => 2]);
 
-        // Добавляем в лог запись если статус поменялся на В работе
-        if ($statuses){
-            loger(4, $base->id, 'Присвоен статус В работе');
+            // Добавляем в лог запись если статус поменялся на В работе
+            if ($statuses){
+                loger(4, $base->id, 'Присвоен статус В работе');
+            }
         }
-
-
 
         return new ArticleResource($base);
     }

@@ -7,6 +7,7 @@
                  @ok="sendVm('vm')"
                  @hidden="closeModal"
                  ok-title="Сохранить и распечатать"
+                 cancel-title="Закрыть"
                  size="lg"
                  title="Договор Виткрый можливости">
             <div class="modal-body modal-lg" id="printVM">
@@ -117,7 +118,7 @@
                         <tr>
                             <td width="50%">
                                 <b>Виконавець</b><br>
-                                ФОП {{ dataVm.organization }}.<br>
+                                {{ dataVm.organization }}.<br>
                                 Реквізити для оплати:<br>
                                 {{ dataVm.requisites }}<br>
                                 Адреса надання послуг:<br>
