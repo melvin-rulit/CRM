@@ -272,7 +272,7 @@
                         <tr>
                             <td class="gray" width="25%">Загальна кількість занять за договором</td>
                             <td width="25%"><input v-if="product" placeholder="10" v-mask="'##'" v-model="product.classes_total" class="line"></td>
-                            <td class="gray" width="25%">Кількість занятьна тиждень</td>
+                            <td class="gray" width="25%">Кількість занять на тиждень</td>
                             <td width="25%"><input v-if="product" placeholder="10" v-mask="'##'" v-model="product.classes_week" class="line"></td>
                         </tr>
                     </table>

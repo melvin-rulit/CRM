@@ -1,6 +1,6 @@
 <template>
 
-    <nav class="navbar navbar-vertical fixed-left navbar-expand-md" id="sidebar">
+    <nav class="navbar navbar-vertical fixed-left navbar-expand-md d-none d-md-block" id="sidebar">
 
         <user-block></user-block>
 
