@@ -633,17 +633,15 @@
                 this.submittedNames.push(this.name)
 
                 this.$nextTick(() => {
-                    this.$bvModal.hide('settingsGroup')
-
 
                     if (!this.programmForGroup) {
-                        this.$alert("Не выбрана программа");
-                        return false
+                        Vue.$toast.open({message: 'Не выбрана программа' ,type: 'error',duration: 5000,position: 'top-right'})
+                        return null
                     }
 
                     if (!this.colors.hex) {
-                        this.$alert("Не выбран цвет программы");
-                        return false
+                        Vue.$toast.open({message: 'Не выбран цвет программы' ,type: 'error',duration: 5000,position: 'top-right'})
+                        return null
                     }
 
                     axios.post('api/v2/groups', {
@@ -652,6 +650,8 @@
                         programm_id: this.programmForGroup.id,
                         color: this.colors.hex
                     })
+
+                    this.$bvModal.hide('settingsGroup')
                     Vue.$toast.open({message: 'Группа успешно добавлена',type: 'success',duration: 5000,position: 'top-right'});
 
                 })
