@@ -196,7 +196,16 @@
                     { name: 'Безнал', id: 2,  disabled: !this.options.beznal },
                 ]
 
-                return radio
+                const radio_null = [
+                    { name: 'Наличные', id: 1 },
+                    { name: 'Безнал', id: 2 },
+                ]
+
+                if (!this.options.cash && !this.options.beznal){
+                    return radio_null
+                }else{
+                    return radio
+                }
             }
         },
 

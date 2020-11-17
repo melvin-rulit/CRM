@@ -75,7 +75,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
-                <span>Удалить филиал <a href="#" class="fe fe-trash-2 h3 text-danger ml-3 mb-0" @click.prevent="deleteBranch(branch.id)"></a></span>
+<!--                <span>Удалить филиал <a href="#" class="fe fe-trash-2 h3 text-danger ml-3 mb-0" @click.prevent="deleteBranch(branch.id)"></a></span>-->
                 <button type="button" class="close p-0 m-0" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
@@ -346,6 +346,10 @@
                                                             />
                                                         </div>
                                                     </div>
+<!--                                                    <div class="radio-group-toggle mb-5">-->
+<!--                                                        <input class="mx-3" type="checkbox" id="cash" value="1" v-model="checkbox.cash">Наличные-->
+<!--                                                        <input class="mx-3" type="checkbox" id="beznal" value="1" v-model="checkbox.beznal">Экваринг-->
+<!--                                                    </div>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -532,6 +536,12 @@
     	  },
 		data() {
             return{
+                checkbox: {
+                    coming: '',
+                    out: '',
+                    cash: '',
+                    beznal: '',
+                },
                 name: '',
                 addNewBranchFields: {},
                 newBranchFields: [

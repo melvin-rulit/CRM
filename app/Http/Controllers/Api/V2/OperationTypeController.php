@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BaseAllResource;
 use App\Http\Resources\KassaOperationTypeAllResource;
+use App\User;
 use Illuminate\Http\Request;
 use App\KassaOperationType;
+use Illuminate\Support\Facades\Auth;
 
 class OperationTypeController extends Controller
 {
@@ -16,7 +19,18 @@ class OperationTypeController extends Controller
      */
     public function index()
     {
-        return KassaOperationTypeAllResource::collection(KassaOperationType::all());
+
+        $user = User::find(Auth::user()->id);
+
+        $collection = collect();
+
+        foreach ($user->branches as $branch) {
+            foreach ($branch->kassa_operation_type as $kassa_operation_type) {
+                $collection->push($kassa_operation_type);
+            }
+        }
+
+        return KassaOperationTypeAllResource::collection($collection->all());
     }
 
     /**

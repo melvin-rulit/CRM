@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\GroupInKassaResource;
 use App\Http\Resources\KassaGroupsResource;
 use App\KassaGroup;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KassaGroupController extends Controller
 {
@@ -17,7 +19,17 @@ class KassaGroupController extends Controller
      */
     public function index()
     {
-        return KassaGroupsResource::collection(KassaGroup::all());
+        $user = User::find(Auth::user()->id);
+
+        $collection = collect();
+
+        foreach ($user->branches as $branch) {
+            foreach ($branch->kassa_group as $kassa_group) {
+                $collection->push($kassa_group);
+            }
+        }
+
+        return KassaGroupsResource::collection($collection->all());
     }
 
     /**

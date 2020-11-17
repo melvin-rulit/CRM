@@ -8,13 +8,25 @@ use App\Http\Resources\KassaOperationTypeResource;
 use App\KassaOperation;
 use App\Branch;
 use App\KassaOperationType;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class KassaOperationController extends Controller
 {
     public function index(){
-        return KassaOperationResource::collection(KassaOperation::all());
+
+        $user = User::find(Auth::user()->id);
+
+        $collection = collect();
+
+        foreach ($user->branches as $branch) {
+            foreach ($branch->kassa_operation as $kassa_operation) {
+                $collection->push($kassa_operation);
+            }
+        }
+
+        return KassaOperationResource::collection($collection->all());
     }
 
     public function addOperation(Request $request){

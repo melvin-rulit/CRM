@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\KassaOperationType;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\BranchResource;
@@ -55,6 +56,12 @@ class ProductController extends Controller
     {
 
         $product = Product::create($request->all());
+
+        KassaOperationType::create([
+            'name'          => $request->name,
+            'branch_id'     => $request->branch_id,
+            'coming'        => true
+        ]);
 
         loger(3, null,'Добавил продукт '.$product->name);
 

@@ -26,16 +26,18 @@
                         <span v-if="!$v.name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.name.$params.minLength.min}} символа</span>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Фамилия</label>
+                <div class="form-group row" :class="{ 'form-group--error': $v.surname.$error &&  showErrors}">
+                    <label class="col-sm-3 col-form-label required">Фамилия</label>
                     <div class="col-sm-9">
-                        <input class="form-control" v-model="surname">
+                        <input class="form-control" v-model="$v.surname.$model">
+                        <span v-if="!$v.surname.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Телефон</label>
+                <div class="form-group row" :class="{ 'form-group--error': $v.phone.$error &&  showErrors}">
+                    <label class="col-sm-3 col-form-label required">Телефон</label>
                     <div class="col-sm-9">
-                        <input class="form-control" v-model="phone">
+                        <input class="form-control" v-mask="'+## (###) ###-##-##'" v-model="$v.phone.$model">
+                        <span v-if="!$v.phone.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
                     </div>
                 </div>
                 <div class="form-group row" :class="{ 'form-group--error': $v.login.$error &&  showErrors}">
@@ -93,15 +95,17 @@
 
 <script>
 
+    import {TheMask} from 'vue-the-mask'
+
   import Multiselect from 'vue-multiselect'
 
     Vue.use(Multiselect);
     import 'vue-multiselect/dist/vue-multiselect.min.css';
 
-    import { required, minLength } from 'vuelidate/lib/validators';
+    import { required, minLength, email } from 'vuelidate/lib/validators';
 
     export default {
-        components: { Multiselect },
+        components: { Multiselect, TheMask },
         data() {
             return {
                 name: '',
@@ -123,8 +127,15 @@
                 required,
                 minLength: minLength(4)
             },
+            surname: {
+                required,
+            },
+            phone: {
+                required,
+            },
             login: {
                 required,
+                email
             },
             password: {
                 required,
@@ -158,10 +169,10 @@
                 if (this.$v.$invalid){
                     this.showErrors = true
                     bvModalEvt.preventDefault()
-                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
+                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
                 }else{
                     if (!this.branch || !this.role){
-                        Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
+                        Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
                         bvModalEvt.preventDefault()
                     }else{
                         axios.post('api/v2/users', {
