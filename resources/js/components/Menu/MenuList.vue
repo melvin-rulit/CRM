@@ -91,9 +91,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fe fe-clipboard"></i>Справочники
-                </a>
+                <router-link to="/manual" class="nav-link"><i class="fe fe-clipboard"></i>Справочник</router-link>
             </li>
         </ul>
 

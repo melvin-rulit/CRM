@@ -53,6 +53,13 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::apiResource('kassaGroups', 'KassaGroupController');
     Route::post('kassas', 'KassaGroupController@getGroupInKassa');
 
+    // SourceGraoup
+    Route::apiResource('sourceGroups', 'SourceGroupController');
+    Route::post('groups', 'SourceGroupController@getGroupInSource');
+
+    // Source
+    Route::apiResource('source', 'SourceController');
+
     // Contracts
     Route::post('getcontract', 'ContractController@getContract');
     Route::post('getcontracts', 'ContractController@getContracts');
@@ -84,6 +91,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('changeCallStatus', 'StatusesController@changeCallStatus');
     Route::post('addnewuser', 'BaseController@addNewUser');
     Route::get('filter', 'BaseController@filter');
+    Route::get('getSourceBaseModal', 'SourceController@index');
 
     // Roles
     Route::apiResource('roles', 'RoleController');

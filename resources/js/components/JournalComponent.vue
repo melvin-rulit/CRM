@@ -76,6 +76,19 @@
                     ></compact-picker>
                 </div>
                 <div class="p-4 my-3" :style="{ 'background-color': colors.hex }"></div>
+                <b-form-group
+                    label-cols-sm="4"
+                    label-cols-lg="4"
+                    label="Цвет текста"
+                    label-for="name-input"
+                >
+                    <dynamic-select
+                        :options="text_color_array"
+                        option-value="id"
+                        option-text="name"
+                        v-model="text_color"
+                        placeholder="Выберите цвет текста"/>
+                </b-form-group>
             </form>
         </b-modal>
 
@@ -133,7 +146,7 @@
                 </b-form-group>
 
                 <div class="p-2 my-3" :style="{ 'background-color': editGroupModel.color }">
-                    <p class="text-center m-0 text-white p-2">Старый цвет ярлыка группы</p>
+                    <p class="text-center m-0 p-2" :style="{ 'color': editGroupModel.text_color }">Старый цвет ярлыка группы</p>
                 </div>
 
                 <div class="row">
@@ -153,8 +166,17 @@
                 </div>
 
                 <div v-else="" class="p-2 my-3" :style="{ 'background-color': editGroupModel.color }">
-                    <p class="text-center m-0 text-white p-2">Новый цвет ярлыка группы</p>
+                    <p class="text-center m-0 p-2" :style="{ 'color': newTextColor }">Новый цвет ярлыка группы</p>
                 </div>
+
+
+                <select class="form-control" @change="changeTextColorValue($event)">
+                    <option
+                        v-for="item in text_color_array"
+                        v-if="editGroupModel.programm_id"
+                        :value="item.value"
+                        :selected="item.value === editGroupModel.text_color">{{ item.name }}</option>
+                </select>
 
             </form>
         </b-modal>
@@ -264,7 +286,15 @@
                                            option-value="id"
                                            option-text="name"
                                            v-model="TimeModel"
-                                           placeholder="Выберите время" />
+                                           placeholder="Выберите часы" />
+
+                                        <dynamic-select
+                                            class="pb-2"
+                                            :options="min"
+                                            option-value="id"
+                                            option-text="name"
+                                            v-model="TimeMinuteModel"
+                                            placeholder="Выберите минуты" />
 
                                         <b-button size="sm" variant="success" class="mt-2" @click="saveSchedule">Сохранить</b-button>
                                         <b-button size="sm" variant="danger" class="mt-2" @click="cancelSchedule">Отменить</b-button>
@@ -319,7 +349,12 @@
                             <template v-for="val in hall.schedule_hall">
                                 <tr>
 <!--                                    Тут нужно исправить, если кликаешь по добавить в группу то вызывается все равно getUserInGroup-->
-                                    <td @click="getUserInGroup(val.group_id)" :style="{ 'background-color': val.group.color }" data-toggle="collapse" :data-target="'#group_' + val.id" class="accordion-toggle text-white">{{ val.time }}:00 - {{ val.group.name }}
+                                    <td @click="getUserInGroup(val.group_id)"
+                                        :style="{ 'background-color': val.group.color, 'color': val.group.text_color }"
+                                        data-toggle="collapse"
+                                        :data-target="'#group_' + val.id"
+                                        class="accordion-toggle">
+                                        {{ val.time }}:{{ resultMinute(val.minute) }} - {{ val.group.name }}
                                         <div class="float-right">
                                             <i class="fe fe-plus" @click="addChildren(hall.branch_id, val.group.name, val.group_id, val.category_time)"></i>
                                             <i class="fe fe-chevron-down ml-3"></i>
@@ -383,12 +418,19 @@
         },
         data() {
             return {
+                text_color: '',
                 colors,
                 selectedUsers: [],
                 monthNames: [
                     "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
                     "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
                 ],
+
+                text_color_array: [
+                    {id: 1, value: '#ffffff', name: 'Белый'},
+                    {id: 2, value: '#000000', name: 'Черный'},
+                ],
+
                 times: [
                     {id:8, name: "8"},
                     {id:9, name: "9"},
@@ -427,6 +469,7 @@
 
                 programms: [],
                 gr: '',
+                txt_color: '',
                 selected: '',
 
                 time: [
@@ -466,6 +509,7 @@
                 DaySelect: '',
                 categoryTimeModel: '',
                 TimeModel: '',
+                TimeMinuteModel: '',
                 GroupModel: '',
                 ProgrammModel: '',
                 timeCurrent: '',
@@ -520,6 +564,11 @@
 
             },
 
+            min() {
+                return new Array(60).fill(0)
+                    .map((_, idx) => ({ id: idx, name: `${idx}`.padStart(2, 0) }))
+            },
+
             // Получаем количество дней в месяце
             daysInMonth(month,year) {
                 return new Date(this.year, this.month, 0).getDate();
@@ -527,14 +576,33 @@
 
             dates() {
                 return new Array(this.daysInMonth).fill(1).map((_, index) => new Date(this.year, this.month - 1, index + 1))
+            },
+
+            newTextColor() {
+                return this.txt_color ? this.txt_color : this.editGroupModel.text_color
             }
 
         },
 
         methods: {
 
+            resultMinute(minute){
+
+                var str = minute.toString()
+
+                if (minute == 0) {
+                    return '00'
+                } else if (str.length == 1) {
+                    return '0' + minute
+                }
+            },
+
             changeProgrammValue(event){
                 this.gr = event.target.value
+            },
+
+            changeTextColorValue(event){
+                this.txt_color = event.target.value
             },
 
             BaseModal(id){
@@ -594,6 +662,7 @@
                     hall_id: this.hall_id,
                     day: this.selectDayInModalXl.id,
                     time: this.TimeModel.id,
+                    minute: this.TimeMinuteModel.id,
                     category_time: this.categoryTimeModel.id,
                     group_id: this.GroupModel.id
                 })
@@ -603,6 +672,7 @@
                 this.categoryTimeModel = ''
                 this.GroupModel = ''
                 this.TimeModel = ''
+                this.TimeMinuteModel = ''
                 this.ProgrammModel = ''
             },
 
@@ -617,6 +687,7 @@
                 this.programmForGroup = ''
                 this.nameState = null
                 this.programmState = null
+                this.text_color = ''
             },
 
             OkSettingsGroup(bvModalEvt) {
@@ -648,7 +719,8 @@
                         hall_id: this.hall_id,
                         name: this.name,
                         programm_id: this.programmForGroup.id,
-                        color: this.colors.hex
+                        color: this.colors.hex,
+                        text_color: this.text_color.value,
                     })
 
                     this.$bvModal.hide('settingsGroup')
@@ -906,6 +978,7 @@
                 this.editGroupModel = ''
                 this.programmForGroup = ''
                 this.gr = ''
+                this.txt_color = ''
             },
 
             OkEditGroup(){
@@ -922,7 +995,8 @@
                 axios.put('api/v2/groups/' + this.editGroupModel.id, {
                     name: this.editGroupModel.name,
                     color: this.colors.hex ? this.colors.hex : this.editGroupModel.color,
-                    programm_id: this.gr ? this.gr : this.editGroupModel.programm_id
+                    programm_id: this.gr ? this.gr : this.editGroupModel.programm_id,
+                    text_color: this.txt_color ? this.txt_color : this.editGroupModel.text_color
                 })
                 Vue.$toast.open({message: 'Группа успешно изменена',type: 'success',duration: 1000,position: 'top-right'});
 
@@ -987,6 +1061,7 @@
                 this.row = row
                 this.rowid = id
             },
+
             countUp: function(){
                 this.month +=1
 
@@ -998,6 +1073,7 @@
                 this.getUserInGroup(this.activeGroup_id)
 
             },
+
             countDown: function(){
                 this.month -=1
 

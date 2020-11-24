@@ -30,6 +30,10 @@ class Base extends Model
     	return $this->hasOne('App\Branch', 'id', 'branch');
     }
 
+    public function source_list(){
+        return $this->hasOne('App\Source', 'id', 'source');
+    }
+
     public function user_block_name(){
         return $this->hasOne('App\User', 'id', 'user_block_id');
     }

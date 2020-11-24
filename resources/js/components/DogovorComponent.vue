@@ -317,7 +317,7 @@
                         договору.</b><br>
                     <table style="margin-top: 0.5in; border-spacing: 0.2in;" class="tabs">
                         <tr>
-                            <td>«Виконавець» ФОП</td>
+                            <td>«Виконавець»</td>
                             <td>_______________________</td>
                             <td>«Замовник»</td>
                             <td>_______________________</td>
@@ -513,7 +513,6 @@ Vue.use(VueHtmlToPaper, options);
                     if (
                     !this.dataVm.parent_surname ||
                     !this.dataVm.parent_name ||
-                    !this.dataVm.parent_middle_name ||
                     !this.dataVm.child_surname ||
                     !this.dataVm.child_name) {
                         this.$alert("Не все поля заполнены");

@@ -12,6 +12,7 @@ class Schedule_hall extends Model
         'group_id',
         'day',
         'time',
+        'minute',
         'category_time',
     ];
 

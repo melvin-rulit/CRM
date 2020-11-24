@@ -12,6 +12,7 @@ class Group extends Model
         'hall_id',
         'programm_id',
         'color',
+        'text_color',
     ];
 
 

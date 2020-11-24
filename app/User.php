@@ -121,4 +121,5 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Comments', 'user_id');
     }
+
 }

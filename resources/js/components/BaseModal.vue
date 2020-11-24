@@ -118,6 +118,22 @@
                                     class="text-dark">( {{ getWeekDay(schedule_hall.day) }} - {{ schedule_hall.time }}:00 )</span>
                             </h5>
 
+                            <h5 class="text-muted mb-2">Источник:
+                                <a href="#" @click.prevent="showSourceClick()" class="text-dark">{{ dataObject.attributes.source }}</a>
+                            </h5>
+
+
+                                    <dynamic-select
+                                        v-if="showSource"
+                                        :options="sourceArray"
+                                        option-value="id"
+                                        option-text="name"
+                                        placeholder="Поиск программы"
+                                        v-model="source"
+                                        @input="saveSource()"
+                                    />
+
+
                             <h6 class="text-uppercase text-muted mb-2 mt-4">
                                 <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>
                                 <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>
@@ -790,6 +806,9 @@
                 uploadFileName: '',
                 file: '',
                 picked: '',
+                showSource: false,
+                sourceArray: [],
+                source: '',
             }
         },
         validations: {
@@ -1084,6 +1103,9 @@
                 this.showForm = false
                 this.call_status = ''
                 this.call_date = ''
+                this.sourceArray = []
+                this.showSource = ''
+                this.source = ''
             },
 
             removeBlock(){
@@ -1125,6 +1147,23 @@
                 }else{
                     this.$alert('Коментарий не может быть пустым')
                 }
+            },
+
+            showSourceClick(){
+                this.showSource = true
+                axios.get('api/v2/getSourceBaseModal')
+                    .then(response => {this.sourceArray = response.data.data
+                })
+            },
+
+            saveSource(){
+                this.showSource = false
+                axios.post(this.postURL, {user_id: this.dataObject.id, field_name: 'source' , field_value: this.source.id})
+                setTimeout(() => {
+                    axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
+                        this.dataObject = response.data.data
+                    })
+                },100)
             }
         }
     }
