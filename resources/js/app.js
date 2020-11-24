@@ -21,7 +21,7 @@ import Kassa from './components/KassaComponent'
 import KassaSettings from './components/KassaSetingsComponent'
 import Base from './components/BaseComponent'
 import Promoter from './components/PromoterComponent'
-import Manual from './components/ManualComponent'
+import Guide from './components/GuideComponent'
 
 
 const routes = [
@@ -36,7 +36,7 @@ const routes = [
     { path: '/kassa_setings', component: KassaSettings },
     { path: '/base', component: Base },
     { path: '/promoter', component: Promoter },
-    { path: '/manual', component: Manual },
+    { path: '/guide', component: Guide },
 ]
 
 const router = new VueRouter({
