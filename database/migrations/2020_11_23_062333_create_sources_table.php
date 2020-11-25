@@ -17,7 +17,7 @@ class CreateSourcesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('group_id');
-            $table->text('coment');
+            $table->text('coment')->nullable();
             $table->timestamps();
         });
     }

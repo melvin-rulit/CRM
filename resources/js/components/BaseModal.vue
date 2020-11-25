@@ -1086,7 +1086,7 @@
             closeUserModal(bvModalEvt){
                 if(!this.dataObject.call_date){
                     bvModalEvt.preventDefault()
-                    this.$alert('Ты долбоеб не заполнил дату следующего звонка')
+                    this.$alert('Пожалуйста заполните дату следующего звонка')
                     return false
                 }
                 this.removeBlock()
