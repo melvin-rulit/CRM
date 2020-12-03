@@ -816,8 +816,8 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 //        // Звонки клиентам дата платежа у которых наступает за 1 день.
         $date = Carbon::today()->addDays(+ 1)->toDateString();
-
-        // Проверяем есть ли клиенты оплаты котороые наступают за день до платежа
+//
+//        // Проверяем есть ли клиенты оплаты котороые наступают за день до платежа
         foreach ($collection as $value){
             if ($value->contracts->where('contract_type', 'main')->first()){
                 $contract = $value->contracts->where('contract_type', 'main')->first();
@@ -928,7 +928,8 @@ class BaseController extends Controller
 
         // Все у кого дата следующего звонка меньше или равно сегодняшней
         foreach ($collection as $value){
-            if ($value->statuses->call_date < Carbon::today()->toDateString()){
+            $date_value = Carbon::parse($value->statuses->call_date)->toDateString();
+            if ($date_value <= Carbon::today()->toDateString()){
                 $collection_itog->push($value);
             }
         }

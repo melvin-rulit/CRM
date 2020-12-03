@@ -52,7 +52,7 @@
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <button v-b-modal="'coming'" @click="getGroupsInSource" class="btn btn-sm btn-success">Добавить операцию</button>
+                                            <button v-b-modal="'coming'" @click="getGroupsInSource" class="btn btn-sm btn-success">Добавить источник</button>
                                         </div>
                                         <div class="col-auto">
 <!--                                            <button class="btn btn-sm btn-info">Фильтр</button>-->

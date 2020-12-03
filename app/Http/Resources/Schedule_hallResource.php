@@ -17,6 +17,7 @@ class Schedule_hallResource extends JsonResource
         return [
             'id'                  => $this->id,
             'time'                => $this->time,
+            'minute'              => $this->minute,
             'day'                 => $this->day,
             'total_children'      => $this->total_children,
             'category_time'       => $this->category_time,

@@ -240,7 +240,7 @@
                                             <div class="container">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <span>{{ schedul.time }}:00</span>
+                                                        <span>{{ schedul.time }}:{{resultMinute(schedul.minute)}}</span>
                                                     </div>
                                                     <div class="col-md-4">{{ schedul.group.name }}</div>
 
@@ -595,6 +595,7 @@
                 } else if (str.length == 1) {
                     return '0' + minute
                 }
+                return str
             },
 
             changeProgrammValue(event){
@@ -715,7 +716,7 @@
                         return null
                     }
 
-                    axios.post('api/v2/groups', {
+                    axios.post('api/v2/journal_groups', {
                         hall_id: this.hall_id,
                         name: this.name,
                         programm_id: this.programmForGroup.id,
@@ -992,7 +993,7 @@
                 }
 
 
-                axios.put('api/v2/groups/' + this.editGroupModel.id, {
+                axios.put('api/v2/journal_groups/' + this.editGroupModel.id, {
                     name: this.editGroupModel.name,
                     color: this.colors.hex ? this.colors.hex : this.editGroupModel.color,
                     programm_id: this.gr ? this.gr : this.editGroupModel.programm_id,

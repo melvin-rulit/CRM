@@ -27,6 +27,11 @@ class KassaOperation extends Model
         return $this->belongsTo('App\KassaOperationType', 'operation_type_id');
     }
 
+    public function kassaOperationTypeProduct()
+    {
+        return $this->belongsTo('App\Product', 'operation_type_id');
+    }
+
     public function branch()
     {
         return $this->belongsTo(Branch::class);

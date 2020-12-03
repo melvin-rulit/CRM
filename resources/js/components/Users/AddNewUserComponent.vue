@@ -45,6 +45,7 @@
                     <div class="col-sm-9">
                         <input class="form-control" v-model="$v.login.$model">
                         <span v-if="!$v.login.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
+                        <span v-if="!$v.login.email && showErrors" class="text-danger h5 ml-3">* Почта заполнена не верно. Проверьте правильность заполнения и повторите попытку</span>
                     </div>
                 </div>
                 <div class="form-group row" :class="{ 'form-group--error': $v.password.$error &&  showErrors}">

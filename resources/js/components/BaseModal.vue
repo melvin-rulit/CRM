@@ -670,10 +670,32 @@
                                                 </tbody>
                                             </table>
                                             <p>Оплаты:
-                                                <span v-for="pays in activeContract.pays" data-toggle="tooltip" data-placement="top" :title="pays.date" class="text-muted ml-2 pointer">{{ pays.pay }}</span>
+                                                <span
+                                                    v-for="pays in activeContract.pays"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    :title="pays.date"
+                                                    class="text-muted ml-2 pointer">{{ pays.pay }}</span>
                                             </p>
-                                            <p>Сумма и остаток: <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span>
+                                            <p>Сумма и остаток:
+                                                <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span>
                                             </p>
+
+                                            <button class="btn btn-sm btn-success" v-b-modal.pay_contract>Оплатить</button>
+
+                                            <!--Модальное окно оплатить-->
+                                            <b-modal id="pay_contract" title="Оплата" centered ok-only ok-title="Оплатить">
+                                                <div class="card-body py-0">
+                                                    <p class="text-center">Текущая задолженность составляет <span class="h3">{{ summPaysActiveContract(activeContract.pays) }}</span> , введите сумму</p><hr>
+                                                    <div class="form-group row mt-4">
+                                                        <label class="col-sm-3 col-form-label">Сумма</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </b-modal>
+
                                         </div>
                                     </div>
                                     <p class="text-center font-weight-bold" v-else>Нет активных контрактов</p>

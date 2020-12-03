@@ -25,6 +25,7 @@ class CreateKassaOperationTypesTable extends Migration
             $table->text('coment')->nullable();
             $table->timestamps();
         });
+        DB::statement("ALTER TABLE kassa_operation_types AUTO_INCREMENT = 1000000;");
     }
 
     /**

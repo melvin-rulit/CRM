@@ -29,7 +29,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('updateTypeProgramm', 'ProgrammController@updateTypeProgramm');
 
     // Groups
-    Route::apiResource('groups', 'GroupController');
+    Route::apiResource('journal_groups', 'GroupController');
 
     // Product_pay
     Route::apiResource('product_pay', 'Product_payController');

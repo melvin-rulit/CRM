@@ -9,6 +9,7 @@ use App\KassaOperation;
 use App\Branch;
 use App\KassaOperationType;
 use App\User;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,10 +62,16 @@ class KassaOperationController extends Controller
 
         $type = $request->type ? 'coming' : 'out';
 
+        // Получаем все виды операций
         $kassa_operation_type = KassaOperationType::where('branch_id', $request->id)
             ->where($type, 1)->get();
 
-        return KassaOperationTypeResource::collection($kassa_operation_type);
+        // Получаем все продукты и будем считать что это виды операции
+        $product_operation_type = Product::where('branch_id', $request->id)->get();
+
+        $collection = $kassa_operation_type->merge($product_operation_type);
+
+        return KassaOperationTypeResource::collection($collection);
     }
 
 }

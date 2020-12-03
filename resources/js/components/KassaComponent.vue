@@ -150,7 +150,7 @@
                     },
                     {
                         key: 'operation_type',
-                        label: 'Статья расходов',
+                        label: 'Источник',
                     },
                     {
                         key: 'coment',
@@ -158,7 +158,7 @@
                     },
                     {
                         key: 'source',
-                        label: 'Источник',
+                        label: 'Тип операции',
                     },
                     {
                         key: 'sum',
