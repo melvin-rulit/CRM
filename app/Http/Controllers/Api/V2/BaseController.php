@@ -632,6 +632,9 @@ class BaseController extends Controller
 
 
         return $base->id;
+//        return [
+//            'id' => $base->id
+//        ];
     }
 
 
@@ -654,7 +657,7 @@ class BaseController extends Controller
             $base->save();
         }
 
-        if ($base->total_open == 1){
+        if ($base->total_open == 2){
             $statuses = Statuses::where('base_id', $request->id)
                 ->where('status_id', 1)
                 ->update(['status_id' => 2]);

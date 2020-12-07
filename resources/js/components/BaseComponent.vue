@@ -3,7 +3,7 @@
     <div>
 
         <base-modal-component @get-method="fetchArticles" ref="showmoda"></base-modal-component>
-        <add-new-base-component @get-method="fetchArticles" ref="showmodal"></add-new-base-component>
+        <add-new-base-component @get-method="newMethod" ref="showmodal"></add-new-base-component>
 
         <!-- Панель над фильтром -->
         <div class="row">
@@ -225,6 +225,7 @@
                 },
                 articles: [],
                 users: [],
+                newuser: [],
             }
         },
 
@@ -268,6 +269,11 @@
             fetchArticles(){
                 axios.get('api/v2/collection')
                     .then(response => this.articles = response.data.data)
+            },
+
+            newMethod(users){
+                this.newuser = users
+                this.$refs.showmoda.showModa(this.newuser)
             },
 
             BaseModal(index){

@@ -58,7 +58,7 @@
                         2.4. Заняття проводяться без присутності батьків в спортивному залі;<br>
                         2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без
                         повного комплекту форми та змінного спортивного взуття.<br>
-                        2.6. Вартість Програми складає {{ dataVm.price }} ({{ dataVm.price_title }}.).<br>
+                        2.6. Вартість Програми складає {{ productVm.price }} ({{ productVm.price_title }}.).<br>
                         2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті
                         п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:<br>
 
@@ -72,6 +72,17 @@
                             placeholder="Введите для поиска программы"
                             v-model="programm"
                             @input="getHalls()" />
+
+                        <span v-if="!print">выберите продукт</span>
+
+                        <dynamic-select
+                            :options="newProducts"
+                            class="mb-2"
+                            option-value="id"
+                            option-text="name"
+                            placeholder="Введите для поиска программы"
+                            v-model="productVm"
+                            />
 
                         <span v-if="!print">выберите зал</span>
 
@@ -87,7 +98,9 @@
 
                         <span v-if="!print">выберите группу</span>
 
-                        <select class="form-control mb-2" v-if="shedule_hall && !print" v-model="shedule">
+                        <select
+                            class="form-control mb-2"
+                            v-if="shedule_hall && !print" v-model="shedule">
                             <option :value="item" v-for="item in shedule_hall">{{ item.name }} - ({{ select_schedule(item.hall) }})</option>
                         </select>
 
@@ -437,6 +450,7 @@ Vue.use(VueHtmlToPaper, options);
                 startA: null,
                 hall: '',
                 shedule: '',
+                productVm: '',
             }
         },
 
@@ -453,7 +467,7 @@ Vue.use(VueHtmlToPaper, options);
                     .then(response => {
                         this.shedule_hall = response.data.data
                     })
-          },
+            },
 
             getHalls(){
                 this.hall = ''
@@ -465,7 +479,7 @@ Vue.use(VueHtmlToPaper, options);
 
                 axios.post('api/v2/getProducts', {branch_id : this.dataVm.branch.id, programm_id: this.programm.id})
                     .then(response => {this.newProducts = response.data.data})
-          },
+            },
 
             reversedMessage(days) {
                 var D = new Date(this.dataVm.end_actualy);
@@ -615,6 +629,7 @@ Vue.use(VueHtmlToPaper, options);
                 this.product = ''
                  this.hall = ''
                  this.shedule = ''
+                 this.productVm = ''
                 $('#mainModal').modal('hide');
                 $('#info li:first-child a').tab('show')
                 $(document.body).removeClass("modal-open");

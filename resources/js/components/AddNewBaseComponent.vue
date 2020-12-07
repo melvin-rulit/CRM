@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <!-- Модальное окно с добавлением новой роли -->
+        <!-- Модальное окно с добавлением нового клиента -->
         <b-modal id="addNewUser" title="Добавление нового клиента" @ok="saveUser" @hidden="closeModal" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
                 <div class="form-group row" :class="{ 'form-group--error': $v.new_child_surname.$error &&  showErrors}">
@@ -76,11 +76,14 @@
                 new_child_surname: '',
                 new_child_name: '',
                 new_child_middle_name: '',
-                branch: [],
-                manager: [],
-                instructor: [],
+                branch: '',
+                manager: '',
+                instructor: '',
                 submitStatus: null,
                 showErrors: false,
+                branches: [],
+                users: [],
+                new_user: [],
             }
         },
 
@@ -115,18 +118,16 @@
             },
 
 
-
-
             saveUser(bvModalEvt){
                 this.$v.$touch()
 
                 if (this.$v.$invalid){
                     this.showErrors = true
                     bvModalEvt.preventDefault()
-                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
+                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
                 }else{
                     if (!this.branch){
-                        Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 5000,position: 'top-right'});
+                        Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
                         bvModalEvt.preventDefault()
                     }else{
                         axios.post('api/v2/addnewuser', {
@@ -137,10 +138,18 @@
                             instructor: this.instructor ? this.instructor.id : null,
                             branch: this.branch.id
                         })
-                        Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 5000,position: 'top-right'}),
-                        this.$emit('get-method')
-                        this.$v.$reset()
-                        this.showErrors = false
+                            .then(response => this.new_user = response.data)
+                        let loader = this.$loading.show({
+                            container: this.fullPage ? null : this.$refs.formContainer,
+                            color: '#0080ff',
+                        });
+                        setTimeout(() => {
+                            loader.hide()
+                            Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 1000,position: 'top-right'}),
+                                this.$v.$reset()
+                            this.showErrors = false
+                            this.$emit('get-method', this.new_user)
+                        },1000)
                     }
                 }
             },

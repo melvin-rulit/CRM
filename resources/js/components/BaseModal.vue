@@ -670,12 +670,14 @@
                                                 </tbody>
                                             </table>
                                             <p>Оплаты:
-                                                <span
+                                                <a
+                                                    href="#"
+                                                    @click.prevent="editPayInContract(pays)"
                                                     v-for="pays in activeContract.pays"
                                                     data-toggle="tooltip"
                                                     data-placement="top"
                                                     :title="pays.date"
-                                                    class="text-muted ml-2 pointer">{{ pays.pay }}</span>
+                                                    class="text-muted ml-2 pointer">{{ pays.pay }}</a>
                                             </p>
                                             <p>Сумма и остаток:
                                                 <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span>
@@ -691,6 +693,19 @@
                                                         <label class="col-sm-3 col-form-label">Сумма</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </b-modal>
+
+                                            <!--Модальное окно редактировать оплату-->
+                                            <b-modal id="edit_pay_contract" title="Изменить платеж" centered ok-only ok-title="Изменить">
+                                                <div class="card-body py-0">
+                                                    <pre><code>{{editPay}}</code></pre>
+                                                    <div class="form-group row mt-4">
+                                                        <label class="col-sm-3 col-form-label">Сумма</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" v-model="editPay.pay">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -831,6 +846,7 @@
                 showSource: false,
                 sourceArray: [],
                 source: '',
+                editPay: [],
             }
         },
         validations: {
@@ -873,6 +889,12 @@
                     }
                 })
             },
+
+            editPayInContract(pay){
+                this.$bvModal.show('edit_pay_contract')
+                this.editPay = pay
+            },
+
             // Получаем сокращеное название дня по дате
             getWeekDay(day) {
                 var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
@@ -934,9 +956,11 @@
                 });
                 return sum
             },
+
             showCollapse(){
                 this.filter  ? $('#filter').collapse('hide') : $('#filter').collapse('show');
             },
+
             fetch() {
                 this.busy = true;
                 axios.get(`api/v2/filter`, {
