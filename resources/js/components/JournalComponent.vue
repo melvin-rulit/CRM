@@ -238,7 +238,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-3 col-md">
                                             <div class="container">
-                                                <div class="row">
+                                                <div class="row" :style="{ 'color':  schedul.group.text_color }">
                                                     <div class="col-md-2">
                                                         <span>{{ schedul.time }}:{{resultMinute(schedul.minute)}}</span>
                                                     </div>

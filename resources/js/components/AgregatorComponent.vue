@@ -4,18 +4,21 @@
         <base-modal-component @get-method="fetchArticles" ref="showmoda"></base-modal-component>
 
         <!-- Панель над фильтром -->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-12">-->
-<!--                <div class="card mb-2">-->
-<!--                    <div class="card-header">-->
-<!--                        <div class="row align-items-center">-->
-<!--                            <div class="col">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <button class="btn btn-sm btn-success" @click="">Сегодня</button>
+                                <button class="btn btn-sm btn-success" @click="">Завтра</button>
+                                <button class="btn btn-sm btn-success" @click="">Послезавтра</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Список клиентов -->
 
