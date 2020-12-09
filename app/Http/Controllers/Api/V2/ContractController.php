@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api\V2;
 
+use App\Branch;
 use App\Http\Resources\ContractResource;
 use App\Http\Resources\ContractsResource;
 use App\Http\Resources\ShowContractResource;
 use App\Http\Controllers\Controller;
 use App\Journal;
+use App\KassaOperation;
+use App\KassaOperationType;
 use App\Loger;
 use App\Schedule_hall;
 use App\Statuses;
@@ -96,6 +99,8 @@ class ContractController extends Controller
 		$contract->active = true;
         $contract->contract_type = $request['contract_type'];
 		$contract->save();
+
+        $this->saveOperation($request['base_id'], $request['name_vm'], $request['price']);
 
         //        ВЫНЕСТИ В ОТДЕЛЬНЫЙ МЕТОД =========================================================================
 
@@ -245,10 +250,50 @@ class ContractController extends Controller
 
         loger(4, $request->base_id,'Присвоен статус Занимается');
 
+        $this->saveOperation($request['base_id'], $request['name'], $request->pays[0]['pay']);
+
 	}
 
     	return [
     		'success' => "ok",
     	];
+    }
+
+    public function saveOperation($id, $name, $pay){
+
+        $base = Base::find($id);
+
+        // Добавляем вид операции
+        $kassa_operation = KassaOperationType::create(
+            [
+                'name' => "Платеж контракт " . $name . " 1 " . $base->child_surname . ' ' . mb_substr($base->child_name, 0, 1) . '.' . mb_substr($base->child_middle_name, 0, 1),
+                'branch_id' => $base->branch,
+                'coming' => true,
+                'cash' => true,
+            ]
+        );
+
+        // Добавляем операцию в кассу
+        $kassa_operation = KassaOperation::create(
+            [
+                'branch_id' => $base->branch,
+                'user_id' => Auth::id(),
+                'coming' => true,
+                'cash' => true,
+                'operation_type_id' => $kassa_operation->id,
+                'payment' => true,
+                'in_or_out' => true,
+                'sum' => $pay,
+            ]
+        );
+
+        // Добавить внесение в кассу
+        $sum = Branch::where('id', $base->branch)->value('sum');
+
+        Branch::where('id', $base->branch)->update(
+            [
+                'sum' => $sum + $pay,
+            ]
+        );
     }
 }

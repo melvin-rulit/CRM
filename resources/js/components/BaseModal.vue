@@ -699,13 +699,13 @@
                                             </b-modal>
 
                                             <!--Модальное окно редактировать оплату-->
-                                            <b-modal id="edit_pay_contract" title="Изменить платеж" centered ok-only ok-title="Изменить">
+                                            <b-modal id="edit_pay_contract" @ok="saveNewPay" @hidden="resetNewPay" title="Изменить платеж" centered ok-only ok-title="Изменить">
                                                 <div class="card-body py-0">
-                                                    <pre><code>{{editPay}}</code></pre>
+                                                    <span>Редактирование оплаты <span class="h3">{{ editPay.pay }}</span></span>
                                                     <div class="form-group row mt-4">
-                                                        <label class="col-sm-3 col-form-label">Сумма</label>
+                                                        <label class="col-sm-3 col-form-label">Новая сумма</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" v-model="editPay.pay">
+                                                            <input class="form-control" v-model="new_pay">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -847,6 +847,7 @@
                 sourceArray: [],
                 source: '',
                 editPay: [],
+                new_pay: '',
             }
         },
         validations: {
@@ -878,6 +879,17 @@
         },
 
         methods: {
+
+            saveNewPay(){
+                axios.post('api/v2/saveNewPay', {id : this.editPay.id, pay: this.new_pay})
+                // dataObject.attributes.mother_middle_name
+                axios.post('api/v2/getinfo', {id : this.dataObject.id})
+                    .then(response => {this.dataObject = response.data.data})
+            },
+
+            resetNewPay(){
+                this.new_pay = ''
+            },
 
             showModa(id){
                 axios.post('api/v2/getinfo', {id : id, set_block : 1}).then(response => {

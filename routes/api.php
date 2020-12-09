@@ -79,6 +79,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('saveSchedule', 'BaseController@saveSchedule');
     Route::post('getGroupInHall', 'BaseController@getGroupInHall');
     Route::post('getEditingGroup', 'BaseController@getEditingGroup');
+    Route::post('getPkProgramm', 'BaseController@getPkProgramm');
 
     // Base
     Route::post('getinfo', 'BaseController@getInfo');
@@ -92,6 +93,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('addnewuser', 'BaseController@addNewUser');
     Route::get('filter', 'BaseController@filter');
     Route::get('getSourceBaseModal', 'SourceController@index');
+    Route::post('saveNewPay', 'BaseController@saveNewPay');
 
     // Roles
     Route::apiResource('roles', 'RoleController');

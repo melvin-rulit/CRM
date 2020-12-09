@@ -23,6 +23,7 @@ class KassaOperationResource extends JsonResource
           "coment"              => $this->coment,
           "sum"                 => $this->sum,
           "kassa"               => $this->branch->name,
+          "branch"              => $this->branch->id,
           "source"              => $this->in_or_out == 1 ? 'Приход' : 'Расход',
           "operation"           => $this->payment == 1 ? 'Наличные' : 'Безнал',
         ];

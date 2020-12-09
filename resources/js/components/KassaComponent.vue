@@ -1,6 +1,34 @@
 <template>
     <div>
 
+
+        <!-- Окно добавления редактирования операции -->
+        <b-modal id="editOperation" title="Изменить операцию" centered ok-title="Сохранить" cancel-title="Отмена" @ok="">
+            <pre><code>{{edit_operation}}</code></pre>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Сумма</label>
+                <div class="col-sm-9">
+                    <input v-model.trim="edit_operation.sum" class="form-control">
+                </div>
+            </div>
+            <b-form-group
+                label-cols-sm="3"
+                label-cols-lg="3"
+                label="Касса"
+            >
+                <select class="form-control" @change="changeProgrammValue($event)">
+                    <option
+                        v-for="item in branches"
+                        :value="item.id"
+                        :selected="item.id === edit_operation.branch">{{ item.name }}</option>
+                </select>
+
+            </b-form-group>
+            <div class="form-group row">
+                <textarea v-model="edit_operation.coment" class="form-control" rows="3" placeholder="Коментарий"></textarea>
+            </div>
+        </b-modal>
+
 <!--        Операции модальное окно-->
         <b-modal id="coming" :title="text" @ok="handleOk" @hidden="resetModalComing" scrollable centered ok-only ok-title="Сохранить">
             <div class="card-body py-0">
@@ -85,6 +113,7 @@
                 <div class="card">
                     <div class="card-body pb-0">
                         <b-table
+                            @row-clicked="editOperation"
                             sticky-header="700px"
                             :items="kassa_operations"
                             :fields="fields"
@@ -139,6 +168,7 @@
                 operations_type: [],
                 operations_type_model: '',
                 branches: [],
+                edit_operation: [],
                 fields: [
                     {
                         key: 'datetime',
@@ -164,10 +194,10 @@
                         key: 'sum',
                         label: 'Сумма',
                     },
-                    {
-                        key: 'balance',
-                        label: 'Баланс',
-                    },
+                    // {
+                    //     key: 'balance',
+                    //     label: 'Баланс',
+                    // },
                     {
                         key: 'operation',
                         label: 'Операция',
@@ -214,6 +244,12 @@
         },
 
         methods: {
+
+            editOperation(index){
+                this.$bvModal.show('editOperation')
+                this.edit_operation = index
+                this.getBranches()
+            },
 
             resetModalComing(){
                 this.sum = ''

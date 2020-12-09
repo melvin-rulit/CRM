@@ -520,6 +520,7 @@
                 selectDayInModalXl: '',
                 active: null,
                 comments: null,
+                group_pk: '',
             }
         },
 
@@ -1008,41 +1009,47 @@
             },
 
             handleOk(bvModalEvt) {
-                if (this.child.contracts.length == 0) {
-                    this.$alert("Нет активных контрактов у ребенка, добавление в группу невозможно").then(() => {});
-                    return null
-                }
 
-                if (this.child.contracts.length > 1) {
-                    this.$alert("у ребенка больше одного активного контракта, обратитесь к администратору").then(() => {});
-                    return null
-                }
+                axios.post('api/v2/getPkProgramm', {id: this.group_id})
+                    .then(response => this.group_pk = response.data)
 
-                if (this.child.contracts[0].category_time != this.category_time) {
-                    this.$alert("Категория времени группы не соответствует категории времени активного контракта").then(() => {});
-                    return null
-                }
 
-                if (this.child.group_id === this.group_id) {
-                    this.$alert("Клиент уже состоит в этой группе").then(() => {});
-                    return null
-                }
+                setTimeout(() => {
+                    if (this.child.contracts.length == 0 && this.group_pk != 2) {
+                        this.$alert("Нет активных контрактов у ребенка, добавление в группу невозможно").then(() => {});
+                        return null
+                    }
 
-                if (this.child.group_id) {
-                    this.$confirm("Клиент уже состоит в группе " + this.child.group.name + " вы уверены что хотите переместить в группу " + this.namegroup).then(() => {
+                    if (this.child.contracts.length > 1) {
+                        this.$alert("у ребенка больше одного активного контракта, обратитесь к администратору").then(() => {});
+                        return null
+                    }
+
+                    // if (this.child.contracts[0].category_time != this.category_time) {
+                    //     this.$alert("Категория времени группы не соответствует категории времени активного контракта").then(() => {});
+                    //     return null
+                    // }
+
+                    if (this.child.group_id === this.group_id) {
+                        this.$alert("Клиент уже состоит в этой группе").then(() => {});
+                        return null
+                    }
+
+                    if (this.child.group_id) {
+                        this.$confirm("Клиент уже состоит в группе " + this.child.group.name + " вы уверены что хотите переместить в группу " + this.namegroup).then(() => {
+                            axios.post('api/v2/saveClientInGroup', {id: this.child.id, group_id: this.group_id})
+                            this.getHallAtributes(this.hall_id, this.calendar)
+                            Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 1000,position: 'top-right'});
+                        });
+                        return null
+                    }
+
+                    if (this.child) {
                         axios.post('api/v2/saveClientInGroup', {id: this.child.id, group_id: this.group_id})
                         this.getHallAtributes(this.hall_id, this.calendar)
                         Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 1000,position: 'top-right'});
-                    });
-                    return null
-                }
-
-                if (this.child) {
-                    axios.post('api/v2/saveClientInGroup', {id: this.child.id, group_id: this.group_id})
-                    this.getHallAtributes(this.hall_id, this.calendar)
-                    Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 1000,position: 'top-right'});
-                }
-
+                    }
+                },200)
 
             },
 

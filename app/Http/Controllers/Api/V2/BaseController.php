@@ -95,6 +95,13 @@ class BaseController extends Controller
 
     }
 
+    public function getPkProgramm(Request $request)
+    {
+        $group = Group::find($request->id);
+        return $group->programm->type;
+
+    }
+
 
     public function addClientInGroup(Request $request)
     {
@@ -135,6 +142,36 @@ class BaseController extends Controller
             return 'error';
         }
     }
+
+//    public function getUserInGroup(Request $request){
+//
+//        // $base = Base::where('group_id', $request->group_id)->get();
+//
+//
+//        $base = Base::with(['journal' => function($query) use ($request){
+//            $query->where('year', $request->year);
+//            $query->where('month', $request->month);
+//        }])->where('group_id', $request->group_id)->get();
+//
+////            return Carbon::today();
+//        $collection = collect();
+//
+//        foreach ($base as $a) {
+//            if ($a->contracts->where('end_actually', '<', Carbon::today()->toDateString())->flatten()){
+////                $collection->push($a);
+//                $collection->push($a->contracts);
+//            }
+//        }
+//
+//        return $collection;
+//
+//
+//        if ($base->count() > 0) {
+//            return GetUserInGroupResource::collection($base);
+//        }else{
+//            return 'error';
+//        }
+//    }
 
     // Метод возвращает группы доступные для редактирование у зала
     public function getEditingGroup(Request $request){
@@ -974,6 +1011,15 @@ class BaseController extends Controller
             ])->get();
 
         return $journal;
+    }
+
+    public function saveNewPay(Request $request){
+
+        Contract_pay::where('id', $request->id)->update(
+            [
+                'pay' => $request->pay,
+            ]
+        );
     }
 
 }

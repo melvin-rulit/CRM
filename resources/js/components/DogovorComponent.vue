@@ -537,8 +537,9 @@ Vue.use(VueHtmlToPaper, options);
                 axios.post('api/v2/savecontract', {
                   contract_type: contract_type,
                   base_id: this.user_id ,
-                  name_vm: this.contracts_vm,
+                  name_vm: this.productVm.name,
                   date: this.dataVm.date,
+                  price: this.productVm.price,
                   child_surname: this.dataVm.child_surname,
                   child_name: this.dataVm.child_name,
                   child_middle_name: this.dataVm.child_middle_name,
