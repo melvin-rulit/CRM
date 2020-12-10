@@ -22,6 +22,19 @@ use Illuminate\Support\Facades\Auth;
 
 class ContractController extends Controller
 {
+
+
+    public function editContract(Request $request){
+//        $field_name = $request['field_name']
+
+        Contract::where('id', $request->id)->update(
+            [
+                $request['field_name'] => $request['field_value'],
+            ]
+        );
+
+    }
+
     public function getContract(Request $request){
 
         $contract = Contract::find($request['id']);
@@ -100,7 +113,7 @@ class ContractController extends Controller
         $contract->contract_type = $request['contract_type'];
 		$contract->save();
 
-        $this->saveOperation($request['base_id'], $request['name_vm'], $request['price']);
+        //$this->saveOperation($request['base_id'], $request['name_vm'], $request['price']);
 
         //        ВЫНЕСТИ В ОТДЕЛЬНЫЙ МЕТОД =========================================================================
 
@@ -250,7 +263,7 @@ class ContractController extends Controller
 
         loger(4, $request->base_id,'Присвоен статус Занимается');
 
-        $this->saveOperation($request['base_id'], $request['name'], $request->pays[0]['pay']);
+        //$this->saveOperation($request['base_id'], $request['name'], $request->pays[0]['pay']);
 
 	}
 

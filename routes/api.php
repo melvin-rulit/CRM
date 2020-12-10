@@ -65,6 +65,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('getcontracts', 'ContractController@getContracts');
     Route::post('showcontract', 'ContractController@showContract');
     Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
+    Route::post('editContract', 'ContractController@editContract');
 
     // Journals
     Route::post('workout', 'BaseController@workout');

@@ -196,6 +196,8 @@
                             <td width="25%">неповнолітньої дитини</td>
                             <td><input v-model="dataVm.child_name" class="line" placeholder="Имя"></td>
                             <td><input v-model="dataVm.child_surname" class="line" placeholder="Фамилия"></td>
+                        </tr>
+                        <tr>
                             <td>, дата народження</td>
                             <td>
                                 <date-picker
@@ -214,7 +216,7 @@
                     <table class="tabs">
                         <tr>
                             <td class="gray">Телефон Замовника</td>
-                            <td>
+                            <td width="25%">
                                 <input v-model="dataVm.parent_phone" class="line" v-mask="'+## (###) ###-##-##'">
                             </td>
                             <td class="gray">Viber/Telegram Замовника</td>
@@ -528,6 +530,7 @@ Vue.use(VueHtmlToPaper, options);
                     !this.dataVm.parent_surname ||
                     !this.dataVm.parent_name ||
                     !this.dataVm.child_surname ||
+                    !this.dataVm.productVm ||
                     !this.dataVm.child_name) {
                         this.$alert("Не все поля заполнены");
                         return false
@@ -562,7 +565,6 @@ Vue.use(VueHtmlToPaper, options);
 
                 if (!this.dataVm.parent_surname ||
                     !this.dataVm.parent_name ||
-                    !this.dataVm.parent_middle_name ||
                     !this.dataVm.child_surname ||
                     !this.dataVm.child_name ||
                     !this.programm ||
@@ -697,6 +699,7 @@ border: solid 0px;
 
 .tabs{
   width: 100%;
+    margin: 10px 0 10px 0;
 }
 
 .tdleft{

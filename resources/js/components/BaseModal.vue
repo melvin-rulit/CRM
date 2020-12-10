@@ -640,7 +640,7 @@
                                 <transition name="fade" mode="out-in">
                                     <div v-if="dataObject.contracts_active.length > 0" class="table-responsive" :key="indexactiveContract">
                                         <div v-if="activeContract">
-                                            <p @click="showContract(activeContract.id)" class="card-text text-center pointer">"{{ activeContract.name }}"</p>
+                                            <p style="cursor: pointer" @click="showContract(activeContract.id)" class="card-text text-center pointer">"{{ activeContract.name }}"</p>
                                             <table class="table table-bordered table-hover datatable datatable-User">
                                                 <tbody>
                                                 <tr>
@@ -661,11 +661,23 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Заморозки:</td>
-                                                    <td>{{ activeContract.freezing_total }}</td>
+                                                    <td>
+                                                        <input-form
+                                                            v-model="activeContract.freezing_total"
+                                                            name="freezing_total"
+                                                            @edit-field="updateFreezing">
+                                                        </input-form>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Тренировки:</td>
-                                                    <td>{{ activeContract.classes_total }}</td>
+                                                    <td>
+                                                        <input-form
+                                                            v-model="activeContract.classes_total"
+                                                            name="classes_total"
+                                                            @edit-field="updateFreezing">
+                                                        </input-form>
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -1077,6 +1089,12 @@
                 }
             },
 
+            updateFreezing(e, name){
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.post('api/v2/editContract', { id: this.activeContract.id, field_name: name ? name : key, field_value: value })
+            },
+
             // editField(e, name, type) {
             //     if (type){
             //         axios.put('api/v2/users/' + this.user.id, {field_name: name, field_value: e })
@@ -1261,6 +1279,10 @@
 
     .hoverim:hover{
         opacity: 0.5;
+        cursor: pointer;
+    }
+
+    .pointer{
         cursor: pointer;
     }
 

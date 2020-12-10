@@ -770,7 +770,9 @@
                 // Ниже было до изменение в трелло
                 // if ( (this.row < D.getDate() && this.month <= D.getMonth() + 1) || this.month < D.getMonth() + 1) {
 
-                if ( this.row == D.getDate() && this.month == D.getMonth() + 1 ){
+
+                // Раскоментировать код ниже если нужно вернуть запрет на проставлении тренировки задним числом
+                // if ( this.row == D.getDate() && this.month == D.getMonth() + 1 ){
 
                     axios.post('api/v2/workout' , {
                         base_id : this.rowid,
@@ -782,10 +784,10 @@
                         .then((response) => {
                             response.data.response == "success" ? this.getUserInGroup(this.activeGroup_id) : this.$alert(response.data.response)
                         });
-                } else {
+                // } else {
 
-                    this.$alert("Назначить посещение тренировки раньше или позже текущей даты - невозможно")
-                }
+                    // this.$alert("Назначить посещение тренировки раньше или позже текущей даты - невозможно")
+                // }
 
 
             },
@@ -812,8 +814,11 @@
                 Проверяем совпадает ли текущая дата с выбранной ячейкой, если да то вызываем модальное окно с добавлением комментраия addComent()
              */
             notVisit () {
-                var D = new Date();
-                this.row == D.getDate() && this.month == D.getMonth() + 1 ? this.$bvModal.show('comment') : this.$alert("Выбраная Вами дата не совпадает с текущей");
+                // Тут закоментировали проверку на запрет установки статуса Не посетил на любой день кроме текущего
+                // var D = new Date();
+                // this.row == D.getDate() && this.month == D.getMonth() + 1 ? this.$bvModal.show('comment') : this.$alert("Выбраная Вами дата не совпадает с текущей");
+                // Вместо этого тупо пропускаем и вызываем окно
+                this.$bvModal.show('comment')
             },
 
             /*
