@@ -141,6 +141,8 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::get('test', 'BaseController@test');
 
     Route::get('getTest2', 'BaseController@getTest2');
+
+    Route::post('/message', 'ChatController@index');
 });
 
 

@@ -126,6 +126,8 @@ Vue.component('menu-list', require('./components/Menu/MenuList.vue').default);
 
 Vue.component('testing-component', require('./components/TestingComponent.vue').default);
 
+Vue.component('chatbox-component', require('./components/ChatboxComponent.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
