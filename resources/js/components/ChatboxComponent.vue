@@ -29,7 +29,7 @@
             this.addMessage('You joined the chatbox.');
             Echo.channel('chatbox')
                 .listen('MessageSend', (e) => {
-                    console.log(e);
+                    this.addMessage(e.message);
                 });
         },
         methods: {
