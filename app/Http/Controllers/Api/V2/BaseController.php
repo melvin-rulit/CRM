@@ -181,7 +181,7 @@ class BaseController extends Controller
         // Выбираем только активные контракты и с типом ВМ
         $contractsVM = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->where('contract_type', 'vm');
 
-        if ($contracts->count() == 1 || $contractsVM->count() == 1) {
+//        if ($contracts->count() == 1 || $contractsVM->count() == 1) {
 
             $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('month', $request->month)->get();
 
@@ -314,19 +314,19 @@ class BaseController extends Controller
                 'response'  => "success",
             ];
             // Если и так уже стоит значение, то ничего не делать
-        }
+//        }
 
-        if ($contracts->count() == 0) {
-            return [
-                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
-            ];
-        }
+//        if ($contracts->count() == 0) {
+//            return [
+//                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
+//            ];
+//        }
 
-        if ($contracts->count() > 1) {
-            return [
-                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
-            ];
-        }
+//        if ($contracts->count() > 1) {
+//            return [
+//                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
+//            ];
+//        }
 
     }
 
@@ -342,7 +342,7 @@ class BaseController extends Controller
         // Выбираем только активные контракты и с типом основной контракт
         $contracts = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->where('contract_type', 'main');
 
-        if ($contracts->count() == 1) {
+//        if ($contracts->count() == 1) {
 
             // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
             $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
@@ -371,19 +371,19 @@ class BaseController extends Controller
             return [
                 'response'  => "success",
             ];
-        }
+//        }
 
-        if ($contracts->count() == 0) {
-            return [
-                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
-            ];
-        }
+//        if ($contracts->count() == 0) {
+//            return [
+//                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
+//            ];
+//        }
 
-        if ($contracts->count() > 1) {
-            return [
-                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
-            ];
-        }
+//        if ($contracts->count() > 1) {
+//            return [
+//                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
+//            ];
+//        }
 
     }
 
@@ -465,7 +465,7 @@ class BaseController extends Controller
         $contracts = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->where('contract_type', 'main');
 
         // Если найден один активный контракт
-        if ($contracts->count() == 1) {
+//        if ($contracts->count() == 1) {
 
             // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
             $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
@@ -543,18 +543,19 @@ class BaseController extends Controller
                 'response'  => "success",
             ];
 
-        }
-        if ($contracts->count() == 0) {
-            return [
-                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
-            ];
-        }
+//        }
 
-        if ($contracts->count() > 1) {
-            return [
-                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
-            ];
-        }
+//        if ($contracts->count() == 0) {
+//            return [
+//                'response'  => "У данного клиента закончился контракт - посещение занятий приостановлено",
+//            ];
+//        }
+
+//        if ($contracts->count() > 1) {
+//            return [
+//                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
+//            ];
+//        }
     }
 
     public function addNewComent(Request $request){
