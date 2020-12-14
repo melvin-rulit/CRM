@@ -530,7 +530,7 @@ Vue.use(VueHtmlToPaper, options);
                     !this.dataVm.parent_surname ||
                     !this.dataVm.parent_name ||
                     !this.dataVm.child_surname ||
-                    !this.dataVm.productVm ||
+                    !this.productVm ||
                     !this.dataVm.child_name) {
                         this.$alert("Не все поля заполнены");
                         return false
