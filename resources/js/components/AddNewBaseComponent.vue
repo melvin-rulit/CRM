@@ -5,7 +5,7 @@
         <b-modal id="addNewUser" title="Добавление нового клиента" @ok="saveUser" @hidden="closeModal" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
                 <div class="form-group row" :class="{ 'form-group--error': $v.new_child_surname.$error &&  showErrors}">
-                    <label class="col-sm-3 col-form-label required">Фамилия</label>
+                    <label class="col-sm-3 col-form-label">Фамилия</label>
                     <div class="col-sm-9">
                         <input class="form-control" v-model="$v.new_child_surname.$model">
                         <span v-if="!$v.new_child_surname.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
@@ -47,6 +47,30 @@
                         <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="instructor" />
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Джероло контакту</label>
+                    <div class="col-sm-9">
+                        <dynamic-select
+                            :options="sourceGroupArray"
+                            option-value="id"
+                            option-text="name"
+                            placeholder="Введите для поиска"
+                            v-model="sourceGroup"
+                            @input="getSource()"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label required">Точка авторизації</label>
+                    <div class="col-sm-9">
+                        <dynamic-select
+                            v-if="sourceGroup"
+                            :options="sourceArray"
+                            option-value="id"
+                            option-text="name"
+                            placeholder="Введите для поиска"
+                            v-model="source" />
+                    </div>
+                </div>
 
             </div>
         </b-modal>
@@ -79,27 +103,42 @@
                 branch: '',
                 manager: '',
                 instructor: '',
+                sourceGroup: '',
+                source: '',
                 submitStatus: null,
                 showErrors: false,
                 branches: [],
                 users: [],
                 new_user: [],
+                sourceGroupArray: [],
+                sourceArray: [],
             }
         },
 
         validations: {
             new_child_surname: {
-                required,
-                minLength: minLength(4)
+                minLength: minLength(1)
             },
             new_child_name: {
                 required,
-                minLength: minLength(4)
+                minLength: minLength(1)
             },
         },
 
 
         methods: {
+
+            getSourceGroup(){
+                axios.get('api/v2/getSourceGroupBaseModal')
+                    .then(response => {this.sourceGroupArray = response.data.data
+                    })
+            },
+
+            getSource(){
+                axios.post('api/v2/getSourceInGroup', {group_id: this.sourceGroup.id})
+                    .then(response => {this.sourceArray = response.data.data
+                    })
+            },
 
             getBranches(){
                 axios.get('api/v2/getbranches')
@@ -115,6 +154,7 @@
                 this.$bvModal.show('addNewUser')
                 this.getBranches()
                 this.getUsers()
+                this.getSourceGroup()
             },
 
 
@@ -136,7 +176,8 @@
                             child_middle_name: this.new_child_middle_name,
                             manager: this.manager ? this.manager.id : null,
                             instructor: this.instructor ? this.instructor.id : null,
-                            branch: this.branch.id
+                            branch: this.branch.id,
+                            source: this.source.id,
                         })
                             .then(response => this.new_user = response.data)
                         let loader = this.$loading.show({

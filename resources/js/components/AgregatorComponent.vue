@@ -40,6 +40,9 @@
                             <template v-slot:cell(next_call_date)="row">
                                     <span>{{ row.item.call_date }}</span>
                             </template>
+                            <template v-slot:cell(program)="row">
+                                    <span>{{ getProgram(row.item.program) }}</span>
+                            </template>
                         </b-table>
                     </div>
                 </div>
@@ -61,8 +64,8 @@
                         label: 'Имя',
                     },
                     {
-                        key: 'child_middle_name',
-                        label: 'Отчество',
+                        key: 'program',
+                        label: 'Программа',
                     },
                     {
                         key: 'age',
@@ -80,7 +83,6 @@
                         key: 'call_date',
                         label: 'Дата звонка',
                     },
-
                 ],
                 articles: [],
             }
@@ -93,7 +95,18 @@
                 })
         },
 
+
         methods: {
+
+            getProgram($type){
+                if ($type === 1){
+                    return 'Основная'
+                }else if($type === 2){
+                    return 'Перший крок '
+                }else if($type === 3){
+                    return 'Відкрий можливості '
+                }
+            },
 
             fetchArticles(){
                 axios.get('api/v2/getAgregatorLids')

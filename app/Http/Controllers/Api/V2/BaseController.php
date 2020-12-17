@@ -143,8 +143,8 @@ class BaseController extends Controller
                 $group = $group->type;
             }
 
-            // Если есть активный контракт или группа равна ли ПК
-            if ($contracts->count() == 1 || $group == 2){
+            // Если есть активный контракт или группа равна ли ПК или ВМ
+            if ($contracts->count() == 1 || $group == 2 || $group == 3){
                 $collection->push($a);
             }
         }
@@ -657,7 +657,6 @@ class BaseController extends Controller
 //            'id' => $base->id
 //        ];
     }
-
 
 
     public function getInfo(Request $request){

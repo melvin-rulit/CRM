@@ -93,8 +93,10 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('changeCallStatus', 'StatusesController@changeCallStatus');
     Route::post('addnewuser', 'BaseController@addNewUser');
     Route::get('filter', 'BaseController@filter');
-    Route::get('getSourceBaseModal', 'SourceController@index');
+    Route::post('getSourceInGroup', 'SourceController@getSourceInGroup');
+    Route::get('getSourceGroupBaseModal', 'SourceGroupController@index');
     Route::post('saveNewPay', 'BaseController@saveNewPay');
+    Route::post('getLog', 'LogerController@index');
 
     // Roles
     Route::apiResource('roles', 'RoleController');

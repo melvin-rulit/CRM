@@ -118,22 +118,6 @@
                                     class="text-dark">( {{ getWeekDay(schedule_hall.day) }} - {{ schedule_hall.time }}:00 )</span>
                             </h5>
 
-                            <h5 class="text-muted mb-2">Источник:
-                                <a href="#" @click.prevent="showSourceClick()" class="text-dark">{{ dataObject.attributes.source }}</a>
-                            </h5>
-
-
-                                    <dynamic-select
-                                        v-if="showSource"
-                                        :options="sourceArray"
-                                        option-value="id"
-                                        option-text="name"
-                                        placeholder="Поиск программы"
-                                        v-model="source"
-                                        @input="saveSource()"
-                                    />
-
-
                             <h6 class="text-uppercase text-muted mb-2 mt-4">
                                 <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>
                                 <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>
@@ -145,7 +129,11 @@
                         </div>
                     </div>
                     <div class="col-md-4 border-left">
-                        <div class="card-body">
+                        <div class="card-body pt-2">
+                            <router-link
+                                to="/journal"
+                                class="nav-link text-center">
+                                <i class="fe fe-user"></i> В журнал</router-link>
                             <h6 class="text-uppercase text-muted mb-2 text-center">Дата следующего звонка</h6>
                             <date-picker
                                 v-model="dataObject.call_date"
@@ -182,7 +170,7 @@
                             <b-form-group v-if="showForm">
                                 <b-form-input v-model="uploadFileName" size="sm" class="my-3" placeholder="Название файла"></b-form-input>
                                 <div class="input__wrapper">
-                                    <input  v-on:change="handleFileUpload()" type="file" ref="file" id="file" class="input input__file" accept=",.jpg,.jpeg,.png,.txt">
+                                    <input  v-on:change="handleFileUpload()" type="file" ref="file" id="file" class="input input__file" accept=",.jpg,.jpeg,.png,.txt,.pdf,.DOC,.DOCX">
                                     <label for="file" class="btn btn-success center btn-sm">
                                         <span class="input__file-button-text">Выберите файл</span>
                                     </label>
@@ -735,14 +723,39 @@
                                         <a @click.prevent="showContract(contracts_not_active.id)" href="#" class="text-muted">"{{contracts_not_active.name}}" &nbsp {{contracts_not_active.start}} - {{contracts_not_active.end_actually}}</a>
                                     </p>
                                 </div>
+
+                                <h5 class="text-muted mb-2">Источник:
+                                    <a href="#" @click.prevent="showSourceClick()" class="text-dark">{{ dataObject.attributes.source }}</a>
+                                </h5>
+
+                                <dynamic-select
+                                    v-if="showSourceGroup"
+                                    :options="sourceGroupArray"
+                                    option-value="id"
+                                    option-text="name"
+                                    placeholder="Поиск группы"
+                                    v-model="sourceGroup"
+                                    @input="getSource()"
+                                />
+                                <dynamic-select
+                                    v-if="showSource"
+                                    :options="sourceArray"
+                                    option-value="id"
+                                    option-text="name"
+                                    placeholder="Поиск программы"
+                                    v-model="source"
+                                    @input="saveSource()"
+                                />
+
+
                             </div>
                         </div>
                     </div>
                 </b-tab>
-                <b-tab title="История">
+                <b-tab title="История" @click="getLog()">
                     <div class="card mt-3 fix-height">
                         <div class="card-body">
-                            <p v-if="dataObject.comments" v-for="comment in dataObject.comments" :key="comment.id" class="mb-2">
+                            <p v-if="comments" v-for="comment in comments" :key="comment.id" class="mb-2">
                                 {{ comment.date }} - {{ comment.user }} - {{ comment.comment }}
                             </p>
                         </div>
@@ -831,8 +844,8 @@
                     manager: {},
                     instructor: {},
                     programm: {},
-                    comments: {},
                 },
+                comments: {},
                 indexactiveContract: 0,
                 getURL: "api/v2/getinfo",
                 postURL: "getone",
@@ -856,8 +869,11 @@
                 file: '',
                 picked: '',
                 showSource: false,
+                showSourceGroup: false,
                 sourceArray: [],
+                sourceGroupArray: [],
                 source: '',
+                sourceGroup: '',
                 editPay: [],
                 new_pay: '',
             }
@@ -891,6 +907,11 @@
         },
 
         methods: {
+
+            getLog(){
+                axios.post('api/v2/getLog', {id : this.dataObject.id})
+                    .then(response => {this.comments = response.data.data})
+            },
 
             saveNewPay(){
                 axios.post('api/v2/saveNewPay', {id : this.editPay.id, pay: this.new_pay})
@@ -1000,10 +1021,10 @@
                     })
             },
             showContract(id){
-                this.$confirm("Показать контракт ?").then(() => {
+                // this.$confirm("Показать контракт ?").then(() => {
                     $('#addNew').modal('hide')
                     this.$refs.showmodal.showModal(id)
-                });
+                // });
             },
             getModal(id){
                 this.$bvModal.show('userShow')
@@ -1181,7 +1202,9 @@
                 this.call_date = ''
                 this.sourceArray = []
                 this.showSource = ''
+                this.showSourceGroup = ''
                 this.source = ''
+                this.comments = ''
             },
 
             removeBlock(){
@@ -1226,14 +1249,22 @@
             },
 
             showSourceClick(){
-                this.showSource = true
-                axios.get('api/v2/getSourceBaseModal')
-                    .then(response => {this.sourceArray = response.data.data
+                this.showSourceGroup = true
+                axios.get('api/v2/getSourceGroupBaseModal')
+                    .then(response => {this.sourceGroupArray = response.data.data
                 })
+            },
+
+            getSource(){
+                this.showSource = true
+                axios.post('api/v2/getSourceInGroup', {group_id: this.sourceGroup.id})
+                    .then(response => {this.sourceArray = response.data.data
+                    })
             },
 
             saveSource(){
                 this.showSource = false
+                this.showSourceGroup = false
                 axios.post(this.postURL, {user_id: this.dataObject.id, field_name: 'source' , field_value: this.source.id})
                 setTimeout(() => {
                     axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {

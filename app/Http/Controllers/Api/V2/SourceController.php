@@ -18,4 +18,23 @@ class SourceController extends Controller
     {
         Source::create($request->all());
     }
+
+    public function getSourceInGroup(Request $request)
+    {
+
+        $source = Source::where('group_id', $request['group_id'])->get();
+
+        return SourceResource::collection($source);
+    }
+
+    public function update(Request $request, $id)
+    {
+        Source::where('id', $id)->update(
+            [
+                'name'      => $request->name,
+                'group_id'     => $request->group_id,
+                'coment'    => $request->coment,
+            ]
+        );
+    }
 }

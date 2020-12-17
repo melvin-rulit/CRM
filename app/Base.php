@@ -18,6 +18,7 @@ class Base extends Model
         'instructor',
         'programm_id',
         'avatar',
+        'source',
     ];
 
     // protected $with = ['journal'];

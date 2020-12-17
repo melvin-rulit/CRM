@@ -44,7 +44,7 @@
 
         <div class="card">
             <b-tabs content-class="mt-3" justified>
-                <b-tab title="Источники" @click="getSource" active>
+                <b-tab title="Точка авторизації" @click="getSource" active>
                     <!-- Панель над фильтром -->
                     <div class="row mt-3">
                         <div class="col-lg-12">
@@ -66,6 +66,7 @@
                     <!-- Список клиентов -->
                     <div class="card-body pb-0">
                         <b-table
+                            @row-clicked="editSource"
                             hover
                             sticky-header="700px"
                             :items="sourcess"
@@ -86,7 +87,8 @@
                         </b-table>
                     </div>
                 </b-tab>
-                <b-tab @click="getAllGroups" title="Группы источников">
+
+                <b-tab @click="getAllGroups" title="Джероло контакту">
                     <!-- Панель над фильтром -->
                     <div class="row mt-3">
                         <div class="col-lg-12">
@@ -103,6 +105,7 @@
                     </div>
                     <div class="card-body pb-0">
                         <b-table
+                            @row-clicked="editGroup"
                             hover
                             sticky-header="700px"
                             :items="groups"
@@ -112,6 +115,38 @@
                     </div>
                 </b-tab>
             </b-tabs>
+
+            <!-- Окно добавления редактирования группы -->
+            <b-modal id="editGroupModal" title="Изменить группу" @hidden="resetEditGroupModal" centered ok-title="Сохранить" cancel-title="Отмена" @ok="updateGroup">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Название</label>
+                    <div class="col-sm-9">
+                        <input v-model.trim="edit_group.name" class="form-control">
+                    </div>
+                </div>
+            </b-modal>
+
+            <!-- Окно добавления редактирования источника -->
+            <b-modal id="editSourceModal" title="Изменить источник" @hidden="resetSourceModal" centered ok-title="Сохранить" cancel-title="Отмена" @ok="updateSource">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Название</label>
+                    <div class="col-sm-9">
+                        <input v-model.trim="edit_source.name" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Группа</label>
+                    <select class="form-control col-sm-9" @change="changeSourceValue($event)">
+                        <option
+                            v-for="item in groups"
+                            :value="item.id"
+                            :selected="item.id === edit_source.group_id">{{ item.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <textarea v-model="edit_source.coment" class="form-control" rows="3" placeholder="Коментарий"></textarea>
+                </div>
+            </b-modal>
         </div>
 
     </div>
@@ -123,6 +158,9 @@
     export default {
         data() {
             return{
+                edit_group: '',
+                edit_source: '',
+                gr: '',
                 name: '',
                 group_name: '',
                 coment: '',
@@ -156,6 +194,45 @@
         },
 
         methods: {
+
+            editSource(index){
+                this.$bvModal.show('editSourceModal')
+                this.edit_source = index
+                this.getAllGroups()
+            },
+
+            updateSource(){
+                axios.put('api/v2/source/' + 1, {
+                    name: this.edit_source.name,
+                    group_id: this.gr ? this.gr : this.edit_source.group_id,
+                    coment: this.edit_source.coment,
+                })
+            },
+
+            resetSourceModal(){
+                this.gr = ''
+                this.edit_source = ''
+                this.getSource()
+            },
+
+            changeSourceValue(event){
+                this.gr = event.target.value
+            },
+
+            editGroup(index){
+                this.$bvModal.show('editGroupModal')
+                this.edit_source = index
+            },
+
+            resetEditGroupModal(){
+                this.getAllGroups()
+            },
+
+            updateGroup(){
+                axios.put('api/v2/sourceGroups/' + this.edit_group.id, {
+                    name: this.edit_group.name,
+                })
+            },
 
             resetModal(){
                 this.name = ''

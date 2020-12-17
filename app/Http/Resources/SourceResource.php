@@ -18,6 +18,7 @@ class SourceResource extends JsonResource
             'id'	    => $this->id,
             'name'	    => $this->name,
             'group'	    => $this->group ? $this->group->name : '',
+            'group_id'	=> $this->group_id,
             'coment'	=> $this->coment,
         ];
     }
