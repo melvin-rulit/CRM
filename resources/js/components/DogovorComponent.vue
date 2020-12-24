@@ -1,5 +1,34 @@
 <template>
 	<div>
+        <!-- Модальное окно с оплатой -->
+        <b-modal id="pay" title="Оплата" centered ok-only ok-title="Ок">
+            <div class="card-body py-0">
+                <div class="form-group row mt-4">
+                    <label class="col-sm-3 col-form-label">Сумма</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="productVm.price">
+                    </div>
+                </div>
+                <div class="form-group row mt-4">
+                    <label class="col-sm-3 col-form-label">Сумма прописью</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="productVm.price_title">
+                    </div>
+                </div>
+            </div>
+        </b-modal>
+
+        <!-- Модальное окно с оплатой в основном контраакте-->
+        <b-modal id="pay_main" title="Оплата" centered ok-only ok-title="Ок" @ok="savePaysPays">
+            <div class="card-body py-0">
+                <div class="form-group row mt-4">
+                    <label class="col-sm-3 col-form-label">Сумма</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="pay_main">
+                    </div>
+                </div>
+            </div>
+        </b-modal>
 
         <!-- Модальное окно с пробным контрактом -->
         <b-modal id="dogovorVm"
@@ -58,7 +87,8 @@
                         2.4. Заняття проводяться без присутності батьків в спортивному залі;<br>
                         2.5. Виконавець видаєспортивну форму(футболка, шорти, гетри). На заняття Вихованець не допускається без
                         повного комплекту форми та змінного спортивного взуття.<br>
-                        2.6. Вартість Програми складає {{ productVm.price }} ({{ productVm.price_title }}.).<br>
+                        2.6. Вартість Програми складає {{ productVm.price }} ({{ productVm.price_title }}.).
+                        <a v-if="productVm" href="#" @click.prevent="showEditPayModal">Изменить</a><br>
                         2.7. Два навчально-тренувальних заняття, що були оплачені Замовником за акційною вартістю250 (двісті
                         п’ятдесят), проводяться в чітко визначений Сторонами час для тренування:<br>
 
@@ -298,6 +328,9 @@
                         <td>(<span v-if="product">{{ product.price_title }}</span>) {{ dataVm.branch.currency }}.</td>
                     </table>
                     Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
+
+                    <a v-if="pays.pays" href="#" @click.prevent="showEditPayMainModal">Изменить</a><br>
+
                     <br>Графік оплати:<br>
                     <div class="mt-2 mb-2">
                             <span v-if="pays" v-for="(time, index) in pays.pays">
@@ -453,10 +486,24 @@ Vue.use(VueHtmlToPaper, options);
                 hall: '',
                 shedule: '',
                 productVm: '',
+                pay_main: '',
             }
         },
 
         methods: {
+
+            showEditPayModal(){
+                this.$bvModal.show('pay')
+            },
+
+            showEditPayMainModal(){
+                this.$bvModal.show('pay_main')
+                this.pay_main = this.pays.pays[0].pay
+            },
+
+            savePaysPays(){
+                this.pays.pays[0].pay = this.pay_main
+            },
 
             // Получаем сокращеное название дня по дате и формируем селект
             select_schedule(items) {
