@@ -97,6 +97,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::get('getSourceGroupBaseModal', 'SourceGroupController@index');
     Route::post('saveNewPay', 'BaseController@saveNewPay');
     Route::post('getLog', 'LogerController@index');
+    Route::post('freezingOff', 'BaseController@freezingOff');
 
     // Roles
     Route::apiResource('roles', 'RoleController');

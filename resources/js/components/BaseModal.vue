@@ -669,6 +669,7 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
+
                                             <p>Оплаты:
                                                 <a
                                                     href="#"
@@ -684,6 +685,14 @@
                                             </p>
 
                                             <button class="btn btn-sm btn-success" v-b-modal.pay_contract>Оплатить</button>
+
+                                            <button
+                                                v-for="item in free"
+                                                @click="freezingOff(item.id)"
+                                                class="btn btn-sm btn-outline-primary mr-2">{{ item.name }}
+                                                <i class="fe fe-sun text-primary"></i>
+                                            </button>
+
 
                                             <!--Модальное окно оплатить-->
                                             <b-modal id="pay_contract" title="Оплата" centered ok-only ok-title="Оплатить">
@@ -876,6 +885,23 @@
                 sourceGroup: '',
                 editPay: [],
                 new_pay: '',
+                free: [
+                    {
+                        id:     1,
+                        icon:   'fe fe-sun text-primary',
+                        name:   '-1',
+                    },
+                    {
+                        id:     2,
+                        icon:   'fe fe-sun text-primary',
+                        name:   '-2',
+                    },
+                    {
+                        id:     3,
+                        icon:   'fe fe-sun text-primary',
+                        name:   '-3',
+                    }
+                ],
             }
         },
         validations: {
@@ -907,6 +933,17 @@
         },
 
         methods: {
+
+            freezingOff(freezing){
+                axios.post('api/v2/freezingOff', {id : this.activeContract.id, freezing: freezing})
+
+                setTimeout(() => {
+                    axios.post('api/v2/getinfo', {id : this.dataObject.id})
+                        .then(response => {
+                            this.dataObject = response.data.data
+                        })
+                }, 200)
+            },
 
             getLog(){
                 axios.post('api/v2/getLog', {id : this.dataObject.id})

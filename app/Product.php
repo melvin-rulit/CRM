@@ -21,6 +21,7 @@ class Product extends Model
         'months',
         'days',
         'programm_id',
+        'date_end',
     ];
 
     public function pays(){

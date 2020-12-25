@@ -54,7 +54,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         $product = Product::create($request->all());
 
         KassaOperationType::create([

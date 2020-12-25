@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V2;
 
+use App\Contract;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\BranchesResource;
 use App\Http\Resources\CommentsResource;
@@ -1003,6 +1004,26 @@ class BaseController extends Controller
                 'pay' => $request->pay,
             ]
         );
+    }
+
+    public function freezingOff(Request $request){
+
+        $contracts = Contract::find($request->id);
+
+        switch ($request->freezing) {
+            case 1:
+                $contracts->end_actually = Carbon::createFromDate($contracts->end_actually)->addDays(3);
+                $contracts->save();
+                break;
+            case 2:
+                $contracts->end_actually = Carbon::createFromDate($contracts->end_actually)->addDays(7);
+                $contracts->save();
+                break;
+            case 3:
+                $contracts->end_actually = Carbon::createFromDate($contracts->end_actually)->addDays(10);
+                $contracts->save();
+                break;
+        }
     }
 
 }

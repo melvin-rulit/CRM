@@ -657,6 +657,7 @@
                     days: null,
                     active: true ,
                     price_title: null ,
+                    date_end: '2030-01-01 00:00:00',
                     branch_id: branch
                 });
             },
