@@ -673,7 +673,7 @@
                                             <p>Оплаты:
                                                 <a
                                                     href="#"
-                                                    @click.prevent="editPayInContract(pays)"
+                                                    @click.prevent="editPayInContract(pays, activeContract.id)"
                                                     v-for="pays in activeContract.pays"
                                                     data-toggle="tooltip"
                                                     data-placement="top"
@@ -681,7 +681,7 @@
                                                     class="text-muted ml-2 pointer">{{ pays.pay }}</a>
                                             </p>
                                             <p>Сумма и остаток:
-                                                <span class="ml-2">{{ summPaysActiveContract(activeContract.pays) }} ({{ summPaysActiveContract(activeContract.pays) }})</span>
+                                                <span class="ml-2">{{ activeContract.price }} ({{ activeContract.balance }})</span>
                                             </p>
 
                                             <button class="btn btn-sm btn-success" v-b-modal.pay_contract>Оплатить</button>
@@ -695,13 +695,18 @@
 
 
                                             <!--Модальное окно оплатить-->
-                                            <b-modal id="pay_contract" title="Оплата" centered ok-only ok-title="Оплатить">
+                                            <b-modal
+                                                id="pay_contract"
+                                                title="Оплата"
+                                                @ok="saveNewBalance(activeContract.id)"
+                                                centered ok-only ok-title="Оплатить">
                                                 <div class="card-body py-0">
-                                                    <p class="text-center">Текущая задолженность составляет <span class="h3">{{ summPaysActiveContract(activeContract.pays) }}</span> , введите сумму</p><hr>
+                                                    <p class="text-center">Текущая задолженность составляет
+                                                        <span class="h3">{{ activeContract.balance }}</span> , введите сумму</p><hr>
                                                     <div class="form-group row mt-4">
                                                         <label class="col-sm-3 col-form-label">Сумма</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control">
+                                                            <input class="form-control" v-model="newBalance">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -712,8 +717,8 @@
                                                 <div class="card-body py-0">
                                                     <span>Редактирование оплаты <span class="h3">{{ editPay.pay }}</span></span>
                                                     <div class="form-group row mt-4">
-                                                        <label class="col-sm-3 col-form-label">Новая сумма</label>
-                                                        <div class="col-sm-9">
+                                                        <label class="col-sm-4 col-form-label">Сумма оплаты</label>
+                                                        <div class="col-sm-8">
                                                             <input class="form-control" v-model="new_pay">
                                                         </div>
                                                     </div>
@@ -884,6 +889,8 @@
                 source: '',
                 sourceGroup: '',
                 editPay: [],
+                contractId: '',
+                newBalance: '',
                 new_pay: '',
                 free: [
                     {
@@ -951,8 +958,19 @@
             },
 
             saveNewPay(){
-                axios.post('api/v2/saveNewPay', {id : this.editPay.id, pay: this.new_pay})
-                // dataObject.attributes.mother_middle_name
+                axios.post('api/v2/saveNewPay', {id : this.editPay.id, pay: this.new_pay, contract_id: this.contractId})
+
+                axios.post('api/v2/getinfo', {id : this.dataObject.id})
+                    .then(response => {this.dataObject = response.data.data})
+            },
+
+            saveNewBalance(id){
+                if (this.newBalance == ''){
+                    Vue.$toast.open({message: 'Поле не может быть пустым',type: 'error',duration: 1000,position: 'top-right'});
+                    return false
+                }
+                axios.post('api/v2/saveNewBalance', {id : id, balance: this.newBalance, base_id: this.dataObject.id})
+
                 axios.post('api/v2/getinfo', {id : this.dataObject.id})
                     .then(response => {this.dataObject = response.data.data})
             },
@@ -972,9 +990,10 @@
                 })
             },
 
-            editPayInContract(pay){
+            editPayInContract(pay, contract_id){
                 this.$bvModal.show('edit_pay_contract')
                 this.editPay = pay
+                this.contractId = contract_id
             },
 
             // Получаем сокращеное название дня по дате

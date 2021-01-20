@@ -96,6 +96,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('getSourceInGroup', 'SourceController@getSourceInGroup');
     Route::get('getSourceGroupBaseModal', 'SourceGroupController@index');
     Route::post('saveNewPay', 'BaseController@saveNewPay');
+    Route::post('saveNewBalance', 'BaseController@saveNewBalance');
     Route::post('getLog', 'LogerController@index');
     Route::post('freezingOff', 'BaseController@freezingOff');
 
@@ -143,7 +144,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('getvmcontract', 'BaseController@getVmContract');
     Route::get('test', 'BaseController@test');
 
-    Route::get('getTest2', 'BaseController@getTest2');
+    Route::get('getTest', 'ContractController@test');
 });
 
 

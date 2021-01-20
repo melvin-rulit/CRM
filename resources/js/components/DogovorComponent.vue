@@ -27,6 +27,40 @@
                         <input class="form-control" v-model="pay_main">
                     </div>
                 </div>
+                <div class="form-group row mt-4">
+                    <label class="col-sm-3 col-form-label">Сумма прописью</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="product.price_title">
+                    </div>
+                </div>
+            </div>
+        </b-modal>
+
+        <!-- Модальное окно с частичной оплатой в основном контраакте перед печатью-->
+        <b-modal id="editPay" title="Частичная оплата" centered ok-only ok-title="Ок" @ok="savePartially">
+            <div class="card-body py-0">
+                <p class="text-center">Текущая оплата составляет
+                    <span class="h3" v-if="pays.pays">{{ pays.pays[0].pay }}</span> , введите сумму</p><hr>
+                <div class="form-group row mt-4">
+                    <label class="col-sm-3 col-form-label">Сумма</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-mask="'##############'" v-model="pay_artially">
+                    </div>
+                </div>
+            </div>
+        </b-modal>
+
+        <!-- Модальное окно с частичной оплатой в ВМ контраакте перед печатью-->
+        <b-modal id="editPayVM" title="Частичная оплата" centered ok-only ok-title="Ок" @ok="savePartiallyVM">
+            <div class="card-body py-0">
+                <p class="text-center">Текущая оплата составляет
+                    <span class="h3">{{ productVm.price }}</span> , введите сумму</p><hr>
+                <div class="form-group row mt-4">
+                    <label class="col-sm-3 col-form-label">Сумма</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-mask="'##############'" v-model="pay_artiallyVM">
+                    </div>
+                </div>
             </div>
         </b-modal>
 
@@ -134,6 +168,28 @@
                             <option :value="item" v-for="item in shedule_hall">{{ item.name }} - ({{ select_schedule(item.hall) }})</option>
                         </select>
 
+                        <div class="p-2">
+                            <span v-if="!print && shedule">выбор недели группы</span>
+
+                            <date-picker
+                                v-if="!print && shedule"
+                                v-model="week"
+                                value-type="YYYY-MM-DD"
+                                type="week"
+                                format="MM.YYYY"
+                                placeholder="Выберите неделю">
+                            </date-picker>
+                        </div>
+
+                        <div class="py-3">
+                            <a v-if="productVm" href="#" @click.prevent="showEditPayVMModal">Внести часть оплаты</a><br>
+                            <span>Внесена часть оплаты на сумму {{ pay_artiallyVM }}</span><br>
+                            <span>Остаток {{ balance }}</span><br>
+                        </div>
+
+
+
+
                         3. Права та обов’язки Замовника<br>
                         3.1. Замовник має право сплатити послуги за акційною ціною {{ dataVm.price_stock }} ({{ dataVm.price_stock_title }}) грн. у випадку оплати
                         Програми в день першого безкоштовного (презентаційного) тренування «Перший Крок» та проходженні
@@ -194,6 +250,19 @@
                  ok-title="Сохранить и распечатать"
                  size="lg"
                  title="Основоной договор">
+
+            <template #modal-footer="{ ok, cancel, hide }">
+                <b-button @click="sendVm('main')">
+                    Сохранить и распечатать
+                </b-button>
+                <b-button @click="closeModal">
+                    Отменить
+                </b-button>
+                <b-button @click="showPayMod">
+                    Изменить платеж
+                </b-button>
+            </template>
+
             <div class="modal-body modal-lg pt-0" id="printmain">
                 <div class="Section1">
                     <img src="http://185.146.156.207/logo.png" class="logo">
@@ -334,8 +403,11 @@
                     <br>Графік оплати:<br>
                     <div class="mt-2 mb-2">
                             <span v-if="pays" v-for="(time, index) in pays.pays">
-                                <strong>{{(index+1)}}.</strong>{{time.pay}} {{ dataVm.branch.currency }}. до {{ reversedMessage(time.day) }}  |                             </span>
+                                <strong>{{(index+1)}}.</strong>{{time.pay}} {{ dataVm.branch.currency }}. до {{ reversedMessage(time.day) }}  |                      </span>
+
+                        <br><a href="#" v-if="!print" @click="showPayMod">Изменить платеж</a>
                     </div>
+
                     <table>
                         <tr>
                             <td>Кількість акційних заморозок (<span v-if="product">{{product.freezing_total}}</span>)</td>
@@ -487,13 +559,27 @@ Vue.use(VueHtmlToPaper, options);
                 shedule: '',
                 productVm: '',
                 pay_main: '',
+                pay_artially: '',
+                pay_artiallyVM: '',
+                week: '',
+                balance: '',
             }
         },
 
+
         methods: {
+
+            getWeek(){
+
+
+            },
 
             showEditPayModal(){
                 this.$bvModal.show('pay')
+            },
+
+            showEditPayVMModal(){
+                this.$bvModal.show('editPayVM')
             },
 
             showEditPayMainModal(){
@@ -501,8 +587,31 @@ Vue.use(VueHtmlToPaper, options);
                 this.pay_main = this.pays.pays[0].pay
             },
 
+            showPayMod(){
+                this.$bvModal.show('editPay')
+            },
+
             savePaysPays(){
                 this.pays.pays[0].pay = this.pay_main
+            },
+
+            savePartially(){
+                if(this.pay_artially !== ''){
+                    if (this.pay_artially < this.pays.pays[0].pay){
+                        this.balance = this.product.price - this.pay_artially
+                        this.pays.pays[0].pay = this.pays.pays[0].pay - this.pay_artially
+                        this.pay_artially = ''
+                    }else{
+                        this.$alert("Сумма не может быть больше суммы оплаты");
+                    }
+                }else{
+                    this.$alert("Введите сумму частичной оплаты");
+                }
+
+            },
+
+            savePartiallyVM(){
+                this.balance = this.productVm.price - this.pay_artiallyVM
             },
 
             // Получаем сокращеное название дня по дате и формируем селект
@@ -585,6 +694,7 @@ Vue.use(VueHtmlToPaper, options);
 
 
                 axios.post('api/v2/savecontract', {
+                  week: this.week,
                   contract_type: contract_type,
                   base_id: this.user_id ,
                   name_vm: this.productVm.name,
@@ -634,6 +744,7 @@ Vue.use(VueHtmlToPaper, options);
                   end: this.stopContract,
                   end_actually: this.stopContract,
                   price: this.product.price,
+                  balance: this.balance,
                   child_surname: this.dataVm.child_surname,
                   child_name: this.dataVm.child_name,
                   child_middle_name: this.dataVm.child_middle_name,
@@ -684,6 +795,9 @@ Vue.use(VueHtmlToPaper, options);
                 $('#info li:first-child a').tab('show')
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();
+                 this.pay_main = ''
+                     this.pay_artially = ''
+                     this.balance = ''
              },
 
              closeSelectModal(){

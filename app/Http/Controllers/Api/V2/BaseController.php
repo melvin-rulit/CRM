@@ -16,6 +16,8 @@ use App\Http\Resources\GetUserInGroupResource;
 use App\Http\Resources\HallResource;
 use App\Http\Resources\Schedule_hallResource;
 use App\Http\Controllers\Controller;
+use App\KassaOperation;
+use App\KassaOperationType;
 use App\Statuses;
 use Illuminate\Http\Request;
 use App\Filters\UsersFilter;
@@ -999,11 +1001,72 @@ class BaseController extends Controller
 
     public function saveNewPay(Request $request){
 
+        $pay = Contract_pay::where('id' , $request->id)->value('pay');
+
         Contract_pay::where('id', $request->id)->update(
             [
-                'pay' => $request->pay,
+                'pay' => $pay - $request->pay,
             ]
         );
+
+        $balance = Contract::where('id' , $request->contract_id)->value('balance');
+
+
+        Contract::where('id', $request->contract_id)->update(
+            [
+                'balance' => $balance - $request->pay,
+            ]
+        );
+
+    }
+
+    public function saveNewBalance(Request $request){
+
+        $balance = Contract::where('id' , $request->id)->value('balance');
+
+
+        Contract::where('id', $request->id)->update(
+            [
+                'balance' => $balance - $request->balance,
+            ]
+        );
+
+            $base = Base::find($request->base_id);
+
+            // Добавляем вид операции
+            $kassa_operation = KassaOperationType::create(
+                [
+                    'name' => "Платеж " . $base->child_surname . ' ' . mb_substr($base->child_name, 0, 1) . '.' . mb_substr($base->child_middle_name, 0, 1),
+                    'branch_id' => $base->branch,
+                    'coming' => true,
+                    'cash' => true,
+                ]
+            );
+
+            // Добавляем операцию в кассу
+            $kassa_operation = KassaOperation::create(
+                [
+                    'branch_id' => $base->branch,
+                    'user_id' => Auth::id(),
+                    'coming' => true,
+                    'cash' => true,
+                    'operation_type_id' => $kassa_operation->id,
+                    'payment' => true,
+                    'in_or_out' => true,
+                    'sum' => $request->balance,
+                ]
+            );
+
+            // Добавить внесение в кассу
+            $sum = Branch::where('id', $base->branch)->value('sum');
+
+            Branch::where('id', $base->branch)->update(
+                [
+                    'sum' => $sum + $balance,
+                ]
+            );
+
+
     }
 
     public function freezingOff(Request $request){
@@ -1024,6 +1087,8 @@ class BaseController extends Controller
                 $contracts->save();
                 break;
         }
+
+
     }
 
 }

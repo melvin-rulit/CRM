@@ -27,6 +27,8 @@ class ContractForGetInfo extends JsonResource
             'classes_total'       => $this->classes_total,
             'active'              => $this->active,
             'pays'                => PaysResource::collection($this->contract_pays),
+            'price'               => $this->price,
+            'balance'             => $this->balance,
         ];
     }
 }

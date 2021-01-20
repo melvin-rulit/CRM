@@ -105,6 +105,7 @@ class ContractController extends Controller
 		$contract->base_id = $request['base_id'];
 		$contract->name = $request['name_vm'];
 		$contract->price = $request['price'];
+        $contract->balance = $request['price'];
 		$contract->start = Carbon::createFromDate($request['start']);
 		$contract->end = Carbon::createFromDate($request['end']);
 		$contract->end_actually = Carbon::createFromDate($request['end_actually']);
@@ -137,16 +138,34 @@ class ContractController extends Controller
         //        ВЫНЕСТИ В ОТДЕЛЬНЫЙ МЕТОД =========================================================================
 
         $now = Carbon::now();
-        $week = $now->weekday();
+        $week = $now->weekday(); // День в недели
+        $weekOfYear = $now->weekOfYear; // Неделя в году
+
+        $date = new Carbon($request['week']);
+        $week = $date->weekOfYear;
+
+        $dateNew = $date->setISODate($date->year , $week);
 
         $schedule = Schedule_hall::where('group_id', $request['group_id'])->get();
 
 
-
         foreach($schedule as $value){
 
-            // Если сегодняшний день
-            if($value->day === $week){
+            if($week > $weekOfYear){
+                $journal = Journal::create(
+                    [
+                        'base_id' => $request['base_id'],
+                        'day' => $date->addDays($value->day - 1)->day,
+                        'month' => $date->month,
+                        'year' => $date->year,
+                        'icon' => 'fe fe-alert-circle text-warning',
+                        'type' => 4,
+                    ]
+                );
+            }
+
+            // Если сегодняшний день и неделя текущая
+            if($value->day === $week && $weekOfYear == $week){
 
                 $now = Carbon::now();
 
@@ -162,8 +181,8 @@ class ContractController extends Controller
                 );
             }
 
-            // Если день недели больше чем текущий
-            if($value->day > $week){
+            // Если день недели больше чем текущий и неделя текущая
+            if($value->day > $week && $weekOfYear == $week){
 
                 $now = Carbon::now();
 
@@ -180,8 +199,8 @@ class ContractController extends Controller
             }
 
 
-            // Если день недели меньше чем текущий
-            if($value->day < $week){
+            // Если день недели меньше чем текущий и неделя текущая
+            if($value->day < $week && $weekOfYear == $week){
 
                 $itog = 7 - ($week - $value->day);
 
@@ -222,6 +241,7 @@ class ContractController extends Controller
         $contract->parent_instagram = $request['parent_instagram'];
 		$contract->name = $request['name'];
 		$contract->price = $request['price'];
+		$contract->balance = $request['balance'];
 		$contract->start = Carbon::createFromDate($request['start']);
 		$contract->end = Carbon::createFromDate($request['end']);
 		$contract->end_actually = Carbon::createFromDate($request['end_actually']);
@@ -308,5 +328,33 @@ class ContractController extends Controller
                 'sum' => $sum + $pay,
             ]
         );
+    }
+
+    public function test(Request $request){
+
+
+        $date = new Carbon('2021-01-20');
+        $week = $date->weekOfYear;
+        $date->setISODate($date->year , $week);
+
+        $schedule = Schedule_hall::where('group_id', 76)->get();
+
+
+        foreach($schedule as $value) {
+
+            $journal = Journal::create(
+                [
+                    'base_id' => 89,
+                    'day' => $date->addDays($value->day - 1)->day,
+                    'month' => $date->month,
+                    'year' => $date->year,
+                    'icon' => 'fe fe-alert-circle text-warning',
+                    'type' => 4,
+                ]
+            );
+        }
+
+
+
     }
 }
