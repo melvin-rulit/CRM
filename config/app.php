@@ -177,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
     ],
 
     /*
@@ -228,6 +229,7 @@ return [
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
+        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
 
     ],
 

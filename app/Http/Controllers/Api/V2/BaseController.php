@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Contract;
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\GetBaseResource;
 use App\Http\Resources\BranchesResource;
 use App\Http\Resources\CommentsResource;
 use App\Http\Resources\UsersResource;
@@ -34,6 +34,7 @@ use App\Group;
 use App\Schedule_hall;
 use App\Contract_pay;
 use Carbon\Carbon;
+use Gate;
 
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Facades\Auth;
@@ -52,11 +53,7 @@ class BaseController extends Controller
     public function deleteSchedule(Request $request)
     {
 
-        Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->where('time', $request->time)->delete();
-
-        $schedule_hall = Schedule_hall::where('hall_id', $request->hall_id)->where('day', $request->day)->get();
-
-        return Schedule_hallResource::collection($schedule_hall);
+        Schedule_hall::find($request->id)->delete();
     }
 
     public function getGroupInHall(Request $request)
@@ -632,7 +629,14 @@ class BaseController extends Controller
             }
         }
 
-        return BaseAllResource::collection($collection->all());
+        return (BaseAllResource::collection($collection->all()))
+            ->additional([
+                    'can' => [
+                        'base_create'     => Gate::allows('base_create'),
+                    ]
+                ]
+            );
+
     }
 
     public function addNewUser(Request $request){
@@ -691,7 +695,25 @@ class BaseController extends Controller
             }
         }
 
-        return new ArticleResource($base);
+//        return new GetBaseResource($base);
+
+        return (new GetBaseResource($base))
+            ->additional([
+                    'can' => [
+                        'base_history'                  => Gate::allows('base_history'),
+                        'base_contract'                 => Gate::allows('base_contract'),
+                        'base_skils'                    => Gate::allows('base_skils'),
+                        'base_call'                     => Gate::allows('base_call'),
+                        'base_vm'                       => Gate::allows('base_vm'),
+                        'base_main'                     => Gate::allows('base_main'),
+                        'base_edit'                     => Gate::allows('base_edit'),
+                        'base_source'                   => Gate::allows('base_source'),
+                        'base_branch'                   => Gate::allows('base_branch'),
+                        'base_name_and_birthday'        => Gate::allows('base_name_and_birthday'),
+                        'base_pay'                      => Gate::allows('base_pay'),
+                    ]
+                ]
+            );
     }
 
     public function getVmContract(Request $request){

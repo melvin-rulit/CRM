@@ -27,4 +27,5 @@ class BranchResource extends JsonResource
             "halls"             => $this->halls,
         ];
     }
+
 }

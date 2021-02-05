@@ -21,7 +21,9 @@ import Kassa from './components/KassaComponent'
 import KassaSettings from './components/KassaSetingsComponent'
 import Base from './components/BaseComponent'
 import Promoter from './components/PromoterComponent'
-import Guide from './components/GuideComponent'
+import Source from './components/GuideComponent'
+import Warehousegroups from './components/Warehouse/WarehouseGroupsComponent'
+import Warehouse from './components/Warehouse/WarehouseComponent'
 import Testing from './components/TestingComponent'
 
 
@@ -37,8 +39,10 @@ const routes = [
     { path: '/kassa_setings', component: KassaSettings },
     { path: '/base', component: Base },
     { path: '/promoter', component: Promoter },
-    { path: '/guide', component: Guide },
+    { path: '/source', component: Source },
+    { path: '/warehouse', component: Warehouse },
     { path: '/testing', component: Testing },
+    { path: '/warehouse_groups', component: Warehousegroups },
 ]
 
 const router = new VueRouter({
@@ -129,6 +133,11 @@ Vue.component('menu-list', require('./components/Menu/MenuList.vue').default);
 Vue.component('testing-component', require('./components/TestingComponent.vue').default);
 
 Vue.component('chatbox-component', require('./components/ChatboxComponent.vue').default);
+
+Vue.component('add-warehouse-component', require('./components/Warehouse/AddWarehouseComponent.vue').default);
+Vue.component('edit-warehouse-component', require('./components/Warehouse/EditWarehouseComponent.vue').default);
+Vue.component('add-article-component', require('./components/Warehouse/AddArticleComponent.vue').default);
+Vue.component('show-article-component', require('./components/Warehouse/ShowArticleComponent.vue').default);
 
 
 /**

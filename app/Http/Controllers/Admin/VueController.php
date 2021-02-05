@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use App\Log;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\GetBaseResource;
 
 class VueController extends Controller
 {
@@ -39,8 +39,8 @@ class VueController extends Controller
 
         Log::create(array(
              'user_id' => Auth::id(),
-             'channel' => '2', 
-             'level_name' => 'success', 
+             'channel' => '2',
+             'level_name' => 'success',
              'message' => 'изменил поле '.$request['field_name'].' клиента '.$user->id.' на '.$request['field_value'])
         );
 
@@ -48,7 +48,7 @@ class VueController extends Controller
 
 
 
-    	
+
     	$dr = Carbon::createFromDate(1988, 9, 1)->diff(Carbon::now())->format('%y лет, %m месяцев и %d дней');
     	$post = User::find($id);
     	$data = Base::find($id);
@@ -91,7 +91,7 @@ class VueController extends Controller
 // $merged = $data->merge(['price' => 100]);
 
 // return $merged;
-// return $queue;  	
+// return $queue;
 
 // $array = [
 //     "foo" => "bar",

@@ -182,7 +182,7 @@
                         </div>
 
                         <div class="py-3">
-                            <a v-if="productVm" href="#" @click.prevent="showEditPayVMModal">Внести часть оплаты</a><br>
+                            <a v-if="productVm" href="#" @click.prevent="showEditPayVMModal">Оплата</a><br>
                             <span>Внесена часть оплаты на сумму {{ pay_artiallyVM }}</span><br>
                             <span>Остаток {{ balance }}</span><br>
                         </div>
@@ -569,11 +569,6 @@ Vue.use(VueHtmlToPaper, options);
 
         methods: {
 
-            getWeek(){
-
-
-            },
-
             showEditPayModal(){
                 this.$bvModal.show('pay')
             },
@@ -621,7 +616,10 @@ Vue.use(VueHtmlToPaper, options);
             },
 
             getGroup(){
-                axios.post('api/v2/getgroup', {hall_id : this.hall, programm_id: this.programm.id})
+                axios.post('api/v2/getgroup', {
+                    hall_id : this.hall,
+                    programm_id: this.programm.id
+                })
                     .then(response => {
                         this.shedule_hall = response.data.data
                     })
@@ -635,7 +633,10 @@ Vue.use(VueHtmlToPaper, options);
                         this.halls = response.data.data
                     })
 
-                axios.post('api/v2/getProducts', {branch_id : this.dataVm.branch.id, programm_id: this.programm.id})
+                axios.post('api/v2/getProducts', {
+                    branch_id : this.dataVm.branch.id,
+                    programm_id: this.programm.id
+                })
                     .then(response => {this.newProducts = response.data.data})
             },
 
@@ -700,6 +701,8 @@ Vue.use(VueHtmlToPaper, options);
                   name_vm: this.productVm.name,
                   date: this.dataVm.date,
                   price: this.productVm.price,
+                  balance: this.productVm.price - this.pay_artiallyVM,
+                  pay: this.pay_artiallyVM,
                   child_surname: this.dataVm.child_surname,
                   child_name: this.dataVm.child_name,
                   child_middle_name: this.dataVm.child_middle_name,
@@ -744,7 +747,7 @@ Vue.use(VueHtmlToPaper, options);
                   end: this.stopContract,
                   end_actually: this.stopContract,
                   price: this.product.price,
-                  balance: this.balance,
+                  balance: this.balance ? this.balance : this.product.price,
                   child_surname: this.dataVm.child_surname,
                   child_name: this.dataVm.child_name,
                   child_middle_name: this.dataVm.child_middle_name,
@@ -798,12 +801,14 @@ Vue.use(VueHtmlToPaper, options);
                  this.pay_main = ''
                      this.pay_artially = ''
                      this.balance = ''
+                 this.pay_artiallyVM
+
              },
 
-             closeSelectModal(){
-                $(document.body).removeClass("modal-open");
-                $(".modal-backdrop.show").hide();
-             }
+             // closeSelectModal(){
+             //    $(document.body).removeClass("modal-open");
+             //    $(".modal-backdrop.show").hide();
+             // }
         }
 }
 </script>

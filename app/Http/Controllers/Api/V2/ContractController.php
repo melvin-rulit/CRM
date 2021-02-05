@@ -6,8 +6,11 @@ use App\Branch;
 use App\Http\Resources\ContractResource;
 use App\Http\Resources\ContractsResource;
 use App\Http\Resources\ShowContractResource;
+use App\Http\Resources\GatesResource;
 use App\Http\Controllers\Controller;
 use App\Journal;
+use App\User;
+use Gate;
 use App\KassaOperation;
 use App\KassaOperationType;
 use App\Loger;
@@ -25,14 +28,12 @@ class ContractController extends Controller
 
 
     public function editContract(Request $request){
-//        $field_name = $request['field_name']
 
         Contract::where('id', $request->id)->update(
             [
                 $request['field_name'] => $request['field_value'],
             ]
         );
-
     }
 
     public function getContract(Request $request){
@@ -105,7 +106,7 @@ class ContractController extends Controller
 		$contract->base_id = $request['base_id'];
 		$contract->name = $request['name_vm'];
 		$contract->price = $request['price'];
-        $contract->balance = $request['price'];
+        $contract->balance = $request['balance'];
 		$contract->start = Carbon::createFromDate($request['start']);
 		$contract->end = Carbon::createFromDate($request['end']);
 		$contract->end_actually = Carbon::createFromDate($request['end_actually']);
@@ -113,6 +114,24 @@ class ContractController extends Controller
 		$contract->active = true;
         $contract->contract_type = $request['contract_type'];
 		$contract->save();
+
+		// Может быть временным решением, если есть оплата из контракта ВМ то мы создаем этот платеж в кассе
+        // Если ввели часть оплаты то продолжаем
+        if ($request['pay']){
+            $this->saveOperation($request['base_id'], $request['name_vm'], $request['pay']);
+        }
+
+        // И добавляем оплату по контракту
+        $contract_pay = Contract_pay::create(
+            [
+                'contract_id' => $contract->id,
+                'pay' => $request->balance,
+                'day' => 0,
+                'date' => $request['start'],
+            ]
+        );
+
+
 
         //$this->saveOperation($request['base_id'], $request['name_vm'], $request['price']);
 
@@ -221,6 +240,7 @@ class ContractController extends Controller
 
         }
 
+        $this->updateContractDate($contract->id, $request['base_id']);
 
 	}
 
@@ -330,29 +350,67 @@ class ContractController extends Controller
         );
     }
 
+    public function updateContractDate($contract_id, $base_id){
+
+        // Тут может потребоваться проверить условие на дату, так как $journal может вернуть дофига старых записей
+
+        $journal = Journal::where('base_id', $base_id)
+            ->where('type', 4)
+            ->get();
+
+        Contract::where('id', $contract_id)->update(
+            [
+                'start' => Carbon::createFromDate($journal->first()->year, $journal->first()->month,$journal->first()->day)->format('Y-m-d'),
+                'end'   => Carbon::createFromDate($journal->last()->year, $journal->last()->month,$journal->last()->day)->format('Y-m-d'),
+            ]
+        );
+    }
+
+
     public function test(Request $request){
 
+        $users = Base::where('child_surname', 'like', "%Павленко%")->get();
 
-        $date = new Carbon('2021-01-20');
-        $week = $date->weekOfYear;
-        $date->setISODate($date->year , $week);
-
-        $schedule = Schedule_hall::where('group_id', 76)->get();
+        return $users;
 
 
-        foreach($schedule as $value) {
+//        $journal = Journal::where('base_id', 91)
+//            ->get();
+//
+//        return GateResource::collection($journal);
 
-            $journal = Journal::create(
-                [
-                    'base_id' => 89,
-                    'day' => $date->addDays($value->day - 1)->day,
-                    'month' => $date->month,
-                    'year' => $date->year,
-                    'icon' => 'fe fe-alert-circle text-warning',
-                    'type' => 4,
-                ]
-            );
-        }
+//        $this->updateContractDate(119, 35);
+
+
+//        $journal = Journal::where('base_id', 102)
+//            ->where('type', 4)
+//            ->get();
+
+//        $journal->first();
+
+//        return $journal;
+
+
+//        $date = new Carbon('2021-01-20');
+//        $week = $date->weekOfYear;
+//        $date->setISODate($date->year , $week);
+//
+//        $schedule = Schedule_hall::where('group_id', 76)->get();
+//
+//
+//        foreach($schedule as $value) {
+//
+//            $journal = Journal::create(
+//                [
+//                    'base_id' => 89,
+//                    'day' => $date->addDays($value->day - 1)->day,
+//                    'month' => $date->month,
+//                    'year' => $date->year,
+//                    'icon' => 'fe fe-alert-circle text-warning',
+//                    'type' => 4,
+//                ]
+//            );
+//        }
 
 
 

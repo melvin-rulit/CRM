@@ -2,7 +2,7 @@
 <template>
     <div>
 
-        <base-modal-component @get-method="fetchArticles" ref="showmoda"></base-modal-component>
+        <base-modal-component @get-method="fetchArticles" ref="showmoda" :can="can"></base-modal-component>
         <add-new-base-component @get-method="newMethod" ref="showmodal"></add-new-base-component>
 
         <!-- Панель над фильтром -->
@@ -15,7 +15,7 @@
                             </div>
                             <div class="col-auto">
                                 <button class="btn btn-sm btn-info" @click="showCollapse(), filter = !filter">Фильтр</button>
-                                <button class="btn btn-sm btn-success" @click="ShowNewUser">Добавить клиента</button>
+                                <button v-if="can.base_create" class="btn btn-sm btn-success" @click="ShowNewUser">Добавить клиента</button>
                             </div>
                         </div>
                     </div>
@@ -188,6 +188,7 @@
     export default {
         data() {
             return{
+                can: [],
                 sortBy: 'child_surname',
                 sortDesc: false,
                 fields: [
@@ -232,10 +233,9 @@
         beforeRouteEnter (to, from, next) {
             axios.get('api/v2/collection')
                 .then(response => {
-                    next(vm => (vm.articles = response.data.data) )
+                    next(vm => (vm.articles = response.data.data, vm.can = response.data.can) )
                 })
         },
-
 
         methods: {
 
@@ -250,7 +250,7 @@
                         surname: this.surname,
                         name: this.name,
                         birthday: this.birthday,
-                        phone: this.phone,
+                        // phone: this.phone,
                     }
                 })
                     .then(response => {

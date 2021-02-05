@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\SourceGroup;
 use App\Http\Resources\SourceGroupsResource;
+use Gate;
 
 class SourceGroupController extends Controller
 {
@@ -16,7 +17,15 @@ class SourceGroupController extends Controller
      */
     public function index()
     {
-        return SourceGroupsResource::collection(SourceGroup::all());
+
+        return (SourceGroupsResource::collection(SourceGroup::all()))
+            ->additional([
+                    'can' => [
+                        'source_create'       => Gate::allows('source_create'),
+                        'source_edit'         => Gate::allows('source_edit'),
+                    ]
+                ]
+            );
     }
 
     /**

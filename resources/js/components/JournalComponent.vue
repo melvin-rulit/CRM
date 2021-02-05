@@ -1,12 +1,11 @@
 <template>
     <div>
-
         <base-modal-component ref="showmoda"></base-modal-component>
         <vue-context ref="menu">
-            <li><a href="#" @click.prevent="workout()"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
+            <li><a href="#" @click.prevent="workout()" v-if="gates.can.journal_visit"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
             <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
-            <li><a href="#" @click.prevent="notVisit()"><i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a></li>
-            <li><a href="#" @click.prevent="newWorkout()"><i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Тренировка</a></li>
+            <li><a href="#" @click.prevent="notVisit()" v-if="gates.can.journal_not_visit"><i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a></li>
+            <li><a href="#" @click.prevent="newWorkout()" v-if="gates.can.journal_pk"><i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Тренировка</a></li>
             <li><a href="#" v-b-modal="'addNewCommentGetModal'"><i class="fe fe-message-circle text-primary ml-1 mr-3"></i>Комментарий</a></li>
             <li><a href="#" v-b-modal="'showHistory'" @click.prevent="getHistory()"><i class="fe fe-menu text-primary ml-1 mr-3"></i>Смотреть историю</a></li>
         </vue-context>
@@ -249,8 +248,8 @@
                                                     <div class="col-md-1">
                                                         <b-badge pill variant="primary">{{ schedul.children_count }}</b-badge>
                                                     </div>
-                                                    <div class="col-md-1">
-                                                        <a href="#" @click.prevent="deleteSchedule(schedul.time)">
+                                                    <div class="col-md-1" v-if="gates.can.journal_chart_delete">
+                                                        <a href="#" @click.prevent="deleteSchedule(schedul.id)">
                                                             <i class="fe fe-trash-2 text-danger ml-1 mr-3"></i>
                                                         </a>
                                                     </div>
@@ -301,7 +300,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <b-button v-if="!isAdd && selectDayInModalXl" size="sm" variant="primary" class="mt-2" @click="addSchedule">Добавить</b-button>
+                            <b-button v-if="!isAdd && selectDayInModalXl && gates.can.journal_chart_add" size="sm" variant="primary" class="mt-2" @click="addSchedule">Добавить</b-button>
                         </div>
                     </div>
                 </div>
@@ -418,6 +417,7 @@
         },
         data() {
             return {
+                gates: [],
                 text_color: '',
                 colors,
                 selectedUsers: [],
@@ -526,6 +526,9 @@
 
         created() {
 
+            axios.get('api/v2/getGates')
+                .then(response => this.gates = response.data)
+
             this.getHalls();
 
             // Получаем глобально значение дня, месяца и года
@@ -627,15 +630,16 @@
                 this.timeCurrent = curr
             },
 
-            deleteSchedule(time){
+            deleteSchedule(id){
                 // this.$alert("Вы уверены что хотите удалить группу из расписания ?")
 
                 axios.post('api/v2/deleteSchedule', {
-                    hall_id: this.hall_id,
-                    day: this.selectDayInModalXl.id,
-                    time: time
+                    id: id,
                 })
-                    .then(response => this.schedule = response.data.data)
+
+                this.schedule =  this.schedule.filter(item => item.id != id);
+
+                return this.schedule
             },
 
             addSchedule(){
@@ -1014,7 +1018,6 @@
             },
 
             handleOk(bvModalEvt) {
-
                 axios.post('api/v2/getPkProgramm', {id: this.group_id})
                     .then(response => this.group_pk = response.data)
 
@@ -1042,6 +1045,10 @@
 
                     if (this.child.group_id) {
                         this.$confirm("Клиент уже состоит в группе " + this.child.group.name + " вы уверены что хотите переместить в группу " + this.namegroup).then(() => {
+                            if (!gates.can.journal_transfer_group){
+                                Vue.$toast.open({message: 'Нет прав для перевода в другую группу',type: 'error',duration: 2000,position: 'top-right'});
+                                return null
+                            }
                             axios.post('api/v2/saveClientInGroup', {id: this.child.id, group_id: this.group_id})
                             this.getHallAtributes(this.hall_id, this.calendar)
                             Vue.$toast.open({message: 'Клиент успешно добавлен',type: 'success',duration: 1000,position: 'top-right'});

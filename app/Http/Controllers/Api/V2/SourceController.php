@@ -6,12 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\SourceResource;
 use App\Source;
 use Illuminate\Http\Request;
+use Gate;
 
 class SourceController extends Controller
 {
     public function index(){
 
-        return SourceResource::collection(Source::all());
+        return (SourceResource::collection(Source::all()))
+            ->additional([
+                    'can' => [
+                        'source_create'       => Gate::allows('source_create'),
+                        'source_edit'         => Gate::allows('source_edit'),
+                    ]
+                ]
+            );
     }
 
     public function store(Request $request)

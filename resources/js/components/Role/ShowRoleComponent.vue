@@ -12,6 +12,7 @@
                                     <td><input-form
                                         v-model="role.name"
                                         name="title"
+                                        :gate="can.role_edit"
                                         @edit-field="editField">
                                     </input-form>
                                     </td>
@@ -34,7 +35,7 @@
                                             selectedLabel="Выбран"
                                         ></multiselect>
                                         <hr class="navbar-divider my-3">
-                                        <div class="mt-3">
+                                        <div class="mt-3" v-if="can.role_edit">
                                             <button
                                                 @click="editPermissions"
                                                 :disabled="showEditPermissions"
@@ -71,6 +72,10 @@
                 permissions: [],
                 showEditPermissions: false,
             }
+        },
+
+        props: {
+            can: {}
         },
 
         computed: {

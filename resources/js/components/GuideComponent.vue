@@ -1,10 +1,8 @@
 <template>
     <div>
-
         <b-modal id="coming" title="Новая операция" @ok="handleSubmit" @hidden="resetModal" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
                 <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
-
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Наименование</label>
                         <div class="col-sm-9">
@@ -52,7 +50,7 @@
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <button v-b-modal="'coming'" @click="getGroupsInSource" class="btn btn-sm btn-success">Добавить источник</button>
+                                            <button v-if="can.source_create" v-b-modal="'coming'" @click="getGroupsInSource" class="btn btn-sm btn-success">Добавить источник</button>
                                         </div>
                                         <div class="col-auto">
 <!--                                            <button class="btn btn-sm btn-info">Фильтр</button>-->
@@ -96,7 +94,7 @@
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <button v-b-modal="'group'" class="btn btn-sm btn-success">Добавить группу</button>
+                                            <button v-if="can.source_create" v-b-modal="'group'" class="btn btn-sm btn-success">Добавить группу</button>
                                         </div>
                                     </div>
                                 </div>
@@ -158,6 +156,7 @@
     export default {
         data() {
             return{
+                can: '',
                 edit_group: '',
                 edit_source: '',
                 gr: '',
@@ -196,9 +195,11 @@
         methods: {
 
             editSource(index){
-                this.$bvModal.show('editSourceModal')
-                this.edit_source = index
-                this.getAllGroups()
+                if (this.can.source_edit) {
+                    this.$bvModal.show('editSourceModal')
+                    this.edit_source = index
+                    this.getAllGroups()
+                }
             },
 
             updateSource(){
@@ -220,8 +221,10 @@
             },
 
             editGroup(index){
-                this.$bvModal.show('editGroupModal')
-                this.edit_source = index
+                if (this.can.source_edit){
+                    this.$bvModal.show('editGroupModal')
+                    this.edit_source = index
+                }
             },
 
             resetEditGroupModal(){
@@ -284,12 +287,12 @@
 
             getSource(){
                 axios.get('api/v2/source')
-                    .then(response => this.sourcess = response.data.data)
+                    .then(response => {this.sourcess = response.data.data, this.can = response.data.can})
             },
 
             getAllGroups(){
                 axios.get('api/v2/sourceGroups')
-                    .then(response => this.groups = response.data.data)
+                    .then(response => {this.groups = response.data.data, this.can = response.data.can})
             }
 
         }

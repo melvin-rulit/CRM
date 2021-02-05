@@ -111,6 +111,27 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('showUserAccess', 'UserAccessController@showUserAccess');
     Route::post('saveUserAccess', 'UserAccessController@saveUserAccess');
 
+    // Warehouse
+    Route::apiResource('warehouses', 'WarehouseController');
+    Route::post('getBranchesWarehouse', 'WarehouseController@getBranches');
+    Route::get('getRegionsWarehouse', 'WarehouseController@getRegions');
+    Route::post('getUsersWarehouse', 'WarehouseController@getUsers');
+
+    // Article
+    Route::apiResource('article', 'ArticleController');
+    Route::post('getArticleInGroup', 'ArticleController@getArticleInGroup');
+    Route::post('addQuantity', 'ArticleController@addQuantity');
+
+    //WarehouseArticle
+    Route::apiResource('warehouse_article', 'WarehouseArticleController');
+    Route::post('showWarehouseArticle', 'WarehouseArticleController@showWarehouseArticle');
+
+    // ArticleGroups
+    Route::apiResource('article_groups', 'ArticleGroupController');
+
+    // Suppliers
+    Route::apiResource('suppliers', 'SupplierController');
+
     // Users
     Route::apiResource('users', 'UserController');
     Route::get('getatributes', 'UserController@getAtributes');
@@ -120,6 +141,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::get('getAllRoles', 'UserController@getAllRoles');
     Route::post('saveBranches', 'UserController@saveBranches');
     Route::post('saveRoles', 'UserController@saveRoles');
+    Route::get('getGates', 'UserController@getGates');
 
 
     Route::post('addClientInGroup', 'BaseController@addClientInGroup');

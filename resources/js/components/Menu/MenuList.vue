@@ -55,10 +55,9 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="fe fe-git-branch"></i> Склад
-                </a>
+                <router-link to="/warehouse" class="nav-link"><i class="fe fe-git-branch"></i>Склад</router-link>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="/">
                     <i class="fe fe-book-open"></i>Уведомления<span class="badge badge-primary ml-auto">12</span>
@@ -90,8 +89,26 @@
                     <i class="fe fe-settings"></i>Настройки
                 </a>
             </li>
+
             <li class="nav-item">
-                <router-link to="/guide" class="nav-link"><i class="fe fe-clipboard"></i>Справочник</router-link>
+                <a class="nav-link collapsed"
+                   href="#guide"
+                   data-toggle="collapse"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="sidebarDashboards">
+                    <i class="fe fe-dollar-sign"></i>Справочник
+                </a>
+                <div class="collapse" id="guide" style="">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <router-link to="/source" class="nav-link"><i class="fe fe-git-branch"></i> Источники</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/warehouse_groups" class="nav-link"><i class="fe fe-git-branch"></i> Склады и позиции</router-link>
+                        </li>
+                    </ul>
+                </div>
             </li>
         </ul>
 

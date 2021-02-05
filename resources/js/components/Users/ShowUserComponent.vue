@@ -29,7 +29,7 @@
                         <b-button block squared class="mt-3">Информация</b-button>
                         <b-button block squared disabled variant="outline-secondary">Карьера</b-button>
                         <b-button @click="history" disabled block squared variant="outline-secondary">История действий</b-button>
-                        <b-button block squared variant="danger" @click="deleteuser">Удалить</b-button>
+                        <b-button v-if="can.user_delete" block squared variant="danger" @click="deleteuser">Удалить</b-button>
                     </div>
                     <div class="col-md-8">
 
@@ -145,7 +145,7 @@
                                             selectedLabel="Выбран"
                                         ></multiselect>
                                         <hr class="navbar-divider my-3">
-                                        <div class="mt-3">
+                                        <div class="mt-3" v-if="can.user_branch">
                                             <button
                                                 @click="editBranch"
                                                 :disabled="showEditBranch"
@@ -175,7 +175,7 @@
                                             selectedLabel="Выбран"
                                         ></multiselect>
                                         <hr class="navbar-divider my-3">
-                                        <div class="mt-3">
+                                        <div class="mt-3" v-if="can.user_role">
                                             <button
                                                 @click="editRole"
                                                 :disabled="showEditRole"
@@ -217,6 +217,7 @@
         components: { Multiselect },
         data() {
             return {
+                can: '',
                 arrays: ["1", "2", "3"],
                 showEditBranch: false,
                 showEditRole: false,
@@ -252,6 +253,10 @@
                 sortBy: 'created_at',
                 sortDesc: true,
             }
+        },
+
+        props: {
+            can: {}
         },
 
         computed: {

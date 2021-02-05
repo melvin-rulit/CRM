@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Branch;
 use App\Role;
+use Gate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use App\Http\Resources\UsersAllResource;
 use App\Http\Resources\GetUser;
 use App\Http\Resources\GetBranchAndRolesUser;
 use App\Http\Resources\UserHistory;
+use App\Http\Resources\GatesResource;
 use App\User;
 use App\Loger;
 
@@ -40,7 +42,17 @@ class UserController extends Controller
             return $item->id > 1;
         })->unique('id');
 
-        return UsersAllResource::collection($result);
+
+        return (UsersAllResource::collection($result))
+            ->additional([
+                'can' => [
+                    'user_show'     => Gate::allows('user_show'),
+                    'user_branch'   => Gate::allows('user_branch'),
+                    'user_create'   => Gate::allows('user_create'),
+                    'user_role'     => Gate::allows('user_role'),
+                    ]
+                ]
+        );
     }
 
     /**
@@ -172,5 +184,20 @@ class UserController extends Controller
         $user = User::find($request->user_id);
 
         $user->roles()->sync($request->roles);
+    }
+
+
+    public function getGates(){
+
+        return [
+            'can' => [
+                'journal_pk'                => Gate::allows('journal_pk'),
+                'journal_not_visit'         => Gate::allows('journal_not_visit'),
+                'journal_visit'             => Gate::allows('journal_visit'),
+                'journal_chart_add'         => Gate::allows('journal_chart_add'),
+                'journal_chart_delete'      => Gate::allows('journal_chart_delete'),
+                'journal_transfer_group'    => Gate::allows('journal_transfer_group'),
+            ]
+        ];
     }
 }

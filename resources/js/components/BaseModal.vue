@@ -38,6 +38,7 @@
                                 <input-form
                                     v-model="dataObject.attributes.child_surname"
                                     name="child_surname"
+                                    :gate="can.base_edit"
                                     @edit-field="editField">
                                 </input-form>
                             </h4>
@@ -45,6 +46,7 @@
                                 <input-form
                                     v-model="dataObject.attributes.child_name"
                                     name="child_name"
+                                    :gate="can.base_name_and_birthday"
                                     @edit-field="editField">
                                 </input-form>
                             </h4>
@@ -52,6 +54,7 @@
                                 <input-form
                                     v-model="dataObject.attributes.child_middle_name"
                                     name="child_middle_name"
+                                    :gate="can.base_edit"
                                     @edit-field="editField">
                                 </input-form>
                             </h4>
@@ -68,6 +71,7 @@
                                 <input-form
                                     v-model="dataObject.attributes.child_birthday"
                                     name="child_birthday"
+                                    :gate="can.base_name_and_birthday"
                                     datePicker="true"
                                     @edit-field="editField">
                                 </input-form>
@@ -118,11 +122,16 @@
                                     class="text-dark">( {{ getWeekDay(schedule_hall.day) }} - {{ schedule_hall.time }}:00 )</span>
                             </h5>
 
-                            <h6 class="text-uppercase text-muted mb-2 mt-4">
+
+
+                            <h6 v-if="can.base_branch" class="text-uppercase text-muted mb-2 mt-4">
                                 <a v-show="!showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch}}</a>
                                 <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>
                                 <a v-if="dataObject.base_branch.name" href="#" @click.prevent="saveBranch" v-show="showBranch" class="fe fe-save h3 text-success"></a>
                             </h6>
+
+                            <h6 v-else class="text-uppercase text-muted mb-2 mt-4">{{dataObject.base_branch}}</h6>
+
                             <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">
                                 <option v-for="branch in branches" v-bind:value="branch">{{ branch.name }}</option>
                             </select>
@@ -144,11 +153,16 @@
                                 @input="changeCallDate">
                             </date-picker>
 
-                            <select class="form-control mb-3" @change="changeCallStatus($event)">
+                            <select v-if="can.base_call" class="form-control mb-3" @change="changeCallStatus($event)">
                                 <option v-if="dataObject.call_status == null" value=""></option>
                                 <option :selected="dataObject.call_status === 0"" value="0">Не дозвон</option>
                                 <option :selected="dataObject.call_status === 1"" value="1">Дозвон</option>
                             </select>
+
+                            <h4 class="text-center mb-3" v-if="!can.base_call">
+                                <span v-if="dataObject.call_status === 0">Не дозвон</span>
+                                <span v-if="dataObject.call_status === 1">Дозвон</span>
+                            </h4>
 
                             <h4 class="text-center mb-3">Статус - <span :style="{ color: dataObject.status_color }">{{ dataObject.status }}</span></h4>
 
@@ -601,7 +615,7 @@
                         </div>
                     </div>
                 </b-tab>
-                <b-tab title="Контракт">
+                <b-tab v-if="can.base_contract" title="Контракт">
                     <div class="card-body pb-0 pt-3 fix-height">
                         <div class="row">
                             <div class="col-md-6 border-bottom">
@@ -616,8 +630,8 @@
                             <div class="col-md-6 border-bottom">
                                 <div class="row">
                                     <div class="center mb-3">
-                                        <button @click="getContractMain" class="btn btn-sm btn-success">Добавить контракт</button>
-                                        <button @click="getContractVm" class="btn btn-sm btn-warning">Добавить контракт ВМ</button>
+                                        <button v-if="can.base_main" @click="getContractMain" class="btn btn-sm btn-success">Добавить контракт</button>
+                                        <button v-if="can.base_vm" @click="getContractVm" class="btn btn-sm btn-warning">Добавить контракт ВМ</button>
                                     </div>
                                 </div>
                             </div>
@@ -684,7 +698,10 @@
                                                 <span class="ml-2">{{ activeContract.price }} ({{ activeContract.balance }})</span>
                                             </p>
 
-                                            <button class="btn btn-sm btn-success" v-b-modal.pay_contract>Оплатить</button>
+                                            <button
+                                                v-if="can.base_pay"
+                                                class="btn btn-sm btn-success"
+                                                v-b-modal.pay_contract>Оплатить</button>
 
                                             <button
                                                 v-for="item in free"
@@ -739,7 +756,8 @@
                                 </div>
 
                                 <h5 class="text-muted mb-2">Источник:
-                                    <a href="#" @click.prevent="showSourceClick()" class="text-dark">{{ dataObject.attributes.source }}</a>
+                                    <a href="#" @click.prevent="showSourceClick()" v-if="can.base_source" class="text-dark">{{ dataObject.attributes.source }}</a>
+                                    <span v-else class="text-dark">{{ dataObject.attributes.source }}</span>
                                 </h5>
 
                                 <dynamic-select
@@ -766,7 +784,7 @@
                         </div>
                     </div>
                 </b-tab>
-                <b-tab title="История" @click="getLog()">
+                <b-tab v-if="can.base_history" title="История" @click="getLog()">
                     <div class="card mt-3 fix-height">
                         <div class="card-body">
                             <p v-if="comments" v-for="comment in comments" :key="comment.id" class="mb-2">
@@ -778,7 +796,7 @@
                 <b-tab title="Интересы">
                     <p class="fix-height"></p>
                 </b-tab>
-                <b-tab title="Навыки">
+                <b-tab v-if="can.base_skils" title="Навыки">
                     <p class="fix-height"></p>
                 </b-tab>
             </b-tabs>
@@ -831,6 +849,7 @@
         },
         data() {
             return{
+                can: '',
                 comment: '',
                 fullPage: true,
                 call_date: '',
@@ -919,12 +938,7 @@
                 required,
             }
         },
-        created(){
-            // this.fetchArticles();
-            // axios.post('api/v2/getinfo', {id : this.user_id}).then(response => {
-            //     this.dataObject = response.data.data
-            // })
-        },
+
         mounted(){
             $('#addNew').on('hide.bs.modal', () => this.closeModalView())
         },
@@ -985,6 +999,7 @@
                         this.$alert(`В данный момент с карточкой работает пользователь ${response.data.user_block_name}`)
                     }else{
                         this.dataObject = response.data.data
+                        this.can = response.data.can
                         this.$bvModal.show('userShow')
                     }
                 })

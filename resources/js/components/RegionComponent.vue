@@ -9,7 +9,7 @@
                         <h4 class="card-header-title">Регионы и филиалы</h4>
                     </div>
                     <div class="col-auto">
-                        <button v-if="canupdate" class="btn btn-sm btn-success" data-toggle="modal" data-target="#addNewRegion">Добавить регион</button>
+                        <button v-if="can.region_create" class="btn btn-sm btn-success" data-toggle="modal" data-target="#addNewRegion">Добавить регион</button>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">Карточка филиала {{ branch.name }}</h4>
-<!--                <span>Удалить филиал <a href="#" class="fe fe-trash-2 h3 text-danger ml-3 mb-0" @click.prevent="deleteBranch(branch.id)"></a></span>-->
+                <span v-if="can.branch_edit">Удалить филиал <a href="#" class="fe fe-trash-2 h3 text-danger ml-3 mb-0" @click.prevent="deleteBranch(branch.id)"></a></span>
                 <button type="button" class="close p-0 m-0" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fe fe-x h2"></i></span>
                 </button>
@@ -89,6 +89,7 @@
                                     v-model="branch.name"
                                     name="name"
                                     :id="branch.id"
+                                    :gate="can.branch_edit"
                                     @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
@@ -99,6 +100,7 @@
                                     v-model="branch.geolocation"
                                     name="geolocation"
                                     :id="branch.id"
+                                    :gate="can.branch_edit"
                                     @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
@@ -109,6 +111,7 @@
                                     v-model="branch.adress"
                                     name="adress"
                                     :id="branch.id"
+                                    :gate="can.branch_edit"
                                     @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
@@ -121,6 +124,7 @@
                                     placeholder="+38 (926) 123-45-67"
                                     mask="+## (###) ###-##-##"
                                     :id="branch.id"
+                                    :gate="can.branch_edit"
                                     @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
@@ -129,14 +133,25 @@
                     <div class="col-md-6">
                         <p>Реквизиты:
                             <span class="card-text text-muted mb-1 ml-2">
-                                <input-form v-model="branch.requisites" name="requisites" textarea="true" :id="branch.id" @edit-field="editFieldBranch">
+                                <input-form
+                                    v-model="branch.requisites"
+                                    name="requisites"
+                                    textarea="true"
+                                    :id="branch.id"
+                                    :gate="can.branch_edit"
+                                    @edit-field="editFieldBranch">
                                 </input-form>
                             </span>
                         </p>
                         <div class="form-group row">
                             <label class="col-sm-5 col-form-label">Валюта филиала:</label>
                             <div class="col-sm-3">
-                                <select class="form-control" v-model="branch.currency" @change="editBranchCurrency(branch.id, branch.currency)">
+                                <span v-if="!can.branch_edit">{{ branch.currency }}</span>
+                                <select
+                                    v-if="can.branch_edit"
+                                    class="form-control"
+                                    v-model="branch.currency"
+                                    @change="editBranchCurrency(branch.id, branch.currency)">
                                     <option>руб</option>
                                     <option>грн</option>
                                 </select>
@@ -455,7 +470,12 @@
                             <thead>
                                 <tr>
                                     <th>Название</th>
-                                    <th v-show="buttonAddHall" class="text-center bg-success bp" @click="addRowHall(branch.id), buttonAddHall = !buttonAddHall"><span class="fe fe-plus h3 text-white"></span></th>
+                                    <th
+                                        v-show="buttonAddHall && can.branch_hall"
+                                        class="text-center bg-success bp"
+                                        @click="addRowHall(branch.id), buttonAddHall = !buttonAddHall">
+                                        <span class="fe fe-plus h3 text-white"></span>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody v-for="(hall, int) in branch.halls">
@@ -465,6 +485,7 @@
                                             v-model="hall.name"
                                             name="name"
                                             :id="hall.id"
+                                            :gate="can.branch_hall"
                                             @edit-field="editFieldHall">
                                         </input-form>
                                     </td>
@@ -472,7 +493,11 @@
                                         <span class="fe fe-save h3 text-success"></span>
                                     </td>
                                     <td class="text-center" v-else="">
-                                        <span class="fe fe-trash-2 h3 text-danger" @click="removeRowHall(int, hall.id, hall.name)"></span>
+                                        <span
+                                            v-if="can.branch_hall"
+                                            class="fe fe-trash-2 h3 text-danger"
+                                            @click="removeRowHall(int, hall.id, hall.name)">
+                                        </span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -486,7 +511,7 @@
 
 
 <div class="row flex-nowrap test">
-    <div class="col-4 col-lg-4" v-for="region in regions">
+    <div class="col-4 col-lg-4" v-for="region in regions.data">
         <div class="card">
             <div class="card-header">
                 <div class="row align-items-center">
@@ -494,7 +519,11 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="card card-sm mb-2 pointer" v-for="branch in region.branches" data-toggle="modal" data-target="#getbranch" @click="getBranch(branch.id)">
+                <div class="card card-sm mb-2 pointer"
+                     v-for="branch in region.branches"
+                     data-toggle="modal"
+                     data-target="#getbranch"
+                     @click="getBranch(branch.id)">
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-12 col-md">
@@ -504,7 +533,10 @@
                     </div>
                 </div>
                 <div class="text-center pt-2">
-                    <button class="btn btn-sm btn-success center-block" @click="getModalBranch(region.id)">Добавить филиал</button>
+                    <button
+                        v-if="can.branch_create"
+                        class="btn btn-sm btn-success center-block"
+                        @click="getModalBranch(region.id)">Добавить филиал</button>
                 </div>
             </div>
         </div>
@@ -536,6 +568,7 @@
     	  },
 		data() {
             return{
+                can: '',
                 checkbox: {
                     coming: '',
                     out: '',
@@ -587,7 +620,7 @@
         beforeRouteEnter (to, from, next) {
             axios.get('api/v2/regions')
                 .then(response => {
-                    next(vm => (vm.regions = response.data.data) )
+                    next(vm => (vm.regions = response.data, vm.can = response.data.can) )
                 })
         },
 
@@ -802,7 +835,7 @@
         	},
         	getRegions(){
         		axios.get('api/v2/regions')
-                .then(response => this.regions = response.data.data)
+                .then(response => this.regions = response.data)
         	},
         	addNewRegion(){
         		$('#addNewRegion').modal('hide');
@@ -836,10 +869,10 @@
         	},
             deleteBranch(id){
                 this.$confirm("Удалить филиал с продуктами и оплатами ? ").then(() => {
-                    axios.delete('api/v2/branches/'+ id);
+                    // axios.delete('api/v2/branches/'+ id);
                 $('#getbranch').modal('hide');
                 setTimeout(() => {
-                        Vue.$toast.open({message: 'Филиал успешно удален',type: 'success',duration: 5000,position: 'top-right'
+                        Vue.$toast.open({message: 'Нельзя так просто удалить филиал',type: 'success',duration: 5000,position: 'top-right'
                     });
                 }, 500)
                 this.getRegions();

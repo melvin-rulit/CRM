@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\RegionResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Region;
+use Gate;
 
 class RegionController extends Controller
 {
@@ -17,7 +18,20 @@ class RegionController extends Controller
      */
     public function index()
     {
-        return RegionResource::collection(Region::with(['branches'])->get());
+
+        return (RegionResource::collection(Region::with(['branches'])->get()))
+            ->additional([
+                    'can' => [
+                        'region_create'     => Gate::allows('region_create'),
+                        'region_edit'       => Gate::allows('region_edit'),
+                        'region_delete'     => Gate::allows('region_delete'),
+                        'branch_create'     => Gate::allows('branch_create'),
+                        'branch_edit'       => Gate::allows('branch_edit'),
+                        'branch_hall'       => Gate::allows('branch_hall'),
+                        'branch_delete'     => Gate::allows('branch_delete'),
+                    ]
+                ]
+            );
     }
 
     /**

@@ -41,6 +41,7 @@ class UsersFilter
     public function surname($value){
 
         $this->builder->where('child_surname', 'like', "%$value%");
+
     }
 
     // Фильтруем по дню рождении

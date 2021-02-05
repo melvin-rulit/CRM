@@ -10,6 +10,8 @@ class Contract_pay extends Model
         'contract_id',
         'name',
         'start',
+        'pay',
+        'day',
     ];
 
 

@@ -16,4 +16,5 @@ class SourceGroupsResource extends JsonResource
     {
         return parent::toArray($request);
     }
+
 }

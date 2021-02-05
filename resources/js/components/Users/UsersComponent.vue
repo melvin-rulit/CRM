@@ -1,8 +1,7 @@
 <template>
     <div>
-        <addnewuser-component @get-method="fetch" v-if="add"></addnewuser-component>
-        <showuser-component @get-method="fetch" ref="getmodal"></showuser-component>
-
+        <addnewuser-component @get-method="fetch" v-if="can.user_create"></addnewuser-component>
+        <showuser-component :can="can" @get-method="fetch" ref="getmodal"></showuser-component>
 
         <div class="card">
             <div class="card-body pb-0">
@@ -29,6 +28,7 @@
         data() {
             return {
                 users: [],
+                can: [],
                 add: true,
                 sortBy: 'id',
                 sortDesc: false,
@@ -60,17 +60,15 @@
         beforeRouteEnter (to, from, next) {
             axios.get('api/v2/users')
                 .then(response => {
-                    next(vm => (vm.users = response.data.data) )
+                    next(vm => (vm.users = response.data.data, vm.can = response.data.can) )
                 })
-        },
-
-        mounted() {
-            // this.fetch();
         },
 
         methods: {
             getShowModal(index){
-                this.$refs.getmodal.addNewUserModal(index.id)
+                if (this.can.user_show){
+                    this.$refs.getmodal.addNewUserModal(index.id)
+                }
             },
             fetch() {
                 axios.get(`api/v2/users`)

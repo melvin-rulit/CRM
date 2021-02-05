@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseAllResource;
 use App\Http\Resources\KassaOperationTypeAllResource;
 use App\User;
+use Gate;
 use Illuminate\Http\Request;
 use App\KassaOperationType;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,15 @@ class OperationTypeController extends Controller
             }
         }
 
-        return KassaOperationTypeAllResource::collection($collection->all());
+//        return KassaOperationTypeAllResource::collection($collection->all());
+
+        return (KassaOperationTypeAllResource::collection($collection->all()))
+            ->additional([
+                    'can' => [
+                        'kassa_add_operation_type'      => Gate::allows('kassa_add_operation_type'),
+                    ]
+                ]
+            );
     }
 
     /**

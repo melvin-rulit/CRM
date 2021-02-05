@@ -1,7 +1,7 @@
 <template>
     <div>
-        <showrole-component @get-method="getAllRoles" ref="showRole"></showrole-component>
-        <addnewrole-component  @get-method="getAllRoles"></addnewrole-component>
+        <showrole-component @get-method="getAllRoles" ref="showRole" :can="can"></showrole-component>
+        <addnewrole-component  @get-method="getAllRoles" v-if="can.role_create"></addnewrole-component>
 
         <div class="card">
             <div class="card-body pb-0">
@@ -30,6 +30,7 @@
         data() {
             return {
                 roles: {},
+                can: '',
                 add: true,
                 sortBy: 'id',
                 sortDesc: false,
@@ -53,7 +54,7 @@
         beforeRouteEnter (to, from, next) {
             axios.get('api/v2/roles')
                 .then(response => {
-                    next(vm => (vm.roles = response.data.data) )
+                    next(vm => (vm.roles = response.data.data, vm.can = response.data.can) )
                 })
         },
 

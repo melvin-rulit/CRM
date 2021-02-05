@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Base;
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\GetBaseResource;
 
 class ApiController extends Controller
 {
@@ -49,7 +49,7 @@ class ApiController extends Controller
     public function show(Request $request)
     {
         $base = Base::find($request['id']);
-        return new ArticleResource($base);
+        return new GetBaseResource($base);
     }
 
     /**

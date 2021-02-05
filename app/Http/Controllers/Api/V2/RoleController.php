@@ -9,6 +9,7 @@ use App\Http\Resources\ShowRoleResource;
 use App\Permission;
 use Illuminate\Http\Request;
 use App\Role;
+use Gate;
 
 class RoleController extends Controller
 {
@@ -21,8 +22,15 @@ class RoleController extends Controller
     {
         $roles = Role::where('id', '>', 1)->get();
 
-        return RolesAllResource::collection($roles);
 
+        return (RolesAllResource::collection($roles))
+            ->additional([
+                    'can' => [
+                        'role_create'       => Gate::allows('role_create'),
+                        'role_edit'         => Gate::allows('role_edit'),
+                    ]
+                ]
+            );
     }
 
     /**

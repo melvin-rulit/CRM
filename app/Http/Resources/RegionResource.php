@@ -3,9 +3,11 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Gate;
 
 class RegionResource extends JsonResource
 {
+
     public function toArray($request)
     {
         return [
@@ -14,4 +16,5 @@ class RegionResource extends JsonResource
             'branches'      => $this->branches->map->only('id', 'name'),
         ];
     }
+
 }

@@ -82,7 +82,11 @@
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <button v-b-modal="'coming'" @click="getBranches" class="btn btn-sm btn-success">Добавить операцию</button>
+                                            <button
+                                                v-if="can.kassa_add_operation_type"
+                                                v-b-modal="'coming'"
+                                                @click="getBranches"
+                                                class="btn btn-sm btn-success">Добавить операцию</button>
                                         </div>
                                         <div class="col-auto">
                                             <button class="btn btn-sm btn-info">Фильтр</button>
@@ -156,6 +160,7 @@
     export default {
         data() {
             return{
+                can: [],
                 name: '',
                 group_name: '',
                 coment: '',
@@ -279,7 +284,7 @@
 
             getOperationTypes(){
                 axios.get('api/v2/operation_type')
-                    .then(response => this.operation_types = response.data.data)
+                    .then(response => {this.operation_types = response.data.data, this.can = response.data.can})
             },
 
             getBranches(){
