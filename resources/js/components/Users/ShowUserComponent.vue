@@ -1,18 +1,9 @@
 <template>
     <div>
         <b-modal id="showUser" size="lg" title="Карточка сотрудника" centered hide-footer @hidden="closeModel">
+            <b-tabs v-model="tabIndex">
+                <b-tab>
             <div class="mb-3">
-<!--                <div class="row card">-->
-<!--                    <a href="#" class="m-2"><i class="fe fe-arrow-left h3 text-danger pr-3"></i>Назад</a>-->
-<!--                </div>-->
-<!--                <b-table v-if="user_history"-->
-<!--                         :sort-by.sync="sortBy"-->
-<!--                         :sort-desc.sync="sortDesc"-->
-<!--                         sticky-header="700px"-->
-<!--                         hover-->
-<!--                         :items="user_history"-->
-<!--                         :fields="fields">-->
-<!--                </b-table>-->
                 <div class="row no-gutters">
                     <div class="col-md-4">
                         <div class="py-2">
@@ -28,27 +19,11 @@
                         </div>
                         <b-button block squared class="mt-3">Информация</b-button>
                         <b-button block squared disabled variant="outline-secondary">Карьера</b-button>
-                        <b-button @click="history" disabled block squared variant="outline-secondary">История действий</b-button>
+                        <b-button @click="history" block squared variant="outline-secondary">История действий</b-button>
                         <b-button v-if="can.user_delete" block squared variant="danger" @click="deleteuser">Удалить</b-button>
+                        <b-button @click="kits" block squared variant="info">ТВЦ</b-button>
                     </div>
                     <div class="col-md-8">
-
-<!--                        <b-table-->
-<!--                            sticky-header="700px"-->
-<!--                            :items="kassa_operations"-->
-<!--                            :fields="fields"-->
-<!--                            head-variant="light">-->
-<!--                            <template v-slot:cell(status)="row">-->
-<!--                                <span :style="{ color: row.item.color }">{{ row.item.status }}</span>-->
-<!--                            </template>-->
-<!--                            <template v-slot:cell(step)="row">-->
-<!--                                <span :style="{ color: row.item.steps_color }">{{ row.item.steps }}</span>-->
-<!--                            </template>-->
-<!--                            <template v-slot:cell(next_call_date)="row">-->
-<!--                                <span>{{ row.item.call_date }}</span>-->
-<!--                            </template>-->
-<!--                        </b-table>-->
-
                         <div class="card-body py-2">
                             <table class=" table table-bordered">
                                 <tbody>
@@ -201,6 +176,38 @@
                     </div>
                 </div>
             </div>
+                </b-tab>
+
+                <b-tab>
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <button @click="tabIndex = 0" class="btn btn-primary btn-sm">Назад</button>
+                        </div>
+                    </div>
+
+                    <b-table v-if="user_history"
+                             :sort-by.sync="sortBy"
+                             :sort-desc.sync="sortDesc"
+                             sticky-header="700px"
+                             hover
+                             :items="user_history"
+                             :fields="fields">
+                    </b-table>
+                </b-tab>
+
+                <b-tab>
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <button @click="tabIndex = 0" class="btn btn-primary btn-sm">Назад</button>
+                        </div>
+                    </div>
+
+                    <p v-if="kits" v-for="kit in user_kits" :key="kit.id" class="mb-2">
+                        {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{ kit.name }}
+                    </p>
+                </b-tab>
+
+            </b-tabs>
         </b-modal>
     </div>
 </template>
@@ -208,6 +215,13 @@
 <script>
 
     import Multiselect from 'vue-multiselect'
+    import Loading from 'vue-loading-overlay';
+    Vue.use(Loading, {
+        color: '#007BFF',
+        width: 35,
+        height: 35,
+    });
+
 
     Vue.use(Multiselect);
     // import 'vue-multiselect/dist/vue-multiselect.min.css';
@@ -217,6 +231,8 @@
         components: { Multiselect },
         data() {
             return {
+                fullPage: false,
+                tabIndex: 0,
                 can: '',
                 arrays: ["1", "2", "3"],
                 showEditBranch: false,
@@ -229,6 +245,7 @@
                     content: ''
                 },
                 user_history: [],
+                user_kits: [],
                 roletest: '',
                 items: [
                     { name: 'MacDonald', id: 40 },
@@ -237,10 +254,6 @@
                     { name: 'Carney', id: 38 }
                 ],
                 fields: [
-                    {
-                        key: 'id',
-                        label: 'ID',
-                    },
                     {
                         key: 'message',
                         label: 'Действие',
@@ -320,11 +333,48 @@
                 alert("Удаление сотрудника временно ограниченно");
             },
 
+            async history(){
+                try {
+                    let loader = this.$loading.show({
+                        container: this.fullPage ? null : this.$refs.formContainer,
+                        canCancel: true,
+                    });
 
-            history(){
-                axios.post('api/v2/history/' ,{ user_id: this.user.id })
-                    .then(response => {this.user_history = response.data.data})
+                    let res = await axios.post('api/v2/history/' ,{ user_id: this.user.id })
+
+                    if(res.status == 200){
+                        this.user_history = res.data.data
+                        this.tabIndex = 1
+                        loader.hide()
+                    }
+                    return res.data.data
+                }
+                catch (err) {
+                    console.error(err);
+                }
             },
+
+            async kits(){
+                try {
+                    let loader = this.$loading.show({
+                        container: this.fullPage ? null : this.$refs.formContainer,
+                        canCancel: true,
+                    });
+
+                    let res = await axios.post('api/v2/getUserKit/' ,{ user_id: this.user.id })
+
+                    if(res.status == 200){
+                        this.user_kits = res.data.data
+                        this.tabIndex = 2
+                        loader.hide()
+                    }
+                    return res.data.data
+                }
+                catch (err) {
+                    console.error(err);
+                }
+            },
+
 
             addNewUserModal(id){
                 axios.get('api/v2/users/' + id)
@@ -338,6 +388,7 @@
                 this.showEditBranch = false,
                     this.showEditRole = false
                 this.$emit('get-method')
+                this.tabIndex = 0
             }
         },
     }
@@ -378,4 +429,5 @@
     .multiselect__tags {
         font-size: 12px;
     }
+
 </style>

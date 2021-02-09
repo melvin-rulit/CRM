@@ -1,7 +1,7 @@
 <template>
     <div>
 
-<!--        Окно добавления товарной позиции-->
+        <!--        Окно добавления товарной позиции-->
         <b-modal id="article" title="Новая товарная позиция" @ok="saveArticle" @hidden="resetModalArticle" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
                 <div class="form-group row" :class="{ 'form-group--error': $v.article_name.$error &&  showErrors}">
@@ -24,14 +24,31 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Поставщик</label>
+                    <textarea class="form-control" v-model="article_description" rows="3" placeholder="Описание"></textarea>
+                </div>
+            </div>
+        </b-modal>
+
+        <!--        Окно редактирования товарной позиции-->
+        <b-modal id="articleEdit" title="Редактирование товарной позиции" @ok="editArticle" @hidden="resetModalArticle" centered ok-only ok-title="Сохранить">
+            <div class="card-body py-0">
+                <div class="form-group row" :class="{ 'form-group--error': $v.article_name.$error &&  showErrors}">
+                    <label class="col-sm-3 col-form-label">Наименование</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="$v.article_name.$model">
+                        <span v-if="!$v.article_name.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
+                        <span v-if="!$v.article_name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.article_name.$params.minLength.min}} символа</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Группа</label>
                     <div class="col-sm-9">
                         <dynamic-select
-                            :options="suppliers"
-                            v-model="article_supplier"
+                            :options="groups"
+                            v-model="article_group"
                             option-value="id"
                             option-text="name"
-                            placeholder="Введите для поиска поставщика"/>
+                            placeholder="Введите для поиска группы"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -41,26 +58,63 @@
         </b-modal>
 
 
-<!--        Окно добавления группы склада-->
+        <!--        Окно добавления группы склада-->
         <b-modal id="group" title="Новая группа" @ok="saveGroup" @hidden="resetModalGroup" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
-                    <div class="form-group row" :class="{ 'form-group--error': $v.group_name.$error &&  showErrors}">
-                        <label class="col-sm-3 col-form-label">Наименование</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" v-model="$v.group_name.$model">
-                            <span v-if="!$v.group_name.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
-                            <span v-if="!$v.group_name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.name.$params.minLength.min}} символа</span>
-                        </div>
+                <div class="form-group row" :class="{ 'form-group--error': $v.group_name.$error &&  showErrors}">
+                    <label class="col-sm-3 col-form-label">Наименование</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="$v.group_name.$model">
+                        <span v-if="!$v.group_name.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
+                        <span v-if="!$v.group_name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.name.$params.minLength.min}} символа</span>
                     </div>
-                    <div class="form-group row">
-                        <textarea class="form-control" v-model="group_description" rows="3" placeholder="Описание"></textarea>
+                </div>
+                <div class="form-group row">
+                    <textarea class="form-control" v-model="group_description" rows="3" placeholder="Описание"></textarea>
+                </div>
+            </div>
+        </b-modal>
+
+        <!--        Окно редактирования группы склада-->
+        <b-modal id="groupEdit" title="Редактирование группы" @ok="editGroup" @hidden="resetModalGroup" centered ok-only ok-title="Сохранить">
+            <div class="card-body py-0">
+                <div class="form-group row" :class="{ 'form-group--error': $v.group_name.$error &&  showErrors}">
+                    <label class="col-sm-3 col-form-label">Наименование</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="$v.group_name.$model">
+                        <span v-if="!$v.group_name.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
+                        <span v-if="!$v.group_name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.name.$params.minLength.min}} символа</span>
                     </div>
+                </div>
+                <div class="form-group row">
+                    <textarea class="form-control" v-model="group_description" rows="3" placeholder="Описание"></textarea>
+                </div>
             </div>
         </b-modal>
 
 
-<!--        Окно добавления поставщика-->
+        <!--        Окно добавления поставщика-->
         <b-modal id="supplier" title="Новый поставщик" @ok="saveSupplier" @hidden="resetModalSupplier" centered ok-only ok-title="Добавить">
+            <div class="card-body py-0">
+                <div class="form-group row" :class="{ 'form-group--error': $v.supplier_name.$error &&  showErrors}">
+                    <label class="col-sm-3 col-form-label">Наименование</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="$v.supplier_name.$model">
+                        <span v-if="!$v.supplier_name.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
+                        <span v-if="!$v.supplier_name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.supplier_name.$params.minLength.min}} символа</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <textarea class="form-control" v-model="supplier_description" rows="3" placeholder="Описание"></textarea>
+                </div>
+                <div class="form-group row">
+                    <textarea class="form-control" v-model="supplier_contacts" rows="3" placeholder="Контакты"></textarea>
+                </div>
+            </div>
+        </b-modal>
+
+        <!--        Окно редактирования поставщика-->
+        <b-modal id="supplierEdit" title="Редактирования" @ok="editSupplier" @hidden="resetModalSupplier" centered ok-only ok-title="Сохранить">
             <div class="card-body py-0">
                 <div class="form-group row" :class="{ 'form-group--error': $v.supplier_name.$error &&  showErrors}">
                     <label class="col-sm-3 col-form-label">Наименование</label>
@@ -108,6 +162,7 @@
                             sticky-header="700px"
                             :items="articles"
                             :fields="fieldsArticles"
+                            @row-clicked="getEditArticleModal"
                             head-variant="light">
                         </b-table>
                     </div>
@@ -137,12 +192,11 @@
                             sticky-header="700px"
                             :items="groups"
                             :fields="fieldsGroups"
+                            @row-clicked="getEditArticleGroupModal"
                             head-variant="light">
                         </b-table>
                     </div>
                 </b-tab>
-
-
 
 
 
@@ -167,6 +221,7 @@
                             sticky-header="700px"
                             :items="suppliers"
                             :fields="fieldsSuppliers"
+                            @row-clicked="getEditSupplierModal"
                             head-variant="light">
                         </b-table>
                     </div>
@@ -183,6 +238,8 @@
     export default {
         data() {
             return{
+                art: [],
+                gro: [],
                 showErrors: false,
                 groups: [],
                 articles: [],
@@ -237,7 +294,6 @@
                 article_name: '',
                 article_description: '',
                 article_group: '',
-                article_supplier: '',
             }
         },
 
@@ -285,14 +341,33 @@
                     bvModalEvt.preventDefault()
                     Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
                 }else{
-                        axios.post('api/v2/article_groups', {
-                            name: this.group_name,
-                            description: this.group_description,
-                        })
-                        Vue.$toast.open({message: 'Группа создана успешно' ,type: 'success',duration: 1000,position: 'top-right'});
-                        this.$v.$reset()
-                        this.showErrors = false
-                        this.getArticleGroups()
+                    axios.post('api/v2/article_groups', {
+                        name: this.group_name,
+                        description: this.group_description,
+                    })
+                    Vue.$toast.open({message: 'Группа создана успешно' ,type: 'success',duration: 1000,position: 'top-right'});
+                    this.$v.$reset()
+                    this.showErrors = false
+                    this.getArticleGroups()
+                }
+            },
+
+            editGroup(bvModalEvt){
+                this.$v.$touch()
+
+                if (this.$v.group_name.$invalid){
+                    this.showErrors = true
+                    bvModalEvt.preventDefault()
+                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
+                }else{
+                    axios.put('api/v2/article_groups/' + this.gro.id, {
+                        name: this.group_name,
+                        description: this.group_description,
+                    })
+                    Vue.$toast.open({message: 'Группа сохранена' ,type: 'success',duration: 1000,position: 'top-right'});
+                    this.$v.$reset()
+                    this.showErrors = false
+                    this.getArticleGroups()
                 }
             },
 
@@ -322,11 +397,54 @@
                 }
             },
 
+            editSupplier(bvModalEvt){
+                this.$v.$touch()
+
+                if (this.$v.supplier_name.$invalid){
+                    this.showErrors = true
+                    bvModalEvt.preventDefault()
+                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
+                }else{
+                    axios.put('api/v2/suppliers/' + this.sup.id, {
+                        name: this.supplier_name,
+                        description: this.supplier_description,
+                        contacts: this.supplier_contacts,
+                    })
+                    Vue.$toast.open({message: 'Поставщик сохранен' ,type: 'success',duration: 1000,position: 'top-right'});
+                    this.$v.$reset()
+                    this.showErrors = false
+                    this.getSuppliers()
+                }
+            },
+
             resetModalSupplier(){
                 this.supplier_name = ''
                 this.supplier_description = ''
                 this.supplier_contacts = ''
                 this.showErrors = false
+            },
+
+            getEditArticleModal(items){
+                this.$bvModal.show('articleEdit')
+                this.getArticleGroups()
+                this.art = items
+                this.article_name = this.art.name
+                this.article_description = this.art.description
+            },
+
+            getEditArticleGroupModal(items){
+                this.$bvModal.show('groupEdit')
+                this.gro = items
+                this.group_name = this.gro.name
+                this.group_description = this.gro.description
+            },
+
+            getEditSupplierModal(items){
+                this.$bvModal.show('supplierEdit')
+                this.sup = items
+                this.supplier_name = this.sup.name
+                this.supplier_description = this.sup.description
+                this.supplier_contacts = this.sup.contacts
             },
 
             getModalArticle(){
@@ -346,7 +464,6 @@
                     axios.post('api/v2/article', {
                         name: this.article_name,
                         article_group_id: this.article_group.id,
-                        supplier_id: this.article_supplier.id,
                         description: this.article_description,
                     })
                     Vue.$toast.open({message: 'Поставщик успешно создан' ,type: 'success',duration: 1000,position: 'top-right'});
@@ -356,10 +473,29 @@
                 }
             },
 
+            editArticle(){
+                this.$v.$touch()
+
+                if (this.$v.article_name.$invalid){
+                    this.showErrors = true
+                    bvModalEvt.preventDefault()
+                    Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
+                }else{
+                    axios.put('api/v2/article/' + this.art.id, {
+                        name: this.article_name,
+                        article_group_id: this.article_group.id,
+                        description: this.article_description,
+                    })
+                    Vue.$toast.open({message: 'Позиция сохранена' ,type: 'success',duration: 1000,position: 'top-right'});
+                    this.$v.$reset()
+                    this.showErrors = false
+                    this.getArticles()
+                }
+            },
+
             resetModalArticle(){
                 this.article_name = ''
                 this.article_group = ''
-                this.article_supplier = ''
                 this.article_description = ''
                 this.showErrors = false
             },

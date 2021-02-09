@@ -37,7 +37,18 @@
     @yield('styles')
     <style>body { display: none; }</style>
 
+
     <style type="text/css">
+
+        *:hover,
+        *:focus,
+        *:active
+        {
+            outline: none;
+            box-shadow: none !important;
+            -webkit-appearance: none;
+        }
+
   .test {
     overflow-x: auto;
     margin-bottom: 24px;

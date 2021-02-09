@@ -10,11 +10,10 @@ class Warehouse extends Model
         'name',
         'branch_id',
         'user_id',
-        'supplier',
         'description',
     ];
 
-    public function positions() {
-        return $this->hasMany(WarehousePosition::class);
+    public function articles() {
+        return $this->hasMany(WarehouseArticle::class);
     }
 }

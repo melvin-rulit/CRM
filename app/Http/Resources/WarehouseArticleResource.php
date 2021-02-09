@@ -19,6 +19,7 @@ class WarehouseArticleResource extends JsonResource
             'article'                   => $this->article,
             'group'                     => $this->article->article_group,
             'warehouse'                 => $this->warehouse,
+            'supplier'                  => $this->supplier,
             'quantity'                  => $this->quantity,
         ];
     }

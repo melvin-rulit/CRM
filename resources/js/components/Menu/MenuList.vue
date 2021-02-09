@@ -13,10 +13,6 @@
             </li>
 
             <li class="nav-item">
-                <router-link to="/permissions" class="nav-link"><i class="fe fe-database"></i> Разрешения</router-link>
-            </li>
-
-            <li class="nav-item">
                 <router-link to="/roles" class="nav-link"><i class="fe fe-git-branch"></i>Должности</router-link>
             </li>
 
@@ -106,6 +102,9 @@
                         </li>
                         <li class="nav-item">
                             <router-link to="/warehouse_groups" class="nav-link"><i class="fe fe-git-branch"></i> Склады и позиции</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/permissions" class="nav-link"><i class="fe fe-database"></i> Разрешения</router-link>
                         </li>
                     </ul>
                 </div>

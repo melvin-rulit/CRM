@@ -9,8 +9,7 @@ use App\Http\Resources\GetUsersWarehouse;
 use App\Http\Resources\WarehousePositionResource;
 use App\Region;
 use App\Warehouse;
-use App\WarehousePosition;
-use App\User;
+use App\Loger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -46,7 +45,10 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        Warehouse::create($request->all());
+        $warehouse = Warehouse::create($request->all());
+
+        // Добавляем в лог запись
+        loger(6, null, 'Создан новый склад ' . $warehouse->name);
     }
 
     /**
@@ -80,9 +82,9 @@ class WarehouseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Warehouse $warehouse)
     {
-        //
+        $warehouse->update($request->all());
     }
 
     /**
@@ -93,11 +95,11 @@ class WarehouseController extends Controller
      */
     public function destroy($id)
     {
-        $warehouse = Warehouse::find($id)->positions->count();
-
+        $warehouse = Warehouse::find($id)->articles->count();
 
         if ($warehouse == 0){
             Warehouse::find($id)->delete();
+
         }else{
             return [
                 'response'  => "error",
@@ -128,11 +130,5 @@ class WarehouseController extends Controller
 
     }
 
-    public function showWarehousePosition(Request $request)
-    {
-        $warehouse_position = WarehousePosition::where('warehouse_id', $request->id)->get();
 
-        return WarehousePositionResource::collection($warehouse_position);
-
-    }
 }

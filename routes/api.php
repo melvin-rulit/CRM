@@ -99,6 +99,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('saveNewBalance', 'BaseController@saveNewBalance');
     Route::post('getLog', 'LogerController@index');
     Route::post('freezingOff', 'BaseController@freezingOff');
+    Route::post('getBaseKit', 'BaseController@getBaseKit');
 
     // Roles
     Route::apiResource('roles', 'RoleController');
@@ -120,11 +121,17 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     // Article
     Route::apiResource('article', 'ArticleController');
     Route::post('getArticleInGroup', 'ArticleController@getArticleInGroup');
-    Route::post('addQuantity', 'ArticleController@addQuantity');
 
     //WarehouseArticle
     Route::apiResource('warehouse_article', 'WarehouseArticleController');
     Route::post('showWarehouseArticle', 'WarehouseArticleController@showWarehouseArticle');
+    Route::post('addQuantity', 'WarehouseArticleController@addQuantity');
+    Route::post('moveArticle', 'WarehouseArticleController@moveArticle');
+    Route::post('removeQuantity', 'WarehouseArticleController@removeQuantity');
+    Route::post('removeBase', 'WarehouseArticleController@removeBase');
+    Route::post('removeUser', 'WarehouseArticleController@removeUser');
+    Route::post('usersInBranch', 'WarehouseArticleController@usersInBranch');
+    Route::post('basesInBranch', 'WarehouseArticleController@basesInBranch');
 
     // ArticleGroups
     Route::apiResource('article_groups', 'ArticleGroupController');
@@ -142,6 +149,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('saveBranches', 'UserController@saveBranches');
     Route::post('saveRoles', 'UserController@saveRoles');
     Route::get('getGates', 'UserController@getGates');
+    Route::post('getUserKit', 'UserController@getUserKit');
 
 
     Route::post('addClientInGroup', 'BaseController@addClientInGroup');

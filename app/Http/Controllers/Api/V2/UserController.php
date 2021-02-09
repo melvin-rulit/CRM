@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\V2;
 
+use App\UserArticle;
 use App\Http\Controllers\Controller;
 use App\Branch;
+use App\Http\Resources\KitsResource;
 use App\Role;
 use Gate;
 use Illuminate\Support\Facades\DB;
@@ -184,6 +186,13 @@ class UserController extends Controller
         $user = User::find($request->user_id);
 
         $user->roles()->sync($request->roles);
+    }
+
+    public function getUserKit(Request $request){
+
+        $kits = UserArticle::where('user_id', $request->user_id)->orderBy('created_at','desc')->get();
+
+        return KitsResource::collection($kits);
     }
 
 

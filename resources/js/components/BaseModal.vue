@@ -799,6 +799,15 @@
                 <b-tab v-if="can.base_skils" title="Навыки">
                     <p class="fix-height"></p>
                 </b-tab>
+                <b-tab title="Экипировка" @click="getBaseKit()">
+                    <div class="card mt-3 fix-height">
+                        <div class="card-body">
+                            <p v-if="kits" v-for="kit in kits" :key="kit.id" class="mb-2">
+                                {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{ kit.name }}
+                            </p>
+                        </div>
+                    </div>
+                </b-tab>
             </b-tabs>
         </b-modal>
 
@@ -879,6 +888,7 @@
                     programm: {},
                 },
                 comments: {},
+                kits: {},
                 indexactiveContract: 0,
                 getURL: "api/v2/getinfo",
                 postURL: "getone",
@@ -969,6 +979,11 @@
             getLog(){
                 axios.post('api/v2/getLog', {id : this.dataObject.id})
                     .then(response => {this.comments = response.data.data})
+            },
+
+            getBaseKit(){
+                axios.post('api/v2/getBaseKit', {id : this.dataObject.id})
+                    .then(response => {this.kits = response.data.data})
             },
 
             saveNewPay(){
@@ -1276,6 +1291,7 @@
                 this.showSourceGroup = ''
                 this.source = ''
                 this.comments = ''
+                this.kits = ''
             },
 
             removeBlock(){

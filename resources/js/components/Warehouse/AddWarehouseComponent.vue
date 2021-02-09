@@ -48,17 +48,6 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Поставщик</label>
-                <div class="col-sm-9">
-                    <dynamic-select
-                        :options="suppliers"
-                        v-model="supplier"
-                        option-value="id"
-                        option-text="name"
-                        placeholder="Введите для поиска поставщика"/>
-                </div>
-            </div>
-            <div class="form-group row">
                 <textarea class="form-control" v-model="description" rows="3" placeholder="Описание"></textarea>
             </div>
         </b-modal>
@@ -98,7 +87,6 @@
             showModal(){
                 this.$bvModal.show('addWarehouse')
                 this.getRegions()
-                this.getSuppliers()
             },
 
             getRegions(){

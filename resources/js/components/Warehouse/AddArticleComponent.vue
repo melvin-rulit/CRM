@@ -34,6 +34,17 @@
                         placeholder="Введите для поиска склада"/>
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label required">Поставщик</label>
+                <div class="col-sm-9">
+                    <dynamic-select
+                        :options="suppliers"
+                        v-model="supplier"
+                        option-value="id"
+                        option-text="name"
+                        placeholder="Введите для поиска поставщика"/>
+                </div>
+            </div>
             <div class="form-group row" :class="{ 'form-group--error': $v.quantity.$error &&  showErrors}">
                 <label class="col-sm-3 col-form-label required">Количество</label>
                 <div class="col-sm-9">
@@ -53,12 +64,14 @@
         data() {
             return {
                 showErrors: false,
-                article: '',
+                article: {},
                 warehouses: [],
                 articles: [],
-                warehouse: '',
+                suppliers: [],
+                warehouse: {},
+                supplier: {},
                 groups: [],
-                group: '',
+                group: {},
                 quantity: '',
                 resultArticle: []
             }
@@ -79,6 +92,7 @@
                 this.$bvModal.show('addArticleWarehouse')
                 this.getAllArticles()
                 this.getAllWarehouses()
+                this.getAllSuppliers()
                 this.getWarehousesGroups()
             },
 
@@ -90,6 +104,11 @@
             getAllWarehouses(){
                 axios.get('api/v2/warehouses')
                     .then(response => {this.warehouses = response.data})
+            },
+
+            getAllSuppliers(){
+                axios.get('api/v2/suppliers')
+                    .then(response => {this.suppliers = response.data.data})
             },
 
             getWarehousesGroups(){
@@ -107,7 +126,7 @@
             async saveArticle(bvModalEvt){
                 this.$v.$touch()
 
-                if (this.$v.$invalid || !this.warehouse || !this.article) {
+                if (this.$v.$invalid || !this.warehouse || !this.article || !this.supplier) {
                     this.showErrors = true
                     bvModalEvt.preventDefault()
                     Vue.$toast.open({
@@ -124,6 +143,7 @@
                     let res = await axios.post('api/v2/warehouse_article', {
                         article_id: this.article.id,
                         warehouse_id: this.warehouse.id,
+                        supplier_id: this.supplier.id,
                         quantity: this.quantity,
                     })
 
@@ -146,14 +166,16 @@
             },
 
             closeModal(){
-                this.article = ''
+                this.article = {}
                 this.$v.$reset()
                 this.showErrors = false
                 this.warehouses =  []
                 this.articles =  []
-                this.warehouse = ''
+                this.suppliers =  []
+                this.warehouse = {}
+                this.supplier = {}
                 this.groups = []
-                this.group = ''
+                this.group = {}
                 this.quantity = ''
             }
         }

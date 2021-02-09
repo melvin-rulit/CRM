@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\V2;
 
+use App\BaseArticle;
 use App\Contract;
 use App\Http\Resources\GetBaseResource;
 use App\Http\Resources\BranchesResource;
 use App\Http\Resources\CommentsResource;
+use App\Http\Resources\KitsResource;
 use App\Http\Resources\UsersResource;
 use App\Http\Resources\BaseAllResource;
 use App\Http\Resources\VmContractResource;
@@ -1109,8 +1111,13 @@ class BaseController extends Controller
                 $contracts->save();
                 break;
         }
+    }
 
+    public function getBaseKit(Request $request){
 
+        $kits = BaseArticle::where('base_id', $request->id)->orderBy('created_at','desc')->get();
+
+        return KitsResource::collection($kits);
     }
 
 }

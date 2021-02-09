@@ -4,7 +4,7 @@
 
         <!-- Окно добавления редактирования операции -->
         <b-modal id="editOperation" title="Изменить операцию" centered ok-title="Сохранить" cancel-title="Отмена" @ok="">
-            <pre><code>{{edit_operation}}</code></pre>
+<!--            <pre><code>{{edit_operation}}</code></pre>-->
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Сумма</label>
                 <div class="col-sm-9">

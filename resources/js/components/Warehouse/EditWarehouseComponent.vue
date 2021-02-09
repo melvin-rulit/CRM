@@ -1,5 +1,6 @@
 <template>
     <b-modal id="editWarehouse" title="Редактирование склада" centered ok-title="Сохранить" @hidden="closeModal" cancel-title="Отмена" @ok="saveWarehouse">
+<!--        <pre><code>{{warehouse}}</code></pre>-->
         <div class="form-group row" :class="{ 'form-group--error': $v.name.$error &&  showErrors}">
             <label class="col-sm-3 col-form-label">Название</label>
             <div class="col-sm-9">
@@ -48,17 +49,6 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Поставщик</label>
-            <div class="col-sm-9">
-                <dynamic-select
-                    :options="providers"
-                    v-model="provider"
-                    option-value="id"
-                    option-text="name"
-                    placeholder="Введите для поиска поставщика"/>
-            </div>
-        </div>
-        <div class="form-group row">
             <textarea class="form-control" v-model="warehouse.description" rows="3" placeholder="Описание"></textarea>
         </div>
     </b-modal>
@@ -67,21 +57,26 @@
 <script>
 
     import { required, minLength } from 'vuelidate/lib/validators';
+    import Loading from 'vue-loading-overlay';
+    Vue.use(Loading, {
+        color: '#007BFF',
+        width: 35,
+        height: 35,
+    });
 
     export default {
         data() {
             return {
                 showErrors: false,
+                fullPage: false,
                 name: '',
-                branch: '',
+                branch: {},
                 branches: [],
-                region: '',
+                region: {},
                 regions: [],
                 user: '',
                 users: [],
-                user: '',
-                provider: '',
-                providers: [],
+                user: {},
                 description: '',
                 warehouse: '',
             }
@@ -102,9 +97,25 @@
                 this.getWarehouse(id)
             },
 
-            getWarehouse(id){
-                axios.get('api/v2/warehouses/' + id)
-                    .then(response => {this.warehouse = response.data.data})
+            async getWarehouse(id){
+                try {
+                    let loader = this.$loading.show({
+                        container: this.fullPage ? null : this.$refs.formContainer,
+                        canCancel: true,
+                    });
+
+                    let res = await axios.get('api/v2/warehouses/' + id)
+
+                    if(res.status == 200){
+                        this.warehouse = res.data.data
+                        this.name = this.warehouse.name
+                        loader.hide()
+                    }
+                    return res.data.data
+                }
+                catch (err) {
+                    console.error(err);
+                }
             },
 
             getRegions(){
@@ -138,13 +149,13 @@
                         Vue.$toast.open({message: 'Заполните все необходимые поля' ,type: 'error',duration: 1000,position: 'top-right'});
                         bvModalEvt.preventDefault()
                     }else{
-                        axios.post('api/v2/warehouses', {
+                        axios.put('api/v2/warehouses/' + this.warehouse.id, {
                             name: this.name,
                             branch_id: this.branch.id,
                             user_id: this.user.id,
-                            description: this.description,
+                            description: this.warehouse.description,
                         })
-                        Vue.$toast.open({message: 'Склад создан' ,type: 'success',duration: 1000,position: 'top-right'});
+                        Vue.$toast.open({message: 'Склад сохранен' ,type: 'success',duration: 1000,position: 'top-right'});
                         this.$emit('get-method')
                         this.$v.$reset()
                         this.showErrors = false
@@ -155,11 +166,11 @@
             closeModal(){
                 this.name = ''
                 this.description = ''
-                this.branch = '',
+                this.branch = {},
                     this.branches = [],
-                    this.region = '',
+                    this.region = {},
                     this.regions = [],
-                    this.user = '',
+                    this.user = {},
                     this.users = [],
                     this.$v.$reset()
                 this.showErrors = false

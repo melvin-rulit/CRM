@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers\Api\V2;
 
-use App\Article;
+
+use App\Branch;
 use App\Http\Controllers\Controller;
+use App\UserArticle;
+use App\BaseArticle;
+use App\Loger;
 use App\WarehouseArticle;
 use App\Http\Resources\WarehouseArticleResource;
+use App\Http\Resources\UsersInBranchResource;
+use App\Http\Resources\BasesInBranchResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use function Sodium\increment;
 
 class WarehouseArticleController extends Controller
 {
@@ -113,4 +122,114 @@ class WarehouseArticleController extends Controller
 
         return WarehouseArticleResource::collection($warehouse_articles);
     }
+
+    public function addQuantity(Request $request){
+
+        WarehouseArticle::find($request->id)
+            ->update([
+                'quantity'      => $request->quantity,
+                'supplier_id'   => $request->supplier_id ? $request->supplier_id : null,
+            ]);
+    }
+
+
+    public function moveArticle(Request $request){
+
+        // Ищем позицию в складе
+        WarehouseArticle::where('article_id', $request->article_id)
+            ->where('warehouse_id', $request->warehouse_id)
+            ->decrement('quantity', $request->quantity);
+
+
+        // Добавляем в лог запись
+        if($request->comment){
+
+            loger(7, null, $request->id, $request->comment);
+        }
+
+
+        $article = WarehouseArticle::where(
+            ['article_id' => $request->article_id, 'warehouse_id' =>  $request->new_warehouse_id]
+        )->get();
+
+        if ($article->count() > 0){
+            WarehouseArticle::where('article_id', $request->article_id)
+                ->where('warehouse_id', $request->new_warehouse_id)
+                ->increment('quantity', $request->quantity);
+        }else{
+            WarehouseArticle::create([
+                'article_id'        =>  $request->article_id,
+                'warehouse_id'      =>  $request->new_warehouse_id,
+                'quantity'          =>  $request->quantity,
+                'supplier_id'       =>  $request->supplier_id,
+            ]);
+        }
+
+    }
+
+    public function removeQuantity(Request $request){
+
+        WarehouseArticle::find($request->id)
+            ->decrement('quantity', $request->quantity);
+
+        // Добавляем в лог запись
+        if($request->comment){
+
+            loger(7, null, $request->id, $request->comment);
+        }
+    }
+
+    public function removeBase(Request $request){
+
+        WarehouseArticle::find($request->id)
+            ->decrement('quantity', $request->quantity);
+
+        // Добавляем в лог запись
+        if($request->comment){
+
+            loger(7, null, $request->id, $request->comment);
+        }
+
+        BaseArticle::create([
+            'warehouse_article_id'      => $request->id,
+            'base_id'                   => $request->base_id,
+            'user_id'                   => Auth::user()->id,
+            'quantity'                  => $request->quantity,
+        ]);
+    }
+
+    public function removeUser(Request $request){
+
+        WarehouseArticle::find($request->id)
+            ->decrement('quantity', $request->quantity);
+
+        // Добавляем в лог запись
+        if($request->comment){
+
+            loger(7, null, $request->id, $request->comment);
+        }
+
+        UserArticle::create([
+            'warehouse_article_id'      => $request->id,
+            'user_id'                   => $request->user_id,
+            'who_user_id'               => Auth::user()->id,
+            'quantity'                  => $request->quantity,
+        ]);
+    }
+
+    public function usersInBranch(Request $request){
+
+        $users = Branch::find($request->branch_id);
+
+        return UsersInBranchResource::collection($users->users);
+    }
+
+    public function basesInBranch(Request $request){
+
+        $bases = Branch::find($request->branch_id);
+
+        return BasesInBranchResource::collection($bases->bases);
+    }
+
+
 }

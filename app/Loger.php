@@ -12,6 +12,7 @@ class Loger extends Model
         'level_name',
         'message',
         'base_id',
+        'warehouse_article_id',
     ];
 
     public function user()

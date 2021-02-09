@@ -4,7 +4,7 @@
         <add-warehouse-component @get-method="fetch" ref="addWarehouse"></add-warehouse-component>
         <edit-warehouse-component @get-method="fetch" ref="editWarehouse"></edit-warehouse-component>
         <add-article-component @get-method="showWarehouseEmit" ref="addPosition"></add-article-component>
-<!--        <show-article-component @get-method="showWarehouseEmit" ref="showPosition"></show-article-component>-->
+        <show-article-component @get-method="showWarehouseEmit" ref="showPosition"></show-article-component>
 
         <div class="row">
             <div class="col-lg-12">
@@ -14,9 +14,12 @@
                             <div class="col">
                                 <button @click="addPosition" class="btn btn-sm btn-info">Добавить позицию</button>
                                 <button @click="addWarehouse" class="btn btn-sm btn-success">Добавить склад</button>
-                                    <button v-for="item in warehouses" @click="showWarehouseArticle(item.id)" class="btn btn-sm btn-outline-primary ml-3">{{ item.name }}
-                                        <i @click="editWarehouse(item.id)" class="fe fe-edit ml-4"></i>
-                                        <i @click="deleteWarehouse(item.id, item.name)" class="fe fe-trash-2 text-danger ml-2"></i></button>
+                                    <button
+                                        v-for="item in warehouses"
+                                        @click="showWarehouseArticle(item.id)"
+                                        class="btn btn-sm ml-3" :class="warehouse_id == item.id ? 'btn-outline-success' : 'btn-outline-primary'">{{ item.name }}
+                                        <i v-if="warehouse_id == item.id" @click="editWarehouse(item.id)" class="fe fe-edit ml-4"></i>
+                                        <i v-if="warehouse_id == item.id" @click="deleteWarehouse(item.id, item.name)" class="fe fe-trash-2 text-danger ml-2"></i></button>
                             </div>
                             <div class="col-auto"></div>
                         </div>
@@ -29,6 +32,7 @@
         <div class="card">
             <div class="card-body pb-0">
                 <b-table
+                    ref="table"
                     hover
                     sticky-header="750px"
                     :items="positions"
@@ -57,6 +61,7 @@
         data() {
             return {
                 warehouses: [],
+                warehouse_id: '',
                 positions: [],
                 can: [],
                 add: true,
@@ -103,27 +108,17 @@
                 this.getPositions()
             },
 
-
             showWarehouseArticle(id){
                 axios.post('api/v2/showWarehouseArticle', {warehouse_id: id})
                     .then(response => {this.positions = response.data.data})
+
+                this.warehouse_id = id
             },
 
             showWarehouseEmit(data){
+                this.showWarehouseArticle(data.id)
 
-                setTimeout(() => {
-                    axios.post('api/v2/showWarehouseArticle', {warehouse_id: data.id})
-                        .then(response => {this.positions = response.data})
-                }, 2000)
-
-
-                // axios.post('api/v2/showWarehouseArticle', {warehouse_id: data.id})
-                //     .then(response => {this.positions = response.data})
             },
-
-
-
-
 
             getWarehouses(){
                 axios.get('api/v2/warehouses')
@@ -148,17 +143,15 @@
             },
 
             ShowModalPosition(items){
-                // this.$refs.showPosition.showModal(items)
+                this.$refs.showPosition.showModal(items)
             },
 
             deleteWarehouse(id, name){
 
                 this.$confirm("Удалить склад " + name + " ?").then(() => {
 
-
-
-                axios.delete('api/v2/warehouses/'+ id)
-                    .then((response) => {
+                    axios.delete('api/v2/warehouses/'+ id)
+                        .then((response) => {
 
                         if (response.data.response == "error"){
                             Vue.$toast.open({message: 'На складе есть остатки товаров переместите или спишите их' ,type: 'error',duration: 3000,position: 'top-right'})

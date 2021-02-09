@@ -75,9 +75,9 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $article)
     {
-        //
+        $article->update($request->all());
     }
 
     /**
@@ -98,27 +98,4 @@ class ArticleController extends Controller
         return $articles;
     }
 
-//    public function addQuantity(Request $request){
-//
-//        WarehousePosition::find($request->id)
-//            ->update([
-//                'quantity'      => $request->quantity,
-//                'supplier_id'   => $request->supplier_id,
-//            ]);
-//    }
-//
-//    public function move(Request $request){
-//
-//        WarehousePosition::find($request->id)
-//            ->update([
-//                'quantity'      => $request->quantity,
-//            ]);
-//
-//        $new_warehouse_quantity = WarehousePosition::find($request->warehouse_id)->quantity;
-//
-//        WarehousePosition::find($request->warehouse_id)
-//            ->update([
-//                'quantity'      => $new_warehouse_quantity + $request->new_warehouse_quantity,
-//            ]);
-//    }
 }

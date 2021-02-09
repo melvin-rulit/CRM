@@ -9,6 +9,7 @@ class WarehouseArticle extends Model
     protected $fillable = [
         'article_id',
         'warehouse_id',
+        'supplier_id',
         'quantity',
     ];
 
@@ -20,7 +21,11 @@ class WarehouseArticle extends Model
         return $this->hasOne('App\Warehouse', 'id', 'warehouse_id');
     }
 
-    public function group(){
-        return $this->hasOne('App\ArticleGroup', 'id', 'article_group_id');
+//    public function group(){
+//        return $this->hasOne('App\ArticleGroup', 'id', 'article_group_id');
+//    }
+
+    public function supplier(){
+        return $this->hasOne('App\Supplier', 'id', 'supplier_id');
     }
 }
