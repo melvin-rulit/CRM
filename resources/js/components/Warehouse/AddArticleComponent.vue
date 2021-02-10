@@ -1,17 +1,6 @@
 <template>
         <b-modal id="addArticleWarehouse" title="Приходная операция" centered ok-title="Приход" @hidden="closeModal" cancel-title="Отмена" @ok="saveArticle">
             <div class="form-group row">
-                <label class="col-sm-3 col-form-label required">Название</label>
-                <div class="col-sm-9">
-                    <dynamic-select
-                        :options="articles"
-                        v-model="article"
-                        option-value="id"
-                        option-text="name"
-                        placeholder="Введите для поиска товарной позиции"/>
-                </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Группа</label>
                 <div class="col-sm-9">
                     <dynamic-select
@@ -21,6 +10,17 @@
                         option-text="name"
                         @input="getArticleInGroup"
                         placeholder="Введите для поиска группы"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label required">Название</label>
+                <div class="col-sm-9">
+                    <dynamic-select
+                        :options="articles"
+                        v-model="article"
+                        option-value="id"
+                        option-text="name"
+                        placeholder="Введите для поиска товарной позиции"/>
                 </div>
             </div>
             <div class="form-group row">
