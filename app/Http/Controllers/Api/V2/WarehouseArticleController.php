@@ -125,11 +125,11 @@ class WarehouseArticleController extends Controller
 
     public function addQuantity(Request $request){
 
-        WarehouseArticle::find($request->id)
-            ->update([
-                'quantity'      => $request->quantity,
-                'supplier_id'   => $request->supplier_id ? $request->supplier_id : null,
-            ]);
+        $warehouse_article = WarehouseArticle::find($request->id);
+        $warehouse_article->increment('quantity', $request->quantity);
+        $warehouse_article->supplier_id = $request->supplier_id ? $request->supplier_id : null;
+        $warehouse_article->save();
+
     }
 
 

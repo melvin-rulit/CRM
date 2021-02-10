@@ -271,11 +271,12 @@
 
                     axios.post('api/v2/addQuantity',{
                         id: this.position.id,
-                        quantity: this.position.quantity,
+                        quantity: this.quantity,
                         supplier_id: this.newSuppliers ? this.newSuppliers : this.position.supplier.id,
                     })
 
-                    this.quantity = ''
+                    this.resetVuelidate()
+
                     Vue.$toast.open({message: 'Добавленно' ,type: 'success',duration: 2000,position: 'top-right'});
                 }
             },
@@ -290,7 +291,7 @@
             move(){
                 this.$v.$touch()
 
-                if (this.$v.$invalid) {
+                if (this.$v.quantity.$invalid) {
                     this.showErrors = true
                 }else{
                     if(!this.warehouse.id){
@@ -320,11 +321,10 @@
 
                         this.position.quantity -= this.quantity
 
-                        this.quantity = ''
+                        this.resetVuelidate()
+
                         this.warehouse = ''
                         this.comment = ''
-                        this.$v.$reset()
-                        this.showErrors = false
                     }
                 }
             },
@@ -357,10 +357,10 @@
                     })
 
                         this.position.quantity -= this.quantity
-                        this.quantity = ''
                         this.comment = ''
-                        this.$v.$reset()
-                        this.showErrors = false
+
+                        this.resetVuelidate()
+
                     Vue.$toast.open({message: 'Списано' ,type: 'success',duration: 2000,position: 'top-right'});
                     }
                 }
@@ -376,7 +376,7 @@
             removeBase(){
                 this.$v.$touch()
 
-                if (this.$v.$invalid) {
+                if (this.$v.quantity.$invalid) {
                     this.showErrors = true
                     return false
                 }
@@ -397,8 +397,9 @@
                         comment: this.comment
                     })
 
+                    this.resetVuelidate()
+
                     this.position.quantity -= this.quantity
-                    this.quantity = ''
                     this.comment = ''
                     Vue.$toast.open({message: 'Выдано клиенту' ,type: 'success',duration: 2000,position: 'top-right'});
                 }
@@ -414,7 +415,7 @@
             removeUser(){
                 this.$v.$touch()
 
-                if (this.$v.$invalid) {
+                if (this.$v.quantity.$invalid) {
                     this.showErrors = true
                     return false
                 }
@@ -435,11 +436,19 @@
                             comment: this.comment
                         })
 
+                        this.resetVuelidate()
+
                         this.position.quantity -= this.quantity
-                        this.quantity = ''
                         this.comment = ''
+
                         Vue.$toast.open({message: 'Выдано сотруднику' ,type: 'success',duration: 2000,position: 'top-right'});
                     }
+            },
+
+            resetVuelidate(){
+                this.$v.$reset()
+                this.showErrors = false
+                this.quantity = ''
             },
 
             closeModal(){
