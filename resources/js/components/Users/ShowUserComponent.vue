@@ -3,179 +3,196 @@
         <b-modal id="showUser" size="lg" title="Карточка сотрудника" centered hide-footer @hidden="closeModel">
             <b-tabs v-model="tabIndex">
                 <b-tab>
-            <div class="mb-3">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <div class="py-2">
-                            <b-img
-                                @click="editAvatar"
-                                center
-                                thumbnail
-                                fluid
-                                src="https://picsum.photos/250/250/?image=54"
-                                alt="Image 1"
-                                class="hoverim">
-                            </b-img>
-                        </div>
-                        <b-button block squared class="mt-3">Информация</b-button>
-                        <b-button block squared disabled variant="outline-secondary">Карьера</b-button>
-                        <b-button @click="history" block squared variant="outline-secondary">История действий</b-button>
-                        <b-button v-if="can.user_delete" block squared variant="danger" @click="deleteuser">Удалить</b-button>
-                        <b-button @click="kits" block squared variant="info">ТВЦ</b-button>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body py-2">
-                            <table class=" table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <td>Фамилия</td>
-                                    <td><input-form
-                                        v-model="user.surname"
-                                        name="surname"
-                                        @edit-field="editField">
-                                    </input-form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Имя</td>
-                                    <td><input-form
-                                        v-model="user.name"
-                                        name="name"
-                                        @edit-field="editField">
-                                    </input-form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Телефон</td>
-                                    <td><input-form
-                                        v-model="user.phone"
-                                        mask="+## (###) ###-##-##"
-                                        name="phone"
-                                        @edit-field="editField">
-                                    </input-form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Email</td>
-                                    <td><input-form
-                                        v-model="user.email"
-                                        name="email"
-                                        @edit-field="editField">
-                                    </input-form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>День рождения</td>
-                                    <td><input-form
-                                        v-model="user.birthday"
-                                        name="birthday"
-                                        datePicker="true"
-                                        @edit-field="editField">
-                                    </input-form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Facebook</td>
-                                    <td><input-form
-                                        v-model="user.facebook"
-                                        name="facebook"
-                                        @edit-field="editField">
-                                    </input-form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Instagram</td>
-                                    <td><input-form
-                                        v-model="user.instagram"
-                                        name="instagram"
-                                        @edit-field="editField">
-                                    </input-form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>О себе</td>
-                                    <td><input-form
-                                        v-model="user.about_as"
-                                        textarea="true"
-                                        name="about_as"
-                                        @edit-field="editField">
-                                    </input-form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Филиал</td>
-                                    <td>
-                                        <span v-if="!showEditBranch" v-for="item in user.branch" class="badge badge-info mr-2">
+                    <div class="mb-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <div class="py-2">
+                                    <b-img
+                                        @click="editAvatar"
+                                        center
+                                        thumbnail
+                                        fluid
+                                        src="https://picsum.photos/250/250/?image=54"
+                                        alt="Image 1"
+                                        class="hoverim">
+                                    </b-img>
+                                </div>
+                                <b-button block squared class="mt-3">Информация</b-button>
+                                <b-button block squared disabled variant="outline-secondary">Карьера</b-button>
+                                <b-button @click="history" block squared variant="outline-secondary">История действий
+                                </b-button>
+                                <b-button v-if="can.user_delete" block squared variant="danger" @click="deleteuser">
+                                    Удалить
+                                </b-button>
+                                <b-button @click="kits" block squared variant="info">ТВЦ</b-button>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body py-2">
+                                    <table class=" table table-bordered">
+                                        <tbody>
+                                        <tr>
+                                            <td>Фамилия</td>
+                                            <td>
+                                                <input-form
+                                                    v-model="user.surname"
+                                                    name="surname"
+                                                    @edit-field="editField">
+                                                </input-form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Имя</td>
+                                            <td>
+                                                <input-form
+                                                    v-model="user.name"
+                                                    name="name"
+                                                    @edit-field="editField">
+                                                </input-form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Телефон</td>
+                                            <td>
+                                                <input-form
+                                                    v-model="user.phone"
+                                                    mask="+## (###) ###-##-##"
+                                                    name="phone"
+                                                    @edit-field="editField">
+                                                </input-form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>
+                                                <input-form
+                                                    v-model="user.email"
+                                                    name="email"
+                                                    @edit-field="editField">
+                                                </input-form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>День рождения</td>
+                                            <td>
+                                                <input-form
+                                                    v-model="user.birthday"
+                                                    name="birthday"
+                                                    datePicker="true"
+                                                    @edit-field="editField">
+                                                </input-form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Facebook</td>
+                                            <td>
+                                                <input-form
+                                                    v-model="user.facebook"
+                                                    name="facebook"
+                                                    @edit-field="editField">
+                                                </input-form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Instagram</td>
+                                            <td>
+                                                <input-form
+                                                    v-model="user.instagram"
+                                                    name="instagram"
+                                                    @edit-field="editField">
+                                                </input-form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>О себе</td>
+                                            <td>
+                                                <input-form
+                                                    v-model="user.about_as"
+                                                    textarea="true"
+                                                    name="about_as"
+                                                    @edit-field="editField">
+                                                </input-form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Филиал</td>
+                                            <td>
+                                        <span v-if="!showEditBranch" v-for="item in user.branch"
+                                              class="badge badge-info mr-2">
                                             {{item.name}}
                                         </span>
-                                        <multiselect
-                                            v-if="showEditBranch"
-                                            v-model="user.branch"
-                                            label="name"
-                                            track-by="id"
-                                            :options="branches"
-                                            :multiple="true"
-                                            :taggable="true"
-                                            deselectLabel="Удалить"
-                                            selectedLabel="Выбран"
-                                        ></multiselect>
-                                        <hr class="navbar-divider my-3">
-                                        <div class="mt-3" v-if="can.user_branch">
-                                            <button
-                                                @click="editBranch"
-                                                :disabled="showEditBranch"
-                                                class="btn btn-sm btn-primary">Редактировать</button>
-                                            <button
-                                                @click="saveBranch"
-                                                :disabled="!showEditBranch"
-                                                class="btn btn-sm btn-success">Сохранить</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Роль</td>
-                                    <td>
-                                        <span v-if="!showEditRole" v-for="item in user.role" class="badge badge-info mr-2">
+                                                <multiselect
+                                                    v-if="showEditBranch"
+                                                    v-model="user.branch"
+                                                    label="name"
+                                                    track-by="id"
+                                                    :options="branches"
+                                                    :multiple="true"
+                                                    :taggable="true"
+                                                    deselectLabel="Удалить"
+                                                    selectedLabel="Выбран"
+                                                ></multiselect>
+                                                <hr class="navbar-divider my-3">
+                                                <div class="mt-3" v-if="can.user_branch">
+                                                    <button
+                                                        @click="editBranch"
+                                                        :disabled="showEditBranch"
+                                                        class="btn btn-sm btn-primary">Редактировать
+                                                    </button>
+                                                    <button
+                                                        @click="saveBranch"
+                                                        :disabled="!showEditBranch"
+                                                        class="btn btn-sm btn-success">Сохранить
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Роль</td>
+                                            <td>
+                                        <span v-if="!showEditRole" v-for="item in user.role"
+                                              class="badge badge-info mr-2">
                                         {{item.title}}
                                     </span>
-                                        <multiselect
-                                            v-if="showEditRole"
-                                            v-model="user.role"
-                                            label="title"
-                                            track-by="id"
-                                            :options="roles"
-                                            :multiple="true"
-                                            :taggable="true"
-                                            deselectLabel="Удалить"
-                                            selectedLabel="Выбран"
-                                        ></multiselect>
-                                        <hr class="navbar-divider my-3">
-                                        <div class="mt-3" v-if="can.user_role">
-                                            <button
-                                                @click="editRole"
-                                                :disabled="showEditRole"
-                                                class="btn btn-sm btn-primary">Редактировать</button>
-                                            <button
-                                                @click="saveRole"
-                                                :disabled="!showEditRole"
-                                                class="btn btn-sm btn-success">Сохранить</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Последнее изменение</td>
-                                    <td>{{ user.updated_at }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Последний раз в сети</td>
-                                    <td>{{ user.last_online_at }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                                <multiselect
+                                                    v-if="showEditRole"
+                                                    v-model="user.role"
+                                                    label="title"
+                                                    track-by="id"
+                                                    :options="roles"
+                                                    :multiple="true"
+                                                    :taggable="true"
+                                                    deselectLabel="Удалить"
+                                                    selectedLabel="Выбран"
+                                                ></multiselect>
+                                                <hr class="navbar-divider my-3">
+                                                <div class="mt-3" v-if="can.user_role">
+                                                    <button
+                                                        @click="editRole"
+                                                        :disabled="showEditRole"
+                                                        class="btn btn-sm btn-primary">Редактировать
+                                                    </button>
+                                                    <button
+                                                        @click="saveRole"
+                                                        :disabled="!showEditRole"
+                                                        class="btn btn-sm btn-success">Сохранить
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Последнее изменение</td>
+                                            <td>{{ user.updated_at }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Последний раз в сети</td>
+                                            <td>{{ user.last_online_at }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
                 </b-tab>
 
                 <b-tab>
@@ -203,7 +220,8 @@
                     </div>
 
                     <p v-if="kits" v-for="kit in user_kits" :key="kit.id" class="mb-2">
-                        {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{ kit.name }}
+                        {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{ kit.name
+                        }} - {{ kit.comment }}
                     </p>
                 </b-tab>
 
@@ -248,10 +266,10 @@
                 user_kits: [],
                 roletest: '',
                 items: [
-                    { name: 'MacDonald', id: 40 },
-                    { name: 'Shaw', id: 21 },
-                    { name: 'Wilson', id: 89 },
-                    { name: 'Carney', id: 38 }
+                    {name: 'MacDonald', id: 40},
+                    {name: 'Shaw', id: 21},
+                    {name: 'Wilson', id: 89},
+                    {name: 'Carney', id: 38}
                 ],
                 fields: [
                     {
@@ -273,35 +291,35 @@
         },
 
         computed: {
-            newBranchArray(){
+            newBranchArray() {
                 return this.user.branch.slice().map(item => item.id.toString());
             },
 
-            newRoleArray(){
+            newRoleArray() {
                 return this.user.role.slice().map(item => item.id.toString());
             }
         },
 
         methods: {
 
-            getAllBranches(){
+            getAllBranches() {
                 axios.get('api/v2/getAllBranches')
                     .then(response => this.branches = response.data)
             },
 
-            getAllRoles(){
+            getAllRoles() {
                 axios.get('api/v2/getAllRoles')
                     .then(response => this.roles = response.data)
             },
 
             // Костыль события, если призодит type (datePicker), то выполняем блок именно для него
             editField(e, name, type) {
-                if (type){
-                    axios.put('api/v2/users/' + this.user.id, {field_name: name, field_value: e })
-                }else{
+                if (type) {
+                    axios.put('api/v2/users/' + this.user.id, {field_name: name, field_value: e})
+                } else {
                     const value = e.target.value;
                     const key = e.currentTarget.getAttribute('name');
-                    axios.put('api/v2/users/' + this.user.id, {field_name: key, field_value: value })
+                    axios.put('api/v2/users/' + this.user.id, {field_name: key, field_value: value})
                 }
             },
 
@@ -333,57 +351,57 @@
                 alert("Удаление сотрудника временно ограниченно");
             },
 
-            async history(){
+            async history() {
                 try {
                     let loader = this.$loading.show({
                         container: this.fullPage ? null : this.$refs.formContainer,
                         canCancel: true,
                     });
 
-                    let res = await axios.post('api/v2/history/' ,{ user_id: this.user.id })
+                    let res = await axios.post('api/v2/history', {user_id: this.user.id})
 
-                    if(res.status == 200){
+                    if (res.status == 200) {
                         this.user_history = res.data.data
                         this.tabIndex = 1
                         loader.hide()
                     }
                     return res.data.data
-                }
-                catch (err) {
+                } catch (err) {
                     console.error(err);
                 }
             },
 
-            async kits(){
+            async kits() {
                 try {
                     let loader = this.$loading.show({
                         container: this.fullPage ? null : this.$refs.formContainer,
                         canCancel: true,
                     });
 
-                    let res = await axios.post('api/v2/getUserKit/' ,{ user_id: this.user.id })
+                    let res = await axios.post('api/v2/getUserKit', {user_id: this.user.id})
 
-                    if(res.status == 200){
+                    if (res.status == 200) {
                         this.user_kits = res.data.data
                         this.tabIndex = 2
                         loader.hide()
                     }
                     return res.data.data
-                }
-                catch (err) {
+                } catch (err) {
                     console.error(err);
                 }
             },
 
 
-            addNewUserModal(id){
+            addNewUserModal(id) {
                 axios.get('api/v2/users/' + id)
-                    .then(response => {this.user = response.data.data})
+                    .then(response => {
+                        this.user = response.data.data
+                    })
 
                 this.$bvModal.show('showUser')
             },
 
-            closeModel(){
+            closeModel() {
                 this.user_history = []
                 this.showEditBranch = false,
                     this.showEditRole = false

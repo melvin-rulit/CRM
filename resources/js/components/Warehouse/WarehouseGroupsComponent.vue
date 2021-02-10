@@ -4,14 +4,6 @@
         <!--        Окно добавления товарной позиции-->
         <b-modal id="article" title="Новая товарная позиция" @ok="saveArticle" @hidden="resetModalArticle" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
-                <div class="form-group row" :class="{ 'form-group--error': $v.article_name.$error &&  showErrors}">
-                    <label class="col-sm-3 col-form-label">Наименование</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" v-model="$v.article_name.$model">
-                        <span v-if="!$v.article_name.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
-                        <span v-if="!$v.article_name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.article_name.$params.minLength.min}} символа</span>
-                    </div>
-                </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Группа</label>
                     <div class="col-sm-9">
@@ -21,6 +13,14 @@
                             option-value="id"
                             option-text="name"
                             placeholder="Введите для поиска группы"/>
+                    </div>
+                </div>
+                <div class="form-group row" :class="{ 'form-group--error': $v.article_name.$error &&  showErrors}">
+                    <label class="col-sm-3 col-form-label">Наименование</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" v-model="$v.article_name.$model">
+                        <span v-if="!$v.article_name.required && showErrors" class="text-danger h5 ml-3">* Поле обязательно для заполнения</span>
+                        <span v-if="!$v.article_name.minLength && showErrors" class="text-danger h5 ml-3">* Имя не может меньше {{$v.article_name.$params.minLength.min}} символа</span>
                     </div>
                 </div>
                 <div class="form-group row">

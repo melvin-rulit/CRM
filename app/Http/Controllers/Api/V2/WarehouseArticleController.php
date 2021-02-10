@@ -184,17 +184,12 @@ class WarehouseArticleController extends Controller
         WarehouseArticle::find($request->id)
             ->decrement('quantity', $request->quantity);
 
-        // Добавляем в лог запись
-        if($request->comment){
-
-            loger(7, null, $request->id, $request->comment);
-        }
-
         BaseArticle::create([
             'warehouse_article_id'      => $request->id,
             'base_id'                   => $request->base_id,
             'user_id'                   => Auth::user()->id,
             'quantity'                  => $request->quantity,
+            'comment'                   => $request->comment,
         ]);
     }
 
@@ -203,17 +198,12 @@ class WarehouseArticleController extends Controller
         WarehouseArticle::find($request->id)
             ->decrement('quantity', $request->quantity);
 
-        // Добавляем в лог запись
-        if($request->comment){
-
-            loger(7, null, $request->id, $request->comment);
-        }
-
         UserArticle::create([
             'warehouse_article_id'      => $request->id,
             'user_id'                   => $request->user_id,
             'who_user_id'               => Auth::user()->id,
             'quantity'                  => $request->quantity,
+            'comment'                   => $request->comment,
         ]);
     }
 

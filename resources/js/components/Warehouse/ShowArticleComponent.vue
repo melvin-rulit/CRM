@@ -264,7 +264,7 @@
             addQuantity(){
                 this.$v.$touch()
 
-                if (this.$v.$invalid) {
+                if (this.$v.quantity.$invalid) {
                     this.showErrors = true
                 }else{
                     this.position.quantity += this.quantity
@@ -397,9 +397,9 @@
                         comment: this.comment
                     })
 
-                    this.resetVuelidate()
-
                     this.position.quantity -= this.quantity
+
+                    this.resetVuelidate()
                     this.comment = ''
                     Vue.$toast.open({message: 'Выдано клиенту' ,type: 'success',duration: 2000,position: 'top-right'});
                 }
@@ -436,9 +436,9 @@
                             comment: this.comment
                         })
 
-                        this.resetVuelidate()
-
                         this.position.quantity -= this.quantity
+
+                        this.resetVuelidate()
                         this.comment = ''
 
                         Vue.$toast.open({message: 'Выдано сотруднику' ,type: 'success',duration: 2000,position: 'top-right'});

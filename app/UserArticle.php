@@ -11,6 +11,7 @@ class UserArticle extends Model
         'user_id',
         'who_user_id',
         'quantity',
+        'comment',
     ];
 
     public function warehouse_article(){
@@ -20,4 +21,5 @@ class UserArticle extends Model
     public function user(){
         return $this->hasOne('App\User', 'id', 'who_user_id');
     }
+
 }

@@ -5,6 +5,7 @@
         <edit-warehouse-component @get-method="fetch" ref="editWarehouse"></edit-warehouse-component>
         <add-article-component @get-method="showWarehouseEmit" ref="addPosition"></add-article-component>
         <show-article-component @get-method="showWarehouseEmit" ref="showPosition"></show-article-component>
+        <show-log-component ref="showLog"></show-log-component>
 
         <div class="row">
             <div class="col-lg-12">
@@ -18,7 +19,8 @@
                                         v-for="item in warehouses"
                                         @click="showWarehouseArticle(item.id)"
                                         class="btn btn-sm ml-3" :class="warehouse_id == item.id ? 'btn-outline-success' : 'btn-outline-primary'">{{ item.name }}
-                                        <i v-if="warehouse_id == item.id" @click="editWarehouse(item.id)" class="fe fe-edit ml-4"></i>
+                                        <i v-if="warehouse_id == item.id" @click="showLog(item.id)" class="fe fe-align-right ml-4"></i>
+                                        <i v-if="warehouse_id == item.id" @click="editWarehouse(item.id)" class="fe fe-edit ml-2"></i>
                                         <i v-if="warehouse_id == item.id" @click="deleteWarehouse(item.id, item.name)" class="fe fe-trash-2 text-danger ml-2"></i></button>
                             </div>
                             <div class="col-auto"></div>
@@ -60,6 +62,7 @@
     export default {
         data() {
             return {
+                fullPage: false,
                 warehouses: [],
                 warehouse_id: '',
                 positions: [],
@@ -146,6 +149,10 @@
                 this.$refs.showPosition.showModal(items)
             },
 
+            showLog(id){
+                this.$refs.showLog.showLog(id)
+            },
+
             deleteWarehouse(id, name){
 
                 this.$confirm("Удалить склад " + name + " ?").then(() => {
@@ -169,6 +176,7 @@
                     this.$refs.getmodal.addNewUserModal(index.id)
                 }
             },
+
         },
     }
 </script>

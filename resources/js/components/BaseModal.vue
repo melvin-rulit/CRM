@@ -803,7 +803,7 @@
                     <div class="card mt-3 fix-height">
                         <div class="card-body">
                             <p v-if="kits" v-for="kit in kits" :key="kit.id" class="mb-2">
-                                {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{ kit.name }}
+                                {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{ kit.name }} - {{kit.comment}}</span>
                             </p>
                         </div>
                     </div>

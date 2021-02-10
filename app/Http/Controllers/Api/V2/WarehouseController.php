@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Branch;
 use App\Http\Resources\GenerlResource;
 use App\Http\Resources\GetUsersWarehouse;
+use App\Http\Resources\WarehouseLogResource;
 use App\Http\Resources\WarehousePositionResource;
 use App\Region;
 use App\Warehouse;
@@ -48,7 +49,7 @@ class WarehouseController extends Controller
         $warehouse = Warehouse::create($request->all());
 
         // Добавляем в лог запись
-        loger(6, null, 'Создан новый склад ' . $warehouse->name);
+        loger(6, null, null, $warehouse->id, 'Создан новый склад ' . $warehouse->name);
     }
 
     /**
@@ -127,6 +128,14 @@ class WarehouseController extends Controller
         $users = Branch::find($request->id);
 
         return GetUsersWarehouse::collection($users->users);
+
+    }
+
+    public function warehouseLog(Request $request)
+    {
+        $warehouse_log = Loger::where('warehouse_id', $request->id)->get();
+
+        return WarehouseLogResource::collection($warehouse_log);
 
     }
 

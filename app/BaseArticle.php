@@ -11,6 +11,7 @@ class BaseArticle extends Model
         'base_id',
         'user_id',
         'quantity',
+        'comment',
     ];
 
 
@@ -21,4 +22,5 @@ class BaseArticle extends Model
     public function user(){
         return $this->hasOne('App\User', 'id', 'user_id');
     }
+
 }

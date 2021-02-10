@@ -16,15 +16,16 @@ use Illuminate\Support\Facades\Auth;
  *
  */
 
-function loger($chanel, $base_id = null, $warehouse_article_id = null, $message = null)
+function loger($chanel, $base_id = null, $warehouse_article_id = null, $warehouse_id = null, $message = null)
 {
     Loger::create([
-            'user_id' => Auth::id(),
-            'channel' => $chanel,
-            'base_id' => $base_id,
-            'level_name' => 'success',
-            'warehouse_article_id' => $warehouse_article_id,
-            'message' => $message
+            'user_id'               => Auth::id(),
+            'channel'               => $chanel,
+            'base_id'               => $base_id,
+            'level_name'            => 'success',
+            'warehouse_id'          => $warehouse_id,
+            'warehouse_article_id'  => $warehouse_article_id,
+            'message'               => $message
         ]
     );
 }

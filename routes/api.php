@@ -117,6 +117,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('getBranchesWarehouse', 'WarehouseController@getBranches');
     Route::get('getRegionsWarehouse', 'WarehouseController@getRegions');
     Route::post('getUsersWarehouse', 'WarehouseController@getUsers');
+    Route::post('warehouseLog', 'WarehouseController@warehouseLog');
 
     // Article
     Route::apiResource('article', 'ArticleController');

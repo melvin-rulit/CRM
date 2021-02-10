@@ -138,6 +138,7 @@ Vue.component('add-warehouse-component', require('./components/Warehouse/AddWare
 Vue.component('edit-warehouse-component', require('./components/Warehouse/EditWarehouseComponent.vue').default);
 Vue.component('add-article-component', require('./components/Warehouse/AddArticleComponent.vue').default);
 Vue.component('show-article-component', require('./components/Warehouse/ShowArticleComponent.vue').default);
+Vue.component('show-log-component', require('./components/Warehouse/ShowLogComponent.vue').default);
 
 
 /**

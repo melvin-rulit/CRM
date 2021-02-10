@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Carbon\Carbon;
 
 class KitsResource extends JsonResource
 {
@@ -21,6 +20,7 @@ class KitsResource extends JsonResource
             'surname'       => $this->user->surname,
             'name'          => $this->user->name,
             'quantity'      => $this->quantity,
+            'comment'       => $this->comment,
             'date'          => $this->created_at->format('d.m.Y H:i:s'),
         ];
     }
