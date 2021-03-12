@@ -2,12 +2,29 @@
     <div>
         <base-modal-component ref="showmoda"></base-modal-component>
         <vue-context ref="menu">
-            <li><a href="#" @click.prevent="workout()" v-if="gates.can.journal_visit"><i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a></li>
-            <li><a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a></li>
-            <li><a href="#" @click.prevent="notVisit()" v-if="gates.can.journal_not_visit"><i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a></li>
-            <li><a href="#" @click.prevent="newWorkout()" v-if="gates.can.journal_pk"><i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Тренировка</a></li>
-            <li><a href="#" v-b-modal="'addNewCommentGetModal'"><i class="fe fe-message-circle text-primary ml-1 mr-3"></i>Комментарий</a></li>
-            <li><a href="#" v-b-modal="'showHistory'" @click.prevent="getHistory()"><i class="fe fe-menu text-primary ml-1 mr-3"></i>Смотреть историю</a></li>
+            <li>
+                <a href="#" @click.prevent="workout()" v-if="gates.can.journal_visit">
+                    <i class="fe fe-check text-success ml-1 mr-3"></i>Занятие</a>
+            </li>
+            <li>
+                <a href="#" @click.prevent="freezing()"><i class="fe fe-sun text-primary ml-1 mr-3"></i>Заморозка</a>
+            </li>
+            <li>
+                <a href="#" @click.prevent="notVisit()" v-if="gates.can.journal_not_visit">
+                    <i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a>
+            </li>
+            <li>
+                <a href="#" @click.prevent="newWorkout()" v-if="gates.can.journal_pk">
+                    <i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Тренировка</a>
+            </li>
+            <li>
+                <a href="#" v-b-modal="'addNewCommentGetModal'">
+                    <i class="fe fe-message-circle text-primary ml-1 mr-3"></i>Комментарий</a>
+            </li>
+            <li>
+                <a href="#" v-b-modal="'showHistory'" @click.prevent="getHistory()">
+                    <i class="fe fe-menu text-primary ml-1 mr-3"></i>Смотреть историю</a>
+            </li>
         </vue-context>
 
         <div class="row flex-nowrap halls">
@@ -15,9 +32,10 @@
                 <div class="card" :class="hall_id == hall.id ? 'border border-success' : ''">
                     <div class="card-body p-3">
                         <a href="#" @click.prevent="getHallAtributes(hall.id, calendar)">{{ hall.name }}</a>
-                        <template v-if="hall_id == hall.id" >
+                        <template v-if="hall_id == hall.id">
                             <span class="badge badge-primary ml-3 mb-2">5</span>
-                            <i @click="showCalendar(hall.id)" class="pointer fe fe-calendar h2 ml-3 mb-0 text-muted"></i>
+                            <i @click="showCalendar(hall.id)"
+                               class="pointer fe fe-calendar h2 ml-3 mb-0 text-muted"></i>
                             <i @click="settingsGroup(hall.id)" class="pointer fe fe-users h2 ml-3 mb-0 text-muted"></i>
                             <i @click="editGroup(hall.id)" class="pointer fe fe-user-x h2 ml-3 mb-0 text-muted"></i>
                         </template>
@@ -363,6 +381,7 @@
 
                                 <template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.group_id">
                                     <tr v-if="user.group_id == val.group_id" v-for="(user, index) in computedSelect">
+                                        <pre><code>{{ getUserInGroupArray }}</code></pre>
                                         <td @click="BaseModal(user.id)" class="pt-2 pb-2 col-3" :id="'tooltip-target-1' + user.id">
                                             <span class="ml-3">{{ index + 1 }}.</span>
                                             <span class="ml-3">{{ user.surname }}</span>

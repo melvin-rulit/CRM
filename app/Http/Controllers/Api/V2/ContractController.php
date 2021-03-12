@@ -22,6 +22,7 @@ use App\Contract;
 use App\Contract_pay;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ContractController extends Controller
 {
@@ -146,13 +147,7 @@ class ContractController extends Controller
         );
 
         // И добавляем комментарий
-        Loger::create(array(
-                'user_id' => Auth::id(),
-                'channel' => '4',
-                'base_id' => $request['base_id'],
-                'level_name' => 'success',
-                'message' => 'Присвоен статус Покупка ВМ')
-        );
+        loger(4, $request->base_id, null,null,'Присвоен статус Покупка ВМ');
 
         //        ВЫНЕСТИ В ОТДЕЛЬНЫЙ МЕТОД =========================================================================
 
@@ -301,7 +296,7 @@ class ContractController extends Controller
 
         // И добавляем комментарий
 
-        loger(4, $request->base_id,'Присвоен статус Занимается');
+        loger(4, $request->base_id,null, null, 'Присвоен статус Занимается');
 
         //$this->saveOperation($request['base_id'], $request['name'], $request->pays[0]['pay']);
 
@@ -369,9 +364,36 @@ class ContractController extends Controller
 
     public function test(Request $request){
 
-        $users = Base::where('child_surname', 'like', "%Павленко%")->get();
+        $filteredData = [];
+        $arr = [];
+        $users = DB::select('select * from contract_pays where id between 80 and 200');
 
-        return $users;
+
+        for ($i = 10; $i <= 29; $i++) {
+
+
+            $getfilteredData = function ($arr, $datadoc) {
+                return array_filter($arr, function ($item) use ($datadoc) {
+                    return strpos($item->created_at, $datadoc) !== false;
+                });
+            };
+
+            $newArr = [
+                "date" =>'2020-07-'. $i,
+                "retail" => array_sum(array_column($getfilteredData($users, '2020-07-'. $i), 'pay')),
+                "bn" => array_sum(array_column($getfilteredData($users, '2020-07-'. $i), 'pay')),
+            ];
+
+            array_push($arr, $newArr);
+
+        }
+
+        return $arr;
+
+
+
+
+
 
 
 //        $journal = Journal::where('base_id', 91)

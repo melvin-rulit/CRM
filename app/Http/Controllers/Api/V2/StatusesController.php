@@ -20,7 +20,7 @@ class StatusesController extends Controller
         $statuses = Statuses::where('base_id', $request->id)->update(['call_date' => $date]);
 
         // Добавляем в лог информацию что клиент изменил дату звонка
-        loger(4, $request->id, 'Сменил дату звонка на ' . $dateFormat);
+        loger(4, $request->id, null,null,'Сменил дату звонка на ' . $dateFormat);
     }
 
     public function changeCallStatus(Request $request)
@@ -31,7 +31,7 @@ class StatusesController extends Controller
         $call_status = $request->call_status == 1 ? ' Дозвон' : ' Не дозвон';
 
         // Добавляем в лог информацию что клиент изменил статус звонка
-        loger(4, $request->id, 'Сменил статус звонка на' . $call_status);
+        loger(4, $request->id, null,null,'Сменил статус звонка на' . $call_status);
 
 
         if ($request->comment) {
@@ -45,7 +45,7 @@ class StatusesController extends Controller
 
 
             // Добавляем в лог коментарий
-            loger(5, $request->id, $request->comment);
+            loger(5, $request->id,null,null, $request->comment);
 
         }
     }

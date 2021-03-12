@@ -32,6 +32,7 @@ class GetUser extends JsonResource
             'role'          => $this->roles->map->only('id', 'title'),
             'updated_at'    => Carbon::parse($this->updated_at)->translatedFormat('d.m.Y H:m:s'),
             'last_online_at'    => Carbon::parse($this->last_online_at)->translatedFormat('d.m.Y H:m:s'),
+            'secret_id'     => $this->secret_id,
         ];
     }
 }

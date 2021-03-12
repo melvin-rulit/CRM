@@ -223,7 +223,7 @@ class BaseController extends Controller
                 );
 
                 // Добавляем в лог запись
-                loger(4, $request->base_id, 'Присвоен статус Явка ПК');
+                loger(4, $request->base_id, null,null,'Присвоен статус Явка ПК');
 
             }
 
@@ -246,7 +246,7 @@ class BaseController extends Controller
                 );
 
                 // Добавляем в лог запись
-                loger(4, $request->base_id, 'Присвоен статус Явка ВМ 1');
+                loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 1');
 
             }
 
@@ -269,7 +269,7 @@ class BaseController extends Controller
                 );
 
                 // Добавляем в лог запись
-                loger(4, $request->base_id, 'Присвоен статус Явка ВМ 2');
+                loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 2');
 
             }
 
@@ -292,7 +292,7 @@ class BaseController extends Controller
                 );
 
                 // Добавляем в лог запись
-                loger(4, $request->base_id, 'Присвоен статус Явка ВМ 3');
+                loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 3');
 
             }
 
@@ -368,7 +368,7 @@ class BaseController extends Controller
             );
 
             // И добавляем комментарий
-            loger(5, $request->base_id, $request->comment);
+            loger(5, $request->base_id,null,null, $request->comment);
 
             return [
                 'response'  => "success",
@@ -426,7 +426,7 @@ class BaseController extends Controller
                     ]
                 );
                 // Добавляем в лог запись
-                loger(4, $request->base_id, 'Присвоен статус Запись ПК');
+                loger(4, $request->base_id, null,null,'Присвоен статус Запись ПК');
 
             }
 
@@ -440,7 +440,7 @@ class BaseController extends Controller
                     ]
                 );
                 // Добавляем в лог запись
-                loger(4, $request->base_id, 'Присвоен статус Покупка ВМ');
+                loger(4, $request->base_id, null,null,'Присвоен статус Покупка ВМ');
 
             }
 
@@ -563,7 +563,7 @@ class BaseController extends Controller
     public function addNewComent(Request $request){
 
         // Добавляем комментарий
-        loger(5, $request->base_id, $request->comment);
+        loger(5, $request->base_id, null,null, $request->comment);
 
     }
 
@@ -654,12 +654,11 @@ class BaseController extends Controller
 
 
         // Добавляем в лог информацию что клиент создан
-        loger(2, $base->id, 'Добавил клиента в базу');
+        loger(2, $base->id, null, null, 'Добавил клиента в базу');
 
 
         // Добавляем в лог информацию что клиенту присвоен статус
-        loger(4, $base->id, 'Присвоен статус Новый');
-
+        loger(4, $base->id, null, null, 'Присвоен статус Новый');
 
         return $base->id;
 //        return [
@@ -693,7 +692,7 @@ class BaseController extends Controller
 
             // Добавляем в лог запись если статус поменялся на В работе
             if ($statuses){
-                loger(4, $base->id, 'Присвоен статус В работе');
+                loger(4, $base->id, null,null,'Присвоен статус В работе');
             }
         }
 
@@ -784,7 +783,7 @@ class BaseController extends Controller
         $base->avatar = $path;
         $base->save();
 
-        loger(2, $base->id, 'Изменил аватар '.$base->name);
+        loger(2, $base->id, null,null,'Изменил аватар '.$base->name);
 
 
         return $path;

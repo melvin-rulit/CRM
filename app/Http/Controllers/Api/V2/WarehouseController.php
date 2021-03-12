@@ -96,10 +96,12 @@ class WarehouseController extends Controller
      */
     public function destroy($id)
     {
-        $warehouse = Warehouse::find($id)->articles->count();
+
+        $warehouse = Warehouse::find($id)->articles->sum('quantity');
 
         if ($warehouse == 0){
-            Warehouse::find($id)->delete();
+
+            Warehouse::find($id)->delete(); // Тут нужно использовать SofDeletes для псевдоудаления
 
         }else{
             return [

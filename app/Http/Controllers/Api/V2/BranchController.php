@@ -42,7 +42,7 @@ class BranchController extends Controller
     {
         $branch = Branch::create($request->all());
 
-        loger(3, null,'Добавил филиал '.$branch->name);
+        loger(3, null,null,null,'Добавил филиал '.$branch->name);
 
 
         return (new BranchResource($branch))
@@ -94,7 +94,7 @@ class BranchController extends Controller
         $branch->$field_name = $request['field_value'];
         $branch->save();
 
-        loger(3, null,'Изменил поле '.$field_name.' филиала '.$branch->name.' на '.$request['field_value']);
+        loger(3, null,null,null,'Изменил поле '.$field_name.' филиала '.$branch->name.' на '.$request['field_value']);
 
     }
 
@@ -108,7 +108,7 @@ class BranchController extends Controller
     {
         $branch->delete();
 
-        loger(3, null,'Удалил филиал '.$branch->name);
+        loger(3, null,null,null,'Удалил филиал '.$branch->name);
 
     }
 }

@@ -62,7 +62,7 @@ class ProductController extends Controller
             'coming'        => true
         ]);
 
-        loger(3, null,'Добавил продукт '.$product->name);
+        loger(3, null,null,null,'Добавил продукт '.$product->name);
 
     }
 
@@ -110,7 +110,7 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        loger(3, null,'Удалил продукт '.$product->name);
+        loger(3, null,null,null,'Удалил продукт '.$product->name);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

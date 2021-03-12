@@ -15,13 +15,18 @@
                             <div class="col">
                                 <button @click="addPosition" class="btn btn-sm btn-info">Добавить позицию</button>
                                 <button @click="addWarehouse" class="btn btn-sm btn-success">Добавить склад</button>
-                                    <button
-                                        v-for="item in warehouses"
-                                        @click="showWarehouseArticle(item.id)"
-                                        class="btn btn-sm ml-3" :class="warehouse_id == item.id ? 'btn-outline-success' : 'btn-outline-primary'">{{ item.name }}
-                                        <i v-if="warehouse_id == item.id" @click="showLog(item.id)" class="fe fe-align-right ml-4"></i>
-                                        <i v-if="warehouse_id == item.id" @click="editWarehouse(item.id)" class="fe fe-edit ml-2"></i>
-                                        <i v-if="warehouse_id == item.id" @click="deleteWarehouse(item.id, item.name)" class="fe fe-trash-2 text-danger ml-2"></i></button>
+                                <button
+                                    v-for="item in warehouses"
+                                    @click="showWarehouseArticle(item.id)"
+                                    class="btn btn-sm ml-3"
+                                    :class="warehouse_id == item.id ? 'btn-outline-success' : 'btn-outline-primary'">{{
+                                    item.name }}
+                                    <i v-if="warehouse_id == item.id" @click="showLog(item.id)"
+                                       class="fe fe-align-right ml-4"></i>
+                                    <i v-if="warehouse_id == item.id" @click="editWarehouse(item.id)"
+                                       class="fe fe-edit ml-2"></i>
+                                    <i v-if="warehouse_id == item.id" @click="deleteWarehouse(item.id, item.name)"
+                                       class="fe fe-trash-2 text-danger ml-2"></i></button>
                             </div>
                             <div class="col-auto"></div>
                         </div>
@@ -97,82 +102,99 @@
                 .then(response => {
                     next(vm => (vm.warehouses = response.data) )
                 })
+        },
 
-            // axios.get('api/v2/article')
-            //     .then(response => {
-            //         next(vm => (vm.positions = response.data.data) )
-            //     })
+        mounted() {
+            if(this.warehouses[0]) {
+                this.showWarehouseArticle(this.warehouses[0].id)
+            }
         },
 
         methods: {
 
-            fetch(){
+            fetch() {
                 this.getWarehouses()
                 this.getPositions()
             },
 
-            showWarehouseArticle(id){
+            showWarehouseArticle(id) {
                 axios.post('api/v2/showWarehouseArticle', {warehouse_id: id})
-                    .then(response => {this.positions = response.data.data})
+                    .then(response => {
+                        this.positions = response.data.data
+                    })
 
                 this.warehouse_id = id
             },
 
-            showWarehouseEmit(data){
+            showWarehouseEmit(data) {
                 this.showWarehouseArticle(data.id)
 
             },
 
-            getWarehouses(){
+            getWarehouses() {
                 axios.get('api/v2/warehouses')
-                    .then(response => {this.warehouses = response.data})
+                    .then(response => {
+                        this.warehouses = response.data
+                    })
             },
 
-            getPositions(id){
+            getPositions(id) {
                 axios.get('api/v2/article')
-                    .then(response => {this.positions = response.data})
+                    .then(response => {
+                        this.positions = response.data
+                    })
             },
 
-            addWarehouse(){
+            addWarehouse() {
                 this.$refs.addWarehouse.showModal()
             },
 
-            editWarehouse(id){
+            editWarehouse(id) {
                 this.$refs.editWarehouse.showModal(id)
             },
 
-            addPosition(){
+            addPosition() {
                 this.$refs.addPosition.showModal()
             },
 
-            ShowModalPosition(items){
+            ShowModalPosition(items) {
                 this.$refs.showPosition.showModal(items)
             },
 
-            showLog(id){
+            showLog(id) {
                 this.$refs.showLog.showLog(id)
             },
 
-            deleteWarehouse(id, name){
+            deleteWarehouse(id, name) {
 
                 this.$confirm("Удалить склад " + name + " ?").then(() => {
 
-                    axios.delete('api/v2/warehouses/'+ id)
+                    axios.delete('api/v2/warehouses/' + id)
                         .then((response) => {
 
-                        if (response.data.response == "error"){
-                            Vue.$toast.open({message: 'На складе есть остатки товаров переместите или спишите их' ,type: 'error',duration: 3000,position: 'top-right'})
-                        }else{
-                            Vue.$toast.open({message: 'Склад успешно удален' ,type: 'success',duration: 3000,position: 'top-right'});
-                            this.getWarehouses()
-                        }
+                            if (response.data.response == "error") {
+                                Vue.$toast.open({
+                                    message: 'На складе есть остатки товаров переместите или спишите их',
+                                    type: 'error',
+                                    duration: 3000,
+                                    position: 'top-right'
+                                })
+                            } else {
+                                Vue.$toast.open({
+                                    message: 'Склад успешно удален',
+                                    type: 'success',
+                                    duration: 3000,
+                                    position: 'top-right'
+                                });
+                                this.getWarehouses()
+                            }
 
-                    });
+                        });
                 });
             },
 
-            getShowModal(index){
-                if (this.can.user_show){
+            getShowModal(index) {
+                if (this.can.user_show) {
                     this.$refs.getmodal.addNewUserModal(index.id)
                 }
             },

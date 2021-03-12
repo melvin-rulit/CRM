@@ -208,6 +208,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.mother_surname"
                                                 name="mother_surname"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -218,6 +219,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.mother_name"
                                                 name="mother_name"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -228,6 +230,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.mother_middle_name"
                                                 name="mother_middle_name"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -240,6 +243,7 @@
                                                 name="mother_phone"
                                                 placeholder="+38 (926) 123-45-67"
                                                 mask="+## (###) ###-##-##"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -252,6 +256,7 @@
                                                 name="mother_dop_phone"
                                                 placeholder="+38 (926) 123-45-67"
                                                 mask="+## (###) ###-##-##"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -262,6 +267,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.mother_email"
                                                 name="mother_email"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -274,6 +280,7 @@
                                                 name="mother_viber"
                                                 placeholder="+38 (926) 123-45-67"
                                                 mask="+## (###) ###-##-##"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -284,6 +291,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.mother_telegram"
                                                 name="mother_telegram"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -294,6 +302,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.mother_facebook"
                                                 name="mother_facebook"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -304,6 +313,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.mother_instagram"
                                                 name="mother_instagram"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -330,6 +340,7 @@
                                         class="form-control"
                                         v-model="dataObject.attributes.mother_notes"
                                         @blur="event => editField(event, 'mother_notes')"
+                                        :gate="can.base_edit"
                                         rows="3">
                                         </textarea>
                                 </div>
@@ -349,6 +360,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.father_surname"
                                                 name="father_surname"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -359,6 +371,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.father_name"
                                                 name="father_name"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -369,6 +382,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.father_middle_name"
                                                 name="father_middle_name"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -393,6 +407,7 @@
                                                 mask="+## (###) ###-##-##"
                                                 v-model="dataObject.attributes.father_dop_phone"
                                                 name="father_dop_phone"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -402,6 +417,7 @@
                                         <input-form
                                             v-model="dataObject.attributes.father_email"
                                             name="father_email"
+                                            :gate="can.base_edit"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -414,6 +430,7 @@
                                                 name="father_viber"
                                                 placeholder="+38 (926) 123-45-67"
                                                 mask="+## (###) ###-##-##"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -424,6 +441,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.father_telegram"
                                                 name="father_telegram"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -434,6 +452,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.father_facebook"
                                                 name="father_facebook"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -444,6 +463,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.father_instagram"
                                                 name="father_instagram"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -464,6 +484,7 @@
                                         class="form-control"
                                         v-model="dataObject.attributes.father_notes"
                                         @blur="event => editField(event, 'father_notes')"
+                                        :gate="can.base_edit"
                                         rows="3">
                                         </textarea>
                                 </div>
@@ -483,6 +504,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.other_relative_surname"
                                                 name="other_relative_surname"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -493,6 +515,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.other_relative_name"
                                                 name="other_relative_name"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -503,6 +526,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.other_relative_middle_name"
                                                 name="other_relative_middle_name"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -515,6 +539,7 @@
                                                 name="other_relative_phone"
                                                 placeholder="+38 (926) 123-45-67"
                                                 mask="+## (###) ###-##-##"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField"></input-form>
                                         </td>
                                     </tr>
@@ -526,6 +551,7 @@
                                                 name="other_relative_dop_phone"
                                                 placeholder="+38 (926) 123-45-67"
                                                 mask="+## (###) ###-##-##"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -536,6 +562,7 @@
                                         <input-form
                                             v-model="dataObject.attributes.other_relative_email"
                                             name="other_relative_email"
+                                            :gate="can.base_edit"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -548,6 +575,7 @@
                                                 name="other_relative_viber"
                                                 placeholder="+38 (926) 123-45-67"
                                                 mask="+## (###) ###-##-##"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -558,6 +586,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.other_relative_telegram"
                                                 name="other_relative_telegram"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -568,6 +597,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.other_relative_facebook"
                                                 name="other_relative_facebook"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -578,6 +608,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.other_relative_instagram"
                                                 name="other_relative_instagram"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -588,6 +619,7 @@
                                             <input-form
                                                 v-model="dataObject.attributes.other_relative_language"
                                                 name="other_relative_language"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -608,6 +640,7 @@
                                         class="form-control"
                                         v-model="dataObject.attributes.other_relative_notes"
                                         @blur="event => editField(event, 'other_relative_notes')"
+                                        :gate="can.base_edit"
                                         rows="3">
                                         </textarea>
                                 </div>

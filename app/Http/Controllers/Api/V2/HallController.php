@@ -59,7 +59,7 @@ class HallController extends Controller
     {
         $hall = Hall::create($request->all());
 
-        loger(3, null,'Добавил зал '.$hall->name);
+        loger(3, null,null,null,'Добавил зал '.$hall->name);
 
     }
 
@@ -127,7 +127,7 @@ class HallController extends Controller
     {
         $hall->delete();
 
-        loger(3, null,'Удалил зал '.$hall->name);
+        loger(3, null,null,null,'Удалил зал '.$hall->name);
 
 
     }

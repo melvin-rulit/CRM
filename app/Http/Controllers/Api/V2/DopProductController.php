@@ -40,7 +40,7 @@ class DopProductController extends Controller
     {
         $dopproduct = DopProduct::create($request->all());
 
-        loger(3, null,'Добавил дополнительный продукт '.$dopproduct->name);
+        loger(3, null,null,null,'Добавил дополнительный продукт '.$dopproduct->name);
 
     }
 
@@ -90,7 +90,7 @@ class DopProductController extends Controller
     {
         $dopproduct->delete();
 
-        loger(3, null,'Удалил дополнительный продукт '.$dopproduct->name);
+        loger(3, null,null,null,'Удалил дополнительный продукт '.$dopproduct->name);
 
     }
 }

@@ -36,6 +36,7 @@
                                                 <input-form
                                                     v-model="user.surname"
                                                     name="surname"
+                                                    :gate="can.user_edit"
                                                     @edit-field="editField">
                                                 </input-form>
                                             </td>
@@ -46,6 +47,7 @@
                                                 <input-form
                                                     v-model="user.name"
                                                     name="name"
+                                                    :gate="can.user_edit"
                                                     @edit-field="editField">
                                                 </input-form>
                                             </td>
@@ -57,6 +59,7 @@
                                                     v-model="user.phone"
                                                     mask="+## (###) ###-##-##"
                                                     name="phone"
+                                                    :gate="can.user_edit"
                                                     @edit-field="editField">
                                                 </input-form>
                                             </td>
@@ -67,6 +70,7 @@
                                                 <input-form
                                                     v-model="user.email"
                                                     name="email"
+                                                    :gate="can.user_edit"
                                                     @edit-field="editField">
                                                 </input-form>
                                             </td>
@@ -78,6 +82,7 @@
                                                     v-model="user.birthday"
                                                     name="birthday"
                                                     datePicker="true"
+                                                    :gate="can.user_edit"
                                                     @edit-field="editField">
                                                 </input-form>
                                             </td>
@@ -88,6 +93,7 @@
                                                 <input-form
                                                     v-model="user.facebook"
                                                     name="facebook"
+                                                    :gate="can.user_edit"
                                                     @edit-field="editField">
                                                 </input-form>
                                             </td>
@@ -98,6 +104,7 @@
                                                 <input-form
                                                     v-model="user.instagram"
                                                     name="instagram"
+                                                    :gate="can.user_edit"
                                                     @edit-field="editField">
                                                 </input-form>
                                             </td>
@@ -109,6 +116,7 @@
                                                     v-model="user.about_as"
                                                     textarea="true"
                                                     name="about_as"
+                                                    :gate="can.user_edit"
                                                     @edit-field="editField">
                                                 </input-form>
                                             </td>
@@ -186,6 +194,10 @@
                                         <tr>
                                             <td>Последний раз в сети</td>
                                             <td>{{ user.last_online_at }}</td>
+                                        </tr>
+                                        <tr v-if="can.user_show_password">
+                                            <td>Пароль</td>
+                                            <td class="text-danger">{{ user.secret_id }}</td>
                                         </tr>
                                         </tbody>
                                     </table>

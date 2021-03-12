@@ -48,10 +48,12 @@ class UserController extends Controller
         return (UsersAllResource::collection($result))
             ->additional([
                 'can' => [
-                    'user_show'     => Gate::allows('user_show'),
-                    'user_branch'   => Gate::allows('user_branch'),
-                    'user_create'   => Gate::allows('user_create'),
-                    'user_role'     => Gate::allows('user_role'),
+                    'user_show'             => Gate::allows('user_show'),
+                    'user_branch'           => Gate::allows('user_branch'),
+                    'user_create'           => Gate::allows('user_create'),
+                    'user_role'             => Gate::allows('user_role'),
+                    'user_edit'             => Gate::allows('user_edit'),
+                    'user_show_password'    => Gate::allows('user_show_password'),
                     ]
                 ]
         );

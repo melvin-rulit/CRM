@@ -183,6 +183,7 @@
                             login: this.login,
                             email: this.login,
                             password: this.password,
+                            secret_id: this.password,
                             branch: this.newBranchArray,
                             role: this.newRoleArray,
                         })

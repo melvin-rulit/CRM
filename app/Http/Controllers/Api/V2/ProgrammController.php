@@ -40,7 +40,7 @@ class ProgrammController extends Controller
     {
         $programm = Programm::create($request->all());
 
-        loger(3, null,'Добавил программу '.$programm->name);
+        loger(3, null,null,null,'Добавил программу '.$programm->name);
 
     }
 
@@ -90,7 +90,7 @@ class ProgrammController extends Controller
     {
         $programm->delete();
 
-        loger(3, null,'Удалил программу '.$programm->name);
+        loger(3, null,null,null,'Удалил программу '.$programm->name);
 
 //        return response(null, Response::HTTP_NO_CONTENT);
     }

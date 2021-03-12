@@ -144,7 +144,7 @@ class WarehouseArticleController extends Controller
         // Добавляем в лог запись
         if($request->comment){
 
-            loger(7, null, $request->id, $request->comment);
+            loger(7, null, $request->id, null, $request->comment);
         }
 
 
@@ -175,7 +175,7 @@ class WarehouseArticleController extends Controller
         // Добавляем в лог запись
         if($request->comment){
 
-            loger(7, null, $request->id, $request->comment);
+            loger(7, null, $request->id, null, $request->comment);
         }
     }
 
