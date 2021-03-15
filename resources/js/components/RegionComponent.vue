@@ -415,6 +415,7 @@
                                             v-model="programm.name"
                                             name="name"
                                             :id="programm.id"
+                                            :gate="can.edit_products"
                                             @edit-field="editFieldProgramm">
                                         </input-form>
                                     </td>
