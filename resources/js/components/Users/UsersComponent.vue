@@ -17,6 +17,11 @@
                     <template v-slot:cell(network)="row">
                             <span v-if="row.item.online" class="text-success">●</span>
                     </template>
+                    <template v-slot:cell(role)="row">
+                        <span v-for="item in row.item.roles" class="badge badge-info mr-2">
+                            {{item.title}}
+                        </span>
+                    </template>
                 </b-table>
             </div>
         </div>
@@ -50,9 +55,9 @@
                         label: 'Фамилия',
                     },
                     {
-                        key: 'email',
-                        label: 'Логин (почта)',
-                    }
+                        key: 'role',
+                        label: 'Должность',
+                    },
                 ],
             }
         },

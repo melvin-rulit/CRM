@@ -381,7 +381,6 @@
 
                                 <template v-if="getUserInGroupArray" class="collapse" :id="'group_' + val.group_id">
                                     <tr v-if="user.group_id == val.group_id" v-for="(user, index) in computedSelect">
-                                        <pre><code>{{ getUserInGroupArray }}</code></pre>
                                         <td @click="BaseModal(user.id)" class="pt-2 pb-2 col-3" :id="'tooltip-target-1' + user.id">
                                             <span class="ml-3">{{ index + 1 }}.</span>
                                             <span class="ml-3">{{ user.surname }}</span>

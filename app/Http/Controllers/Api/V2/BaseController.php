@@ -669,6 +669,8 @@ class BaseController extends Controller
 
     public function getInfo(Request $request){
 
+//        dd(config('session.lifetime'));
+
         $base = Base::find($request->id);
 
         $base->increment('total_open');

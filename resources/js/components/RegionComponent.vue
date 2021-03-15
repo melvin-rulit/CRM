@@ -159,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="title-collapse">
+                <div class="title-collapse" v-show="can.show_conditions">
                     <a data-toggle="collapse" data-target="#1_products" href="#" class="accordion-toggle">Условия программ обучения</a>
                     <i class="fe fe-chevron-down h3 text-info pl-2"></i>
                 </div>
@@ -191,7 +191,11 @@
                                     <th data-toggle="tooltip" :title="days" class="text-center">
                                         <span class="fe fe-clock h3 text-info"></span>
                                     </th>
-                                    <th data-toggle="tooltip" :title="add_product" v-show="buttonAdd" class="text-center bg-success bp" @click="addRow(branch.id), buttonAdd = !buttonAdd">
+                                    <th data-toggle="tooltip"
+                                        :title="add_product"
+                                        v-show="buttonAdd && can.add_conditions"
+                                        class="text-center bg-success bp"
+                                        @click="addRow(branch.id), buttonAdd = !buttonAdd">
                                         <span class="fe fe-plus h3 text-white"></span>
                                     </th>
                                 </tr>
@@ -203,6 +207,7 @@
                                             v-model="product.name"
                                             name="name"
                                             :id="product.id"
+                                            :gate="can.edit_conditions"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -211,6 +216,7 @@
                                             v-model="product.price"
                                             name="price"
                                             :id="product.id"
+                                            :gate="can.edit_conditions"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -220,6 +226,7 @@
                                             name="classes_total"
                                             mask="###"
                                             :id="product.id"
+                                            :gate="can.edit_conditions"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -229,6 +236,7 @@
                                             name="classes_week"
                                             mask="###"
                                             :id="product.id"
+                                            :gate="can.edit_conditions"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -238,6 +246,7 @@
                                             name="category_time"
                                             mask="###"
                                             :id="product.id"
+                                            :gate="can.edit_conditions"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -247,6 +256,7 @@
                                             name="freezing_total"
                                             mask="###"
                                             :id="product.id"
+                                            :gate="can.edit_conditions"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -256,6 +266,7 @@
                                             name="months"
                                             mask="###"
                                             :id="product.id"
+                                            :gate="can.edit_conditions"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -265,6 +276,7 @@
                                             name="days"
                                             mask="###"
                                             :id="product.id"
+                                            :gate="can.edit_conditions"
                                             @edit-field="editField">
                                         </input-form>
                                     </td>
@@ -272,7 +284,7 @@
                                         <span class="fe fe-save h3 text-success"></span>
                                     </td>
                                     <td v-else="">
-                                        <span class="fe fe-trash-2 h3 text-danger mr-3" @click="removeRow(int, product.id, product.name)"></span>
+                                        <span v-show="can.edit_conditions" class="fe fe-trash-2 h3 text-danger mr-3" @click="removeRow(int, product.id, product.name)"></span>
                                         <span data-toggle="collapse" :data-target="'#' + product.id + 'collap'" class="accordion-toggle fe fe-chevron-down h3 text-info"></span>
                                     </td>
                                 <tr>
@@ -298,6 +310,7 @@
                                                                         name="pay"
                                                                         mask="######"
                                                                         :id="pay.id"
+                                                                        :gate="can.edit_conditions"
                                                                         @edit-field="editFieldProductPay">
                                                                     </input-form>
                                                                 </td>
@@ -307,6 +320,7 @@
                                                                         name="day"
                                                                         mask="####"
                                                                         :id="pay.id"
+                                                                        :gate="can.edit_conditions"
                                                                         @edit-field="editFieldProductPay">
                                                                     </input-form>
                                                                 </td>
@@ -336,6 +350,7 @@
                                                             :id="product.id"
                                                             mask="##.##.####"
                                                             datePicker="true"
+                                                            :gate="can.edit_conditions"
                                                             @edit-field="editField">
                                                         </input-form>
                                                     </p>
@@ -345,6 +360,7 @@
                                                             name="description"
                                                             textarea="true"
                                                             :id="product.id"
+                                                            :gate="can.edit_conditions"
                                                             @edit-field="editField">
                                                         </input-form>
                                                     </p>
@@ -376,7 +392,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="title-collapse mt-2">
+                <div class="title-collapse mt-2" v-show="can.show_products">
                     <a data-toggle="collapse" data-target="#2_programms" href="#" class="accordion-toggle">Основные программы обучения</a>
                     <i class="fe fe-chevron-down h3 text-info pl-2"></i>
                 </div>
@@ -389,7 +405,7 @@
                                     <th>Основная</th>
                                     <th>ПК</th>
                                     <th>ВМ</th>
-                                    <th v-show="buttonAddProgramm" class="text-center bg-success bp" @click="addRowProgramm(branch.id), buttonAddProgramm = !buttonAddProgramm"><span class="fe fe-plus h3 text-white"></span></th>
+                                    <th v-show="buttonAddProgramm && can.add_products" class="text-center bg-success bp" @click="addRowProgramm(branch.id), buttonAddProgramm = !buttonAddProgramm"><span class="fe fe-plus h3 text-white"></span></th>
                                 </tr>
                             </thead>
                             <tbody v-for="(programm, int) in branch.programms">
@@ -416,7 +432,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="title-collapse mt-2">
+                <div class="title-collapse mt-2" v-show="can.show_dop_products">
                     <a data-toggle="collapse" data-target="#3_dopproducts" href="#" class="accordion-toggle">Дополнительные программы</a>
                     <i class="fe fe-chevron-down h3 text-info pl-2"></i>
                 </div>
@@ -427,7 +443,7 @@
                                 <tr>
                                     <th>Название</th>
                                     <th>Цена</th>
-                                    <th v-show="buttonAddDopProduct" class="text-center bg-success bp" @click="addRowDopProduct(branch.id), buttonAddDopProduct = !buttonAddDopProduct"><span class="fe fe-plus h3 text-white"></span></th>
+                                    <th v-show="buttonAddDopProduct && can.add_dop_products" class="text-center bg-success bp" @click="addRowDopProduct(branch.id), buttonAddDopProduct = !buttonAddDopProduct"><span class="fe fe-plus h3 text-white"></span></th>
                                 </tr>
                             </thead>
                             <tbody v-for="(dopproduct, int) in branch.dopproducts">
@@ -437,6 +453,7 @@
                                             v-model="dopproduct.name"
                                             name="name"
                                             :id="dopproduct.id"
+                                            :gate="can.edit_dop_products"
                                             @edit-field="editFieldDopProduct">
                                         </input-form>
                                     </td>
@@ -445,13 +462,14 @@
                                             v-model="dopproduct.price"
                                             name="price"
                                             :id="dopproduct.id"
+                                            :gate="can.edit_dop_products"
                                             @edit-field="editFieldDopProduct">
                                         </input-form>
                                     </td>
                                     <td v-if="dopproduct.rowNew" class="text-center" v-on:click="saveDopProduct(branch.id)">
                                         <span class="fe fe-save h3 text-success"></span>
                                     </td>
-                                    <td class="text-center" v-else="">
+                                    <td class="text-center" v-else="" v-show="can.edit_dop_products">
                                         <span class="fe fe-trash-2 h3 text-danger" @click="removeRowDopProduct(int, dopproduct.id, dopproduct.name)"></span>
                                     </td>
                                 </tr>

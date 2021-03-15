@@ -29,6 +29,15 @@ class RegionController extends Controller
                         'branch_edit'       => Gate::allows('branch_edit'),
                         'branch_hall'       => Gate::allows('branch_hall'),
                         'branch_delete'     => Gate::allows('branch_delete'),
+                        'add_conditions'    => Gate::allows('add_conditions'),
+                        'edit_conditions'   => Gate::allows('edit_conditions'),
+                        'show_conditions'   => Gate::allows('show_conditions'),
+                        'add_products'      => Gate::allows('add_products'),
+                        'edit_products'     => Gate::allows('edit_products'),
+                        'show_products'     => Gate::allows('show_products'),
+                        'add_dop_products'    => Gate::allows('add_dop_products'),
+                        'edit_dop_products'   => Gate::allows('edit_dop_products'),
+                        'show_dop_products'   => Gate::allows('show_dop_products'),
                     ]
                 ]
             );
