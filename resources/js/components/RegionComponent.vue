@@ -418,9 +418,32 @@
                                             @edit-field="editFieldProgramm">
                                         </input-form>
                                     </td>
-                                    <td><input @change="sendTypeProgramm(programm.id, 1)" type="radio" id="main" value="1" v-model="programm.type"></td>
-                                    <td><input @change="sendTypeProgramm(programm.id, 2)" type="radio" id="pk" value="2" v-model="programm.type"></td>
-                                    <td><input @change="sendTypeProgramm(programm.id, 3)" type="radio" id="vm" value="3" v-model="programm.type"></td>
+
+                                    <td>
+                                        <b-form-radio
+                                            :disabled="!can.edit_products"
+                                            @change="sendTypeProgramm(programm.id, 1)"
+                                            v-model="programm.type"
+                                            value="1">
+                                        </b-form-radio>
+                                    </td>
+                                    <td>
+                                        <b-form-radio
+                                            :disabled="!can.edit_products"
+                                            @change="sendTypeProgramm(programm.id, 2)"
+                                            v-model="programm.type"
+                                            value="2">
+                                        </b-form-radio>
+                                    </td>
+                                    <td>
+                                        <b-form-radio
+                                            :disabled="!can.edit_products"
+                                            @change="sendTypeProgramm(programm.id, 3)"
+                                            v-model="programm.type"
+                                            value="3">
+                                        </b-form-radio>
+                                    </td>
+
                                     <td v-if="programm.rowNew" class="text-center" @click="saveProgramm(branch.id)">
                                         <span class="fe fe-save h3 text-success"></span>
                                     </td>
