@@ -14,6 +14,11 @@ class Branch extends Model
         'region_id',
     ];
 
+    public function region() {
+
+        return $this->belongsTo('App\Region', 'id');
+    }
+
     public function products(){
         return $this->hasMany(Product::class);
     }

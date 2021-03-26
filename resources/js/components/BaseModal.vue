@@ -321,13 +321,11 @@
                                     <tr>
                                         <td class="w-25">ЛПР</td>
                                         <td class="w-75">
-                                            <input
+                                            <b-form-radio
                                                 @change="sendLpr(dataObject.id, 'mother_lpr')"
-                                                type="radio"
-                                                id="mother_lpr"
-                                                name="mother_lpr"
-                                                value="mother_lpr"
-                                                v-model="dataObject.attributes.lpr">
+                                                v-model="dataObject.attributes.lpr"
+                                                value="mother_lpr">
+                                            </b-form-radio>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -471,7 +469,11 @@
                                     <tr>
                                         <td class="w-25">ЛПР</td>
                                         <td class="w-75">
-                                            <input @change="sendLpr(dataObject.id, 'father_lpr')" type="radio" id="father_lpr" value="father_lpr" v-model="dataObject.attributes.lpr">
+                                            <b-form-radio
+                                                @change="sendLpr(dataObject.id, 'father_lpr')"
+                                                v-model="dataObject.attributes.lpr"
+                                                value="father_lpr">
+                                            </b-form-radio>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -627,7 +629,11 @@
                                     <tr>
                                         <td class="w-25">ЛПР</td>
                                         <td class="w-75">
-                                            <input @change="sendLpr(dataObject.id, 'other_relative_lpr')" type="radio" id="other_relative_lpr" value="other_relative_lpr" v-model="dataObject.attributes.lpr">
+                                            <b-form-radio
+                                                @change="sendLpr(dataObject.id, 'other_relative_lpr')"
+                                                v-model="dataObject.attributes.lpr"
+                                                value="other_relative_lpr">
+                                            </b-form-radio>
                                         </td>
                                     </tr>
                                     </tbody>

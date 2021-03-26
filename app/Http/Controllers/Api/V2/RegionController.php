@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\RegionResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +17,19 @@ class RegionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
 
-        return (RegionResource::collection(Region::with(['branches'])->get()))
+        $regions = Region::with([
+                'branches' => function ($query) {
+                    $query->whereHas('users', function ($query) {
+                        $query->where('id', auth()->id());
+                    });
+                }
+            ])
+            ->get();
+
+
+        return (RegionResource::collection($regions))
             ->additional([
                     'can' => [
                         'region_create'     => Gate::allows('region_create'),

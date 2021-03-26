@@ -4,10 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use EloquentFilter\Filterable;
 
 class Base extends Model
 {
     //use SoftDeletes;
+
+    use Filterable;
 
     protected $fillable = [
         'child_name',
@@ -51,10 +54,10 @@ class Base extends Model
         return $this->hasOne('App\Programm', 'id', 'programm_id');
     }
 
-    public function scopeFilter($builder, $filters)
-    {
-        return $filters->apply($builder);
-    }
+//    public function scopeFilter($builder, $filters)
+//    {
+//        return $filters->apply($builder);
+//    }
 
     public function journal(){
         return $this->hasMany(Journal::class);

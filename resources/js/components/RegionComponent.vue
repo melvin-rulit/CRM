@@ -553,7 +553,7 @@
 
 
 <div class="row flex-nowrap test">
-    <div class="col-4 col-lg-4" v-for="region in regions.data">
+    <div class="col-4 col-lg-4" v-for="region in regions.data" v-if="region.branches.length">
         <div class="card">
             <div class="card-header">
                 <div class="row align-items-center">

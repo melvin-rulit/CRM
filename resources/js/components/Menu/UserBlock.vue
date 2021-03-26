@@ -29,7 +29,7 @@
 
         <div class="text-center">
             <h2 class="card-title">
-                {{ user.surname }}
+                {{ user.surname }} {{ user.name }}
             </h2>
         </div>
 

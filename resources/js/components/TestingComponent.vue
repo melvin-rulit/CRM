@@ -3,14 +3,10 @@
 
         <button class="btn btn-success btn-sm" @click="getAll()">Получить</button>
 
-        <input type="radio" id="one" value="Один" v-model="picked" @change="all">
-        <label for="one">Один</label>
-        <br>
-        <input type="radio" id="two" value="Два" v-model="picked">
-        <label for="two">Два</label>
-        <br>
-        <span>Выбрано: {{ picked }}</span>
+        <input type="text" v-model="input1">
+        <input type="text" v-model="input2">
 
+        Количество: {{ get.length }}
         <pre><code>{{ get }}</code></pre>
 
     </div>
@@ -30,7 +26,9 @@ export default {
         return {
             get: [],
             test: '456',
-            picked: ''
+            picked: '',
+            input1: '',
+            input2: '',
         }
     },
 
@@ -44,7 +42,7 @@ export default {
         },
 
         getAll(){
-            axios.get('api/v2/getTest')
+            axios.post('api/v2/getTest', {ageAfter: this.input1})
                 .then(response => this.get = response.data)
         },
 

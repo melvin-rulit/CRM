@@ -10,10 +10,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class User extends Authenticatable
 {
-    use SoftDeletes, Notifiable, HasApiTokens;
+    use SoftDeletes, Notifiable, HasApiTokens, HasRelationships;
+
+    public function permissions()
+    {
+        return $this->hasManyDeep('App\Permission', ['role_user', 'App\Role', 'permission_role']);
+    }
+
+    public function region()
+    {
+        return $this->hasManyDeep('App\Permission', ['role_user', 'App\Role', 'permission_role']);
+    }
 
     protected $casts = ["last_online_at" => "datetime"];
 

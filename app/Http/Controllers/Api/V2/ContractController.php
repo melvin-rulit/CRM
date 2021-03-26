@@ -364,31 +364,33 @@ class ContractController extends Controller
 
     public function test(Request $request){
 
-        $filteredData = [];
-        $arr = [];
-        $users = DB::select('select * from contract_pays where id between 80 and 200');
+        return Base::filter($request->all())->get();
 
-
-        for ($i = 10; $i <= 29; $i++) {
-
-
-            $getfilteredData = function ($arr, $datadoc) {
-                return array_filter($arr, function ($item) use ($datadoc) {
-                    return strpos($item->created_at, $datadoc) !== false;
-                });
-            };
-
-            $newArr = [
-                "date" =>'2020-07-'. $i,
-                "retail" => array_sum(array_column($getfilteredData($users, '2020-07-'. $i), 'pay')),
-                "bn" => array_sum(array_column($getfilteredData($users, '2020-07-'. $i), 'pay')),
-            ];
-
-            array_push($arr, $newArr);
-
-        }
-
-        return $arr;
+//        $filteredData = [];
+//        $arr = [];
+//        $users = DB::select('select * from contract_pays where id between 80 and 200');
+//
+//
+//        for ($i = 10; $i <= 29; $i++) {
+//
+//
+//            $getfilteredData = function ($arr, $datadoc) {
+//                return array_filter($arr, function ($item) use ($datadoc) {
+//                    return strpos($item->created_at, $datadoc) !== false;
+//                });
+//            };
+//
+//            $newArr = [
+//                "date" =>'2020-07-'. $i,
+//                "retail" => array_sum(array_column($getfilteredData($users, '2020-07-'. $i), 'pay')),
+//                "bn" => array_sum(array_column($getfilteredData($users, '2020-07-'. $i), 'pay')),
+//            ];
+//
+//            array_push($arr, $newArr);
+//
+//        }
+//
+//        return $arr;
 
 
 

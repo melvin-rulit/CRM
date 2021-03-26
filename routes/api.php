@@ -175,7 +175,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('getvmcontract', 'BaseController@getVmContract');
     Route::get('test', 'BaseController@test');
 
-    Route::get('getTest', 'ContractController@test');
+    Route::post('getTest', 'ContractController@test');
 });
 
 
