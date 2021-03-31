@@ -20,6 +20,7 @@ use App\Http\Resources\Schedule_hallResource;
 use App\Http\Controllers\Controller;
 use App\KassaOperation;
 use App\KassaOperationType;
+use App\Settings;
 use App\Statuses;
 use Illuminate\Http\Request;
 use App\Filters\UsersFilter;
@@ -847,9 +848,18 @@ class BaseController extends Controller
 
     public function getAgregatorLids(){
 
-        $dates = Carbon::now();
+        $testing_date = Settings::find(1);
 
-        $date = Carbon::today()->addDays(-3)->toDateString();
+        if ($testing_date->value){
+            $dates = new Carbon($testing_date->value);
+        }else{
+            $dates = Carbon::now();
+        }
+
+
+//        $dates = Carbon::now();
+
+//        $date = Carbon::today()->addDays(-3)->toDateString();
 
 
         $user = User::find(Auth::user()->id);
@@ -866,7 +876,7 @@ class BaseController extends Controller
 
         //--------------------------------------------------------------------------------
 //        // Звонки клиентам дата платежа у которых наступает за 1 день.
-        $date = Carbon::today()->addDays(+ 1)->toDateString();
+        $date = $dates->addDays(+ 1)->toDateString();
 //
 //        // Проверяем есть ли клиенты оплаты котороые наступают за день до платежа
         foreach ($collection as $value){
@@ -931,7 +941,7 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
         // Напоминание клиенту о первой тренировке
-        $date = Carbon::today()->addDays(+ 1)->toDateString();
+        $date = $dates->addDays(+ 1)->toDateString();
 
         // Проверяем есть ли по активным контраактам начала действия договора
         foreach ($collection as $value){
@@ -980,7 +990,7 @@ class BaseController extends Controller
         // Все у кого дата следующего звонка меньше или равно сегодняшней
         foreach ($collection as $value){
             $date_value = Carbon::parse($value->statuses->call_date)->toDateString();
-            if ($date_value <= Carbon::today()->toDateString()){
+            if ($date_value <= $dates->toDateString()){
                 $collection_itog->push($value);
             }
         }

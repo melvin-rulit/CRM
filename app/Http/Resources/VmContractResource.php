@@ -30,7 +30,7 @@ class VmContractResource extends JsonResource
             $parent_name = $this->father_name;
             $parent_middle_name = $this->father_middle_name;
             $parent_phone = $this->father_phone;
-            $parent_vider = $this->father_vider;
+            $parent_viber = $this->father_viber;
             $parent_email = $this->father_email;
             $parent_facebook = $this->father_facebook;
             $parent_instagram = $this->father_instagram;
