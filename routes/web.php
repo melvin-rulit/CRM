@@ -14,7 +14,7 @@ Auth::routes(['register' => false]);
 // Admin
 
 // Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
-Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'promoter']], function () {
 
 //    Route::get('base', 'PagesController@vue');
 

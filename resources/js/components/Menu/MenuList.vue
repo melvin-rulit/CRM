@@ -81,9 +81,7 @@
 
         <ul class="navbar-nav mb-md-4">
             <li class="nav-item">
-                <a class="nav-link" href="/settings">
-                    <i class="fe fe-settings"></i>Настройки
-                </a>
+              <router-link to="/settings" class="nav-link"><i class="fe fe-database"></i> Настройки</router-link>
             </li>
 
             <li class="nav-item">

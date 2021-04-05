@@ -667,6 +667,13 @@ class BaseController extends Controller
 //        ];
     }
 
+    public function getDiffInHoursAttribute($starttime)
+    {
+        $open = Carbon::parse($starttime);
+
+        return Carbon::now()->diffInHours($open);
+    }
+
 
     public function getInfo(Request $request){
 
@@ -676,16 +683,26 @@ class BaseController extends Controller
 
         $base->increment('total_open');
 
+
+        if ($this->getDiffInHoursAttribute($base->date_open) >= 1){
+            $base->date_open = Carbon::now();
+            $base->block = false;
+            $base->user_block_id = false;
+        }
+
         // Если в карточке кто нибудь работает - возвращаем соответствующий response, иначе блокируем
         if ($request->set_block && $base->block){
             return [
                 'response'          => "block",
                 'user_block_name'   => $base->user_block_name->surname .' '. $base->user_block_name->name,
+                'curent_user'       => $base->user_block_id === Auth::user()->id ? true : false,
             ];
         }else if($request->set_block && !$base->block){
             $base->block = 1;
             $base->user_block_id = Auth::user()->id;
             $base->save();
+
+            $base->date_open = Carbon::now();
         }
 
         if ($base->total_open == 2){

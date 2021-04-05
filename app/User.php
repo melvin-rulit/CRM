@@ -11,10 +11,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
+//use App\Traits\HasRolesAndPermissions;
 
 class User extends Authenticatable
 {
     use SoftDeletes, Notifiable, HasApiTokens, HasRelationships;
+
+    public function hasRole($role)
+    {
+        if ($this->roles->contains('title', $role)) {
+            return true;
+        }
+        return false;
+    }
 
     public function permissions()
     {

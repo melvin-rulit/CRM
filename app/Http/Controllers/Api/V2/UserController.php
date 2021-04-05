@@ -175,23 +175,23 @@ class UserController extends Controller
 
     }
 
-    public function saveBranches(Request $request){
-
+    public function saveBranches(Request $request)
+    {
         $user = User::find($request->user_id);
 
         $user->branches()->sync($request->branches);
 
     }
 
-    public function saveRoles(Request $request){
-
+    public function saveRoles(Request $request)
+    {
         $user = User::find($request->user_id);
 
         $user->roles()->sync($request->roles);
     }
 
-    public function getUserKit(Request $request){
-
+    public function getUserKit(Request $request)
+    {
         $kits = UserArticle::where('user_id', $request->user_id)->orderBy('created_at','desc')->get();
 
         return KitsResource::collection($kits);

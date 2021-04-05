@@ -333,16 +333,30 @@
                                                     </table>
                                                 </div>
                                                 <div class="card-body col-md-6 pt-1 pb-1 border-left">
-                                                    <p>Сумма прописью : <input-form v-model="product.price_title" name="price_title" :id="product.id" @edit-field="editField"></input-form>
+                                                    <p>Сумма прописью :
+                                                      <input-form
+                                                          v-model="product.price_title"
+                                                          name="price_title"
+                                                          :id="product.id"
+                                                          :gate="can.edit_conditions"
+                                                          @edit-field="editField">
+                                                      </input-form>
                                                     </p>
-                                                    <p>Заморозки по :
-                                                        <select v-model="product.freezing_kolvo" @change="editProduct(product.id, product.freezing_kolvo)">
-                                                            <option>0</option>
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                        </select>
-                                                    </p>
+
+                                                  <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Заморозки по :</label>
+                                                    <div class="col-sm-8">
+                                                      <select
+                                                          v-model="product.freezing_kolvo"
+                                                          class="form-control"
+                                                          @change="editProduct(product.id, product.freezing_kolvo)">
+                                                        <option>0</option>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
                                                     <p>Дата окончания продукта:
                                                         <input-form
                                                             v-model="product.date_end"

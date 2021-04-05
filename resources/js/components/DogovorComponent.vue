@@ -415,7 +415,7 @@
                             <td>Форма включена увартість занять.</td>
                             <td>Розмiр</td>
                             <td>
-                                <select v-model="form_size">
+                                <select v-model="form_size" class="form-control">
                                     <option>31</option>
                                     <option>32</option>
                                     <option>33</option>

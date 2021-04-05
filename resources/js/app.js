@@ -24,6 +24,7 @@ import Promoter from './components/PromoterComponent'
 import Source from './components/GuideComponent'
 import Warehousegroups from './components/Warehouse/WarehouseGroupsComponent'
 import Warehouse from './components/Warehouse/WarehouseComponent'
+import Settings from './components/SettingsComponent'
 import Testing from './components/TestingComponent'
 
 
@@ -43,6 +44,7 @@ const routes = [
     { path: '/warehouse', component: Warehouse },
     { path: '/testing', component: Testing },
     { path: '/warehouse_groups', component: Warehousegroups },
+    { path: '/settings', component: Settings },
 ]
 
 const router = new VueRouter({

@@ -904,7 +904,6 @@
                 call_status: '',
                 surname: null,
                 birthday: null,
-                users: [],
                 busy: false,
                 branches: {
                     branches: [],
@@ -934,7 +933,6 @@
                 URLaddNewUser: "api/v2/addnewuser",
                 siteURL: "http://62.109.26.106/",
                 articles: [],
-                users: [],
                 article_id: '',
                 showBranch: false,
                 showInstructor: false,
@@ -1049,13 +1047,26 @@
 
             showModa(id){
                 axios.post('api/v2/getinfo', {id : id, set_block : 1}).then(response => {
-                    if(response.data.response == "block"){
-                        this.$alert(`В данный момент с карточкой работает пользователь ${response.data.user_block_name}`)
+
+                    if(response.data.response == "block" && response.data.curent_user){
+                      this.$fire({
+                        text: `В данный момент карточка заблокирована Вами, снимите блокировку чтоб другие пользователи могли работать с ней.`,
+                        showCancelButton: true,
+                        confirmButtonText: 'Снять блокировку',
+                        cancelButtonText: 'Закрыть'
+                      }).then((result) => {
+                        if (result.value) {
+                          axios.post('api/v2/removeblock', {id : id})
+                        }
+                      })
+
+                    }else if(response.data.response == "block" && !response.data.curent_user){
+                      this.$alert(`В данный момент с карточкой работает пользователь ${response.data.user_block_name}`)
                     }else{
-                        this.dataObject = response.data.data
-                        this.can = response.data.can
-                        this.$bvModal.show('userShow')
-                    }
+                      this.dataObject = response.data.data
+                      this.can = response.data.can
+                      this.$bvModal.show('userShow')
+                  }
                 })
             },
 
