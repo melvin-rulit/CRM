@@ -93,6 +93,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.component('users-component', require('./components/Users/UsersComponent.vue').default);
 Vue.component('addnewuser-component', require('./components/Users/AddNewUserComponent.vue').default);
 Vue.component('showuser-component', require('./components/Users/ShowUserComponent.vue').default);
+Vue.component('userfilter-component', require('./components/Users/UserFilterComponent.vue').default);
 
 // Base
 Vue.component('add-new-base-component', require('./components/AddNewBaseComponent.vue').default);

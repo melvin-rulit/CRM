@@ -151,6 +151,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('saveRoles', 'UserController@saveRoles');
     Route::get('getGates', 'UserController@getGates');
     Route::post('getUserKit', 'UserController@getUserKit');
+    Route::post('getFilter', 'UserController@getFilter');
 
 
     Route::post('addClientInGroup', 'BaseController@addClientInGroup');

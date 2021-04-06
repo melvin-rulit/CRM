@@ -364,7 +364,8 @@ class ContractController extends Controller
 
     public function test(Request $request){
 
-        return Base::filter($request->all())->get();
+//        return Base::filter($request->all())->get();
+        return User::filter($request->all())->get();
 
 //        $filteredData = [];
 //        $arr = [];

@@ -16,8 +16,9 @@ class PromoterMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->hasRole('Промоутер')) {
-            return redirect('promoter');
+        if(Auth::user()->hasRole('Старший администратор')) {
+//            return redirect('promoter');
+//            abort(404);
         }
 
         return $next($request);

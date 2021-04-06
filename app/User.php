@@ -11,11 +11,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
-//use App\Traits\HasRolesAndPermissions;
+use EloquentFilter\Filterable;
 
 class User extends Authenticatable
 {
-    use SoftDeletes, Notifiable, HasApiTokens, HasRelationships;
+    use SoftDeletes, Notifiable, HasApiTokens, HasRelationships, Filterable;
 
     public function hasRole($role)
     {
@@ -133,10 +133,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Branch', 'user_branches');
     }
 
-    public function scopeFilter($builder, $filters)
-    {
-        return $filters->apply($builder);
-    }
+//    public function scopeFilter($builder, $filters)
+//    {
+//        return $filters->apply($builder);
+//    }
 
     public function comm()
     {

@@ -197,18 +197,21 @@ class UserController extends Controller
         return KitsResource::collection($kits);
     }
 
+    public function getFilter(Request $request)
+    {
+        return User::filter($request->all())->get();
+    }
+
 
     public function getGates(){
 
         return [
-            'can' => [
                 'journal_pk'                => Gate::allows('journal_pk'),
                 'journal_not_visit'         => Gate::allows('journal_not_visit'),
                 'journal_visit'             => Gate::allows('journal_visit'),
                 'journal_chart_add'         => Gate::allows('journal_chart_add'),
                 'journal_chart_delete'      => Gate::allows('journal_chart_delete'),
                 'journal_transfer_group'    => Gate::allows('journal_transfer_group'),
-            ]
         ];
     }
 }

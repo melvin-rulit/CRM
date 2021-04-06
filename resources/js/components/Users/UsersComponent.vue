@@ -1,7 +1,27 @@
 <template>
     <div>
-        <addnewuser-component @get-method="fetch" v-if="can.user_create"></addnewuser-component>
+        <addnewuser-component @get-method="fetch" v-if="can.user_create" ref="add_user_component"></addnewuser-component>
         <showuser-component :can="can" @get-method="fetch" ref="getmodal"></showuser-component>
+        <userfilter-component  @get-method="returnFilterArray" ref="show_filter"></userfilter-component>
+
+
+      <!-- Панель над фильтром -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card mb-2">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col">
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-sm btn-info" @click="showFilterModal">Фильтр</button>
+                  <button v-if="can.user_create" class="btn btn-sm btn-success" @click="addNewUser">Добавить сотрудника</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
         <div class="card">
             <div class="card-body pb-0">
@@ -70,6 +90,15 @@
         },
 
         methods: {
+
+          addNewUser(){
+            this.$refs.add_user_component.addNewUserModal()
+          },
+
+          showFilterModal(){
+            this.$refs.show_filter.showUserFilter()
+          },
+
             getShowModal(index){
                 if (this.can.user_show){
                     this.$refs.getmodal.addNewUserModal(index.id)
@@ -87,6 +116,10 @@
                     axios.delete('api/v2/users/'+ id);
                 });
             },
+
+          returnFilterArray(data){
+            this.users = data.users
+          }
         },
     }
 </script>
