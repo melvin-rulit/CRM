@@ -19,15 +19,12 @@ class KassaOperationController extends Controller
 
         $user = User::find(Auth::user()->id);
 
-        $collection = collect();
-
         foreach ($user->branches as $branch) {
-            foreach ($branch->kassa_operation as $kassa_operation) {
-                $collection->push($kassa_operation);
-            }
+                $collection[] = $branch;
         }
 
-        return KassaOperationResource::collection($collection->all());
+        return $collection;
+
     }
 
     public function addOperation(Request $request){
@@ -72,6 +69,13 @@ class KassaOperationController extends Controller
         $collection = $kassa_operation_type->merge($product_operation_type);
 
         return KassaOperationTypeResource::collection($collection);
+    }
+
+    public function showKassaOperation(Request $request)
+    {
+        $kassa_operation = KassaOperation::where('branch_id', $request->kassa_id)->get();
+
+        return KassaOperationResource::collection($kassa_operation);
     }
 
 }

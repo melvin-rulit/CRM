@@ -23,9 +23,23 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        $warehouse = Warehouse::all();
 
-        return $warehouse;
+        $warehouses = Warehouse::with(
+            [
+                'branch' => function ($query) {
+                    $query->whereHas('users', function ($query) {
+                        $query->where('id', auth()->id());
+                    });
+                }
+            ])
+            ->whereHas('branch', function ($query) {
+                $query->whereHas('users', function ($query) {
+                    $query->where('id', auth()->id());
+                });
+            })
+            ->get();
+
+        return $warehouses;
     }
 
     /**

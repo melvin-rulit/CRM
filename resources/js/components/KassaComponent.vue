@@ -1,7 +1,6 @@
 <template>
     <div>
 
-
         <!-- Окно добавления редактирования операции -->
         <b-modal id="editOperation" title="Изменить операцию" centered ok-title="Сохранить" cancel-title="Отмена" @ok="">
 <!--            <pre><code>{{edit_operation}}</code></pre>-->
@@ -98,6 +97,14 @@
                                 <button class="ml-4 btn btn-sm btn-info">День</button>
                                 <button class="btn btn-sm btn-info">Неделя</button>
                                 <button class="btn btn-sm btn-info">Месяц</button>
+
+                              <button
+                                  v-for="item in branches_access"
+                                  @click="showKassaOperation(item.id)"
+                                  class="btn btn-sm ml-3"
+                                  :class="kassa_id == item.id ? 'btn-outline-success' : 'btn-outline-primary'">{{
+                                item.name }}
+                              </button>
                             </div>
                             <div class="col-auto">
 <!--                                <button class="btn btn-sm btn-info">Фильтр</button>-->
@@ -164,6 +171,7 @@
                 sum: '',
                 coment: '',
                 branch: '',
+                kassa_id: '',
                 kassa_operations: [],
                 operations_type: [],
                 operations_type_model: '',
@@ -208,7 +216,8 @@
                     }
 
                 ],
-                options: []
+                options: [],
+              branches_access: []
             }
         },
 
@@ -218,6 +227,13 @@
                 minLength: minLength(1)
             }
         },
+
+      beforeRouteEnter (to, from, next) {
+        axios.get('api/v2/kassa_operation')
+            .then(response => {
+              next(vm => (vm.branches_access = response.data) )
+            })
+      },
 
         computed:{
             getRadio(){
@@ -239,9 +255,11 @@
             }
         },
 
-        created(){
-            this.getKassaOperations();
-        },
+      mounted() {
+        if(this.branches_access[0]) {
+          this.showKassaOperation(this.branches_access[0].id)
+        }
+      },
 
         methods: {
 
@@ -306,12 +324,14 @@
                     coment: this.coment,
                     type: this.type
                 })
-                this.getKassaOperations()
+                this.showKassaOperation(this.kassa_id)
             },
 
-            getKassaOperations(){
-                axios.get('api/v2/kassa_operation')
-                    .then(response => this.kassa_operations = response.data.data)
+          showKassaOperation(id){
+            axios.post('api/v2/showKassaOperation', {kassa_id: id})
+                .then(response => {this.kassa_operations = response.data.data})
+
+            this.kassa_id = id
             },
 
         }

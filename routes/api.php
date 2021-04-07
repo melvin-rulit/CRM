@@ -48,6 +48,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('addOperation', 'KassaOperationController@addOperation');
     Route::post('getOperationsType', 'KassaOperationController@getOperationsType');
     Route::post('getRadioButton', 'KassaOperationController@getRadioButton');
+    Route::post('showKassaOperation', 'KassaOperationController@showKassaOperation');
 
     // KassaGraoup
     Route::apiResource('kassaGroups', 'KassaGroupController');

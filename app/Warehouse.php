@@ -16,4 +16,8 @@ class Warehouse extends Model
     public function articles() {
         return $this->hasMany(WarehouseArticle::class);
     }
+
+    public function branch(){
+        return $this->hasOne('App\Branch', 'id', 'branch_id');
+    }
 }
