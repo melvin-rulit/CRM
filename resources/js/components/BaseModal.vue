@@ -393,6 +393,7 @@
                                                 mask="+## (###) ###-##-##"
                                                 v-model="dataObject.attributes.father_phone"
                                                 name="father_phone"
+                                                :gate="can.base_edit"
                                                 @edit-field="editField">
                                             </input-form>
                                         </td>
@@ -669,8 +670,16 @@
                             <div class="col-md-6 border-bottom">
                                 <div class="row">
                                     <div class="center mb-3">
-                                        <button v-if="can.base_main" @click="getContractMain" class="btn btn-sm btn-success">Добавить контракт</button>
-                                        <button v-if="can.base_vm" @click="getContractVm" class="btn btn-sm btn-warning">Добавить контракт ВМ</button>
+                                        <button
+                                            v-if="can.base_main"
+                                            @click="getContractMain"
+                                            class="btn btn-sm btn-success">Добавить контракт
+                                        </button>
+                                        <button
+                                            v-if="can.base_vm"
+                                            @click="getContractVm"
+                                            class="btn btn-sm btn-warning">Добавить контракт ВМ
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -765,6 +774,14 @@
                                                             <input class="form-control" v-model="newBalance">
                                                         </div>
                                                     </div>
+
+                                                  <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Комментарий</label>
+                                                    <div class="col-sm-9">
+                                                      <textarea v-model="comment_pay" class="form-control"></textarea>
+                                                    </div>
+                                                  </div>
+
                                                 </div>
                                             </b-modal>
 
@@ -958,6 +975,7 @@
                 contractId: '',
                 newBalance: '',
                 new_pay: '',
+                comment_pay: '',
                 free: [
                     {
                         id:     1,
@@ -1276,8 +1294,18 @@
             },
 
             getContractMain(){
+
+              if (this.dataObject.contracts_active_main > 0){
+                Vue.$toast.open({
+                  message: 'У клиента уже есть активный контракт',
+                  type: 'warning',
+                  duration: 2000,
+                  position: 'top-right'
+                });
+              }else{
                 this.$bvModal.hide('userShow')
                 this.$refs.dogovor.getContractMain()
+              }
             },
 
             BaseModal(){

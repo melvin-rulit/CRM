@@ -366,11 +366,10 @@
 
                     <span v-if="!print">выберите группу</span>
 
+
                     <select class="form-control" v-if="shedule_hall && !print" v-model="shedule">
                         <option :value="item" v-for="item in shedule_hall">{{ item.name }} - ({{ select_schedule(item.hall) }})</option>
                     </select>
-
-                    <span v-if="shedule && print">{{ shedule.name }} - {{ select_schedule(shedule.hall) }}</span>
 
                     <br>
                     <table class="tabs">
@@ -399,6 +398,11 @@
                     Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
 
                     <a v-if="pays.pays" href="#" @click.prevent="showEditPayMainModal">Изменить</a><br>
+
+                  <br>За розкладом занятть:<br>
+                  <div class="mt-2">
+                    <span v-if="shedule">{{ shedule.name }} - {{ select_schedule(shedule.hall) }}</span>
+                  </div>
 
                     <br>Графік оплати:<br>
                     <div class="mt-2 mb-2">

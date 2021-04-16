@@ -23,6 +23,8 @@ class GetBaseResource extends JsonResource
         return [
             'id' => (string)$this->id,
             // 'contracts_active' => ContractForGetInfo::collection($this->contracts->where('active',1)->flatten()),
+            'contracts_active_main' => $this->contracts->where('end_actually', '>',
+                Carbon::today()->toDateString())->flatten()->where('contract_type', 'main')->count(),
             'contracts_active' => ContractForGetInfo::collection($this->contracts->where('end_actually', '>',
                 Carbon::today()->toDateString())->flatten()),
             'contracts_not_active' => ContractForGetInfo::collection($this->contracts->where('end_actually', '<',

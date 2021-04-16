@@ -364,8 +364,13 @@ class ContractController extends Controller
 
     public function test(Request $request){
 
+        $base = Base::find(132);
+//        return $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->count();
+
+        return $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->count();
+
 //        return Base::filter($request->all())->get();
-        return User::filter($request->all())->get();
+//        return User::filter($request->all())->get();
 
 //        $filteredData = [];
 //        $arr = [];

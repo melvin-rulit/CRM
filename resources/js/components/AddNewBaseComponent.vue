@@ -72,6 +72,10 @@
                     </div>
                 </div>
 
+              <div class="form-group row">
+                <textarea class="form-control" v-model="comment" rows="3" placeholder="Комментарий"></textarea>
+              </div>
+
             </div>
         </b-modal>
     </div>
@@ -105,6 +109,7 @@
                 instructor: '',
                 sourceGroup: '',
                 source: '',
+                comment: '',
                 submitStatus: null,
                 showErrors: false,
                 branches: [],
@@ -178,6 +183,7 @@
                             instructor: this.instructor ? this.instructor.id : null,
                             branch: this.branch.id,
                             source: this.source.id,
+                            comment: this.comment,
                         })
                             .then(response => this.new_user = response.data)
                         let loader = this.$loading.show({

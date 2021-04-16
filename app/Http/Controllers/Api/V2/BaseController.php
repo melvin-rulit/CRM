@@ -113,13 +113,26 @@ class BaseController extends Controller
         return AddChildrenGroupResource::collection($base);
     }
 
-    public function saveClientInGroup(Request $request){
-
-
+    public function saveClientInGroup(Request $request)
+    {
         $base = Base::find($request->id);
         $base->group_id = $request->group_id;
         $base->save();
 
+
+        if ($base->group_id)
+        {
+            $group_from = Group::find($base->group_id);
+
+            $group_in = Group::find($request->group_id);
+
+            loger(2,
+                $base->id,
+                null,
+                null,
+                'Переведен из ' . $group_from->name . ' в ' . $group_in->name
+            );
+        }
     }
 
     public function updateTest(Request $request){
@@ -657,6 +670,12 @@ class BaseController extends Controller
         // Добавляем в лог информацию что клиент создан
         loger(2, $base->id, null, null, 'Добавил клиента в базу');
 
+        // Добавляем в лог коментарий если он имеется
+        if ($request->comment)
+        {
+            loger(2, $base->id, null, null, $request->comment);
+        }
+
 
         // Добавляем в лог информацию что клиенту присвоен статус
         loger(4, $base->id, null, null, 'Присвоен статус Новый');
@@ -762,6 +781,10 @@ class BaseController extends Controller
             foreach ($role->rolesUsers as $value) {
                 $collection->push($value);
             }
+        }
+
+        if ($collection->isEmpty()){
+            return "Collection is empty";
         }
 
         return new UsersResource($collection);
