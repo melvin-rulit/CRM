@@ -61,16 +61,16 @@
                             <!--                        <p data-toggle="tooltip" title="День рождения" class="card-text">-->
                             <p>
                                 <!--                            <input-form-->
-                                <!--                                v-model="dataObject.attributes.child_birthday"-->
-                                <!--                                name="child_birthday"-->
+                                <!--                                v-model="dataObject.attributes.birthday"-->
+                                <!--                                name="birthday"-->
                                 <!--                                placeholder="12.05.1988"-->
                                 <!--                                v-mask="'##.##.####'"-->
                                 <!--                                @edit-field="editField">-->
                                 <!--                            </input-form>-->
 
                                 <input-form
-                                    v-model="dataObject.attributes.child_birthday"
-                                    name="child_birthday"
+                                    v-model="dataObject.attributes.birthday"
+                                    name="birthday"
                                     :gate="can.base_name_and_birthday"
                                     datePicker="true"
                                     @edit-field="editField">
@@ -1020,6 +1020,10 @@
 
         methods: {
 
+          birthdayYY(value){
+            alert(value)
+          },
+
             freezingOff(freezing){
                 axios.post('api/v2/freezingOff', {id : this.activeContract.id, freezing: freezing})
 
@@ -1250,7 +1254,7 @@
                     axios.post(this.postURL, {user_id: this.dataObject.id, field_name: name, field_value: e })
 
                     // Если мы меняем значение день рождения. то перезагружаем всю карточку, заебали ныть
-                    if(name == 'child_birthday'){
+                    if(name == 'birthday'){
                         setTimeout(() => {
                             axios.post('api/v2/getinfo', {id : this.dataObject['id']}).then(response => {
                                 this.dataObject = response.data.data

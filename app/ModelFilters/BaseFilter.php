@@ -20,9 +20,9 @@ class BaseFilter extends ModelFilter
      *
      * @var string
      */
-    public function surname($child_surname) {
-
-        return $this->where('child_surname', 'LIKE', '%' . $child_surname);
+    public function surname($child_surname)
+    {
+        return $this->where('child_surname', 'LIKE', "%$child_surname%");
     }
 
     /*
@@ -30,9 +30,9 @@ class BaseFilter extends ModelFilter
      *
      * @var string
      */
-    public function name($child_name) {
-
-        return $this->where('child_name', 'LIKE', '%' . $child_name);
+    public function name($child_name)
+    {
+        return $this->where('child_name', 'LIKE', "%$child_name%");
     }
 
     /*
@@ -40,9 +40,9 @@ class BaseFilter extends ModelFilter
      *
      * @var string (year)
      */
-    public function birthday($birthday) {
-
-        return $this->where('child_birthday', 'LIKE', '%' . $birthday);
+    public function yearBirthday($birthday)
+    {
+        return $this->where('birthday', 'LIKE', "%$birthday%");
     }
 
     /*
@@ -50,17 +50,17 @@ class BaseFilter extends ModelFilter
      *
      * @var string
      */
-    public function phone($phone) {
-
+    public function phone($phone)
+    {
         return $this->where(function($q) use ($phone)
         {
-            return $q->where('mother_phone', 'LIKE', '%' . $phone)
-                ->orWhere('mother_dop_phone', 'LIKE', $phone)
-                ->orWhere('father_phone', 'LIKE', $phone)
-                ->orWhere('father_dop_phone', 'LIKE', $phone)
-                ->orWhere('other_relative_phone', 'LIKE', $phone)
-                ->orWhere('other_relative_phone', 'LIKE', $phone)
-                ->orWhere('other_relative_dop_phone', 'LIKE', '%' . $phone.'%');
+            return $q->where('mother_phone', 'LIKE', "%$phone%")
+                ->orWhere('mother_dop_phone', 'LIKE', "%$phone%")
+                ->orWhere('father_phone', 'LIKE', "%$phone%")
+                ->orWhere('father_dop_phone', 'LIKE', "%$phone%")
+                ->orWhere('other_relative_phone', 'LIKE', "%$phone%")
+                ->orWhere('other_relative_phone', 'LIKE', "%$phone%")
+                ->orWhere('other_relative_dop_phone', 'LIKE', "%$phone%");
         });
     }
 
@@ -68,66 +68,93 @@ class BaseFilter extends ModelFilter
      * Действующий контракт - все у кого на данный момент действует контракт
      *
      */
-    public function activeContract($type){
-
-        if ($type){
+    public function activeContract($type)
+    {
+        if ($type == 'active'){
             return $this->related('contracts', 'end_actually', '>',
                 Carbon::today()->toDateString());
         }
-    }
 
-    /*
-     * Контракт закончился - все у кого окончился контракт
-     *
-     */
-    public function notActiveContract($type){
-
-        if ($type){
+        if ($type == 'notActive'){
             return $this->related('contracts', 'end_actually', '<',
                 Carbon::today()->toDateString());
         }
     }
 
+
     /*
      * Окончание контракта до - все у кого дата окончания контракта меньше введенной даты
      *
      */
-    public function contractBefore($date){
+    public function contractDate($date)
+    {
+        if ($date[0] && $date[1]){
+            $this->related('contracts', function($query) use ($date) {
+                return $query->whereBetween('end_actually', [$date[0], $date[1]]);
+            });
+        }
 
+        if ($date[0] && !$date[1]){
+            $this->related('contracts', function($query) use ($date) {
+            return $query->where('end_actually', '>=' , $date[0]);
+            });
+        }
 
-        $this->related('contracts', function($query) use ($date) {
-            return $query->where('end_actually', '>=' , $date);
-        });
-
+        if (!$date[0] && $date[1]){
+            $this->related('contracts', function($query) use ($date) {
+                return $query->where('end_actually', '<=' , $date[1]);
+            });
+        }
     }
 
     /*
-     * Окончание контракта после - все у кого дата окончания контракта больше введенной даты
+     * Тип контракта
      *
      */
-    public function contractAfter($date){
+    public function typeContract($type)
+    {
+        if ($type == 'vm'){
+            return $this->related('contracts', 'contract_type', '=', 'vm');
+        }
 
-        $this->related('contracts', function($query) use ($date) {
-            return $query->where('end_actually', '<=', $date);
-        });
+        if ($type == 'main'){
+            return $this->related('contracts', 'contract_type', '=', 'main');
+        }
     }
 
-//    /*
-//     * Возраст от - Все у кого актуальный возраст больше введенного значения
-//     *
-//     */
-//    public function ageAfter($age){
-//
-//        return $this->where('child_birthday', '>', '%' . Carbon::now()->subYear($age)->format('Y'));
-//    }
-//
-//    /*
-//     * Возраст до - Все у кого актуальный возраст меньше введенного значения
-//     *
-//     */
-//    public function ageBefore($date){
-//
-//
-//    }
+
+    /*
+     * Возраст between
+     *
+     */
+    public function birthdayDate($age){
+
+        if ($age[0] && $age[1]){
+            $this->whereBetween('birthday',
+                [Carbon::now()->subYear($age[1]), Carbon::now()->subYear($age[0])]);
+        }
+
+        if ($age[0] && !$age[1]){
+            return $this->where('birthday', '>=', Carbon::now()->subYear($age[0])->format('Y'));
+        }
+
+        if (!$age[0] && $age[1]){
+            return $this->where('birthday', '<=', Carbon::now()->subYear($age[1])->format('Y'));
+        }
+    }
+
+    /*
+     * Программа в контракте
+     *
+     */
+    public function programm($programm)
+    {
+        if ($programm){
+            $this->related('contracts', function($query) use ($programm) {
+                return $query->whereIn('programm', $programm);
+            });
+        }
+    }
+
 
 }

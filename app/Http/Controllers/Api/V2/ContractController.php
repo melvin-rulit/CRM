@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V2;
 
 use App\Branch;
+use App\Http\Resources\BaseAllResource;
 use App\Http\Resources\ContractResource;
 use App\Http\Resources\ContractsResource;
 use App\Http\Resources\ShowContractResource;
@@ -364,12 +365,28 @@ class ContractController extends Controller
 
     public function test(Request $request){
 
-        $base = Base::find(132);
-//        return $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->count();
+        $user = User::find(Auth::user()->id);
 
-        return $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->count();
+        $collection = collect();
 
-//        return Base::filter($request->all())->get();
+        foreach ($user->branches as $branch) {
+            foreach ($branch->bases as $base) {
+                $collection->push($base);
+            }
+        }
+
+        // Исправить костыль с фильтром
+
+        $users = Base::filter($request->all())->get();
+
+        $collectionA = $users->keyBy('id');
+
+        $collectionB = $collection->keyBy('id');
+
+        $collection = $collectionA->intersectByKeys($collectionB);
+
+        return BaseAllResource::collection($collection);
+
 //        return User::filter($request->all())->get();
 
 //        $filteredData = [];

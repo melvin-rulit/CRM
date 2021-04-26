@@ -20,7 +20,7 @@ class BaseAllResource extends JsonResource
                 'child_surname'          => $this->child_surname,
                 'child_name'             => $this->child_name,
                 'child_middle_name'      => $this->child_middle_name,
-                'age' => Carbon::createFromDate($this->child_birthday)->diff(Carbon::now())->format('%y,%m'),
+                'age' => Carbon::createFromDate($this->birthday)->diff(Carbon::now())->format('%y,%m'),
         ];
     }
 }

@@ -110,6 +110,7 @@ Vue.component('show-user-access-component', require('./components/Access/ShowUse
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('base-component', require('./components/BaseComponent.vue').default);
+Vue.component('base-filter-component', require('./components/BaseFilterComponent.vue').default);
 Vue.component('base-modal-component', require('./components/BaseModal.vue').default);
 Vue.component('dogovor-component', require('./components/DogovorComponent.vue').default);
 Vue.component('show-dogovor-component', require('./components/ShowDogovorComponent.vue').default);

@@ -115,6 +115,7 @@
 
 
 @macro('deploy', ['on' => 'production'])
+	bascup
 	clone
 	composer
 	artisan

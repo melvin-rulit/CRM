@@ -39,7 +39,7 @@
             :id="id"
             v-model="value"
             :editable="false"
-            value-type="DD.MM.YYYY"
+            value-type="YYYY-MM-DD"
             format="DD.MM.YYYY"
             @close="keyInputForm = false; $emit('edit-field', value, name ,datePicker, id)">
         </date-picker>

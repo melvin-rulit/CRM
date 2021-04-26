@@ -783,11 +783,7 @@ class BaseController extends Controller
             }
         }
 
-        if ($collection->isEmpty()){
-            return "Collection is empty";
-        }
-
-        return new UsersResource($collection);
+        return UsersResource::collection($collection);
     }
 
     public function getInstructors(){
@@ -802,7 +798,7 @@ class BaseController extends Controller
             }
         }
 
-        return new UsersResource($collection);
+        return UsersResource::collection($collection);
     }
 
     public function getProgramms(Request $request){
@@ -832,7 +828,7 @@ class BaseController extends Controller
         return $path;
     }
 
-    public function filter(Request $request, UsersFilter $filters)
+    public function baseFilter(Request $request)
     {
 
         $user = User::find(Auth::user()->id);
@@ -847,7 +843,7 @@ class BaseController extends Controller
 
         // Исправить костыль с фильтром
 
-        $users = Base::filter($filters)->get();
+        $users = Base::filter($request->all())->get();
 
         $collectionA = $users->keyBy('id');
 
@@ -855,11 +851,7 @@ class BaseController extends Controller
 
         $collection = $collectionA->intersectByKeys($collectionB);
 
-        if ($request->expectsJson()) {
-            return BaseAllResource::collection($collection);
-        }
-
-        return view('pages.product', compact('users'));
+        return BaseAllResource::collection($collection);
     }
 
 //    Обновляем ЛПР родителя

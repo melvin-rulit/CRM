@@ -42,7 +42,8 @@ export default {
         },
 
         getAll(){
-            axios.post('api/v2/getTest', {name: this.input1, surname: this.input2})
+            // axios.post('api/v2/getTest', {name: this.input1, surname: this.input2})
+            axios.post('api/v2/getTest', {birthday: '1988', notActiveContract: true})
                 .then(response => this.get = response.data)
         },
 

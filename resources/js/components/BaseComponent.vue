@@ -4,6 +4,7 @@
 
         <base-modal-component @get-method="fetchArticles" ref="showmoda" :can="can"></base-modal-component>
         <add-new-base-component @get-method="newMethod" ref="showmodal"></add-new-base-component>
+        <base-filter-component  @get-method="returnFilterArray" ref="show_filter"></base-filter-component>
 
         <!-- Панель над фильтром -->
         <div class="row">
@@ -14,7 +15,8 @@
                             <div class="col">
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-sm btn-info" @click="showCollapse(), filter = !filter">Фильтр</button>
+                                <button class="btn btn-sm btn-info" @click="showCollapse(), filter = !filter">Поиск</button>
+                                <button class="btn btn-sm btn-danger" @click="showFilterModal()">Фильтр</button>
                                 <button v-if="can.base_create" class="btn btn-sm btn-success" @click="ShowNewUser">Добавить клиента</button>
                             </div>
                         </div>
@@ -44,9 +46,10 @@
                                 >
                             </div>
                             <div class="filter">
-                                <select class="form-control" v-model="birthday" >
-                                    <option v-for="(curr, index) in new Date().getFullYear()" v-if="index + 1 >= 1980">{{ curr }}</option>
-                                </select>
+<!--                                <select class="form-control" v-model="birthday" >-->
+<!--                                    <option v-for="(curr, index) in new Date().getFullYear()" v-if="index + 1 >= 1980">{{ curr }}</option>-->
+<!--                                </select>-->
+                              <input v-model="birthday" class="form-control" placeholder="Год">
                             </div>
                             <div class="submit">
                                 <button type="submit" @click.prevent="fetch" class="btn btn-success" :disabled="busy">
@@ -64,64 +67,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Модальное окно с добавление нового клиента -->
-<!--        <div class="modal fade" id="addNewUser" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
-<!--            <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--                <div class="modal-content">-->
-<!--                    <div class="modal-header">-->
-<!--                        <h4 class="modal-title" id="exampleModalLongTitle">Добавление нового клиента</h4>-->
-<!--                        <button type="button" @click="cancelAddNewUser" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                            <span aria-hidden="true"><i class="fe fe-x h2"></i></span>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                    <div class="modal-body">-->
-<!--                        <form @submit.prevent="addNewUser">-->
-<!--                            <div class="form-group row" :class="{ 'form-group&#45;&#45;error': $v.new_child_surname.$error }">-->
-<!--                                <label class="col-sm-3 col-form-label required">Фамилия</label>-->
-<!--                                <div class="col-sm-9">-->
-<!--                                    <input v-model.trim="$v.new_child_surname.$model" class="form-control">-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="form-group row" :class="{ 'form-group&#45;&#45;error': $v.new_child_name.$error }">-->
-<!--                                <label class="col-sm-3 col-form-label required">Имя</label>-->
-<!--                                <div class="col-sm-9">-->
-<!--                                    <input v-model.trim="$v.new_child_name.$model" class="form-control">-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="form-group row">-->
-<!--                                <label class="col-sm-3 col-form-label">Отчество</label>-->
-<!--                                <div class="col-sm-9">-->
-<!--                                    <input v-model.trim="new_child_middle_name" class="form-control">-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="form-group row">-->
-<!--                                <label class="col-sm-3 col-form-label required">Филиал</label>-->
-<!--                                <div class="col-sm-9">-->
-<!--                                    <dynamic-select :options="branches" option-value="id" option-text="name" placeholder="Введите для поиска" v-model="branch" />-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="form-group row">-->
-<!--                                <label class="col-sm-3 col-form-label">Менеджер</label>-->
-<!--                                <div class="col-sm-9">-->
-<!--                                    <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="manager" />-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="form-group row">-->
-<!--                                <label class="col-sm-3 col-form-label">Тренер</label>-->
-<!--                                <div class="col-sm-9">-->
-<!--                                    <dynamic-select :options="users" option-value="id" option-text="surname" placeholder="Введите для поиска" v-model="instructor" />-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="modal-footer">-->
-<!--                                <button @click="cancelAddNewUser" type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>-->
-<!--                                <button type="submit" class="btn btn-success">Добавить</button>-->
-<!--                            </div>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
 
         <!-- Табы основного интерфейса -->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -239,19 +184,25 @@
 
         methods: {
 
-            showCollapse(){
+          returnFilterArray(data){
+            this.articles = data.users
+          },
+
+          showFilterModal(){
+            this.$refs.show_filter.showUserFilter()
+          },
+
+          showCollapse(){
                 this.filter  ? $('#filter').collapse('hide') : $('#filter').collapse('show');
             },
 
             fetch() {
                 this.busy = true;
-                axios.get(`api/v2/filter`, {
-                    params: {
+                axios.post('api/v2/baseFilter', {
                         surname: this.surname,
                         name: this.name,
-                        birthday: this.birthday,
-                        // phone: this.phone,
-                    }
+                        yearBirthday: this.birthday,
+                        phone: this.phone,
                 })
                     .then(response => {
                         this.articles = response.data.data;
