@@ -14,6 +14,9 @@ class Base extends Model
 
     protected $fillable = [
         'child_name',
+        'age',
+        'mother_name',
+        'mother_phone',
         'child_surname',
         'child_middle_name',
         'branch',
