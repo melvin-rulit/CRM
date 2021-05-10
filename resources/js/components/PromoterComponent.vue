@@ -27,6 +27,8 @@
                                 <input type="datetime" class="form-control col" id="inputEmail4"
                                        placeholder="17.04.21 17.00">
                             </div>
+
+
                             <div class="form-group col-md-4">
 
                                 <b-form-select v-model="selected"
@@ -35,15 +37,26 @@
                                 ></b-form-select>
 
                             </div>
+                            <div class="col-md-4">
+
+                                <b-form-group label="Выберите близкого">
+                                    <b-form-radio-group
+                                        v-model="selected_2"
+                                        :options="options_2"
+                                        name="radio-inline"
+                                    ></b-form-radio-group>
+                                </b-form-group>
+
+                            </div>
                         </div>
-                        <div class="form-group col-md-12">
-                            <input type="text" class="form-control" id="inputEmail4" placeholder="Имя родителя"
-                                   v-model="mother_name">
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" placeholder="Имя родителя"
+                                   v-model="parent_name">
                         </div>
 
 
-                        <input type="tel" placeholder="+38 (___) ___-__-__" v-model="mother_phone"
-                               v-mask="'+38 (###) ###-##-##'" class="city-select"/>
+                        <input type="tel" placeholder="+38 (___) ___-__-__" v-model="parent_phone"
+                               v-mask="'+38 (###) ###-##-##'">
 
 
                         <select class="form-select city-select" aria-label="Default select example">
@@ -99,6 +112,7 @@ export default {
     data() {
         return {
             selected: '',
+            selected_2: '',
             options: [
                 {value: '', text: 'Возраст ребенка'},
                 {text: '3', value: '3'},
@@ -109,9 +123,15 @@ export default {
                 {text: '8', value: '8'},
             ],
 
+            options_2: [
+                {text: 'Мать', value: 'м'},
+                {text: 'Отец', value: 'о'},
+                {text: 'Родственник', value: 'р'},
+            ],
+
             child_name: '',
-            mother_name: '',
-            mother_phone: '',
+            parent_name: '',
+            parent_phone: '',
             branch: '',
             date: '',
             age: '',
@@ -145,19 +165,48 @@ export default {
         },
 
         send() {
-            Vue.$toast.open({message: 'Днные о ребенке успешно добавлены', type: 'success', duration: 5000, position: 'top-right'});
-            axios.post('/api/v2/addClientFromPromoter/', {
-                child_name: this.child_name,
-                mother_phone: this.mother_phone,
-                mother_name: this.mother_name,
-                age: this.selected
+            Vue.$toast.open({
+                message: 'Днные о ребенке успешно добавлены',
+                type: 'success',
+                duration: 5000,
+                position: 'top-right'
+            });
+            if (this.selected_2 == "м") {
+
+                axios.post('/api/v2/addClientFromPromoter/', {
+                    child_name: this.child_name,
+                    mother_phone: this.parent_phone,
+                    mother_name: this.parent_name,
+                    age: this.selected
 
 
-            }).finally(() => (this.reset()))
+                }).finally(() => (this.reset()))
+            } else if (this.selected_2 == "о") {
+
+                axios.post('/api/v2/addClientFromPromoter/', {
+                    child_name: this.child_name,
+                    father_phone: this.parent_phone,
+                    father_name: this.parent_name,
+                    age: this.selected
+
+
+                }).finally(() => (this.reset()))
+            } else {
+
+                axios.post('/api/v2/addClientFromPromoter/', {
+                    child_name: this.child_name,
+                    other_relative_phone: this.parent_phone,
+                    other_relative_name: this.parent_name,
+                    age: this.selected
+
+
+                }).finally(() => (this.reset()))
+            }
+
         },
 
-        reset(){
-                this.mother_phone = '',
+        reset() {
+            this.mother_phone = '',
                 this.child_name = '',
                 this.mother_name = '',
                 this.selected = ''
