@@ -112,7 +112,7 @@ export default {
     data() {
         return {
             selected: '',
-            selected_2: '',
+            selected_2: 'м',
             options: [
                 {value: '', text: 'Возраст ребенка'},
                 {text: '3', value: '3'},
@@ -171,6 +171,7 @@ export default {
                 duration: 5000,
                 position: 'top-right'
             });
+
             if (this.selected_2 == "м") {
 
                 axios.post('/api/v2/addClientFromPromoter/', {
