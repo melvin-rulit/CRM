@@ -1,6 +1,17 @@
 <template>
     <div>
 
+                                        <!-- Виды операций -->
+        <edit-operations-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodal"></edit-operations-in-kassa_settings>
+
+        <delete-operations-in-kassa_settings @get-method="updateDataWhenExitModal" ></delete-operations-in-kassa_settings>
+
+                                        <!-- Группы -->
+        <edit-groups-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaleditgroups"></edit-groups-in-kassa_settings>
+
+        <delete-groups-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaldeletegroups"></delete-groups-in-kassa_settings>
+
+
         <b-modal id="coming" title="Новая операция" @ok="handleSubmit" @hidden="resetModal" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
                 <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
@@ -47,6 +58,8 @@
                 </form>
             </div>
         </b-modal>
+
+
 
         <b-modal id="group" title="Новая группа" @ok="saveGroup" @hidden="resetModalGroup" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
@@ -117,6 +130,16 @@
                             <template v-slot:cell(beznal)="row">
                                 <span v-if="row.item.beznal" class="text-success">●</span>
                             </template>
+
+                            <template v-slot:cell(edit)="row">
+                                <b-form-group>
+
+                                    <button class="pading_button"> <b-icon icon="pencil-square" @click="rowSelectedEditOperations(row.item)" ></b-icon> </button>
+                                    <button> <b-icon  icon="trash" @click="rowSelectedDeleteOperations(row.item)"></b-icon>  </button>
+
+                                </b-form-group>
+                            </template>
+
                         </b-table>
                     </div>
                 </b-tab>
@@ -142,6 +165,16 @@
                             :items="groups"
                             :fields="groupsFields"
                             head-variant="light">
+
+                            <template v-slot:cell(edit)="row">
+                                <b-form-group>
+
+                                    <button class="pading_button"> <b-icon icon="pencil-square" @click="rowSelectedEditGroups(row.item)" ></b-icon> </button>
+                                    <button> <b-icon  icon="trash" @click="rowSelectedDeleteGroups(row.item)"></b-icon>  </button>
+
+                                </b-form-group>
+                            </template>
+
                         </b-table>
                     </div>
                 </b-tab>
@@ -209,6 +242,10 @@
                         key: 'group',
                         label: 'Группа',
                     },
+                    {
+                        key: 'edit',
+                        label: '',
+                    }
                 ],
                 groupsFields: [
                     {
@@ -218,6 +255,10 @@
                     {
                         key: 'branch',
                         label: 'Касса',
+                    },
+                    {
+                        key: 'edit',
+                        label: '',
                     }
                 ],
             }
@@ -228,14 +269,6 @@
         },
 
         methods: {
-
-            resetModal(){
-                this.name = ''
-                this.checkbox = ''
-                this.branch = ''
-                this.group_name = ''
-                this.coment = ''
-            },
 
             resetModalGroup(){
                 this.group_name = ''
@@ -300,7 +333,38 @@
             getAllGroups(){
                 axios.get('api/v2/kassaGroups')
                     .then(response => this.groups = response.data.data)
-            }
+            },
+
+            //----------------------- Delete Groups ----------------------------//
+
+
+            rowSelectedDeleteGroups(row) {
+                this.$refs.getmodaldeletegroups.showModalDeleteGroupsKassaSettings(row)
+
+            },
+
+            //----------------------- Edit Groups ----------------------------//
+
+            rowSelectedEditGroups(row) {
+                this.$refs.getmodaleditgroups.showModalEditGroupsKassaSettings(row)
+
+            },
+
+            //------------------------- Update and reset Data----------------------------//
+
+            updateDataWhenExitModal(){
+                this.getAllGroups()
+
+            },
+
+            resetModal(){
+                this.name = ''
+                this.checkbox = ''
+                this.branch = ''
+                this.group_name = ''
+                this.coment = ''
+            },
+
 
         }
     }

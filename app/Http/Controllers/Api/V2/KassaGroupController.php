@@ -91,17 +91,41 @@ class KassaGroupController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function destroy($id)
+    public function destroy($id): string
+
     {
-        //
+        $post = KassaGroup::find($id);
+
+        $post->delete();
+        return response()->json('successfully deleted');
+//       return "Группа удалена";
     }
+
 
     public function getGroupInKassa(Request $request){
 
        $group_in_kassa = KassaGroup::where('branch_id', $request->branch_id)->get();
 
        return GroupInKassaResource::collection($group_in_kassa);
+    }
+
+    public function editGroupInKassaSettings(Request $request){
+
+        if ($request['field_value'] == null){
+
+            return "Пустое поле и данные не обновлены";
+
+        }else{
+
+            $field_name = $request['field_name'];
+            $KassaGroup = KassaGroup::find($request['branch_id']);
+            $KassaGroup->$field_name = $request['field_value'];
+            $KassaGroup->save();
+
+            return "Группа обновлена";
+        }
+
     }
 }
