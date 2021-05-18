@@ -87,6 +87,7 @@ class KassaGroupController extends Controller
         //
     }
 
+    //---------------------------- Delete Groups in Kassa-Settings -------------------//
     /**
      * Remove the specified resource from storage.
      *
@@ -99,19 +100,14 @@ class KassaGroupController extends Controller
         $post = KassaGroup::find($id);
 
         $post->delete();
-        return response()->json('successfully deleted');
-//       return "Группа удалена";
+//        return response()->json('successfully deleted');
+       return "Группа удалена";
     }
 
 
-    public function getGroupInKassa(Request $request){
 
-       $group_in_kassa = KassaGroup::where('branch_id', $request->branch_id)->get();
-
-       return GroupInKassaResource::collection($group_in_kassa);
-    }
-
-    public function editGroupInKassaSettings(Request $request){
+    public function editNameInKassaSettings(Request $request): string
+    {
 
         if ($request['field_value'] == null){
 
@@ -120,12 +116,39 @@ class KassaGroupController extends Controller
         }else{
 
             $field_name = $request['field_name'];
-            $KassaGroup = KassaGroup::find($request['branch_id']);
+            $KassaGroup = KassaGroup::find($request['row_id']);
             $KassaGroup->$field_name = $request['field_value'];
             $KassaGroup->save();
 
-            return "Группа обновлена";
+            return "Имя Группы обновлено";
         }
 
     }
+
+    public function editKassaInKassaSettings(Request $request): string
+    {
+
+        if ($request['field_value'] == null){
+
+            return "Пустое поле и данные не обновлены";
+
+        }else{
+
+            $field_name = $request['field_name'];
+            $KassaGroup = KassaGroup::find($request['row_id']);
+            $KassaGroup->$field_name = $request['field_value'];
+            $KassaGroup->save();
+
+            return "Касса Группы обновлена";
+        }
+
+    }
+
+    public function getGroupInKassa(Request $request){
+
+        $group_in_kassa = KassaGroup::where('branch_id', $request->branch_id)->get();
+
+        return GroupInKassaResource::collection($group_in_kassa);
+    }
+
 }

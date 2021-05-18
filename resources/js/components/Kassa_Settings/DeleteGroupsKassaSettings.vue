@@ -14,6 +14,8 @@
 
 <script>
 
+import Vue from "vue";
+
 export default {
 
     data() {
@@ -40,7 +42,7 @@ export default {
 
         deleteRow(){
             axios.delete('api/v2/kassaGroups/' + this.grouprow.id)
-                .then(response => this.otvet = response.data)
+            Vue.$toast.open({message: 'Группа удалена' ,type: 'success',duration: 5000,position: 'top-right'});
             this.$emit('get-method')
         },
 

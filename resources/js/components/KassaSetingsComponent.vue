@@ -2,9 +2,9 @@
     <div>
 
                                         <!-- Виды операций -->
-        <edit-operations-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodal"></edit-operations-in-kassa_settings>
+        <edit-operations-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaleditoperations"></edit-operations-in-kassa_settings>
 
-        <delete-operations-in-kassa_settings @get-method="updateDataWhenExitModal" ></delete-operations-in-kassa_settings>
+        <delete-operations-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaldeleteoperations" ></delete-operations-in-kassa_settings>
 
                                         <!-- Группы -->
         <edit-groups-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaleditgroups"></edit-groups-in-kassa_settings>
@@ -169,7 +169,7 @@
                             <template v-slot:cell(edit)="row">
                                 <b-form-group>
 
-                                    <button class="pading_button"> <b-icon icon="pencil-square" @click="rowSelectedEditGroups(row.item)" ></b-icon> </button>
+                                    <button v-if="can.kassa_add_operation_type" class="pading_button"> <b-icon icon="pencil-square" @click="rowSelectedEditGroups(row.item)" ></b-icon> </button>
                                     <button> <b-icon  icon="trash" @click="rowSelectedDeleteGroups(row.item)"></b-icon>  </button>
 
                                 </b-form-group>
@@ -335,7 +335,7 @@
                     .then(response => this.groups = response.data.data)
             },
 
-            //----------------------- Delete Groups ----------------------------//
+            //----------------------- Show Delete Groups Modal ----------------------------//
 
 
             rowSelectedDeleteGroups(row) {
@@ -343,17 +343,33 @@
 
             },
 
-            //----------------------- Edit Groups ----------------------------//
+            //----------------------- Show Edit Groups Modal ----------------------------//
 
             rowSelectedEditGroups(row) {
                 this.$refs.getmodaleditgroups.showModalEditGroupsKassaSettings(row)
 
             },
 
-            //------------------------- Update and reset Data----------------------------//
+            //----------------------- Show Delete Operations Modal ----------------------------//
+
+            rowSelectedDeleteOperations(row) {
+                this.$refs.getmodaldeleteoperations.showModalDeleteOperationsKassaSettings(row)
+
+            },
+
+            //----------------------- Show Edit Operations Modal ----------------------------//
+
+            rowSelectedEditOperations(row) {
+                this.$refs.getmodaleditoperations.showModalEditOperationKassaSettings(row)
+
+            },
+
+            //------------------------- Update and reset Data ----------------------------//
 
             updateDataWhenExitModal(){
+
                 this.getAllGroups()
+                this.getOperationTypes()
 
             },
 
@@ -363,6 +379,7 @@
                 this.branch = ''
                 this.group_name = ''
                 this.coment = ''
+
             },
 
 

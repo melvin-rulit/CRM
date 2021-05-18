@@ -44,8 +44,10 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::apiResource('operation_type', 'OperationTypeController');
 
     //--------------------- KassaOperation -------------------------//
-
-    Route::get('kassa_operation', 'KassaOperationController@index');
+    Route::apiResource('kassaOperations', 'KassaOperationController');
+    Route::post('kassaSettingsEditOperationName', 'KassaOperationController@editNameInKassaSettings');
+    Route::post('delete_operation', 'KassaOperationController@destroy');
+    Route::post('kassaSettingsEditOperationKassa', 'KassaOperationController@editKassaInKassaSettings');
     Route::post('addOperation', 'KassaOperationController@addOperation');
     Route::post('getOperationsType', 'KassaOperationController@getOperationsType');
     Route::post('getRadioButton', 'KassaOperationController@getRadioButton');
@@ -55,7 +57,8 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
 
     Route::apiResource('kassaGroups', 'KassaGroupController');
     Route::post('kassas', 'KassaGroupController@getGroupInKassa');
-    Route::post('kassaSettingsEditGroups', 'KassaGroupController@editGroupInKassaSettings');
+    Route::post('kassaSettingsEditGroupsName', 'KassaGroupController@editNameInKassaSettings');
+    Route::post('kassaSettingsEditGroupsKassa', 'KassaGroupController@editKassaInKassaSettings');
 
     // SourceGraoup
     Route::apiResource('sourceGroups', 'SourceGroupController');
