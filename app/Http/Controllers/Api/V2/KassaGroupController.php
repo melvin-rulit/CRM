@@ -87,60 +87,48 @@ class KassaGroupController extends Controller
         //
     }
 
-    //---------------------------- Delete Groups in Kassa-Settings -------------------//
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return string
      */
-    public function destroy($id): string
+    public function destroy($id)
 
     {
         $post = KassaGroup::find($id);
 
         $post->delete();
-//        return response()->json('successfully deleted');
+
        return "Группа удалена";
     }
 
 
 
-    public function editNameInKassaSettings(Request $request): string
+    public function editNameInKassaSettings(Request $request)
     {
 
-        if ($request['field_value'] == null){
-
-            return "Пустое поле и данные не обновлены";
-
-        }else{
-
-            $field_name = $request['field_name'];
-            $KassaGroup = KassaGroup::find($request['row_id']);
-            $KassaGroup->$field_name = $request['field_value'];
-            $KassaGroup->save();
+        $field_name = $request['field_name'];
+        $KassaGroup = KassaGroup::find($request['field_id']);
+        $KassaGroup->$field_name = $request['field_value'];
+        $KassaGroup->save();
 
             return "Имя Группы обновлено";
-        }
+
 
     }
 
-    public function editKassaInKassaSettings(Request $request): string
+    public function editKassaInKassaSettings(Request $request)
     {
 
-        if ($request['field_value'] == null){
 
-            return "Пустое поле и данные не обновлены";
+        $field_name = $request['field_name'];
+        $KassaGroup = KassaGroup::find($request['field_id']);
+        $KassaGroup->$field_name = $request['field_value'];
+        $KassaGroup->save();
 
-        }else{
-
-            $field_name = $request['field_name'];
-            $KassaGroup = KassaGroup::find($request['row_id']);
-            $KassaGroup->$field_name = $request['field_value'];
-            $KassaGroup->save();
-
-            return "Касса Группы обновлена";
-        }
+        return "Данные обновлены";
 
     }
 

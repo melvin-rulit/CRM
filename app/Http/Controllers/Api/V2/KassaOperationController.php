@@ -103,46 +103,24 @@ class KassaOperationController extends Controller
     public function editNameInKassaSettings(Request $request): string
     {
 
-        if ($request['field_value'] == null) {
+        $field_name = $request['field_name'];
+        $KassaGroup = KassaOperationType::find($request['field_id']);
+        $KassaGroup->$field_name = $request['field_value'];
+        $KassaGroup->save();
 
-            return "Пустое поле и данные не обновлены";
-
-        } else {
-
-            $field_name = $request['field_name'];
-            $KassaGroup = KassaOperationType::find($request['row_id']);
-            $KassaGroup->$field_name = $request['field_value'];
-            $KassaGroup->save();
-
-            return "Имя Операции обновлено";
-        }
+        return "Имя Операции обновлено";
 
     }
 
-    public function editKassaInKassaSettings(Request $request)
+    public function editKassaInKassaSettings(Request $request): string
     {
 
-        if ($request['field_value'] === null) {
+        $field_name = $request['field_name'];
+        $KassaGroup = KassaOperationType::find($request['field_id']);
+        $KassaGroup->$field_name = $request['field_value'];
+        $KassaGroup->save();
 
-            return "Обновление не сделанно т.к пишли пустые поля";
-
-        } elseif ($request['field_name'] == "group_id") {
-
-            $field_name = $request['field_name'];
-            $KassaGroup = KassaOperationType::find($request['row_id']);
-            $KassaGroup->$field_name = $request['field_value'];
-            $KassaGroup->save();
-
-        } elseif($request['field_name'] === "branch_id") {
-//
-            $field_name = $request['field_name'];
-            $KassaGroup = KassaOperationType::find($request['row_id']);
-            $KassaGroup->$field_name = $request['field_value'];
-            $KassaGroup->save();
-
-
-        }
-
+        return "Данные обновлены";
 
     }
 

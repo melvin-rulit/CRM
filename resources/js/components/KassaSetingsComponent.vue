@@ -2,14 +2,11 @@
     <div>
 
                                         <!-- Виды операций -->
-        <edit-operations-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaleditoperations"></edit-operations-in-kassa_settings>
+        <edit-operations-in-kassa_settings @get-method="updateDataWhenExitModalEditOptions" ref="getmodaleditoperations"></edit-operations-in-kassa_settings>
 
-        <delete-operations-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaldeleteoperations" ></delete-operations-in-kassa_settings>
+                                    <!-- Группы -->
+        <edit-groups-in-kassa_settings @get-method="updateDataWhenExitModalEditGroups" ref="getmodaleditgroups"></edit-groups-in-kassa_settings>
 
-                                        <!-- Группы -->
-        <edit-groups-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaleditgroups"></edit-groups-in-kassa_settings>
-
-        <delete-groups-in-kassa_settings @get-method="updateDataWhenExitModal" ref="getmodaldeletegroups"></delete-groups-in-kassa_settings>
 
 
         <b-modal id="coming" title="Новая операция" @ok="handleSubmit" @hidden="resetModal" centered ok-only ok-title="Добавить">
@@ -113,11 +110,14 @@
                     <!-- Список клиентов -->
                     <div class="card-body pb-0">
                         <b-table
+
                             hover
                             sticky-header="700px"
                             :items="operation_types"
                             :fields="fields"
-                            head-variant="light">
+                            head-variant="light"
+                            @row-clicked= "rowSelectedEditOperations">
+
                             <template v-slot:cell(coming)="row">
                                 <span v-if="row.item.coming" class="text-success">●</span>
                             </template>
@@ -131,14 +131,6 @@
                                 <span v-if="row.item.beznal" class="text-success">●</span>
                             </template>
 
-                            <template v-slot:cell(edit)="row">
-                                <b-form-group>
-
-                                    <button class="pading_button"> <b-icon icon="pencil-square" @click="rowSelectedEditOperations(row.item)" ></b-icon> </button>
-                                    <button> <b-icon  icon="trash" @click="rowSelectedDeleteOperations(row.item)"></b-icon>  </button>
-
-                                </b-form-group>
-                            </template>
 
                         </b-table>
                     </div>
@@ -160,20 +152,13 @@
                     </div>
                     <div class="card-body pb-0">
                         <b-table
+
                             hover
                             sticky-header="700px"
                             :items="groups"
                             :fields="groupsFields"
-                            head-variant="light">
-
-                            <template v-slot:cell(edit)="row">
-                                <b-form-group>
-
-                                    <button v-if="can.kassa_add_operation_type" class="pading_button"> <b-icon icon="pencil-square" @click="rowSelectedEditGroups(row.item)" ></b-icon> </button>
-                                    <button> <b-icon  icon="trash" @click="rowSelectedDeleteGroups(row.item)"></b-icon>  </button>
-
-                                </b-form-group>
-                            </template>
+                            head-variant="light"
+                            @row-clicked= "rowSelectedEditGroups">
 
                         </b-table>
                     </div>
@@ -241,10 +226,6 @@
                     {
                         key: 'group',
                         label: 'Группа',
-                    },
-                    {
-                        key: 'edit',
-                        label: '',
                     }
                 ],
                 groupsFields: [
@@ -255,10 +236,6 @@
                     {
                         key: 'branch',
                         label: 'Касса',
-                    },
-                    {
-                        key: 'edit',
-                        label: '',
                     }
                 ],
             }
@@ -335,13 +312,6 @@
                     .then(response => this.groups = response.data.data)
             },
 
-            //----------------------- Show Delete Groups Modal ----------------------------//
-
-
-            rowSelectedDeleteGroups(row) {
-                this.$refs.getmodaldeletegroups.showModalDeleteGroupsKassaSettings(row)
-
-            },
 
             //----------------------- Show Edit Groups Modal ----------------------------//
 
@@ -350,12 +320,6 @@
 
             },
 
-            //----------------------- Show Delete Operations Modal ----------------------------//
-
-            rowSelectedDeleteOperations(row) {
-                this.$refs.getmodaldeleteoperations.showModalDeleteOperationsKassaSettings(row)
-
-            },
 
             //----------------------- Show Edit Operations Modal ----------------------------//
 
@@ -366,11 +330,14 @@
 
             //------------------------- Update and reset Data ----------------------------//
 
-            updateDataWhenExitModal(){
+            updateDataWhenExitModalEditGroups(){
 
                 this.getAllGroups()
-                this.getOperationTypes()
+            },
 
+            updateDataWhenExitModalEditOptions(){
+
+                this.getOperationTypes()
             },
 
             resetModal(){

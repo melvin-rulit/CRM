@@ -149,10 +149,6 @@ Vue.component('kassa-setings-component', require('./components/KassaSetingsCompo
 
 Vue.component('edit-operations-in-kassa_settings', require('./components/Kassa_Settings/EditOperationKassaSettings.vue').default);
 
-Vue.component('delete-operations-in-kassa_settings', require('./components/Kassa_Settings/DeleteOperationKassaSettings.vue').default);
-
-Vue.component('delete-groups-in-kassa_settings', require('./components/Kassa_Settings/DeleteGroupsKassaSettings.vue').default);
-
 Vue.component('edit-groups-in-kassa_settings', require('./components/Kassa_Settings/EditGroupsKassaSettings.vue').default);
 
 
