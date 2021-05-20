@@ -45,6 +45,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
 
     //--------------------- KassaOperation -------------------------//
     Route::apiResource('kassaOperations', 'KassaOperationController');
+    Route::get('kassa_operation', 'KassaOperationController@index');
     Route::post('kassaSettingsEditOperationName', 'KassaOperationController@editNameInKassaSettings');
     Route::post('delete_operation', 'KassaOperationController@destroy');
     Route::post('kassaSettingsEditOperationKassa', 'KassaOperationController@editKassaInKassaSettings');

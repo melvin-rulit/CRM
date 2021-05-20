@@ -315,16 +315,23 @@
 
             //----------------------- Show Edit Groups Modal ----------------------------//
 
-            rowSelectedEditGroups(row) {
-                this.$refs.getmodaleditgroups.showModalEditGroupsKassaSettings(row)
 
+            rowSelectedEditGroups(row) {
+
+                if (this.can.kassa_add_operation_type === true) {
+                    this.$refs.getmodaleditgroups.showModalEditGroupsKassaSettings(row)
+                }
             },
 
 
             //----------------------- Show Edit Operations Modal ----------------------------//
 
             rowSelectedEditOperations(row) {
-                this.$refs.getmodaleditoperations.showModalEditOperationKassaSettings(row)
+
+                if (this.can.kassa_add_operation_type === true){
+
+                    this.$refs.getmodaleditoperations.showModalEditOperationKassaSettings(row)
+                }
 
             },
 
