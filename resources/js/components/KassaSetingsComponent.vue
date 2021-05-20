@@ -2,10 +2,10 @@
     <div>
 
                                         <!-- Виды операций -->
-        <edit-operations-in-kassa_settings @get-method="updateDataWhenExitModalEditOptions" ref="getmodaleditoperations"></edit-operations-in-kassa_settings>
+        <edit-operations-in-kassa_settings :can="can" @get-method="updateDataWhenExitModalEditOptions" ref="getmodaleditoperations" v-if="can.kassa_add_operation_type"></edit-operations-in-kassa_settings>
 
                                     <!-- Группы -->
-        <edit-groups-in-kassa_settings @get-method="updateDataWhenExitModalEditGroups" ref="getmodaleditgroups"></edit-groups-in-kassa_settings>
+        <edit-groups-in-kassa_settings :can="can" @get-method="updateDataWhenExitModalEditGroups" ref="getmodaleditgroups" v-if="can.kassa_add_operation_type"></edit-groups-in-kassa_settings>
 
 
 
@@ -318,9 +318,7 @@
 
             rowSelectedEditGroups(row) {
 
-                if (this.can.kassa_add_operation_type === true) {
                     this.$refs.getmodaleditgroups.showModalEditGroupsKassaSettings(row)
-                }
             },
 
 
@@ -328,11 +326,7 @@
 
             rowSelectedEditOperations(row) {
 
-                if (this.can.kassa_add_operation_type === true){
-
                     this.$refs.getmodaleditoperations.showModalEditOperationKassaSettings(row)
-                }
-
             },
 
             //------------------------- Update and reset Data ----------------------------//

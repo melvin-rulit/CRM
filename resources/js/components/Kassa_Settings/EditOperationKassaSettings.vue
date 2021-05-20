@@ -98,9 +98,8 @@ export default {
 
     },
 
-    created() {
-        this.getOperationTypes()
-
+    props: {
+        can: {}
     },
 
     methods: {
