@@ -49,6 +49,8 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('kassaSettingsEditOperationName', 'KassaOperationController@editNameInKassaSettings');
     Route::post('delete_operation', 'KassaOperationController@destroy');
     Route::post('kassaSettingsEditOperationKassa', 'KassaOperationController@editKassaInKassaSettings');
+    Route::post('kassaSettingsEditOperationCheckbox', 'KassaOperationController@editCheckboxInKassaSettings');
+    Route::post('kassaSettingsGetOperationData', 'KassaOperationController@getCheckboxDataInKassaSettings');
     Route::post('addOperation', 'KassaOperationController@addOperation');
     Route::post('getOperationsType', 'KassaOperationController@getOperationsType');
     Route::post('getRadioButton', 'KassaOperationController@getRadioButton');

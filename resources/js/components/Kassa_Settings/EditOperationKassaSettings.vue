@@ -2,6 +2,19 @@
     <div>
         <b-modal title="Измините данные Операции" @ok="editOperation" @hidden="resetModal" centered ok-only ok-title="Готово" v-model="modalShow">
 
+            <div class="radio-group-toggle mb-5 text-center">
+                <input class="mx-3" type="checkbox" id="comin" value="1" v-model="dataObject.comin">
+                <label for="comin">Приход</label>
+                <input class="mx-3" type="checkbox" id="out" value="1" v-model="dataObject.out">
+                <label for="out">Расход</label>
+                <input class="mx-3" type="checkbox" id="cash" value="1" v-model="dataObject.cash">
+                <label for="cash">Наличные</label>
+                <input class="mx-3" type="checkbox" id="beznal" value="1" v-model="dataObject.beznal">
+                <label for="beznal">Экваринг</label>
+
+
+            </div>
+
             <div class="card-body py-0">
 
                     <div class="form-group row ">
@@ -21,7 +34,7 @@
                         <div class="col-sm-9">
                             <dynamic-select
                                 :options="branches"
-                                v-model="branch"
+                                v-model="dataObject.branch"
                                 option-value="id"
                                 option-text="name"
                                 placeholder="Введите для поиска кассы"/>
@@ -33,7 +46,7 @@
                         <div class="col-sm-9">
                             <dynamic-select
                                 :options="group"
-                                v-model="groupid"
+                                v-model="dataObject.groupid"
                                 option-value="id"
                                 option-text="name"
                                 placeholder="Введите для поиска группы"/>
@@ -41,12 +54,11 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Комментарий</label>
+                        <label class="col-sm-3 col-form-label">Примечание</label>
                         <div class="col-sm-8" style="margin-left: 13px;">
                             <textarea
                                 class="form-control"
-                                placeholder="Введите новый комментарий"
-                                v-model="comment"
+                                v-model="dataObject.coment"
                                 @blur="event => editField(event, 'coment')"
                                 rows="3"
                                 name="coment"
@@ -93,7 +105,9 @@ export default {
             can: '',
             comment: '',
             operation_types: [],
-            modalShow: false
+            modalShow: false,
+            dataObject: {},
+
         }
 
     },
@@ -111,35 +125,100 @@ export default {
                 .then(response => this.branches = response.data.data)
             axios.get('api/v2/kassaGroups')
                 .then(response => this.group = response.data.data)
-
+            axios.post('api/v2/kassaSettingsGetOperationData/' , {id : this.operationField.id} )
+                .then(response => this.dataObject = response.data.data)
         },
 
 
         editOperation() {
 
-            if (this.branch) {
+            if (this.dataObject.branch) {
 
                 axios.post('api/v2/kassaSettingsEditOperationKassa', {
                     field_id: this.operationField.id,
-                    field_value: this.branch.id,
+                    field_value: this.dataObject.branch.id,
                     field_name: 'branch_id'
                 })
 
-                Vue.$toast.open({message: 'Касса обновлена', type: 'success', duration: 5000, position: 'top-right'});
             }
 
-            if (this.groupid) {
+            if (this.dataObject.groupid) {
 
                 axios.post('api/v2/kassaSettingsEditOperationKassa', {
                     field_id: this.operationField.id,
-                    field_value: this.groupid.id,
+                    field_value: this.dataObject.groupid.id,
                     field_name: 'group_id'
                 })
 
-                Vue.$toast.open({message: 'Группа обновлена', type: 'success', duration: 5000, position: 'top-right'});
 
             }
+            //--------------------------------- Send Checkbox -------------------------------
 
+            if (this.dataObject.cash) {
+
+                axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                    field_id: this.operationField.id,
+                    field_name: "cash",
+                    field_value: this.dataObject.cash,
+                })
+
+            }else{
+            axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                field_id: this.operationField.id,
+                field_name: "cash",
+                field_value: 0,
+            })
+        }
+
+           if (this.dataObject.beznal) {
+
+                axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                    field_id: this.operationField.id,
+                    field_name: "beznal",
+                    field_value: this.dataObject.beznal,
+                })
+
+            }else{
+                axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                    field_id: this.operationField.id,
+                    field_name: "beznal",
+                    field_value: 0,
+                })
+            }
+
+           if (this.dataObject.comin) {
+
+                axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                    field_id: this.operationField.id,
+                    field_name: "coming",
+                    field_value: this.dataObject.comin,
+                })
+
+            }else{
+                axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                    field_id: this.operationField.id,
+                    field_name: "coming",
+                    field_value: 0,
+                })
+            }
+
+            if (this.dataObject.out) {
+
+                axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                    field_id: this.operationField.id,
+                    field_name: "out",
+                    field_value: this.dataObject.out,
+                })
+
+            }else{
+                axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                    field_id: this.operationField.id,
+                    field_name: "out",
+                    field_value: 0,
+                })
+            }
+
+            Vue.$toast.open({message: 'Данные обновлены', type: 'success', duration: 5000, position: 'top-right'});
 
             this.$emit('get-method')
 
@@ -147,7 +226,6 @@ export default {
             this.group = ''
             this.groupid = ''
             this.groupid = ''
-            this.comment = ''
 
         },
 
@@ -170,12 +248,6 @@ export default {
             }
         },
 
-        getOperationTypes() {
-            axios.get('api/v2/operation_type')
-                .then(response => {
-                    this.operation_types = response.data.data, this.can = response.data.can
-                })
-        },
 
         //--------------------------------- Удаляем операцию -----------------------------//
 

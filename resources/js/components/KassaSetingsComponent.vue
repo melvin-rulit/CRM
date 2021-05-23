@@ -14,10 +14,17 @@
                 <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
 
                     <div class="radio-group-toggle mb-5 text-center">
-                        <input class="mx-3" type="checkbox" id="coming" value="1" v-model="checkbox.coming">Приход
-                        <input class="mx-3" type="checkbox" id="out" value="1" v-model="checkbox.out">Расход
-                        <input class="mx-3" type="checkbox" id="cash" value="1" v-model="checkbox.cash">Наличные
-                        <input class="mx-3" type="checkbox" id="beznal" value="1" v-model="checkbox.beznal">Экваринг
+                        <input class="mx-3" type="checkbox" id="comin" value="1" v-model="checkbox.coming">
+                        <label for="comin">Приход</label>
+                        <input class="mx-3" type="checkbox" id="out" value="1" v-model="checkbox.out">
+                        <label for="out">Расход</label>
+                        <input class="mx-3" type="checkbox" id="cash" value="1" v-model="checkbox.cash">
+                        <label for="cash">Наличные</label>
+                        <br>
+                        <input class="mx-3" type="checkbox" id="beznal" value="1" v-model="checkbox.beznal">
+                        <label for="beznal">Экваринг</label>
+                        <br>
+
                     </div>
 
                     <div class="form-group row">
@@ -189,11 +196,12 @@
                 kassaGroups: [],
                 operation_types: [],
                 checkbox: {
-                    coming: '',
+                    comin: '',
                     out: '',
                     cash: '',
                     beznal: '',
                 },
+
                 fields: [
                     {
                         key: 'name',
@@ -238,6 +246,7 @@
                         label: 'Касса',
                     }
                 ],
+
             }
         },
 
@@ -346,7 +355,7 @@
                 this.checkbox = ''
                 this.branch = ''
                 this.group_name = ''
-                this.coment = ''
+                // this.coment = ''
 
             },
 

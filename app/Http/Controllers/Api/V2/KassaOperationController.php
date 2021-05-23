@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\KassaOperationResource;
+use App\Http\Resources\KassaOperationTypeForKassaSettings;
 use App\Http\Resources\KassaOperationTypeResource;
 use App\KassaOperation;
 use App\Branch;
@@ -82,7 +83,7 @@ class KassaOperationController extends Controller
         return KassaOperationResource::collection($kassa_operation);
     }
 
-    //---------------------------- Delete Operations in Kassa-Settings -------------------//
+    //---------------------------- Operations in Kassa-Settings -------------------//
 
     /**
      * Remove the specified resource from storage.
@@ -121,6 +122,27 @@ class KassaOperationController extends Controller
         $KassaGroup->save();
 
         return "Данные обновлены";
+
+    }
+
+    public function editCheckboxInKassaSettings(Request $request): string
+    {
+
+        $field_name = $request['field_name'];
+        $KassaGroup = KassaOperationType::find($request['field_id']);
+        $KassaGroup->$field_name = $request['field_value'];
+        $KassaGroup->save();
+
+        return "точки записаны";
+
+    }
+
+    public function getCheckboxDataInKassaSettings(Request $request)
+    {
+
+        $otvet = KassaOperationType::find($request->id);
+
+        return new KassaOperationTypeForKassaSettings ($otvet);
 
     }
 
