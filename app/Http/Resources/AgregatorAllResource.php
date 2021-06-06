@@ -27,7 +27,8 @@ class AgregatorAllResource extends JsonResource
             'color' => $this->statuses->status->color,
             'steps_color' => $this->statuses->steps->color,
             'call_date' => Carbon::createFromDate($this->statuses->call_date)->format('d.m.Y'),
-            'program' => $this->programm ? $this->programm->type : 0,
+            'program' => $this->programm ? $this->programm->name:'------------------------',
+
         ];
     }
 }

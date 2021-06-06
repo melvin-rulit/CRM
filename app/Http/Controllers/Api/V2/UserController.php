@@ -153,6 +153,7 @@ class UserController extends Controller
         return [
             "surname" => $user->surname,
             "name" => $user->name,
+            "id" => $user->id,
         ];
     }
 

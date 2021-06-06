@@ -33,12 +33,8 @@
                                         <tr>
                                             <td>Фамилия</td>
                                             <td>
-                                                <input-form
-                                                    v-model="user.surname"
-                                                    name="surname"
-                                                    :gate="can.user_edit"
-                                                    @edit-field="editField">
-                                                </input-form>
+                                                {{user.surname}}
+
                                             </td>
                                         </tr>
                                         <tr>

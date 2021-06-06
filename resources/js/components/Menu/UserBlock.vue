@@ -1,6 +1,8 @@
 <template>
     <div>
 
+        <showuser-component :can="can" @get-method="fetch" ref="getmodal"></showuser-component>
+
         <div class="navbar-user d-none d-md-flex" id="sidebarUser">
 
             <a href="#sidebarModalActivity" class="navbar-user-link" data-toggle="modal">
@@ -11,7 +13,7 @@
 
 
             <div class="dropup">
-                <a href="#" class="dropdown-toggle" role="button">
+                <a href="#"  @click.prevent="getShowModal(user.id)" class="dropdown-toggle" role="button">
                     <div class="avatar avatar-xl avatar-online">
                         <img src="http://62.109.26.106//images/photo_LI.jpg" class="avatar-img rounded-circle" alt="...">
                     </div>
@@ -53,6 +55,14 @@
             getUserName(){
                 axios.get('api/v2/getUserName')
                 .then(response => this.user = response.data)
+            },
+
+            getShowModal(id){
+
+                 this.$refs.getmodal.addNewUserModal(id)
+                if (this.can.user_show){
+                    this.$refs.getmodal.addNewUserModal(index.id)
+                }
             },
 
             logout() {

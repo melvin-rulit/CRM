@@ -34,12 +34,8 @@
 
 {{------------------------------------- Password --------------------------------}}
 
-                    <div class="form-group">
-                        <div class="row">
 
-
-                        </div>
-                        <div class="input-group input-group-merge">
+                        <div class="form-group">
                             <input id="password" name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="{{ trans('global.login_password') }}">
                             @if($errors->has('password'))
                                 <div class="invalid-feedback">
@@ -47,19 +43,10 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
 
-{{-------------------------------- Send and Forgot Password-----------------------}}
+{{-------------------------------- Send Password -----------------------}}
 
                     <button type="submit" class="login-button button btn">Войти</button>
-
-                    <div class="col-auto">
-                        @if(Route::has('password.request'))
-                            <a class="forgot-password-button" href="{{ route('password.request') }}">
-                                {{ trans('global.forgot_password') }}
-                            </a><br>
-                        @endif
-                    </div>
 
                 </div>
 

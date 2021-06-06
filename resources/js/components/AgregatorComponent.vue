@@ -41,7 +41,7 @@
                                     <span>{{ row.item.call_date }}</span>
                             </template>
                             <template v-slot:cell(program)="row">
-                                    <span>{{ getProgram(row.item.program) }}</span>
+                                    <span>{{ row.item.program }}</span>
                             </template>
                         </b-table>
                     </div>
@@ -102,9 +102,9 @@
                 if ($type === 1){
                     return 'Основная'
                 }else if($type === 2){
-                    return 'Перший крок '
+                    return 'Перший крок'
                 }else if($type === 3){
-                    return 'Відкрий можливості '
+                    return 'Відкрий можливості'
                 }
             },
 

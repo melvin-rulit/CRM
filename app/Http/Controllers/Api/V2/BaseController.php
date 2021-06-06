@@ -199,137 +199,137 @@ class BaseController extends Controller
 
 //        if ($contracts->count() == 1 || $contractsVM->count() == 1) {
 
-            $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('month', $request->month)->get();
+        $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('month', $request->month)->get();
 
-            // Если уже стоит тренировка то выдаем ошибку
-            if ($journal[0]->type == 1) {
-                return [
-                    'response'  => "Уже стоит тренировка, выберите другой статус",
-                ];
+        // Если уже стоит тренировка то выдаем ошибку
+        if ($journal[0]->type == 1) {
+            return [
+                'response'  => "Уже стоит тренировка, выберите другой статус",
+            ];
+        }
+
+        // Если стоит пропусщеная тренировка то выдаем ошибку
+        if($journal[0]->type == 3){
+            return [
+                'response'  => "Клиент пропустил занятие",
+            ];
+        }
+
+
+        // Если на текущей ячейки не стоит пропущенная тренировка и количество тренировок в контракте больше нуля то списываем одну тренировку
+        if ($journal[0]->type !== 3 && $contracts->count()) {
+            if($contracts[0]->classes_total > 0){
+                $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
             }
-
-            // Если стоит пропусщеная тренировка то выдаем ошибку
-            if($journal[0]->type == 3){
-                return [
-                    'response'  => "Клиент пропустил занятие",
-                ];
-            }
+        }
 
 
-            // Если на текущей ячейки не стоит пропущенная тренировка и количество тренировок в контракте больше нуля то списываем одну тренировку
-            if ($journal[0]->type !== 3 && $contracts->count()) {
-                if($contracts[0]->classes_total > 0){
-                    $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
-                }
-            }
+        // Проверяем состоит ли клиент в группе с программой ПК
+        $group = Base::find($request->base_id)->group->programm;
 
-
-            // Проверяем состоит ли клиент в группе с программой ПК
-            $group = Base::find($request->base_id)->group->programm;
-
-            if($group->type == 2 && $journal[0]->type == 4){
-                // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
-                Statuses::where('base_id', $request->base_id)->update(
-                    [
-                        'status_id' => 4,
-                        'steps_id' => 2,
-                    ]
-                );
-
-                // Добавляем в лог запись
-                loger(4, $request->base_id, null,null,'Присвоен статус Явка ПК');
-
-            }
-
-            // Если группа ВМ, стоит тренировка и статус Покупка ВМ
-            if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 5){
-                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 1
-
-                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
-                $jour = Journal::where('base_id', $request->base_id)
-                    ->where('type', 4)
-                    ->orderBy('id', 'desc')
-                    ->first();
-
-                Statuses::where('base_id', $request->base_id)->update(
-                    [
-                        'status_id' => 6,
-                        'steps_id' => 3,
-                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
-                    ]
-                );
-
-                // Добавляем в лог запись
-                loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 1');
-
-            }
-
-            // Если группа ВМ, стоит тренировка и статус Явка ВМ 1
-            if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 6){
-                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 2
-
-                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
-                $jour = Journal::where('base_id', $request->base_id)
-                    ->where('type', 4)
-                    ->orderBy('id', 'desc')
-                    ->first();
-
-                Statuses::where('base_id', $request->base_id)->update(
-                    [
-                        'status_id' => 7,
-                        'steps_id' => 3,
-                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
-                    ]
-                );
-
-                // Добавляем в лог запись
-                loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 2');
-
-            }
-
-            // Если группа ВМ, стоит тренировка и статус Явка ВМ 2
-            if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 7){
-                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 3
-
-                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
-                $jour = Journal::where('base_id', $request->base_id)
-                    ->where('type', 4)
-                    ->orderBy('id', 'desc')
-                    ->first();
-
-                Statuses::where('base_id', $request->base_id)->update(
-                    [
-                        'status_id' => 8,
-                        'steps_id' => 3,
-                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
-                    ]
-                );
-
-                // Добавляем в лог запись
-                loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 3');
-
-            }
-
-
-
-            // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
-            $journal = Journal::updateOrCreate(
-                ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+        if($group->type == 2 && $journal[0]->type == 4){
+            // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
+            Statuses::where('base_id', $request->base_id)->update(
                 [
-                    'base_id' => $request->base_id,
-                    'day' => $request->day,
-                    'month' => $request->month,
-                    'year' => $request->year,
-                    'icon' => $this->workout,
-                    'type' => 1
+                    'status_id' => 4,
+                    'steps_id' => 2,
                 ]
             );
 
+            // Добавляем в лог запись
+            loger(4, $request->base_id, null,null,'Присвоен статус Явка ПК');
 
-            return [
-                'response'  => "success",
-            ];
-            // Если и так уже стоит значение, то ничего не делать
+        }
+
+        // Если группа ВМ, стоит тренировка и статус Покупка ВМ
+        if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 5){
+            // В агрегаторе лидов изменяем статус и этап на Явка ВМ 1
+
+            // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+            $jour = Journal::where('base_id', $request->base_id)
+                ->where('type', 4)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            Statuses::where('base_id', $request->base_id)->update(
+                [
+                    'status_id' => 6,
+                    'steps_id' => 3,
+                    'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                ]
+            );
+
+            // Добавляем в лог запись
+            loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 1');
+
+        }
+
+        // Если группа ВМ, стоит тренировка и статус Явка ВМ 1
+        if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 6){
+            // В агрегаторе лидов изменяем статус и этап на Явка ВМ 2
+
+            // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+            $jour = Journal::where('base_id', $request->base_id)
+                ->where('type', 4)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            Statuses::where('base_id', $request->base_id)->update(
+                [
+                    'status_id' => 7,
+                    'steps_id' => 3,
+                    'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                ]
+            );
+
+            // Добавляем в лог запись
+            loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 2');
+
+        }
+
+        // Если группа ВМ, стоит тренировка и статус Явка ВМ 2
+        if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 7){
+            // В агрегаторе лидов изменяем статус и этап на Явка ВМ 3
+
+            // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+            $jour = Journal::where('base_id', $request->base_id)
+                ->where('type', 4)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            Statuses::where('base_id', $request->base_id)->update(
+                [
+                    'status_id' => 8,
+                    'steps_id' => 3,
+                    'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                ]
+            );
+
+            // Добавляем в лог запись
+            loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 3');
+
+        }
+
+
+
+        // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
+        $journal = Journal::updateOrCreate(
+            ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+            [
+                'base_id' => $request->base_id,
+                'day' => $request->day,
+                'month' => $request->month,
+                'year' => $request->year,
+                'icon' => $this->workout,
+                'type' => 1
+            ]
+        );
+
+
+        return [
+            'response'  => "success",
+        ];
+        // Если и так уже стоит значение, то ничего не делать
 //        }
 
 //        if ($contracts->count() == 0) {
@@ -360,33 +360,33 @@ class BaseController extends Controller
 
 //        if ($contracts->count() == 1) {
 
-            // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
-            $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
+        // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
+        $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
 
-            // Если записи нет то списываем одну тренировку
-            if ($journal->isEmpty()) {
-                $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
-            }
+        // Если записи нет то списываем одну тренировку
+        if ($journal->isEmpty()) {
+            $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
+        }
 
-            // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
-            $journal = Journal::updateOrCreate(
-                ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
-                [
-                    'base_id'   => $request->base_id,
-                    'day'       => $request->day,
-                    'month'     => $request->month,
-                    'year'      => $request->year,
-                    'icon'      => $this->notVisit,
-                    'type'      => 3,
-                ]
-            );
+        // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
+        $journal = Journal::updateOrCreate(
+            ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+            [
+                'base_id'   => $request->base_id,
+                'day'       => $request->day,
+                'month'     => $request->month,
+                'year'      => $request->year,
+                'icon'      => $this->notVisit,
+                'type'      => 3,
+            ]
+        );
 
-            // И добавляем комментарий
-            loger(5, $request->base_id,null,null, $request->comment);
+        // И добавляем комментарий
+        loger(5, $request->base_id,null,null, $request->comment);
 
-            return [
-                'response'  => "success",
-            ];
+        return [
+            'response'  => "success",
+        ];
 //        }
 
 //        if ($contracts->count() == 0) {
@@ -483,81 +483,81 @@ class BaseController extends Controller
         // Если найден один активный контракт
 //        if ($contracts->count() == 1) {
 
-            // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
-            $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
+        // Проверяем стоит ли сейчас посещенная тренировка на текущей ячейки
+        $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 1);
 
-            // Если есть запись посещенной тренировки, то останавливаем
-            if ($journal->isNotEmpty()) {
-                return [
-                    'response'  => "Клиент посетил тренировку, поставить заморозку не возможно",
-                ];
-            }
-
-            // Проверяем стоит ли сейчас новая тренировка на текущей ячейки
-            $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 4);
-
-
-            // Если есть запись новой тренировки, то останавливаем
-            if ($journal->isNotEmpty()) {
-                return [
-                    'response'  => "Нельзя поставить заморозку этому клиенту",
-                ];
-            }
-
-            $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 2);
-
-            // Если уже стоит этот статус то выдаем оштбку
-            if ($journal->isNotEmpty()) {
-                return [
-                    'response'  => "Уже стоит заморозка, выберите другой статус",
-                ];
-            }
-
-            // Проверяем остались ли заморозки, если да то уменьшаем на еденицу, если нет возвращаем сообщение с ошибкой
-            if ($contracts->first()->freezing_total == 0) {
-                return [
-                    'response'  => "У клиента закончились заморозки",
-                ];
-            }else{
-                $contracts[0]->decrement('freezing_total');
-
-                // Смещаем дату фактического окончания контракта
-                // 1 заморозка прибавляем к дате окончания контракта 3 дня
-                // 2 заморозки прибавляем к дате окончания контракта 7 дней
-                // 3 заморозки прибавляем к дате окончания контракта 10 дней
-
-                switch ($contracts->first()->freezing_kolvo) {
-                    case 1:
-                        $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(3);
-                        $contracts->first()->save();
-                        break;
-                    case 2:
-                        $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(7);
-                        $contracts->first()->save();
-                        break;
-                    case 3:
-                        $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(10);
-                        $contracts->first()->save();
-                        break;
-                }
-
-                // Записываем в журнал как заморозку
-                Journal::updateOrCreate(
-                    ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
-                    [
-                        'base_id'   => $request->base_id,
-                        'day'       => $request->day,
-                        'month'     => $request->month,
-                        'year'      => $request->year,
-                        'icon'      => $this->freezing,
-                        'type'      => 2,
-                    ]
-                );
-            }
-
+        // Если есть запись посещенной тренировки, то останавливаем
+        if ($journal->isNotEmpty()) {
             return [
-                'response'  => "success",
+                'response'  => "Клиент посетил тренировку, поставить заморозку не возможно",
             ];
+        }
+
+        // Проверяем стоит ли сейчас новая тренировка на текущей ячейки
+        $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 4);
+
+
+        // Если есть запись новой тренировки, то останавливаем
+        if ($journal->isNotEmpty()) {
+            return [
+                'response'  => "Нельзя поставить заморозку этому клиенту",
+            ];
+        }
+
+        $journal = $this->checkJournal($request->base_id, $request->year, $request->month, $request->day, 2);
+
+        // Если уже стоит этот статус то выдаем оштбку
+        if ($journal->isNotEmpty()) {
+            return [
+                'response'  => "Уже стоит заморозка, выберите другой статус",
+            ];
+        }
+
+        // Проверяем остались ли заморозки, если да то уменьшаем на еденицу, если нет возвращаем сообщение с ошибкой
+        if ($contracts->first()->freezing_total == 0) {
+            return [
+                'response'  => "У клиента закончились заморозки",
+            ];
+        }else{
+            $contracts[0]->decrement('freezing_total');
+
+            // Смещаем дату фактического окончания контракта
+            // 1 заморозка прибавляем к дате окончания контракта 3 дня
+            // 2 заморозки прибавляем к дате окончания контракта 7 дней
+            // 3 заморозки прибавляем к дате окончания контракта 10 дней
+
+            switch ($contracts->first()->freezing_kolvo) {
+                case 1:
+                    $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(3);
+                    $contracts->first()->save();
+                    break;
+                case 2:
+                    $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(7);
+                    $contracts->first()->save();
+                    break;
+                case 3:
+                    $contracts->first()->end_actually = Carbon::createFromDate($contracts[0]->end_actually)->addDays(10);
+                    $contracts->first()->save();
+                    break;
+            }
+
+            // Записываем в журнал как заморозку
+            Journal::updateOrCreate(
+                ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+                [
+                    'base_id'   => $request->base_id,
+                    'day'       => $request->day,
+                    'month'     => $request->month,
+                    'year'      => $request->year,
+                    'icon'      => $this->freezing,
+                    'type'      => 2,
+                ]
+            );
+        }
+
+        return [
+            'response'  => "success",
+        ];
 
 //        }
 
@@ -604,17 +604,19 @@ class BaseController extends Controller
 
 
 
+    /**
+     * Удаление ребенка с таблицы /base
+     *
+     *
+     * @return string
+     */
+    public function deleteChildrens(Request $request)
 
+    {
+        Base::find($request->id)->delete();
 
-
-
-
-
-
-
-
-
-
+        return "Ребенок удален из Базы данных";
+    }
 
 
     public function test(Request $request){
@@ -644,6 +646,7 @@ class BaseController extends Controller
                 $collection->push($base);
             }
         }
+
 
         return (BaseAllResource::collection($collection->all()))
             ->additional([
@@ -751,6 +754,9 @@ class BaseController extends Controller
                         'base_branch'                   => Gate::allows('base_branch'),
                         'base_name_and_birthday'        => Gate::allows('base_name_and_birthday'),
                         'base_pay'                      => Gate::allows('base_pay'),
+                        'edit_and_drop_children'     => Gate::allows('edit_and_drop_children'),
+                        'edit_old_id'     => Gate::allows('edit_old_id'),
+                        'edit_status'     => Gate::allows('edit_status'),
                     ]
                 ]
             );
@@ -878,7 +884,7 @@ class BaseController extends Controller
         return 'ребенок добавлен и лог записан' . $base->name ;
     }
 
-    //------------------- Снимаем блокировку с карточки -----------------------------------------
+    //------------------- Снимаем блокировку с карточки --------------------------------------//
 
     public function removeBlock(Request $request){
 
@@ -886,18 +892,33 @@ class BaseController extends Controller
 
     }
 
+    //------------------- Изминяем статус в карточке ребенка ----------------------------------//
+
+    public function editStatus(Request $request){
+
+        Statuses::where('base_id', $request->base_id)->update(
+            [
+                'status_id' => $request->status_id,
+
+            ]
+        );
+
+        return "Статус изменен";
+
+    }
+
     public function getAgregatorLids(){
 
-        $testing_date = Settings::find(1);
+//        $testing_date = Settings::find(1);
 
-        if ($testing_date->value){
-            $dates = new Carbon($testing_date->value);
-        }else{
-            $dates = Carbon::now();
-        }
+//        if ($testing_date->value){
+//            $dates = new Carbon($testing_date->value);
+//        }else{
+//            $dates = Carbon::now();
+//        }
 
 
-//        $dates = Carbon::now();
+        $dates = Carbon::now();
 
 //        $date = Carbon::today()->addDays(-3)->toDateString();
 
@@ -923,9 +944,9 @@ class BaseController extends Controller
             if ($value->contracts->where('contract_type', 'main')->first()){
                 $contract = $value->contracts->where('contract_type', 'main')->first();
                 foreach ($contract->contract_pays as $pay){
-                       if ($pay->date == $date){
-                           $collection_itog->push($value);
-                       }
+                    if ($pay->date == $date){
+                        $collection_itog->push($value);
+                    }
                 }
             }
         }
@@ -986,9 +1007,9 @@ class BaseController extends Controller
         // Проверяем есть ли по активным контраактам начала действия договора
         foreach ($collection as $value){
             if ($value->contracts->where('contract_type', 'main')->where('start', $date)->first()){
-                    $collection_itog->push($value);
-                }
+                $collection_itog->push($value);
             }
+        }
 
         //--------------------------------------------------------------------------------
 
@@ -1018,9 +1039,9 @@ class BaseController extends Controller
         // Все со статусом "новые"
         foreach ($collection as $value){
             if ($value->statuses->status_id == 1){
-                    $collection_itog->push($value);
-                }
+                $collection_itog->push($value);
             }
+        }
 
         //--------------------------------------------------------------------------------
 
@@ -1050,6 +1071,7 @@ class BaseController extends Controller
         $base = Base::find($base_id)->group->schedule_hall;
 
         $filtered = $base->where('day', $dayOfWeek);
+
 
         return $filtered;
 
@@ -1106,40 +1128,40 @@ class BaseController extends Controller
             ]
         );
 
-            $base = Base::find($request->base_id);
+        $base = Base::find($request->base_id);
 
-            // Добавляем вид операции
-            $kassa_operation = KassaOperationType::create(
-                [
-                    'name' => "Платеж " . $base->child_surname . ' ' . mb_substr($base->child_name, 0, 1) . '.' . mb_substr($base->child_middle_name, 0, 1),
-                    'branch_id' => $base->branch,
-                    'coming' => true,
-                    'cash' => true,
-                ]
-            );
+        // Добавляем вид операции
+        $kassa_operation = KassaOperationType::create(
+            [
+                'name' => "Платеж " . $base->child_surname . ' ' . mb_substr($base->child_name, 0, 1) . '.' . mb_substr($base->child_middle_name, 0, 1),
+                'branch_id' => $base->branch,
+                'coming' => true,
+                'cash' => true,
+            ]
+        );
 
-            // Добавляем операцию в кассу
-            $kassa_operation = KassaOperation::create(
-                [
-                    'branch_id' => $base->branch,
-                    'user_id' => Auth::id(),
-                    'coming' => true,
-                    'cash' => true,
-                    'operation_type_id' => $kassa_operation->id,
-                    'payment' => true,
-                    'in_or_out' => true,
-                    'sum' => $request->balance,
-                ]
-            );
+        // Добавляем операцию в кассу
+        $kassa_operation = KassaOperation::create(
+            [
+                'branch_id' => $base->branch,
+                'user_id' => Auth::id(),
+                'coming' => true,
+                'cash' => true,
+                'operation_type_id' => $kassa_operation->id,
+                'payment' => true,
+                'in_or_out' => true,
+                'sum' => $request->balance,
+            ]
+        );
 
-            // Добавить внесение в кассу
-            $sum = Branch::where('id', $base->branch)->value('sum');
+        // Добавить внесение в кассу
+        $sum = Branch::where('id', $base->branch)->value('sum');
 
-            Branch::where('id', $base->branch)->update(
-                [
-                    'sum' => $sum + $balance,
-                ]
-            );
+        Branch::where('id', $base->branch)->update(
+            [
+                'sum' => $sum + $balance,
+            ]
+        );
 
 
     }

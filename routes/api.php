@@ -99,6 +99,8 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('image', 'BaseController@upload');
     Route::post('updateLpr', 'BaseController@updateLpr');
     Route::post('removeblock', 'BaseController@removeBlock');
+    Route::post('deleteChildren', 'BaseController@deleteChildrens');
+    Route::post('editStatus', 'BaseController@editStatus');
     Route::post('changeCallDate', 'StatusesController@changeCallDate');
     Route::post('changeCallStatus', 'StatusesController@changeCallStatus');
     Route::post('addnewuser', 'BaseController@addNewUser');
