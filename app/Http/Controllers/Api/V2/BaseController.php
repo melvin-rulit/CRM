@@ -910,7 +910,7 @@ class BaseController extends Controller
     public function getAgregatorLids(){
 
 //        $testing_date = Settings::find(1);
-
+//
 //        if ($testing_date->value){
 //            $dates = new Carbon($testing_date->value);
 //        }else{
@@ -1051,7 +1051,7 @@ class BaseController extends Controller
         // Все у кого дата следующего звонка меньше или равно сегодняшней
         foreach ($collection as $value){
             $date_value = Carbon::parse($value->statuses->call_date)->toDateString();
-            if ($date_value <= $dates->toDateString()){
+            if ($date_value > $dates->toDateString()){
                 $collection_itog->push($value);
             }
         }
@@ -1059,7 +1059,7 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
 
-        return AgregatorAllResource::collection($collection_itog->unique());
+        return AgregatorAllResource::collection($collection_itog->sortBy('call_date'));
 
     }
 
