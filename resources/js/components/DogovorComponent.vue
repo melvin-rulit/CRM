@@ -1,5 +1,5 @@
 <template>
-	<div>
+    <div>
         <!-- Модальное окно с оплатой -->
         <b-modal id="pay" title="Оплата" centered ok-only ok-title="Ок">
             <div class="card-body py-0">
@@ -18,7 +18,7 @@
             </div>
         </b-modal>
 
-        <!-- Модальное окно с оплатой в основном контраакте-->
+        <!-- Модальное окно с оплатой в основном контракте-->
         <b-modal id="pay_main" title="Оплата" centered ok-only ok-title="Ок" @ok="savePaysPays">
             <div class="card-body py-0">
                 <div class="form-group row mt-4">
@@ -146,7 +146,7 @@
                             option-text="name"
                             placeholder="Введите для поиска программы"
                             v-model="productVm"
-                            />
+                        />
 
                         <span v-if="!print">выберите зал</span>
 
@@ -332,6 +332,8 @@
                         </tr>
                     </table>
                     <hr>
+                                <!------------------------->
+
                     Прошуприйняти вище вказану дитину на навчання за програмою навчання:<br>
                     <dynamic-select
                         v-if="!print"
@@ -391,18 +393,27 @@
                     </table>
                     Адреса надання послуг: {{ dataVm.branch.geolocation }}, {{ dataVm.branch.adress }}
                     Вартість занять за договором з урахування раніше пройдених програм та акційних пропозицій складає
+
+                                    <!------------------>
+
                     <table class="tabs">
-                        <td width="15%"><span v-if="product">{{product.price}}</span></td>
-                        <td>(<span v-if="product">{{ product.price_title }}</span>) {{ dataVm.branch.currency }}.</td>
+                        <td width="15%"><span v-if="inStatus_2">{{pay_main}}</span></td>
+                        <td width="15%"><span v-if="inStatus">{{pro}}</span></td>
+                        <td>(<span v-if="product">{{ product.price_title }}</span>) {{ dataVm.branch.currency }}. </td>
+                        <a v-if="pays.pays" href="#" @click.prevent="showEditPayMainModal">Изменить</a><br>
+
+                                    <!------------------>
+
                     </table>
-                    Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> » (вказується категорія від 1 до 4)<br>
+                    Вказана ціна діє для категорії часу занять « <span v-if="product">{{product.category_time}}</span> »<br>
 
-                    <a v-if="pays.pays" href="#" @click.prevent="showEditPayMainModal">Изменить</a><br>
 
-                  <br>За розкладом занятть:<br>
-                  <div class="mt-2">
-                    <span v-if="shedule">{{ shedule.name }} - {{ select_schedule(shedule.hall) }}</span>
-                  </div>
+                    <br>За розкладом занятть:<br>
+                    <div class="mt-2">
+                        <span v-if="shedule">{{ shedule.name }} - {{ select_schedule(shedule.hall) }}</span>
+                    </div>
+
+                                     <!------------------>
 
                     <br>Графік оплати:<br>
                     <div class="mt-2 mb-2">
@@ -411,6 +422,8 @@
 
                         <br><a href="#" v-if="!print" @click="showPayMod">Изменить платеж</a>
                     </div>
+
+                                    <!------------------>
 
                     <table>
                         <tr>
@@ -457,15 +470,15 @@
             </div>
         </b-modal>
 
-	</div>
+    </div>
 </template>
 
 <script>
 
-    import 'vue-select/dist/vue-select.css';
+import 'vue-select/dist/vue-select.css';
 
 
-    import DatePick from 'vue-date-pick';
+import DatePick from 'vue-date-pick';
 Vue.use(DatePick);
 import 'vue-date-pick/dist/vueDatePick.css';
 
@@ -483,238 +496,271 @@ import DynamicSelect from 'vue-dynamic-select'
 Vue.use(DynamicSelect)
 
 const options = {
-  name: '_blank',
-  specs: [
-    'fullscreen=yes',
-    'titlebar=yes',
-    'scrollbars=yes'
-  ],
-  styles: [
-    'http://185.146.156.207/test.css',
-  ]
+    name: '_blank',
+    specs: [
+        'fullscreen=yes',
+        'titlebar=yes',
+        'scrollbars=yes'
+    ],
+    styles: [
+        'http://185.146.156.207/test.css',
+    ]
 }
 
 Vue.use(VueHtmlToPaper, options);
 
-    export default {
-      components: {Calendar},
-      components: {DatePick},
-      components: { DatePicker },
-        props: {
-          user_id: {},
-          date: {},
-        },
-        data() {
-            return{
-                newProducts: [],
-              print: false,
-              printvm: false,
-              stopContract: '00.00.0000',
-              pays: [],
-              product: '',
-              programm: null,
-              dataVm: {
+export default {
+    components: {Calendar},
+    components: {DatePick},
+    components: { DatePicker },
+    props: {
+        user_id: {},
+        date: {},
+    },
+    data() {
+        return{
+            productTitle: '',
+            newProducts: [],
+            print: false,
+            printvm: false,
+            stopContract: '00.00.0000',
+            pays: [],
+            product: '',
+            programm: null,
+            dataVm: {
                 branch:[],
                 products: [],
-              },
-              dayselect: [
-                  {day: 'Пн:Ср'},
-                  {day: 'Вт:Чт'},
-                  {day: 'Сб:Вс'},
-              ],
-              timeselect: [
-                  {time: '08:00'},
-                  {time: '09:00'},
-                  {time: '10:00'},
-                  {time: '11:00'},
-                  {time: '12:00'},
-                  {time: '13:00'},
-                  {time: '14:00'},
-                  {time: '15:00'},
-                  {time: '16:00'},
-                  {time: '17:00'},
-                  {time: '18:00'},
-                  {time: '19:00'},
-                  {time: '20:00'},
-                  {time: '21:00'},
-              ],
-                lang: {
-                    formatLocale: {
-                        firstDayOfWeek: 1,
-                        weekdaysMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-                        monthsShort: ['Янв', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-                    },
+            },
+            dayselect: [
+                {day: 'Пн:Ср'},
+                {day: 'Вт:Чт'},
+                {day: 'Сб:Вс'},
+            ],
+            timeselect: [
+                {time: '08:00'},
+                {time: '09:00'},
+                {time: '10:00'},
+                {time: '11:00'},
+                {time: '12:00'},
+                {time: '13:00'},
+                {time: '14:00'},
+                {time: '15:00'},
+                {time: '16:00'},
+                {time: '17:00'},
+                {time: '18:00'},
+                {time: '19:00'},
+                {time: '20:00'},
+                {time: '21:00'},
+            ],
+            lang: {
+                formatLocale: {
+                    firstDayOfWeek: 1,
+                    weekdaysMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                    monthsShort: ['Янв', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
                 },
-                halls: [],
-                shedule_hall: [],
-                contracts_vm: 'Відкрий можливості',
-                form_size: '',
-                classes_week: '',
-                days: '',
-                time: '',
-                start: '',
-                contract_name: '',
-                user:'',
-                time: 1,
-                resultMessage: '',
-                days: null,
-                startA: null,
-                hall: '',
-                shedule: '',
-                productVm: '',
-                pay_main: '',
-                pay_artially: '',
-                pay_artiallyVM: '',
-                week: '',
-                balance: '',
+            },
+            halls: [],
+            shedule_hall: [],
+            contracts_vm: 'Відкрий можливості',
+            form_size: '',
+            classes_week: '',
+            days: '',
+            time: '',
+            start: '',
+            contract_name: '',
+            user:'',
+            time: 1,
+            resultMessage: '',
+            days: null,
+            startA: null,
+            hall: '',
+            shedule: '',
+            productVm: '',
+            pay_main: '',
+            pay_artially: '',
+            pay_artiallyVM: '',
+            week: '',
+            balance: '',
+            pro:''
+        }
+    },
+
+    computed: {
+
+        inStatus() {
+if (this.product){
+
+    if (this.pay_main === '') {
+        return this.pro = this.product.price
+
+    }
+}
+
+        },
+
+        inStatus_2() {
+            if (this.pay_main !== '') {
+                return this.pro = this.pay_main
             }
         },
 
 
-        methods: {
+    },
 
-            showEditPayModal(){
-                this.$bvModal.show('pay')
-            },
 
-            showEditPayVMModal(){
-                this.$bvModal.show('editPayVM')
-            },
+    methods: {
 
-            showEditPayMainModal(){
-                this.$bvModal.show('pay_main')
-                this.pay_main = this.pays.pays[0].pay
-            },
+        showEditPayModal(){
+            this.$bvModal.show('pay')
+        },
 
-            showPayMod(){
-                this.$bvModal.show('editPay')
-            },
+        showEditPayVMModal(){
+            this.$bvModal.show('editPayVM')
+        },
 
-            savePaysPays(){
-                this.pays.pays[0].pay = this.pay_main
-            },
+        showPayMod(){
+            this.$bvModal.show('editPay')
+        },
 
-            savePartially(){
-                if(this.pay_artially !== ''){
-                    if (this.pay_artially < this.pays.pays[0].pay){
-                        this.balance = this.product.price - this.pay_artially
-                        this.pays.pays[0].pay = this.pays.pays[0].pay - this.pay_artially
-                        this.pay_artially = ''
-                    }else{
-                        this.$alert("Сумма не может быть больше суммы оплаты");
-                    }
+//---------------------------------- Окно изминения суммы ------------------------//
+
+        showEditPayMainModal(){
+            this.$bvModal.show('pay_main')
+            this.pay_main = this.product.price
+            // this.product.price_title = ''
+            // this.productTitle = this.product.price_title
+
+        },
+
+        savePaysPays(){
+            // this.pays.pays[0].pay = this.pay_main
+            this.pro = this.pay_main
+        },
+
+//-----------------------------------                     -------------------------//
+
+        savePartially(){
+            if(this.pay_artially !== ''){
+                if (this.pay_artially < this.pays.pays[0].pay){
+                    this.balance = this.product.price - this.pay_artially
+                    this.pays.pays[0].pay = this.pays.pays[0].pay - this.pay_artially
+                    this.pay_artially = ''
                 }else{
-                    this.$alert("Введите сумму частичной оплаты");
+                    this.$alert("Сумма не может быть больше суммы оплаты");
                 }
+            }else{
+                this.$alert("Введите сумму частичной оплаты");
+            }
 
-            },
+        },
 
-            savePartiallyVM(){
-                this.balance = this.productVm.price - this.pay_artiallyVM
-            },
+        savePartiallyVM(){
+            this.balance = this.productVm.price - this.pay_artiallyVM
+        },
 
-            // Получаем сокращеное название дня по дате и формируем селект
-            select_schedule(items) {
-                var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-                return items.map(x => ` ${days[x.day - 1]} - ${x.time}:00 `).join(', ' )
-            },
+        // Получаем сокращеное название дня по дате и формируем селект
+        select_schedule(items) {
+            var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+            return items.map(x => ` ${days[x.day - 1]} - ${x.time}:00 `).join(', ' )
+        },
 
-            getGroup(){
-                axios.post('api/v2/getgroup', {
-                    hall_id : this.hall,
-                    programm_id: this.programm.id
+        getGroup(){
+            axios.post('api/v2/getgroup', {
+                hall_id : this.hall,
+                programm_id: this.programm.id
+            })
+                .then(response => {
+                    this.shedule_hall = response.data.data
                 })
-                    .then(response => {
-                        this.shedule_hall = response.data.data
-                    })
-            },
+        },
 
-            getHalls(){
-                this.hall = ''
-                this.product = ''
-                axios.post('api/v2/gethalls', {branch_id : this.dataVm.branch.id})
-                    .then(response => {
-                        this.halls = response.data.data
-                    })
-
-                axios.post('api/v2/getProducts', {
-                    branch_id : this.dataVm.branch.id,
-                    programm_id: this.programm.id
+        getHalls(){
+            this.hall = ''
+            this.product = ''
+            axios.post('api/v2/gethalls', {branch_id : this.dataVm.branch.id})
+                .then(response => {
+                    this.halls = response.data.data
                 })
-                    .then(response => {this.newProducts = response.data.data})
-            },
 
-            reversedMessage(days) {
-                var D = new Date(this.dataVm.end_actualy);
-                D.setDate(D.getDate() + days);
-                return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
-                this.stoped();
-            },
+            axios.post('api/v2/getProducts', {
+                branch_id : this.dataVm.branch.id,
+                programm_id: this.programm.id
+            })
+                .then(response => {this.newProducts = response.data.data})
+        },
 
-            stoped() {
-                var D = new Date(this.dataVm.end_actualy)
-                D.setDate(D.getDate() + this.product.days);
-                return this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
-            },
+        reversedMessage(days) {
+            var D = new Date(this.dataVm.end_actualy);
+            D.setDate(D.getDate() + days);
+            return this.resultMessage = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+            this.stoped();
+        },
 
-            stopDate(id) {
+        stoped() {
+            var D = new Date(this.dataVm.end_actualy)
+            D.setDate(D.getDate() + this.product.days);
+            return this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+        },
+
+        stopDate(id) {
             axios.get('api/v2/products/' + id)
-            .then(response => {
+                .then(response => {
                     this.pays = response.data.data
+                    // this.productTitle = this.product.price_title
                 })
             var D = new Date(this.dataVm.end_actualy);
             D.setDate(D.getDate() + this.product.days);
             this.stopContract = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
             this.days = true
-            },
+        },
 
-            getInfoFromContract(){
-                axios.post('api/v2/getvmcontract', {id : this.user_id})
-                    .then(response => {this.dataVm = response.data.data});
-            },
+        getInfoFromContract(){
+            axios.post('api/v2/getvmcontract', {id : this.user_id})
+                .then(response => {this.dataVm = response.data.data});
+        },
 
-            getContractVm(){
-                this.$bvModal.show('dogovorVm')
-                this.getInfoFromContract()
-            },
+        getContractVm(){
+            this.$bvModal.show('dogovorVm')
+            this.getInfoFromContract()
+        },
 
-            getContractMain(){
-                this.$bvModal.show('dogovorMain')
-                this.getInfoFromContract()
-            },
+        getContractMain(){
+            this.$bvModal.show('dogovorMain')
+            this.getInfoFromContract()
+        },
 
 
-            sendVm(contract_type) {
+        sendVm(contract_type) {
 
-                if (contract_type == 'vm') {
-                    if (
+            if (contract_type == 'vm') {
+                if (
                     !this.dataVm.parent_surname ||
                     !this.dataVm.parent_name ||
                     !this.dataVm.child_surname ||
                     !this.productVm ||
                     !this.dataVm.child_name) {
-                        this.$alert("Не все поля заполнены");
-                        return false
+                    this.$alert("Не все поля заполнены");
+                    return false
                 }
 
 
                 axios.post('api/v2/savecontract', {
-                  week: this.week,
-                  contract_type: contract_type,
-                  base_id: this.user_id ,
-                  name_vm: this.productVm.name,
-                  date: this.dataVm.date,
-                  price: this.productVm.price,
-                  balance: this.productVm.price - this.pay_artiallyVM,
-                  pay: this.pay_artiallyVM,
-                  child_surname: this.dataVm.child_surname,
-                  child_name: this.dataVm.child_name,
-                  child_middle_name: this.dataVm.child_middle_name,
-                  parent_surname: this.dataVm.parent_surname,
-                  parent_name: this.dataVm.parent_name,
-                  parent_middle_name: this.dataVm.parent_middle_name,
-                  currency: this.dataVm.branch.currency,
-                  adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                    week: this.week,
+                    contract_type: contract_type,
+                    base_id: this.user_id ,
+                    name_vm: this.productVm.name,
+                    date: this.dataVm.date,
+                    price: this.productVm.price,
+                    balance: this.productVm.price - this.pay_artiallyVM,
+                    pay: this.pay_artiallyVM,
+                    child_surname: this.dataVm.child_surname,
+                    child_name: this.dataVm.child_name,
+                    child_middle_name: this.dataVm.child_middle_name,
+                    parent_surname: this.dataVm.parent_surname,
+                    parent_name: this.dataVm.parent_name,
+                    parent_middle_name: this.dataVm.parent_middle_name,
+                    currency: this.dataVm.branch.currency,
+                    adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
                     group_id: this.shedule.id,
                 })
                 this.printvm = true
@@ -724,7 +770,7 @@ Vue.use(VueHtmlToPaper, options);
                 $(".modal-backdrop.show").hide();
                 this.printvm = false
 
-                }else{
+            }else{
 
 
                 if (!this.dataVm.parent_surname ||
@@ -733,50 +779,51 @@ Vue.use(VueHtmlToPaper, options);
                     !this.dataVm.child_name ||
                     !this.programm ||
                     !this.product
-                    ) {
-                        this.$alert("Не все поля заполнены");
-                        return false
+                ) {
+                    this.$alert("Не все поля заполнены");
+                    return false
                 }
 
-            // Переведем дату обратно в человеческий формат для записи в базу
-            var D = new Date(this.dataVm.end_actualy);
-            this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+                // Переведем дату обратно в человеческий формат для записи в базу
+                var D = new Date(this.dataVm.end_actualy);
+                this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
                 axios.post('api/v2/savecontract', {
-                  contract_type: contract_type,
-                  base_id: this.user_id ,
-                  name: this.product.name,
-                  name_vm: this.contracts_vm,
-                  date: this.dataVm.date,
-                  start: this.startA,
-                  end: this.stopContract,
-                  end_actually: this.stopContract,
-                  price: this.product.price,
-                  balance: this.balance ? this.balance : this.product.price,
-                  child_surname: this.dataVm.child_surname,
-                  child_name: this.dataVm.child_name,
-                  child_middle_name: this.dataVm.child_middle_name,
-                  child_birthday: this.dataVm.child_birthday,
-                  parent_surname: this.dataVm.parent_surname,
-                  parent_name: this.dataVm.parent_name,
-                  parent_middle_name: this.dataVm.parent_middle_name,
-                  parent_phone: this.dataVm.parent_phone,
-                  parent_viber: this.dataVm.parent_viber,
-                  parent_email: this.dataVm.parent_email,
-                  parent_facebook: this.dataVm.parent_facebook,
-                  parent_instagram: this.dataVm.parent_instagram,
-                  form_size: this.form_size,
-                  classes_week: this.product.classes_week,
-                  classes_total: this.product.classes_total,
-                  freezing_total: this.product.freezing_total,
-                  freezing_kolvo: this.product.freezing_kolvo,
-                  pays: this.pays.pays,
-                  programm: this.programm.name,
-                  programm_id: this.programm.id,
-                  currency: this.dataVm.branch.currency,
-                  adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
-                  price_title: this.product.price_title,
-                  category_time: this.product.category_time,
-                  group_id: this.shedule.id,
+                    contract_type: contract_type,
+                    base_id: this.user_id ,
+                    name: this.product.name,
+                    name_vm: this.contracts_vm,
+                    date: this.dataVm.date,
+                    start: this.startA,
+                    end: this.stopContract,
+                    end_actually: this.stopContract,
+                    // price: this.product.price,
+                    price: this.pay_main,
+                    balance: this.balance ? this.balance : this.product.price,
+                    child_surname: this.dataVm.child_surname,
+                    child_name: this.dataVm.child_name,
+                    child_middle_name: this.dataVm.child_middle_name,
+                    child_birthday: this.dataVm.child_birthday,
+                    parent_surname: this.dataVm.parent_surname,
+                    parent_name: this.dataVm.parent_name,
+                    parent_middle_name: this.dataVm.parent_middle_name,
+                    parent_phone: this.dataVm.parent_phone,
+                    parent_viber: this.dataVm.parent_viber,
+                    parent_email: this.dataVm.parent_email,
+                    parent_facebook: this.dataVm.parent_facebook,
+                    parent_instagram: this.dataVm.parent_instagram,
+                    form_size: this.form_size,
+                    classes_week: this.product.classes_week,
+                    classes_total: this.product.classes_total,
+                    freezing_total: this.product.freezing_total,
+                    freezing_kolvo: this.product.freezing_kolvo,
+                    pays: this.pays.pays,
+                    programm: this.programm.name,
+                    programm_id: this.programm.id,
+                    currency: this.dataVm.branch.currency,
+                    adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                    price_title: this.product.price_title,
+                    category_time: this.product.category_time,
+                    group_id: this.shedule.id,
 
                 })
                 this.print = true
@@ -789,31 +836,31 @@ Vue.use(VueHtmlToPaper, options);
                 this.product = ''
                 this.hall = ''
                 this.shedule = ''
-                                }
-             },
+            }
+        },
 
-             closeModal(){
-                this.programm = ''
-                this.product = ''
-                 this.hall = ''
-                 this.shedule = ''
-                 this.productVm = ''
-                $('#mainModal').modal('hide');
-                $('#info li:first-child a').tab('show')
-                $(document.body).removeClass("modal-open");
-                $(".modal-backdrop.show").hide();
-                 this.pay_main = ''
-                     this.pay_artially = ''
-                     this.balance = ''
-                 this.pay_artiallyVM
+        closeModal(){
+            this.programm = ''
+            this.product = ''
+            this.hall = ''
+            this.shedule = ''
+            this.productVm = ''
+            $('#mainModal').modal('hide');
+            $('#info li:first-child a').tab('show')
+            $(document.body).removeClass("modal-open");
+            $(".modal-backdrop.show").hide();
+            this.pay_main = ''
+            this.pay_artially = ''
+            this.balance = ''
+            this.pay_artiallyVM
 
-             },
+        },
 
-             // closeSelectModal(){
-             //    $(document.body).removeClass("modal-open");
-             //    $(".modal-backdrop.show").hide();
-             // }
-        }
+        // closeSelectModal(){
+        //    $(document.body).removeClass("modal-open");
+        //    $(".modal-backdrop.show").hide();
+        // }
+    }
 }
 </script>
 
@@ -826,10 +873,10 @@ Vue.use(VueHtmlToPaper, options);
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+    transition: opacity .5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
-  opacity: 0;
+    opacity: 0;
 }
 
 
@@ -838,57 +885,57 @@ Vue.use(VueHtmlToPaper, options);
 Size : 8.27in and 11.69 inches
 
 @page Section1 {
-size:8.27in 11.69in;
-margin:.5in .5in .5in .5in;
-mso-header-margin:.5in;
-mso-footer-margin:.5in;
-mso-paper-source:0;
+    size:8.27in 11.69in;
+    margin:.5in .5in .5in .5in;
+    mso-header-margin:.5in;
+    mso-footer-margin:.5in;
+    mso-paper-source:0;
 }
 
 
 
 .tdleft, .tdright, .line, .tabs{
-  font-size: 0.138in;
+    font-size: 0.138in;
 }
 
 
 div.Section1 {
-page:Section1;
-border: solid 0px;
+    page:Section1;
+    border: solid 0px;
 }
 .logo{
-  display: block;
-  width: 1.917in;
-  height: 0.590in;
+    display: block;
+    width: 1.917in;
+    height: 0.590in;
 }
 
 .Section1 h1{
-  text-align: center;
-  font-size: 0.166in;
+    text-align: center;
+    font-size: 0.166in;
 }
 
 .tabs{
-  width: 100%;
+    width: 100%;
     margin: 10px 0 10px 0;
 }
 
 .tdleft{
-  text-align: left;
+    text-align: left;
 }
 
 .tdright{
-  text-align: right;
+    text-align: right;
 }
 
 .line{
-  border: solid;
-  border-width: 0px 0px 1px 0px;
-  width: 100%;
-  font-weight: bold;
+    border: solid;
+    border-width: 0px 0px 1px 0px;
+    width: 100%;
+    font-weight: bold;
 }
 
 .hide{
-  font-weight: normal;
+    font-weight: normal;
 }
 
 .gray{background:#cbc1c1;}

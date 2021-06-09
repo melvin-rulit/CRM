@@ -135,7 +135,7 @@ class ContractController extends Controller
 
 
 
-        //$this->saveOperation($request['base_id'], $request['name_vm'], $request['price']);
+        $this->saveOperation($request['base_id'], $request['name_vm'], $request['price']);
 
         //        ВЫНЕСТИ В ОТДЕЛЬНЫЙ МЕТОД =========================================================================
 
@@ -299,12 +299,12 @@ class ContractController extends Controller
 
         loger(4, $request->base_id,null, null, 'Присвоен статус Занимается');
 
-        //$this->saveOperation($request['base_id'], $request['name'], $request->pays[0]['pay']);
+        $this->saveOperation($request['base_id'], $request['name'], $request->pays[0]['pay']);
 
 	}
 
     	return [
-    		'success' => "ok",
+    		'success' => "Контракт создан и записан в БД",
     	];
     }
 
