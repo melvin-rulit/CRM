@@ -47,6 +47,11 @@
                         <input class="form-control" v-mask="'##############'" v-model="pay_artially">
                     </div>
                 </div>
+
+                <div class="form-group row">
+                    <textarea v-model="coment" class="form-control" rows="3" placeholder="Коментарий"></textarea>
+                </div>
+
             </div>
         </b-modal>
 
@@ -397,8 +402,10 @@
                                     <!------------------>
 
                     <table class="tabs">
-                        <td width="15%"><span v-if="inStatus_2">{{pay_main}}</span></td>
+
+                        <td width="15%"><span v-if="inStatus_2">{{pro}}</span></td>
                         <td width="15%"><span v-if="inStatus">{{pro}}</span></td>
+
                         <td>(<span v-if="product">{{ product.price_title }}</span>) {{ dataVm.branch.currency }}. </td>
                         <a v-if="pays.pays" href="#" @click.prevent="showEditPayMainModal">Изменить</a><br>
 
@@ -581,7 +588,8 @@ export default {
             pay_artiallyVM: '',
             week: '',
             balance: '',
-            pro:''
+            pro:'',
+            coment: '',
         }
     },
 
@@ -620,6 +628,7 @@ if (this.product){
 
         showPayMod(){
             this.$bvModal.show('editPay')
+            this.coment = ''
         },
 
 //---------------------------------- Окно изминения суммы ------------------------//
@@ -628,7 +637,7 @@ if (this.product){
             this.$bvModal.show('pay_main')
             this.pay_main = this.product.price
             // this.product.price_title = ''
-            // this.productTitle = this.product.price_title
+            this.productTitle = this.product.price_title
 
         },
 
@@ -796,8 +805,7 @@ if (this.product){
                     start: this.startA,
                     end: this.stopContract,
                     end_actually: this.stopContract,
-                    // price: this.product.price,
-                    price: this.pay_main,
+                    price: this.pro,
                     balance: this.balance ? this.balance : this.product.price,
                     child_surname: this.dataVm.child_surname,
                     child_name: this.dataVm.child_name,
@@ -824,6 +832,7 @@ if (this.product){
                     price_title: this.product.price_title,
                     category_time: this.product.category_time,
                     group_id: this.shedule.id,
+                    coment: this.coment
 
                 })
                 this.print = true
