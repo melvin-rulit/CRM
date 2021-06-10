@@ -29,6 +29,21 @@ class KassaOperationController extends Controller
 
     }
 
+    //--------------------- Обновляем коментарий в Касса/Операции ---------------------//
+
+    public function updateKassaComment(Request $request)
+    {
+
+        KassaOperation::where('id', $request->id)->update(
+            [
+                $request['field_name'] => $request['field_value'],
+            ]
+        );
+
+        return "Коментарий обновлен";
+
+    }
+
     public function addOperation(Request $request)
     {
 

@@ -1,8 +1,10 @@
 <template>
     <div>
 
-        <!-- Окно добавления редактирования операции -->
-        <b-modal id="editOperation" title="Изменить операцию" centered ok-title="Сохранить" cancel-title="Отмена" @ok="">
+                     <!-- Окно добавления редактирования операции -->
+
+        <b-modal id="editOperation" title="Изменить операцию" centered ok-title="Сохранить" cancel-title="Отмена" @ok="sendEditing">
+
 <!--            <pre><code>{{edit_operation}}</code></pre>-->
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Сумма</label>
@@ -10,6 +12,7 @@
                     <input v-model.trim="edit_operation.sum" class="form-control">
                 </div>
             </div>
+
             <b-form-group
                 label-cols-sm="3"
                 label-cols-lg="3"
@@ -23,12 +26,15 @@
                 </select>
 
             </b-form-group>
+
             <div class="form-group row">
-                <textarea v-model="edit_operation.coment" class="form-control" rows="3" placeholder="Коментарий"></textarea>
+                <textarea v-model="coment" class="form-control" rows="3" placeholder="Коментарий"></textarea>
             </div>
+
         </b-modal>
 
-<!--        Операции модальное окно-->
+                                <!--  Операции модальное окно  -->
+
         <b-modal id="coming" :title="text" @ok="handleOk" @hidden="resetModalComing" scrollable centered ok-only ok-title="Сохранить">
             <div class="card-body py-0">
                 <form @submit.stop.prevent="submit">
@@ -164,6 +170,7 @@
         data() {
             return{
                 text: '',
+                id: '',
                 com: 'Приходная операция',
                 ou: 'Расходная операция',
                 type: '',
@@ -263,11 +270,17 @@
 
         methods: {
 
+//----------------------------- Открытие окна Изменить операцию --------------------------//
+
             editOperation(index){
                 this.$bvModal.show('editOperation')
                 this.edit_operation = index
+                this.coment = index.coment
+                this.id = index.id
                 this.getBranches()
             },
+
+//-----------------------------                                 --------------------------//
 
             resetModalComing(){
                 this.sum = ''
@@ -331,8 +344,23 @@
             axios.post('api/v2/showKassaOperation', {kassa_id: id})
                 .then(response => {this.kassa_operations = response.data.data})
 
-            this.kassa_id = id
+              this.kassa_id = id
             },
+
+            //-------------------- Отправляем изминеия из окна Изменить операцию -------------//
+
+            sendEditing(){
+
+                axios.post('api/v2/updateKassaComment', {
+
+                    id: this.id,
+                    field_name: "coment",
+                    field_value: this.coment,
+
+                })
+                this.coment = ''
+                this.showKassaOperation(this.kassa_id)
+            }
 
         }
     }
