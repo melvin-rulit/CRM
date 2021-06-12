@@ -407,7 +407,7 @@
                     </div>
                 </div>
                 <div class="title-collapse mt-2" v-show="can.show_products">
-                    <a data-toggle="collapse" data-target="#2_programms" href="#" class="accordion-toggle">Основные программы обучения</a>
+                    <a data-toggle="collapse" data-target="#2_programms" href="#" class="accordion-toggle">Программы обучения</a>
                     <i class="fe fe-chevron-down h3 text-info pl-2"></i>
                 </div>
                 <div class="collapse p-3" id="2_programms">
@@ -419,6 +419,7 @@
                                     <th>Основная</th>
                                     <th>ПК</th>
                                     <th>ВМ</th>
+                                    <th>Дополнительная</th>
                                     <th v-show="buttonAddProgramm && can.add_products" class="text-center bg-success bp" @click="addRowProgramm(branch.id), buttonAddProgramm = !buttonAddProgramm"><span class="fe fe-plus h3 text-white"></span></th>
                                 </tr>
                             </thead>
@@ -456,6 +457,13 @@
                                             @change="sendTypeProgramm(programm.id, 3)"
                                             v-model="programm.type"
                                             value="3">
+                                        </b-form-radio>
+                                    </td>                                    <td>
+                                        <b-form-radio
+                                            :disabled="!can.edit_products"
+                                            @change="sendTypeProgramm(programm.id, 4)"
+                                            v-model="programm.type"
+                                            value="4">
                                         </b-form-radio>
                                     </td>
 

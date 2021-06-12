@@ -101,7 +101,7 @@ class ProgrammController extends Controller
         Programm::where('id', $request->id)->update(['type' => $request->type]);
 
         return [
-            'success' => 'ok'
+            'success' => 'Тип обновлен'
         ];
     }
 }
