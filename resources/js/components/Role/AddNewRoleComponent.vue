@@ -20,7 +20,7 @@
         <b-modal id="role" title="Новая должность" @ok="saveRole" @hidden="resetModal" centered ok-only ok-title="Добавить">
             <div class="card-body py-0">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Имя</label>
+                        <label class="col-sm-3 col-form-label">Назание</label>
                         <div class="col-sm-9">
                             <input class="form-control" v-model="name">
                         </div>

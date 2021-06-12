@@ -28,6 +28,7 @@ class RoleController extends Controller
                     'can' => [
                         'role_create'       => Gate::allows('role_create'),
                         'role_edit'         => Gate::allows('role_edit'),
+                        'role_delete'         => Gate::allows('role_delete'),
                     ]
                 ]
             );
@@ -89,15 +90,18 @@ class RoleController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+     //--------------------------- Удаление Должности ----------------------------------//
+
+    public function deleteRole(Request $request): string
     {
-        //
+
+        $role = Role::find($request->id);
+
+        $role->delete();
+
+        return "Должность удалена";
+
+
     }
 
     public function getAllPermissions()

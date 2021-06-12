@@ -79,6 +79,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('showcontract', 'ContractController@showContract');
     Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
     Route::post('editContract', 'ContractController@editContract');
+    Route::post('editContract', 'ContractController@editContract');
 
     // Journals
     Route::post('workout', 'BaseController@workout');
@@ -120,6 +121,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::apiResource('roles', 'RoleController');
     Route::get('getAllPermissions', 'RoleController@getAllPermissions');
     Route::post('saveRole', 'RoleController@saveRole');
+    Route::post('deleteRole', 'RoleController@deleteRole');
     Route::post('saveRoleField', 'RoleController@saveRoleField');
 
     // UserAccess
