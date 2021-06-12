@@ -48,6 +48,11 @@
                     </div>
                 </div>
             </div>
+
+            <div>
+                <textarea  v-model="coment" class="form-control" rows="3" placeholder="Коментарий"></textarea>
+            </div>
+
         </b-modal>
 
         <!-- Модальное окно с частичной оплатой в ВМ контраакте перед печатью-->
@@ -252,15 +257,20 @@
                  title="Основоной договор">
 
             <template #modal-footer="{ ok, cancel, hide }">
+
+                <b-button @click="OnlysendVm('main')">
+                    Сохранить
+                </b-button>
                 <b-button @click="sendVm('main')">
                     Сохранить и распечатать
                 </b-button>
                 <b-button @click="closeModal">
-                    Отменить
+                    Очистить
                 </b-button>
                 <b-button @click="showPayMod">
                     Изменить платеж
                 </b-button>
+
             </template>
 
             <div class="modal-body modal-lg pt-0" id="printmain">
@@ -397,7 +407,7 @@
                                     <!------------------>
 
                     <table class="tabs">
-                        <td width="15%"><span v-if="inStatus_2">{{pay_main}}</span></td>
+                        <td width="15%"><span v-if="inStatus_2">{{pro}}</span></td>
                         <td width="15%"><span v-if="inStatus">{{pro}}</span></td>
                         <td>(<span v-if="product">{{ product.price_title }}</span>) {{ dataVm.branch.currency }}. </td>
                         <a v-if="pays.pays" href="#" @click.prevent="showEditPayMainModal">Изменить</a><br>
@@ -581,21 +591,19 @@ export default {
             pay_artiallyVM: '',
             week: '',
             balance: '',
-            pro:''
+            pro:'',
+            coment: ''
         }
     },
 
     computed: {
 
         inStatus() {
-if (this.product){
 
     if (this.pay_main === '') {
         return this.pro = this.product.price
 
     }
-}
-
         },
 
         inStatus_2() {
@@ -603,7 +611,6 @@ if (this.product){
                 return this.pro = this.pay_main
             }
         },
-
 
     },
 
@@ -633,11 +640,10 @@ if (this.product){
         },
 
         savePaysPays(){
-            // this.pays.pays[0].pay = this.pay_main
             this.pro = this.pay_main
         },
 
-//-----------------------------------                     -------------------------//
+//----------------------------------  Окно при нажатии Изменить платеж  ------------------------//
 
         savePartially(){
             if(this.pay_artially !== ''){
@@ -646,9 +652,13 @@ if (this.product){
                     this.pays.pays[0].pay = this.pays.pays[0].pay - this.pay_artially
                     this.pay_artially = ''
                 }else{
+                    this.coment = ''
+                    this.pay_artially = ''
                     this.$alert("Сумма не может быть больше суммы оплаты");
                 }
             }else{
+                this.coment = ''
+                this.pay_artially = ''
                 this.$alert("Введите сумму частичной оплаты");
             }
 
@@ -787,6 +797,7 @@ if (this.product){
                 // Переведем дату обратно в человеческий формат для записи в базу
                 var D = new Date(this.dataVm.end_actualy);
                 this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+
                 axios.post('api/v2/savecontract', {
                     contract_type: contract_type,
                     base_id: this.user_id ,
@@ -796,8 +807,7 @@ if (this.product){
                     start: this.startA,
                     end: this.stopContract,
                     end_actually: this.stopContract,
-                    // price: this.product.price,
-                    price: this.pay_main,
+                    price: this.pro,
                     balance: this.balance ? this.balance : this.product.price,
                     child_surname: this.dataVm.child_surname,
                     child_name: this.dataVm.child_name,
@@ -824,6 +834,7 @@ if (this.product){
                     price_title: this.product.price_title,
                     category_time: this.product.category_time,
                     group_id: this.shedule.id,
+                    coment: this.coment,
 
                 })
                 this.print = true
@@ -836,6 +847,120 @@ if (this.product){
                 this.product = ''
                 this.hall = ''
                 this.shedule = ''
+                this.pro = ''
+            }
+        },
+
+//--------------------------------  Сохраняем контракт без печати -----------------------//
+
+        OnlysendVm(contract_type) {
+
+            if (contract_type == 'vm') {
+                if (
+                    !this.dataVm.parent_surname ||
+                    !this.dataVm.parent_name ||
+                    !this.dataVm.child_surname ||
+                    !this.productVm ||
+                    !this.dataVm.child_name) {
+                    this.$alert("Не все поля заполнены");
+                    return false
+                }
+
+
+                axios.post('api/v2/savecontract', {
+                    week: this.week,
+                    contract_type: contract_type,
+                    base_id: this.user_id ,
+                    name_vm: this.productVm.name,
+                    date: this.dataVm.date,
+                    price: this.productVm.price,
+                    balance: this.productVm.price - this.pay_artiallyVM,
+                    pay: this.pay_artiallyVM,
+                    child_surname: this.dataVm.child_surname,
+                    child_name: this.dataVm.child_name,
+                    child_middle_name: this.dataVm.child_middle_name,
+                    parent_surname: this.dataVm.parent_surname,
+                    parent_name: this.dataVm.parent_name,
+                    parent_middle_name: this.dataVm.parent_middle_name,
+                    currency: this.dataVm.branch.currency,
+                    adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                    group_id: this.shedule.id,
+                })
+                // this.printvm = true
+                // contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printmain');
+                // contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#mainModal').modal('hide');
+                // $(document.body).removeClass("modal-open");
+                // $(".modal-backdrop.show").hide();
+                // this.printvm = false
+
+            }else{
+
+
+                if (!this.dataVm.parent_surname ||
+                    !this.dataVm.parent_name ||
+                    !this.dataVm.child_surname ||
+                    !this.dataVm.child_name ||
+                    !this.programm ||
+                    !this.product
+                ) {
+                    this.$alert("Не все поля заполнены");
+                    return false
+                }
+
+                // Переведем дату обратно в человеческий формат для записи в базу
+                var D = new Date(this.dataVm.end_actualy);
+                this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+
+                axios.post('api/v2/savecontract', {
+                    contract_type: contract_type,
+                    base_id: this.user_id ,
+                    name: this.product.name,
+                    name_vm: this.contracts_vm,
+                    date: this.dataVm.date,
+                    start: this.startA,
+                    end: this.stopContract,
+                    end_actually: this.stopContract,
+                    price: this.pro,
+                    balance: this.balance ? this.balance : this.product.price,
+                    child_surname: this.dataVm.child_surname,
+                    child_name: this.dataVm.child_name,
+                    child_middle_name: this.dataVm.child_middle_name,
+                    child_birthday: this.dataVm.child_birthday,
+                    parent_surname: this.dataVm.parent_surname,
+                    parent_name: this.dataVm.parent_name,
+                    parent_middle_name: this.dataVm.parent_middle_name,
+                    parent_phone: this.dataVm.parent_phone,
+                    parent_viber: this.dataVm.parent_viber,
+                    parent_email: this.dataVm.parent_email,
+                    parent_facebook: this.dataVm.parent_facebook,
+                    parent_instagram: this.dataVm.parent_instagram,
+                    form_size: this.form_size,
+                    classes_week: this.product.classes_week,
+                    classes_total: this.product.classes_total,
+                    freezing_total: this.product.freezing_total,
+                    freezing_kolvo: this.product.freezing_kolvo,
+                    pays: this.pays.pays,
+                    programm: this.programm.name,
+                    programm_id: this.programm.id,
+                    currency: this.dataVm.branch.currency,
+                    adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                    price_title: this.product.price_title,
+                    category_time: this.product.category_time,
+                    group_id: this.shedule.id,
+                    coment: this.coment,
+
+                })
+                // this.print = true
+                // contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printmain');
+                // contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#mainModal').modal('hide');
+                $(document.body).removeClass("modal-open");
+                $(".modal-backdrop.show").hide();
+                // this.print = false
+                this.programm = ''
+                this.product = ''
+                this.hall = ''
+                this.shedule = ''
+                this.pro = ''
             }
         },
 
@@ -852,7 +977,8 @@ if (this.product){
             this.pay_main = ''
             this.pay_artially = ''
             this.balance = ''
-            this.pay_artiallyVM
+            this.pay_artiallyVM = ''
+            this.coment = ''
 
         },
 

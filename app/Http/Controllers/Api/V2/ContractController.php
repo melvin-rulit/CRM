@@ -44,6 +44,8 @@ class ContractController extends Controller
         return new ContractResource($contract);
     }
 
+//----------------------------  Выводим контракты ребенка ---------------------//
+
     public function showContract(Request $request){
 
         $contract = Contract::find($request['id']);
@@ -299,7 +301,7 @@ class ContractController extends Controller
 
         loger(4, $request->base_id,null, null, 'Присвоен статус Занимается');
 
-        $this->saveOperation($request['base_id'], $request['name'], $request->pays[0]['pay']);
+        $this->saveOperation($request['base_id'], $request['name'], $request->pays[0]['pay'], $request['coment']);
 
 	}
 
@@ -308,7 +310,9 @@ class ContractController extends Controller
     	];
     }
 
-    public function saveOperation($id, $name, $pay){
+ //----------------------------              ---------------------------------------//
+
+    public function saveOperation($id, $name, $pay, $coment){
 
         $base = Base::find($id);
 
@@ -333,6 +337,7 @@ class ContractController extends Controller
                 'payment' => true,
                 'in_or_out' => true,
                 'sum' => $pay,
+                'coment' => $coment,
             ]
         );
 
