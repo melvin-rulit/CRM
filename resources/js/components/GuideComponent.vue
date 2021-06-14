@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Группа</label>
+                    <label class="col-sm-5 col-form-label">Джероло контакту</label>
                     <select class="form-control col-sm-9" @change="changeSourceValue($event)">
                         <option
                             v-for="item in groups"
