@@ -22,6 +22,7 @@ use App\KassaOperation;
 use App\KassaOperationType;
 use App\Settings;
 use App\Statuses;
+use Carbon\Traits\Creator;
 use Illuminate\Http\Request;
 use App\Filters\UsersFilter;
 use App\Base;
@@ -39,6 +40,7 @@ use App\Contract_pay;
 use Carbon\Carbon;
 use Gate;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Facades\Auth;
 
@@ -342,7 +344,7 @@ class BaseController extends Controller
 //            return [
 //                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
 //            ];
-//        }
+//         }
 
     }
 
@@ -576,7 +578,8 @@ class BaseController extends Controller
 
     public function addNewComent(Request $request){
 
-        // Добавляем комментарий
+                                 // Добавляем в лог запись
+
         loger(5, $request->base_id, null,null, $request->comment);
 
     }
@@ -594,6 +597,7 @@ class BaseController extends Controller
         ]);
     }
 
+//-------------------------------- Выводим историю в карточке ребенка -----------------------//
 
     public function showHistory(Request $request){
 
@@ -602,14 +606,8 @@ class BaseController extends Controller
         return CommentsResource::collection($comments);
     }
 
+//-------------------------------- Удаление ребенка с таблицы /base -----------------------//
 
-
-    /**
-     * Удаление ребенка с таблицы /base
-     *
-     *
-     * @return string
-     */
     public function deleteChildrens(Request $request)
 
     {
@@ -757,6 +755,8 @@ class BaseController extends Controller
                         'edit_and_drop_children'     => Gate::allows('edit_and_drop_children'),
                         'edit_old_id'     => Gate::allows('edit_old_id'),
                         'edit_status'     => Gate::allows('edit_status'),
+                        'edit_training'     => Gate::allows('edit_training'),
+                        'edit_freezing'     => Gate::allows('edit_freezing'),
                     ]
                 ]
             );
@@ -909,6 +909,7 @@ class BaseController extends Controller
 
     public function getAgregatorLids(){
 
+
 //        $testing_date = Settings::find(1);
 //
 //        if ($testing_date->value){
@@ -1051,7 +1052,7 @@ class BaseController extends Controller
         // Все у кого дата следующего звонка меньше или равно сегодняшней
         foreach ($collection as $value){
             $date_value = Carbon::parse($value->statuses->call_date)->toDateString();
-            if ($date_value > $dates->toDateString()){
+            if ($date_value <= $dates->toDateString()){
                 $collection_itog->push($value);
             }
         }
@@ -1059,7 +1060,7 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
 
-        return AgregatorAllResource::collection($collection_itog->sortBy('call_date'));
+        return AgregatorAllResource::collection($collection_itog->unique());
 
     }
 
@@ -1151,6 +1152,7 @@ class BaseController extends Controller
                 'payment' => true,
                 'in_or_out' => true,
                 'sum' => $request->balance,
+                'coment' => $request->coment,
             ]
         );
 

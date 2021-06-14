@@ -95,36 +95,42 @@
                             <h5 class="text-muted mb-2">Менеджер:
                                 <a v-show="!showManager" v-if="dataObject.manager" href="#" @click.prevent="editManager"
                                    class="text-dark">{{ dataObject.manager }}</a>
-                                <a v-show="showManager" href="#" @click.prevent="editManager">{{dataObject.manager.surname}}
-                                    {{dataObject.manager.name}}</a>
+                                <a v-show="showManager" href="#"
+                                   @click.prevent="editManager">{{ dataObject.manager.surname }}
+                                    {{ dataObject.manager.name }}</a>
                             </h5>
                             <select v-show="showManager" @change="saveManager" class="form-control"
                                     v-model="dataObject.manager">
                                 <option v-for="manager in managers" v-bind:value="manager">{{ manager.surname }} {{
-                                    manager.name }}
+                                        manager.name
+                                    }}
                                 </option>
                             </select>
 
                             <h5 class="text-muted mb-2">Тренер:
                                 <a v-show="!showInstructor" v-if="dataObject.instructor" href="#"
                                    @click.prevent="editInstructor" class="text-dark">{{ dataObject.instructor }}</a>
-                                <a v-show="showInstructor" href="#" @click.prevent="editInstructor">{{dataObject.instructor.surname}}
-                                    {{dataObject.instructor.name}}</a>
+                                <a v-show="showInstructor" href="#"
+                                   @click.prevent="editInstructor">{{ dataObject.instructor.surname }}
+                                    {{ dataObject.instructor.name }}</a>
                             </h5>
                             <select v-show="showInstructor" @change="saveInstructor" class="form-control"
                                     v-model="dataObject.instructor">
                                 <option v-for="instructor in instructors" v-bind:value="instructor">{{
-                                    instructor.surname }} {{ instructor.name }}
+                                        instructor.surname
+                                    }} {{ instructor.name }}
                                 </option>
                             </select>
 
                             <h5 class="text-muted mb-2">Программа:
                                 <!--                            Возможность редактирования программы-->
                                 <!--                            <a v-show="!showProgramm" v-if="dataObject.programm" href="#" @click.prevent="editProgramm" class="text-dark">{{ dataObject.programm }}</a>-->
-                                <span v-show="!showProgramm" v-if="dataObject.programm" class="text-dark">{{ dataObject.programm }}</span>
+                                <span v-show="!showProgramm" v-if="dataObject.programm"
+                                      class="text-dark">{{ dataObject.programm }}</span>
 
-                                <a v-show="showProgramm" href="#" @click.prevent="editProgramm">{{dataObject.programm.name}}
-                                    {{dataObject.programm.name}}</a>
+                                <a v-show="showProgramm" href="#"
+                                   @click.prevent="editProgramm">{{ dataObject.programm.name }}
+                                    {{ dataObject.programm.name }}</a>
                             </h5>
                             <select v-show="showProgramm" @change="saveProgramm" class="form-control"
                                     v-model="dataObject.programms">
@@ -133,23 +139,27 @@
                             </select>
 
                             <h5 class="text-muted mb-2">Группа:
-                                <span v-if="dataObject.attributes.group" class="text-dark">{{dataObject.attributes.group.name}}</span>
+                                <span v-if="dataObject.attributes.group"
+                                      class="text-dark">{{ dataObject.attributes.group.name }}</span>
                                 <span
                                     v-if="dataObject.attributes.schedule_hall"
                                     v-for="schedule_hall in dataObject.attributes.schedule_hall"
-                                    class="text-dark">( {{ getWeekDay(schedule_hall.day) }} - {{ schedule_hall.time }}:00 )</span>
+                                    class="text-dark">( {{ getWeekDay(schedule_hall.day) }} - {{
+                                        schedule_hall.time
+                                    }}:00 )</span>
                             </h5>
 
 
                             <h6 v-if="can.base_branch" class="text-uppercase text-muted mb-2 mt-4">
                                 <a v-show="!showBranch" href="#"
-                                   @click.prevent="editBranch">{{dataObject.base_branch}}</a>
-                                <a v-show="showBranch" href="#" @click.prevent="editBranch">{{dataObject.base_branch.name}}</a>
+                                   @click.prevent="editBranch">{{ dataObject.base_branch }}</a>
+                                <a v-show="showBranch" href="#"
+                                   @click.prevent="editBranch">{{ dataObject.base_branch.name }}</a>
                                 <a v-if="dataObject.base_branch.name" href="#" @click.prevent="saveBranch"
                                    v-show="showBranch" class="fe fe-save h3 text-success"></a>
                             </h6>
 
-                            <h6 v-else class="text-uppercase text-muted mb-2 mt-4">{{dataObject.base_branch}}</h6>
+                            <h6 v-else class="text-uppercase text-muted mb-2 mt-4">{{ dataObject.base_branch }}</h6>
 
                             <select v-show="showBranch" class="form-control" v-model="dataObject.base_branch">
                                 <option v-for="branch in branches" v-bind:value="branch">{{ branch.name }}</option>
@@ -188,7 +198,8 @@
 
                             <!---------------------------------- Статус в карточке ребенка ----------------------------->
 
-                            <h4 class="text-center mb-3">Статус - <span :style="{ color: dataObject.status_color }">{{ dataObject.status }}</span>
+                            <h4 class="text-center mb-3">Статус - <span
+                                :style="{ color: dataObject.status_color }">{{ dataObject.status }}</span>
                             </h4>
 
                             <template>
@@ -213,7 +224,8 @@
                                 </a>
                             </h4>
                             <h5 v-for="documents in dataObject.attributes.documents">
-                                <a class="text-muted mb-2" :href="siteURL + documents.path" download>{{ documents.name
+                                <a class="text-muted mb-2" :href="siteURL + documents.path" download>{{
+                                        documents.name
                                     }}</a>
                             </h5
                             <hr>
@@ -698,6 +710,10 @@
                         </div>
                     </div>
                 </b-tab>
+
+
+                <!---------------------------------  Контракт  ---------------------------------->
+
                 <b-tab v-if="can.base_contract" title="Контракт">
                     <div class="card-body pb-0 pt-3 fix-height">
                         <div class="row">
@@ -766,6 +782,7 @@
                                                     <td>Заморозки:</td>
                                                     <td>
                                                         <input-form
+                                                            :gate="can.edit_freezing"
                                                             v-model="activeContract.freezing_total"
                                                             name="freezing_total"
                                                             @edit-field="updateFreezing">
@@ -776,6 +793,7 @@
                                                     <td>Тренировки:</td>
                                                     <td>
                                                         <input-form
+                                                            :gate="can.edit_training"
                                                             v-model="activeContract.classes_total"
                                                             name="classes_total"
                                                             @edit-field="updateFreezing">
@@ -796,7 +814,9 @@
                                                     class="text-muted ml-2 pointer">{{ pays.pay }}</a>
                                             </p>
                                             <p>Сумма и остаток:
-                                                <span class="ml-2">{{ activeContract.price }} ({{ activeContract.balance }})</span>
+                                                <span class="ml-2">{{ activeContract.price }} ({{
+                                                        activeContract.balance
+                                                    }})</span>
                                             </p>
 
                                             <button
@@ -867,8 +887,9 @@
                                     <p class="card-text text-center">Прошлые контракты</p>
                                     <p v-for="contracts_not_active in dataObject.contracts_not_active">
                                         <a @click.prevent="showContract(contracts_not_active.id)" href="#"
-                                           class="text-muted">"{{contracts_not_active.name}}" &nbsp
-                                            {{contracts_not_active.start}} - {{contracts_not_active.end_actually}}</a>
+                                           class="text-muted">"{{ contracts_not_active.name }}" &nbsp
+                                            {{ contracts_not_active.start }} -
+                                            {{ contracts_not_active.end_actually }}</a>
                                     </p>
                                 </div>
 
@@ -922,7 +943,8 @@
                         <div class="card-body">
                             <p v-if="kits" v-for="kit in kits" :key="kit.id" class="mb-2">
                                 {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{
-                                kit.name }} - {{kit.comment}}</span>
+                                    kit.name
+                                }} - {{ kit.comment }}</span>
                             </p>
                         </div>
                     </div>
@@ -1082,6 +1104,8 @@ export default {
             new_pay: '',
             boxTwo: '',
             comment_pay: '',
+            oldFreezing_total: '',
+            oldClasses_total: '',
             free: [
                 {
                     id: 1,
@@ -1189,7 +1213,7 @@ export default {
                 });
                 return false
             }
-            axios.post('api/v2/saveNewBalance', {id: id, balance: this.newBalance, base_id: this.dataObject.id})
+            axios.post('api/v2/saveNewBalance', {id: id, balance: this.newBalance, base_id: this.dataObject.id, coment: this.comment_pay})
 
             axios.post('api/v2/getinfo', {id: this.dataObject.id})
                 .then(response => {
@@ -1200,6 +1224,7 @@ export default {
         resetNewPay() {
             this.new_pay = ''
         },
+//--------------------------------- Показ карточки выбранного ребенка ----------------------------//
 
         showModa(id) {
 
@@ -1223,6 +1248,8 @@ export default {
                 } else {
                     this.dataObject = response.data.data
                     this.can = response.data.can
+                    this.oldClasses_total = this.activeContract.classes_total
+                    this.oldFreezing_total = this.activeContract.freezing_total
                     this.$bvModal.show('userShow')
                 }
             })
@@ -1428,6 +1455,7 @@ export default {
                 })
             }
         },
+//----------------- Отправляем новые значения полей "Заморозки и Тренировки" -------------------//
 
         updateFreezing(e, name) {
             const value = e.target.value;
@@ -1435,10 +1463,17 @@ export default {
             axios.post('api/v2/editContract', {
                 id: this.activeContract.id,
                 field_name: name ? name : key,
-                field_value: value
+                field_value: value,
+                idContract: this.activeContract.id,
+                oldFreezing_total : this.oldFreezing_total,
+                oldClasses_total : this.oldClasses_total
             })
-        },
 
+            this.oldClasses_total = this.activeContract.classes_total
+            this.oldFreezing_total = this.activeContract.freezing_total
+
+        },
+//----------------------------- Открываем существующий контракт у ребенка -------------------//
         // editField(e, name, type) {
         //     if (type){
         //         axios.put('api/v2/users/' + this.user.id, {field_name: name, field_value: e })
@@ -1456,11 +1491,15 @@ export default {
             this.$bvModal.hide('userShow')
         },
 
+//--------------------- Открываем новое окно при нажатие "Добавить контракт ВМ" -------------------//
 
         getContractVm() {
             this.$bvModal.hide('userShow')
             this.$refs.dogovor.getContractVm()
         },
+
+
+//--------------------- Открываем новое окно при нажатие "Добавить контракт" -------------------//
 
         getContractMain() {
 

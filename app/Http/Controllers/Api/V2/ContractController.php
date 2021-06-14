@@ -28,14 +28,32 @@ use Illuminate\Support\Facades\DB;
 class ContractController extends Controller
 {
 
+//------------------------------- Изменяем поля "Заморозка и Тренировка" -------------------//
 
-    public function editContract(Request $request){
+    public function editContract(Request $request)
+    {
 
         Contract::where('id', $request->id)->update(
             [
                 $request['field_name'] => $request['field_value'],
             ]
         );
+
+
+
+    $base_id = Contract::where('id', $request->id)->first();
+$base = $base_id->base_id;
+
+        // Добавляем в лог запись
+
+        if ($request['field_name'] === 'freezing_total') {
+
+            loger(7, $base, null, null, 'Изменил значение поля Заморозки с ( ' .$request->oldFreezing_total .' на ' .$request['field_value']. ' )');
+        } else {
+
+            loger(7, 142, null, null, 'Изменил значение поля Тренировки с ( ' .$request->oldClasses_total .' на ' .$request['field_value']. ' )');
+
+        }
     }
 
     public function getContract(Request $request){
@@ -149,7 +167,8 @@ class ContractController extends Controller
             ]
         );
 
-        // И добавляем комментарий
+                                    // Добавляем в лог запись
+
         loger(4, $request->base_id, null,null,'Присвоен статус Покупка ВМ');
 
         //        ВЫНЕСТИ В ОТДЕЛЬНЫЙ МЕТОД =========================================================================
@@ -297,7 +316,7 @@ class ContractController extends Controller
             ]
         );
 
-        // И добавляем комментарий
+                                        // Добавляем в лог запись
 
         loger(4, $request->base_id,null, null, 'Присвоен статус Занимается');
 
