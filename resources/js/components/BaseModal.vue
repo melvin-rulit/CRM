@@ -1248,9 +1248,9 @@ export default {
                 } else {
                     this.dataObject = response.data.data
                     this.can = response.data.can
+                    this.$bvModal.show('userShow')
                     this.oldClasses_total = this.activeContract.classes_total
                     this.oldFreezing_total = this.activeContract.freezing_total
-                    this.$bvModal.show('userShow')
                 }
             })
         },

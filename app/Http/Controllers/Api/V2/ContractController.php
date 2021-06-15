@@ -51,7 +51,7 @@ $base = $base_id->base_id;
             loger(7, $base, null, null, 'Изменил значение поля Заморозки с ( ' .$request->oldFreezing_total .' на ' .$request['field_value']. ' )');
         } else {
 
-            loger(7, 142, null, null, 'Изменил значение поля Тренировки с ( ' .$request->oldClasses_total .' на ' .$request['field_value']. ' )');
+            loger(7, $base, null, null, 'Изменил значение поля Тренировки с ( ' .$request->oldClasses_total .' на ' .$request['field_value']. ' )');
 
         }
     }
