@@ -12,6 +12,7 @@ class Contract_pay extends Model
         'start',
         'pay',
         'day',
+        'comment',
     ];
 
 

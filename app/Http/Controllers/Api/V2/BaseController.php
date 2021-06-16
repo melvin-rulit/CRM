@@ -1110,11 +1110,25 @@ class BaseController extends Controller
         $balance = Contract::where('id' , $request->contract_id)->value('balance');
 
 
+
         Contract::where('id', $request->contract_id)->update(
             [
                 'balance' => $balance - $request->pay,
+
             ]
         );
+
+
+        Contract_pay::where('id', $request->id)->update(
+            [
+                'comment' => $request->comment,
+
+            ]
+        );
+
+                                    // Добавляем в лог запись
+
+       loger(7, $request->base, null, null, 'Изменил оплату ( ' . $request->comment . ' )');
 
     }
 

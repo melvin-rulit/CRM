@@ -874,6 +874,16 @@
                                                             <input class="form-control" v-model="new_pay">
                                                         </div>
                                                     </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3 col-form-label">Комментарий</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea v-model="saveNewPayComment"
+                                                                      class="form-control"></textarea>
+                                                        </div>
+                                                    </div>
+
+
                                                 </div>
                                             </b-modal>
 
@@ -1029,6 +1039,7 @@ export default {
             fieldId: '',
             can: '',
             comment: '',
+            saveNewPayComment: '',
             fullPage: true,
             call_date: '',
             call_status: '',
@@ -1194,13 +1205,24 @@ export default {
                 })
         },
 
-        saveNewPay() {
-            axios.post('api/v2/saveNewPay', {id: this.editPay.id, pay: this.new_pay, contract_id: this.contractId})
+//------------------------ Сохраняем дынные из окна Изменить платеж -------------------------//
 
-            axios.post('api/v2/getinfo', {id: this.dataObject.id})
-                .then(response => {
-                    this.dataObject = response.data.data
-                })
+        saveNewPay() {
+            if(this.new_pay !== '' && this.saveNewPayComment !== ''){
+
+                axios.post('api/v2/saveNewPay', {id: this.editPay.id, pay: this.new_pay, contract_id: this.contractId, comment: this.saveNewPayComment, base: this.fieldId})
+
+                this.saveNewPayComment = ''
+
+                axios.post('api/v2/getinfo', {id: this.dataObject.id})
+                    .then(response => {
+                        this.dataObject = response.data.data
+                    })
+            }else {
+                this.saveNewPayComment = ''
+                this.$alert("Поля: Сумма оплаты и Комментарий обязательны!");
+            }
+
         },
 
         saveNewBalance(id) {
