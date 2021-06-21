@@ -22,6 +22,7 @@ class Base extends Model
         'father_phone',
         'other_relative_phone',
         'child_surname',
+        'child_birthday',
         'child_middle_name',
         'branch',
         'manager',

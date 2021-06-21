@@ -18,8 +18,8 @@
                                     </b-img>
                                 </div>
                                 <b-button block squared class="mt-3">Информация</b-button>
-                                <b-button block squared disabled variant="outline-secondary">Карьера</b-button>
-                                <b-button @click="history" block squared variant="outline-secondary">История действий
+                                <b-button @click="career('career')" block squared variant="outline-secondary">Карьера</b-button>
+                                <b-button @click="history('history')" block squared variant="outline-secondary">История действий
                                 </b-button>
                                 <b-button v-if="can.user_delete" block squared variant="danger" @click="deleteuser">
                                     Удалить
@@ -33,8 +33,12 @@
                                         <tr>
                                             <td>Фамилия</td>
                                             <td>
-                                                {{user.surname}}
-
+                                                <input-form
+                                                    v-model="user.surname"
+                                                    name="surname"
+                                                    :gate="can.user_edit"
+                                                    @edit-field="editField">
+                                                </input-form>
                                             </td>
                                         </tr>
                                         <tr>
@@ -151,7 +155,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Роль</td>
+                                            <td>Должность</td>
                                             <td>
                                         <span v-if="!showEditRole" v-for="item in user.role"
                                               class="badge badge-info mr-2">
@@ -203,6 +207,7 @@
                     </div>
                 </b-tab>
 
+                            <!--  Вывод истории действий  -->
                 <b-tab>
                     <div class="card-header">
                         <div class="row align-items-center">
@@ -291,6 +296,7 @@
                 ],
                 sortBy: 'created_at',
                 sortDesc: true,
+                datatest:'',
             }
         },
 
@@ -304,8 +310,14 @@
             },
 
             newRoleArray() {
+                this.datatest = this.user.role
                 return this.user.role.slice().map(item => item.id.toString());
-            }
+            },
+
+            dataTest(){
+                return this.datatest.slice(-1);
+            },
+
         },
 
         methods: {
@@ -348,7 +360,7 @@
 
             saveRole() {
                 this.showEditRole = !this.showEditRole
-                axios.post('api/v2/saveRoles', {user_id: this.user.id, roles: this.newRoleArray})
+                axios.post('api/v2/saveRoles', {user_id: this.user.id, roles: this.newRoleArray, lastRole: this.dataTest})
             },
 
             editAvatar() {
@@ -359,14 +371,44 @@
                 alert("Удаление сотрудника временно ограниченно");
             },
 
-            async history() {
+        //---------------------  Показ истории при нажитии "Карьера" -------------------------//
+
+            async career(history_type){
+
+
                 try {
                     let loader = this.$loading.show({
                         container: this.fullPage ? null : this.$refs.formContainer,
                         canCancel: true,
                     });
 
-                    let res = await axios.post('api/v2/history', {user_id: this.user.id})
+                        let res = await axios.post('api/v2/history', {user_id: this.user.id, history_type: history_type})
+
+                    if (res.status == 200) {
+                        this.user_history = res.data.data
+                        this.tabIndex = 1
+                        loader.hide()
+                    }
+                    return res.data.data
+                } catch (err) {
+                    console.error(err);
+                }
+
+            },
+
+            //------------  Показ истории при нажитии "История действий" -----------------//
+
+            async history(history_type) {
+                try {
+                    let loader = this.$loading.show({
+                        container: this.fullPage ? null : this.$refs.formContainer,
+                        canCancel: true,
+                    });
+
+                        let res = await axios.post('api/v2/history', {
+                            user_id: this.user.id,
+                            history_type: history_type
+                        })
 
                     if (res.status == 200) {
                         this.user_history = res.data.data

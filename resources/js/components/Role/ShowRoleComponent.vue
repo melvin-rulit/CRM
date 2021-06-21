@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal id="showRole" size="lg" title="Роль" centered hide-footer @hidden="closeModal">
+        <b-modal id="showRole" size="lg" title="Должность" centered hide-footer @hidden="closeModal">
             <div class="mb-3">
                 <div class="row no-gutters">
                     <div class="col-md-12">

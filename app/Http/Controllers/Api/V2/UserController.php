@@ -47,16 +47,17 @@ class UserController extends Controller
 
         return (UsersAllResource::collection($result))
             ->additional([
-                'can' => [
-                    'user_show'             => Gate::allows('user_show'),
-                    'user_branch'           => Gate::allows('user_branch'),
-                    'user_create'           => Gate::allows('user_create'),
-                    'user_role'             => Gate::allows('user_role'),
-                    'user_edit'             => Gate::allows('user_edit'),
-                    'user_show_password'    => Gate::allows('user_show_password'),
+                    'can' => [
+                        'user_show' => Gate::allows('user_show'),
+                        'user_branch' => Gate::allows('user_branch'),
+                        'user_create' => Gate::allows('user_create'),
+                        'user_role' => Gate::allows('user_role'),
+                        'user_edit' => Gate::allows('user_edit'),
+//                    'user_delete'           => Gate::allows('user_delete'),
+                        'user_show_password' => Gate::allows('user_show_password'),
                     ]
                 ]
-        );
+            );
     }
 
     /**
@@ -71,22 +72,27 @@ class UserController extends Controller
         return new GetBranchAndRolesUser($user);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function history(Request $request)
     {
-        $history = Loger::where('user_id', $request->user_id)->get();
+        if ($request->history_type === 'history') {
 
-        return UserHistory::collection($history);
+            $history = Loger::where('user_id', $request->user_id)->where('channel', '!=', 9)->get();
+            return UserHistory::collection($history);
+
+        } elseif ($request->history_type === 'career') {
+
+//            $history = Loger::where('channel', '=', 9)->where('user_id', $request->user_id)->get();
+            $history = Loger::where('channel', '=', 9)->get();
+            return UserHistory::collection($history);
+
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -99,7 +105,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -110,7 +116,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -121,8 +127,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -138,7 +144,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -146,7 +152,8 @@ class UserController extends Controller
         $user->delete();
     }
 
-    public function getUserNameFromMenu(){
+    public function getUserNameFromMenu()
+    {
 
         $user = User::find(Auth::user()->id);
 
@@ -157,20 +164,23 @@ class UserController extends Controller
         ];
     }
 
-    public function getPermisions(){
+    public function getPermisions()
+    {
 
         $user = User::find(Auth::user()->id);
 
         return $user->branches;
     }
 
-    public function getAllBranches(){
+    public function getAllBranches()
+    {
 
         return Branch::all();
 
     }
 
-    public function getAllRoles(){
+    public function getAllRoles()
+    {
 
         return Role::all();
 
@@ -184,16 +194,33 @@ class UserController extends Controller
 
     }
 
+    //-------------------------- Сохраняем должность ----------------------------//
+
     public function saveRoles(Request $request)
     {
         $user = User::find($request->user_id);
 
         $user->roles()->sync($request->roles);
+
+//        $role[] = Role::find($request->roles);
+
+//        dd($role[0]->title);
+//        $role[] = Role::find($request->roles);
+
+        $userName = User::find(Auth::user()->id);
+
+//        $data = array_shift($role);
+
+//        dd($data);
+//        dd($role[0]['title']);
+
+      loger(9, $userName->id, null,null, $userName->surname . ' ' . $userName->name. ':' . '  добавил(a)  '. '" '  .$user->name . ' "'. ' должность  ( '  . $request->lastRole[0]['title'] .  ' )');
+
     }
 
     public function getUserKit(Request $request)
     {
-        $kits = UserArticle::where('user_id', $request->user_id)->orderBy('created_at','desc')->get();
+        $kits = UserArticle::where('user_id', $request->user_id)->orderBy('created_at', 'desc')->get();
 
         return KitsResource::collection($kits);
     }
@@ -204,15 +231,16 @@ class UserController extends Controller
     }
 
 
-    public function getGates(){
+    public function getGates()
+    {
 
         return [
-                'journal_pk'                => Gate::allows('journal_pk'),
-                'journal_not_visit'         => Gate::allows('journal_not_visit'),
-                'journal_visit'             => Gate::allows('journal_visit'),
-                'journal_chart_add'         => Gate::allows('journal_chart_add'),
-                'journal_chart_delete'      => Gate::allows('journal_chart_delete'),
-                'journal_transfer_group'    => Gate::allows('journal_transfer_group'),
+            'journal_pk' => Gate::allows('journal_pk'),
+            'journal_not_visit' => Gate::allows('journal_not_visit'),
+            'journal_visit' => Gate::allows('journal_visit'),
+            'journal_chart_add' => Gate::allows('journal_chart_add'),
+            'journal_chart_delete' => Gate::allows('journal_chart_delete'),
+            'journal_transfer_group' => Gate::allows('journal_transfer_group'),
         ];
     }
 }
