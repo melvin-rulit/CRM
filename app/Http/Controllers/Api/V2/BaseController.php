@@ -85,7 +85,7 @@ class BaseController extends Controller
 
     public function showHall(Request $request)
     {
-        $hall = Hall::find($request->hall_id)->load(['schedule_hall' => function ($query) use ($request){
+        $hall = Hall::find($request->hall_id)->load(['schedule_hall' => function ($query) use ($request) {
             $query->with('group')->where('day', $request->day);
             $query->orderBy('time');
         }]);
@@ -122,8 +122,7 @@ class BaseController extends Controller
         $base->save();
 
 
-        if ($base->group_id)
-        {
+        if ($base->group_id) {
             $group_from = Group::find($base->group_id);
 
             $group_in = Group::find($request->group_id);
@@ -137,15 +136,17 @@ class BaseController extends Controller
         }
     }
 
-    public function updateTest(Request $request){
+    public function updateTest(Request $request)
+    {
 
         $journal = Journal::create($request->all());
     }
 
 
-    public function getUserInGroup(Request $request){
+    public function getUserInGroup(Request $request)
+    {
 
-        $base = Base::with(['journal' => function($query) use ($request){
+        $base = Base::with(['journal' => function ($query) use ($request) {
             $query->where('year', $request->year);
             $query->where('month', $request->month);
         }])->where('group_id', $request->group_id)->get();
@@ -157,33 +158,36 @@ class BaseController extends Controller
             $contracts = $a->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten();
             $group = $a->group->programm;
 
-            if ($group){
+            if ($group) {
                 $group = $group->type;
             }
 
             // Если есть активный контракт или группа равна ли ПК или ВМ
-            if ($contracts->count() == 1 || $group == 2 || $group == 3){
+            if ($contracts->count() == 1 || $group == 2 || $group == 3) {
                 $collection->push($a);
             }
         }
 
         if ($collection->count() > 0) {
             return GetUserInGroupResource::collection($collection);
-        }else{
+        } else {
             return 'error';
         }
     }
 
     // Метод возвращает группы доступные для редактирование у зала
-    public function getEditingGroup(Request $request){
+    public function getEditingGroup(Request $request)
+    {
 
         return Group::where('hall_id', $request->hall_id)->get();
 
     }
 
 
+    //-------------------------  Ставим статус "Занятие" в Journal ------------------------//
 
-    public function workout(Request $request){
+    public function workout(Request $request)
+    {
 
         $checkDay = $this->checkDay($request->base_id, $request->year, $request->month, $request->day);
 
@@ -192,6 +196,11 @@ class BaseController extends Controller
         // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать
         $base = Base::find($request->base_id);
 
+        // Проверяем состоит ли клиент в группе с программой ПК
+        $group = Base::find($request->base_id)->group->programm;
+
+        //.. Сегодняшняя дата ( только число даты )
+        $DataNow = Carbon::now()->format('j');
 
         // Выбираем только активные контракты и с типом основной контракт
         $contracts = $base->contracts->where('end_actually', '>', Carbon::today()->toDateString())->flatten()->where('contract_type', 'main');
@@ -203,135 +212,191 @@ class BaseController extends Controller
 
         $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->where('month', $request->month)->get();
 
-        // Если уже стоит тренировка то выдаем ошибку
-        if ($journal[0]->type == 1) {
-            return [
-                'response'  => "Уже стоит тренировка, выберите другой статус",
-            ];
-        }
-
-        // Если стоит пропусщеная тренировка то выдаем ошибку
-        if($journal[0]->type == 3){
-            return [
-                'response'  => "Клиент пропустил занятие",
-            ];
-        }
+        $kolznakovDay = $request->day;
 
 
-        // Если на текущей ячейки не стоит пропущенная тренировка и количество тренировок в контракте больше нуля то списываем одну тренировку
-        if ($journal[0]->type !== 3 && $contracts->count()) {
-            if($contracts[0]->classes_total > 0){
-                $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
+// .. Проверяем есть ли в Журнале запись и если "Программа обучения": Основная
+        if (empty ($journal[0]) ) {
+
+            if ($group->type == 1 && $kolznakovDay <= $DataNow) {
+
+                    // .. Если есть запись то обнавляем иконку и данные, если нет то создаем новую
+                    $journal = Journal::updateOrCreate(
+                        ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+                        [
+                            'base_id' => $request->base_id,
+                            'day' => $request->day,
+                            'month' => $request->month,
+                            'year' => $request->year,
+                            'icon' => $this->workout,
+                            'type' => 1
+                        ]
+                    );
+
+                    return [
+                        'response' => "success",
+                    ];
+
+            }elseif ($group->type !== 1 && $kolznakovDay < $DataNow){
+
+                // .. Если есть запись то обнавляем иконку и данные, если нет то создаем новую
+                $journal = Journal::updateOrCreate(
+                    ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
+                    [
+                        'base_id' => $request->base_id,
+                        'day' => $request->day,
+                        'month' => $request->month,
+                        'year' => $request->year,
+                        'icon' => $this->workout,
+                        'type' => 1
+                    ]
+                );
+
+                return [
+                    'response' => "success",
+                ];
+
+            }else{
+
+                return [
+                    'response' => "Невозможно посетить тренировку ПК / ВМ не назначенную за ранее.
+Назначьте тренировку",
+                ];
             }
+
+
         }
 
 
-        // Проверяем состоит ли клиент в группе с программой ПК
-        $group = Base::find($request->base_id)->group->programm;
+// .. Проверяем  если переменная не пуста ( т.е в Журнале есть запись )
+        if (!empty($journal[0])) {
 
-        if($group->type == 2 && $journal[0]->type == 4){
-            // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
-            Statuses::where('base_id', $request->base_id)->update(
+            // Если уже стоит тренировка то выдаем ошибку
+            if ($journal[0]->type == 1) {
+                return [
+                    'response' => "Уже стоит тренировка, выберите другой статус",
+                ];
+            }
+
+            // Если стоит пропущеная тренировка, то выдаем ошибку
+            if ($journal[0]->type == 3) {
+                return [
+                    'response' => "Клиент пропустил занятие",
+                ];
+            }
+
+
+            // Если на текущей ячейки не стоит пропущенная тренировка и количество тренировок в контракте больше нуля то списываем одну тренировку
+            if ($journal[0]->type !== 3 && $contracts->count()) {
+                if ($contracts[0]->classes_total > 0) {
+                    $base->contracts()->where('contract_type', 'main')->decrement('classes_total');
+                }
+            }
+
+
+            if ($group->type == 2 && $journal[0]->type == 4) {
+                // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 4,
+                        'steps_id' => 2,
+                    ]
+                );
+
+                // Добавляем в лог запись
+                loger(4, $request->base_id, null, null, 'Присвоен статус Явка ПК');
+
+            }
+
+            // Если группа ВМ, стоит тренировка и статус Покупка ВМ
+            if ($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 5) {
+                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 1
+
+                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+                $jour = Journal::where('base_id', $request->base_id)
+                    ->where('type', 4)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 6,
+                        'steps_id' => 3,
+                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                    ]
+                );
+
+                // Добавляем в лог запись
+                loger(4, $request->base_id, null, null, 'Присвоен статус Явка ВМ 1');
+
+            }
+
+            // Если группа ВМ, стоит тренировка и статус Явка ВМ 1
+            if ($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 6) {
+                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 2
+
+                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+                $jour = Journal::where('base_id', $request->base_id)
+                    ->where('type', 4)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 7,
+                        'steps_id' => 3,
+                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                    ]
+                );
+
+                // Добавляем в лог запись
+                loger(4, $request->base_id, null, null, 'Присвоен статус Явка ВМ 2');
+
+            }
+
+            // Если группа ВМ, стоит тренировка и статус Явка ВМ 2
+            if ($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 7) {
+                // В агрегаторе лидов изменяем статус и этап на Явка ВМ 3
+
+                // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
+                $jour = Journal::where('base_id', $request->base_id)
+                    ->where('type', 4)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                Statuses::where('base_id', $request->base_id)->update(
+                    [
+                        'status_id' => 8,
+                        'steps_id' => 3,
+                        'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
+                    ]
+                );
+
+                // Добавляем в лог запись
+                loger(4, $request->base_id, null, null, 'Присвоен статус Явка ВМ 3');
+
+            }
+
+            // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
+            $journal = Journal::updateOrCreate(
+                ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
                 [
-                    'status_id' => 4,
-                    'steps_id' => 2,
+                    'base_id' => $request->base_id,
+                    'day' => $request->day,
+                    'month' => $request->month,
+                    'year' => $request->year,
+                    'icon' => $this->workout,
+                    'type' => 1
                 ]
             );
 
-            // Добавляем в лог запись
-            loger(4, $request->base_id, null,null,'Присвоен статус Явка ПК');
 
-        }
-
-        // Если группа ВМ, стоит тренировка и статус Покупка ВМ
-        if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 5){
-            // В агрегаторе лидов изменяем статус и этап на Явка ВМ 1
-
-            // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
-            $jour = Journal::where('base_id', $request->base_id)
-                ->where('type', 4)
-                ->orderBy('id', 'desc')
-                ->first();
-
-            Statuses::where('base_id', $request->base_id)->update(
-                [
-                    'status_id' => 6,
-                    'steps_id' => 3,
-                    'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
-                ]
-            );
-
-            // Добавляем в лог запись
-            loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 1');
-
-        }
-
-        // Если группа ВМ, стоит тренировка и статус Явка ВМ 1
-        if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 6){
-            // В агрегаторе лидов изменяем статус и этап на Явка ВМ 2
-
-            // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
-            $jour = Journal::where('base_id', $request->base_id)
-                ->where('type', 4)
-                ->orderBy('id', 'desc')
-                ->first();
-
-            Statuses::where('base_id', $request->base_id)->update(
-                [
-                    'status_id' => 7,
-                    'steps_id' => 3,
-                    'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
-                ]
-            );
-
-            // Добавляем в лог запись
-            loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 2');
-
-        }
-
-        // Если группа ВМ, стоит тренировка и статус Явка ВМ 2
-        if($group->type == 3 && $journal[0]->type == 4 && $base->statuses->status_id == 7){
-            // В агрегаторе лидов изменяем статус и этап на Явка ВМ 3
-
-            // Чтоб узнать дату следующего звонка нужно выяснить есть ли после этой еще трнеировки
-            $jour = Journal::where('base_id', $request->base_id)
-                ->where('type', 4)
-                ->orderBy('id', 'desc')
-                ->first();
-
-            Statuses::where('base_id', $request->base_id)->update(
-                [
-                    'status_id' => 8,
-                    'steps_id' => 3,
-                    'call_date' => $jour ? Carbon::createFromDate($jour->year, $jour->month, $jour->day)->addDays(-1) : $jour->call_date,
-                ]
-            );
-
-            // Добавляем в лог запись
-            loger(4, $request->base_id, null,null,'Присвоен статус Явка ВМ 3');
-
-        }
+            return [
+                'response' => "success",
+            ];
 
 
-
-        // Если есть запись то обнавляем иконку и данные, если нет то создаем новую
-        $journal = Journal::updateOrCreate(
-            ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
-            [
-                'base_id' => $request->base_id,
-                'day' => $request->day,
-                'month' => $request->month,
-                'year' => $request->year,
-                'icon' => $this->workout,
-                'type' => 1
-            ]
-        );
-
-
-        return [
-            'response'  => "success",
-        ];
-        // Если и так уже стоит значение, то ничего не делать
+            // Если и так уже стоит значение, то ничего не делать
 //        }
 
 //        if ($contracts->count() == 0) {
@@ -345,10 +410,14 @@ class BaseController extends Controller
 //                'response'  => "У клиента больше одного активного контракта, обратитесь к администратору",
 //            ];
 //         }
-
+        }
     }
 
-    public function notVisit(Request $request){
+
+    //---------------------  Ставим статус "Пропустил занятие" в Journal ---------------------//
+
+    public function notVisit(Request $request)
+    {
 
         $checkDay = $this->checkDay($request->base_id, $request->year, $request->month, $request->day);
 
@@ -374,20 +443,20 @@ class BaseController extends Controller
         $journal = Journal::updateOrCreate(
             ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
             [
-                'base_id'   => $request->base_id,
-                'day'       => $request->day,
-                'month'     => $request->month,
-                'year'      => $request->year,
-                'icon'      => $this->notVisit,
-                'type'      => 3,
+                'base_id' => $request->base_id,
+                'day' => $request->day,
+                'month' => $request->month,
+                'year' => $request->year,
+                'icon' => $this->notVisit,
+                'type' => 3,
             ]
         );
 
         // И добавляем комментарий
-        loger(5, $request->base_id,null,null, $request->comment);
+        loger(5, $request->base_id, null, null, $request->comment);
 
         return [
-            'response'  => "success",
+            'response' => "success",
         ];
 //        }
 
@@ -405,7 +474,11 @@ class BaseController extends Controller
 
     }
 
-    public function newWorkout(Request $request){
+
+    //-------------------------  Ставим статус "Назначить" в Journal ------------------------//
+
+    public function newWorkout(Request $request)
+    {
 
         $checkDay = $this->checkDay($request->base_id, $request->year, $request->month, $request->day);
 
@@ -414,9 +487,8 @@ class BaseController extends Controller
         // Проверяем стоит ли на текущей ячейки какие нибудь данные
         $journal = Journal::where('base_id', $request->base_id)->where('day', $request->day)->get();
 
-        // Проверяем в какой группе состоит клиент (ВМ или ПК)
+        // Проверяем какой тип "Программы обучение" (ВМ или ПК)
         $group = Base::find($request->base_id)->group->programm;
-
 
 
         // Если записи нет то спросто назначаем тренировку
@@ -432,7 +504,7 @@ class BaseController extends Controller
                 ]
             );
 
-            if($group->type == 2){
+            if ($group->type == 2) {
                 // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
                 Statuses::where('base_id', $request->base_id)->update(
                     [
@@ -442,11 +514,11 @@ class BaseController extends Controller
                     ]
                 );
                 // Добавляем в лог запись
-                loger(4, $request->base_id, null,null,'Присвоен статус Запись ПК');
+                loger(4, $request->base_id, null, null, 'Присвоен статус Запись ПК');
 
             }
 
-            if($group->type == 3){
+            if ($group->type == 3) {
                 // В агрегаторе лидов изменяем статус и этап, дату звонка ставим за день до назначеной тренировки
                 Statuses::where('base_id', $request->base_id)->update(
                     [
@@ -456,7 +528,7 @@ class BaseController extends Controller
                     ]
                 );
                 // Добавляем в лог запись
-                loger(4, $request->base_id, null,null,'Присвоен статус Покупка ВМ');
+                loger(4, $request->base_id, null, null, 'Присвоен статус Покупка ВМ');
 
             }
 
@@ -466,13 +538,15 @@ class BaseController extends Controller
     }
 
 
-    public function freezing(Request $request){
+    //-------------------------  Ставим статус "Заморозка" в Journal ------------------------//
+
+    public function freezing(Request $request)
+    {
 
 
         $checkDay = $this->checkDay($request->base_id, $request->year, $request->month, $request->day);
 
         if ($checkDay->isEmpty()) return ['response' => "На этот день нет распсисания для текущей группы"];
-
 
 
         // Если на эту дату тренировка уже проставлена то нужно решить что дальше делать
@@ -491,7 +565,7 @@ class BaseController extends Controller
         // Если есть запись посещенной тренировки, то останавливаем
         if ($journal->isNotEmpty()) {
             return [
-                'response'  => "Клиент посетил тренировку, поставить заморозку не возможно",
+                'response' => "Клиент посетил тренировку, поставить заморозку не возможно",
             ];
         }
 
@@ -502,7 +576,7 @@ class BaseController extends Controller
         // Если есть запись новой тренировки, то останавливаем
         if ($journal->isNotEmpty()) {
             return [
-                'response'  => "Нельзя поставить заморозку этому клиенту",
+                'response' => "Нельзя поставить заморозку этому клиенту",
             ];
         }
 
@@ -511,16 +585,16 @@ class BaseController extends Controller
         // Если уже стоит этот статус то выдаем оштбку
         if ($journal->isNotEmpty()) {
             return [
-                'response'  => "Уже стоит заморозка, выберите другой статус",
+                'response' => "Уже стоит заморозка, выберите другой статус",
             ];
         }
 
         // Проверяем остались ли заморозки, если да то уменьшаем на еденицу, если нет возвращаем сообщение с ошибкой
         if ($contracts->first()->freezing_total == 0) {
             return [
-                'response'  => "У клиента закончились заморозки",
+                'response' => "У клиента закончились заморозки",
             ];
-        }else{
+        } else {
             $contracts[0]->decrement('freezing_total');
 
             // Смещаем дату фактического окончания контракта
@@ -547,18 +621,18 @@ class BaseController extends Controller
             Journal::updateOrCreate(
                 ['base_id' => $request->base_id, 'year' => $request->year, 'month' => $request->month, 'day' => $request->day],
                 [
-                    'base_id'   => $request->base_id,
-                    'day'       => $request->day,
-                    'month'     => $request->month,
-                    'year'      => $request->year,
-                    'icon'      => $this->freezing,
-                    'type'      => 2,
+                    'base_id' => $request->base_id,
+                    'day' => $request->day,
+                    'month' => $request->month,
+                    'year' => $request->year,
+                    'icon' => $this->freezing,
+                    'type' => 2,
                 ]
             );
         }
 
         return [
-            'response'  => "success",
+            'response' => "success",
         ];
 
 //        }
@@ -576,37 +650,42 @@ class BaseController extends Controller
 //        }
     }
 
-    public function addNewComent(Request $request){
+    //-------------------------  Ставим статус "Коментарий" в Journal ------------------------//
 
-                                 // Добавляем в лог запись
+    public function addNewComent(Request $request)
+    {
 
-        loger(5, $request->base_id, null,null, $request->comment);
+        // Добавляем в лог запись
+
+        loger(5, $request->base_id, null, null, $request->comment);
 
     }
 
 
-    public function uploadDocument(Request $request){
+    public function uploadDocument(Request $request)
+    {
 
         $path = $request['file']->store('public/files');
-        $path = str_replace("public","storage", $path);
+        $path = str_replace("public", "storage", $path);
 
         $document = Document::create([
-            'base_id'   => $request->base_id,
-            'name'   => $request->name,
-            '$path'   => $path,
+            'base_id' => $request->base_id,
+            'name' => $request->name,
+            '$path' => $path,
         ]);
     }
 
 //-------------------------------- Выводим историю в карточке ребенка -----------------------//
 
-    public function showHistory(Request $request){
+    public function showHistory(Request $request)
+    {
 
         $comments = Loger::where('base_id', $request->base_id)->get();
 
         return CommentsResource::collection($comments);
     }
 
-//-------------------------------- Удаление ребенка с таблицы /base -----------------------//
+//-------------------------------- Удаление ребенка с таблицы /bases -----------------------//
 
     public function deleteChildrens(Request $request)
 
@@ -617,7 +696,8 @@ class BaseController extends Controller
     }
 
 
-    public function test(Request $request){
+    public function test(Request $request)
+    {
 
 
         $user = User::find(Auth::user()->id);
@@ -633,7 +713,8 @@ class BaseController extends Controller
         return BaseAllResource::collection($collection->all());
     }
 
-    public function index(){
+    public function index()
+    {
 
         $user = User::find(Auth::user()->id);
 
@@ -649,14 +730,15 @@ class BaseController extends Controller
         return (BaseAllResource::collection($collection->all()))
             ->additional([
                     'can' => [
-                        'base_create'     => Gate::allows('base_create'),
+                        'base_create' => Gate::allows('base_create'),
                     ]
                 ]
             );
 
     }
 
-    public function addNewUser(Request $request){
+    public function addNewUser(Request $request)
+    {
 
         // Добавляем нового клиента
         $base = Base::create($request->all());
@@ -672,8 +754,7 @@ class BaseController extends Controller
         loger(2, $base->id, null, null, 'Добавил клиента в базу');
 
         // Добавляем в лог коментарий если он имеется
-        if ($request->comment)
-        {
+        if ($request->comment) {
             loger(2, $base->id, null, null, $request->comment);
         }
 
@@ -695,7 +776,8 @@ class BaseController extends Controller
     }
 
 
-    public function getInfo(Request $request){
+    public function getInfo(Request $request)
+    {
 
 //        dd(config('session.lifetime'));
 
@@ -704,20 +786,20 @@ class BaseController extends Controller
         $base->increment('total_open');
 
 
-        if ($this->getDiffInHoursAttribute($base->date_open) >= 1){
+        if ($this->getDiffInHoursAttribute($base->date_open) >= 1) {
             $base->date_open = Carbon::now();
             $base->block = false;
             $base->user_block_id = false;
         }
 
         // Если в карточке кто нибудь работает - возвращаем соответствующий response, иначе блокируем
-        if ($request->set_block && $base->block){
+        if ($request->set_block && $base->block) {
             return [
-                'response'          => "block",
-                'user_block_name'   => $base->user_block_name->surname .' '. $base->user_block_name->name,
-                'curent_user'       => $base->user_block_id === Auth::user()->id ? true : false,
+                'response' => "block",
+                'user_block_name' => $base->user_block_name->surname . ' ' . $base->user_block_name->name,
+                'curent_user' => $base->user_block_id === Auth::user()->id ? true : false,
             ];
-        }else if($request->set_block && !$base->block){
+        } else if ($request->set_block && !$base->block) {
             $base->block = 1;
             $base->user_block_id = Auth::user()->id;
             $base->save();
@@ -725,14 +807,14 @@ class BaseController extends Controller
             $base->date_open = Carbon::now();
         }
 
-        if ($base->total_open == 2){
+        if ($base->total_open == 2) {
             $statuses = Statuses::where('base_id', $request->id)
                 ->where('status_id', 1)
                 ->update(['status_id' => 2]);
 
             // Добавляем в лог запись если статус поменялся на В работе
-            if ($statuses){
-                loger(4, $base->id, null,null,'Присвоен статус В работе');
+            if ($statuses) {
+                loger(4, $base->id, null, null, 'Присвоен статус В работе');
             }
         }
 
@@ -741,35 +823,37 @@ class BaseController extends Controller
         return (new GetBaseResource($base))
             ->additional([
                     'can' => [
-                        'base_history'                  => Gate::allows('base_history'),
-                        'base_contract'                 => Gate::allows('base_contract'),
-                        'base_skils'                    => Gate::allows('base_skils'),
-                        'base_call'                     => Gate::allows('base_call'),
-                        'base_vm'                       => Gate::allows('base_vm'),
-                        'base_main'                     => Gate::allows('base_main'),
-                        'base_edit'                     => Gate::allows('base_edit'),
-                        'base_source'                   => Gate::allows('base_source'),
-                        'base_branch'                   => Gate::allows('base_branch'),
-                        'base_name_and_birthday'        => Gate::allows('base_name_and_birthday'),
-                        'base_pay'                      => Gate::allows('base_pay'),
-                        'edit_and_drop_children'     => Gate::allows('edit_and_drop_children'),
-                        'edit_old_id'     => Gate::allows('edit_old_id'),
-                        'edit_status'     => Gate::allows('edit_status'),
-                        'edit_training'     => Gate::allows('edit_training'),
-                        'edit_freezing'     => Gate::allows('edit_freezing'),
+                        'base_history' => Gate::allows('base_history'),
+                        'base_contract' => Gate::allows('base_contract'),
+                        'base_skils' => Gate::allows('base_skils'),
+                        'base_call' => Gate::allows('base_call'),
+                        'base_vm' => Gate::allows('base_vm'),
+                        'base_main' => Gate::allows('base_main'),
+                        'base_edit' => Gate::allows('base_edit'),
+                        'base_source' => Gate::allows('base_source'),
+                        'base_branch' => Gate::allows('base_branch'),
+                        'base_name_and_birthday' => Gate::allows('base_name_and_birthday'),
+                        'base_pay' => Gate::allows('base_pay'),
+                        'edit_and_drop_children' => Gate::allows('edit_and_drop_children'),
+                        'edit_old_id' => Gate::allows('edit_old_id'),
+                        'edit_status' => Gate::allows('edit_status'),
+                        'edit_training' => Gate::allows('edit_training'),
+                        'edit_freezing' => Gate::allows('edit_freezing'),
                     ]
                 ]
             );
     }
 
-    public function getVmContract(Request $request){
+    public function getVmContract(Request $request)
+    {
 
         $base = Base::find($request->id);
 
         return new VmContractResource($base->load(['base_branch']));
     }
 
-    public function getBranches(){
+    public function getBranches()
+    {
 
         $user = User::find(Auth::user()->id);
 
@@ -777,24 +861,10 @@ class BaseController extends Controller
         return BranchesResource::collection($user->branches);
     }
 
-    public function getManagers(){
+    public function getManagers()
+    {
 
-        $roles = Role::where('title', 'like' , "%менеджер%")->get();
-
-        $collection = collect();
-
-        foreach ($roles as $role) {
-            foreach ($role->rolesUsers as $value) {
-                $collection->push($value);
-            }
-        }
-
-        return UsersResource::collection($collection);
-    }
-
-    public function getInstructors(){
-
-        $roles = Role::where('title', 'like' , "%тренер%")->get();
+        $roles = Role::where('title', 'like', "%менеджер%")->get();
 
         $collection = collect();
 
@@ -807,28 +877,47 @@ class BaseController extends Controller
         return UsersResource::collection($collection);
     }
 
-    public function getProgramms(Request $request){
+    public function getInstructors()
+    {
+
+        $roles = Role::where('title', 'like', "%тренер%")->get();
+
+        $collection = collect();
+
+        foreach ($roles as $role) {
+            foreach ($role->rolesUsers as $value) {
+                $collection->push($value);
+            }
+        }
+
+        return UsersResource::collection($collection);
+    }
+
+    public function getProgramms(Request $request)
+    {
 
         $base = Base::find($request->id)->base_branch->programms;
 
         return new UsersResource($base);
     }
 
-    public function getUsers(){
+    public function getUsers()
+    {
 
         return UsersResource::collection(User::select('id', 'name', 'surname')->get());
     }
 
-    public function upload(Request $request){
+    public function upload(Request $request)
+    {
 
         $path = $request['file']->store('public/avatars');
-        $path = str_replace("public","storage", $path);
+        $path = str_replace("public", "storage", $path);
 
         $base = Base::find($request['id']);
         $base->avatar = $path;
         $base->save();
 
-        loger(2, $base->id, null,null,'Изменил аватар '.$base->name);
+        loger(2, $base->id, null, null, 'Изменил аватар ' . $base->name);
 
 
         return $path;
@@ -861,7 +950,8 @@ class BaseController extends Controller
     }
 
 //    Обновляем ЛПР родителя
-    public function updateLpr(Request $request){
+    public function updateLpr(Request $request)
+    {
 
         Base::where('id', $request->id)->update(array('mother_lpr' => '0', 'father_lpr' => '0', 'other_relative_lpr' => '0'));
 
@@ -875,18 +965,20 @@ class BaseController extends Controller
 
     //-------------------- Добавляем данные о ребенке ---------------------------------------------
 
-    public function addClientFromPromoter(Request $request){
+    public function addClientFromPromoter(Request $request)
+    {
 
         $base = Base::create($request->all());
 
         loger(2, $base->id, null, null, 'Добавил ребенка в базу');
 
-        return 'ребенок добавлен и лог записан' . $base->name ;
+        return 'ребенок добавлен и лог записан' . $base->name;
     }
 
     //------------------- Снимаем блокировку с карточки --------------------------------------//
 
-    public function removeBlock(Request $request){
+    public function removeBlock(Request $request)
+    {
 
         Base::where('id', $request->id)->update(['block' => 0, 'user_block_id' => 0]);
 
@@ -894,7 +986,8 @@ class BaseController extends Controller
 
     //------------------- Изминяем статус в карточке ребенка ----------------------------------//
 
-    public function editStatus(Request $request){
+    public function editStatus(Request $request)
+    {
 
         Statuses::where('base_id', $request->base_id)->update(
             [
@@ -907,7 +1000,8 @@ class BaseController extends Controller
 
     }
 
-    public function getAgregatorLids(){
+    public function getAgregatorLids()
+    {
 
 
 //        $testing_date = Settings::find(1);
@@ -938,14 +1032,14 @@ class BaseController extends Controller
 
         //--------------------------------------------------------------------------------
 //        // Звонки клиентам дата платежа у которых наступает за 1 день.
-        $date = $dates->addDays(+ 1)->toDateString();
+        $date = $dates->addDays(+1)->toDateString();
 //
 //        // Проверяем есть ли клиенты оплаты котороые наступают за день до платежа
-        foreach ($collection as $value){
-            if ($value->contracts->where('contract_type', 'main')->first()){
+        foreach ($collection as $value) {
+            if ($value->contracts->where('contract_type', 'main')->first()) {
                 $contract = $value->contracts->where('contract_type', 'main')->first();
-                foreach ($contract->contract_pays as $pay){
-                    if ($pay->date == $date){
+                foreach ($contract->contract_pays as $pay) {
+                    if ($pay->date == $date) {
                         $collection_itog->push($value);
                     }
                 }
@@ -957,9 +1051,9 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
 //        // Напоминание прихода на ПК - Проверяем есть ли клиенты тренировка ПК которая наступает за один день от текущей даты
-        foreach ($collection as $value){
-            if ($value->group){
-                if ($value->group->programm->type == 2){
+        foreach ($collection as $value) {
+            if ($value->group) {
+                if ($value->group->programm->type == 2) {
                     $journal = Journal::where('base_id', $value->id)
                         ->where('year', $dates->year)
                         ->where('month', $dates->month)
@@ -967,7 +1061,7 @@ class BaseController extends Controller
                         ->where('type', 4)
                         ->get()
                         ->first();
-                    if ($journal){
+                    if ($journal) {
                         $collection_itog->push($value);
                     }
                 }
@@ -980,9 +1074,9 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
         // Напоминание прихода на ВМ - Проверяем есть ли клиенты тренировка ВМ которая наступает за один день от текущей даты
-        foreach ($collection as $value){
-            if ($value->group){
-                if ($value->group->programm->type == 3){
+        foreach ($collection as $value) {
+            if ($value->group) {
+                if ($value->group->programm->type == 3) {
                     $journal = Journal::where('base_id', $value->id)
                         ->where('year', $dates->year)
                         ->where('month', $dates->month)
@@ -990,7 +1084,7 @@ class BaseController extends Controller
                         ->where('type', 4)
                         ->get()
                         ->first();
-                    if ($journal){
+                    if ($journal) {
                         $collection_itog->push($value);
                     }
                 }
@@ -1003,11 +1097,11 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
         // Напоминание клиенту о первой тренировке
-        $date = $dates->addDays(+ 1)->toDateString();
+        $date = $dates->addDays(+1)->toDateString();
 
         // Проверяем есть ли по активным контраактам начала действия договора
-        foreach ($collection as $value){
-            if ($value->contracts->where('contract_type', 'main')->where('start', $date)->first()){
+        foreach ($collection as $value) {
+            if ($value->contracts->where('contract_type', 'main')->where('start', $date)->first()) {
                 $collection_itog->push($value);
             }
         }
@@ -1018,14 +1112,14 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
 //        // Клиенты которые были записаны на ПК но не явились
-        foreach ($collection as $value){
-            if ($value->group){
-                if ($value->group->programm->type == 2){
+        foreach ($collection as $value) {
+            if ($value->group) {
+                if ($value->group->programm->type == 2) {
                     $journal = Journal::where('base_id', $value->id)
                         ->where('type', 3)
                         ->get()
                         ->first();
-                    if ($journal){
+                    if ($journal) {
                         $collection_itog->push($value);
                     }
                 }
@@ -1038,8 +1132,8 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
         // Все со статусом "новые"
-        foreach ($collection as $value){
-            if ($value->statuses->status_id == 1){
+        foreach ($collection as $value) {
+            if ($value->statuses->status_id == 1) {
                 $collection_itog->push($value);
             }
         }
@@ -1050,9 +1144,9 @@ class BaseController extends Controller
         //--------------------------------------------------------------------------------
 
         // Все у кого дата следующего звонка меньше или равно сегодняшней
-        foreach ($collection as $value){
+        foreach ($collection as $value) {
             $date_value = Carbon::parse($value->statuses->call_date)->toDateString();
-            if ($date_value <= $dates->toDateString()){
+            if ($date_value <= $dates->toDateString()) {
                 $collection_itog->push($value);
             }
         }
@@ -1065,7 +1159,8 @@ class BaseController extends Controller
     }
 
 
-    public function checkDay($base_id, $year, $month, $day){
+    public function checkDay($base_id, $year, $month, $day)
+    {
 
         $dayOfWeek = Carbon::createFromDate($year, $month, $day)->dayOfWeek;
 
@@ -1083,23 +1178,25 @@ class BaseController extends Controller
      * Запросы по журналу, есть ли сейчас на ячейки соответствующие значения
      */
 
-    public function checkJournal($base_id, $year, $month, $day, $type){
+    public function checkJournal($base_id, $year, $month, $day, $type)
+    {
 
         $journal = Journal::where(
             [
-                'base_id'   => $base_id,
-                'year'      => $year,
-                'month'     => $month,
-                'day'       => $day,
-                'type'      => $type,
+                'base_id' => $base_id,
+                'year' => $year,
+                'month' => $month,
+                'day' => $day,
+                'type' => $type,
             ])->get();
 
         return $journal;
     }
 
-    public function saveNewPay(Request $request){
+    public function saveNewPay(Request $request)
+    {
 
-        $pay = Contract_pay::where('id' , $request->id)->value('pay');
+        $pay = Contract_pay::where('id', $request->id)->value('pay');
 
         Contract_pay::where('id', $request->id)->update(
             [
@@ -1107,8 +1204,7 @@ class BaseController extends Controller
             ]
         );
 
-        $balance = Contract::where('id' , $request->contract_id)->value('balance');
-
+        $balance = Contract::where('id', $request->contract_id)->value('balance');
 
 
         Contract::where('id', $request->contract_id)->update(
@@ -1126,15 +1222,16 @@ class BaseController extends Controller
             ]
         );
 
-                                    // Добавляем в лог запись
+        // Добавляем в лог запись
 
-       loger(7, $request->base, null, null, 'Изменил оплату ( ' . $request->comment . ' )');
+        loger(7, $request->base, null, null, 'Изменил оплату ( ' . $request->comment . ' )');
 
     }
 
-    public function saveNewBalance(Request $request){
+    public function saveNewBalance(Request $request)
+    {
 
-        $balance = Contract::where('id' , $request->id)->value('balance');
+        $balance = Contract::where('id', $request->id)->value('balance');
 
 
         Contract::where('id', $request->id)->update(
@@ -1182,7 +1279,8 @@ class BaseController extends Controller
 
     }
 
-    public function freezingOff(Request $request){
+    public function freezingOff(Request $request)
+    {
 
         $contracts = Contract::find($request->id);
 
@@ -1202,9 +1300,10 @@ class BaseController extends Controller
         }
     }
 
-    public function getBaseKit(Request $request){
+    public function getBaseKit(Request $request)
+    {
 
-        $kits = BaseArticle::where('base_id', $request->id)->orderBy('created_at','desc')->get();
+        $kits = BaseArticle::where('base_id', $request->id)->orderBy('created_at', 'desc')->get();
 
         return KitsResource::collection($kits);
     }

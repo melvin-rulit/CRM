@@ -13,7 +13,7 @@
                 <a href="#" @click.prevent="notVisit()" v-if="gates.journal_not_visit">
                     <i class="fe fe-x text-danger ml-1 mr-3"></i>Пропустил занятие</a>
             </li>
-            <li>
+            <li v-if="type !== 1">
                 <a href="#" @click.prevent="newWorkout()" v-if="gates.journal_pk">
                     <i class="fe fe-alert-circle text-warning ml-1 mr-3"></i>Назначить</a>
             </li>
@@ -562,6 +562,8 @@ export default {
             active: null,
             comments: null,
             group_pk: '',
+            type: '',
+            outputDay: '',
         }
     },
 
@@ -625,7 +627,7 @@ export default {
 
         newTextColor() {
             return this.txt_color ? this.txt_color : this.editGroupModel.text_color
-        }
+        },
 
     },
 
@@ -695,9 +697,8 @@ export default {
             this.ProgrammModel = ''
         },
 
-        /*
-            Сохраняем новое расписание , получаем новый массив рассписания и очищаем данные
-         */
+//------- Сохраняем новое расписание , получаем новый массив рассписания и очищаем данные ---//
+
         saveSchedule() {
 
             if (!this.categoryTimeModel.id || !this.GroupModel.id) {
@@ -819,42 +820,48 @@ export default {
         },
 
 
-        /*
-            Списания тернировки
-         */
+//------------------------------   Присваеваем статус Занятие  -----------------------------//
+
         workout() {
 
             var D = new Date();
-
+            let outputDay;
             // Если дата меньше текущей возвращаем null
             // Ниже было до изменение в трелло
-            // if ( (this.row < D.getDate() && this.month <= D.getMonth() + 1) || this.month < D.getMonth() + 1) {
+            if ((this.row <= D.getDate() && this.month <= D.getMonth() + 1) || this.month < D.getMonth() + 1) {
 
+//.. Добавляем ноль к числу от 1 до 9 чтобы в контролере уже получить нужный вариант даты для сравнения с числом Carbon
+                let G = this.row.toString()
+                if (G.length === 1) {
+                    this.outputDay = 0 + G
+                }else{
+                    this.outputDay = G
+                }
 
-            // Раскоментировать код ниже если нужно вернуть запрет на проставлении тренировки задним числом
-            // if ( this.row == D.getDate() && this.month == D.getMonth() + 1 ){
+                // Раскоментировать код ниже если нужно вернуть запрет на проставлении тренировки задним числом
+                // if ( this.row == D.getDate() && this.month == D.getMonth() + 1 ){
 
-            axios.post('api/v2/workout', {
-                base_id: this.rowid,
-                day: this.row,
-                month: this.month,
-                year: this.year
-            })
+                axios.post('api/v2/workout', {
+                    base_id: this.rowid,
+                    day: this.outputDay,
+                    month: this.month,
+                    year: this.year,
+                })
 
-                .then((response) => {
-                    response.data.response == "success" ? this.getUserInGroup(this.activeGroup_id) : this.$alert(response.data.response)
-                });
-            // } else {
+                    .then((response) => {
+                        response.data.response == "success" ? this.getUserInGroup(this.activeGroup_id) : this.$alert(response.data.response)
+                    });
 
-            // this.$alert("Назначить посещение тренировки раньше или позже текущей даты - невозможно")
-            // }
+            } else {
+
+                this.$alert("Нельзя присвоить статус: Занятие - позже текущей даты")
+            }
 
 
         },
 
-        /*
-            Списания заморозки
-         */
+//------------------------------   Списания заморозки  -----------------------------//
+
         freezing() {
 
             // this.row >= D.getDate() && this.month >= D.getMonth() + 1 ?
@@ -881,9 +888,9 @@ export default {
             this.$bvModal.show('comment')
         },
 
-        /*
-            Не посетил тренировку
-         */
+
+        //------------------------------   Не посетил тренировку  -----------------------------//
+
         addComent() {
             if (this.comment) {
                 axios.post('api/v2/notVisit', {
@@ -904,9 +911,9 @@ export default {
                 this.$alert("Клиент пропустил занятие. Укажите причину");
             }
         },
-        /*
-            Назначена тренировка
-         */
+
+        //------------------------------   Назначена тренировка  -----------------------------//
+
         newWorkout() {
             var D = new Date();
 
@@ -929,9 +936,8 @@ export default {
                 });
         },
 
-        /*
-            Добавляем комментарий
-         */
+        //------------------------  Добавляем коментарий  -----------------------------------//
+
         addNewComent() {
 
             // Если новый комментарий не пустой, то отправляем, следом очищаем поле комментарий
@@ -954,6 +960,7 @@ export default {
 
         // 	Метод принимает id группы и получает клиентов в этой группе, если группа не пуста то записывает результат в массив, иначе сообщение
         getUserInGroup(group_id) {
+
             this.activeGroup_id = group_id
             axios.post('api/v2/getuseringroup', {group_id: group_id, year: this.year, month: this.month})
 
@@ -968,6 +975,13 @@ export default {
                         });
 
                 });
+            this.type = ''
+//.. С задержкой присваеваем переменной тип Программы обучения
+            setTimeout(() => {
+                this.type = this.getUserInGroupArray[0].Type.programm.type
+            }, 1000)
+
+
         },
 
         // Метод получает v-model календаря и вызвает getHallAtributes с параметрами текущего активного зала и дня недели

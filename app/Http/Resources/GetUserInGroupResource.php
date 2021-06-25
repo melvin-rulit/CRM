@@ -25,7 +25,8 @@ class GetUserInGroupResource extends JsonResource
             'parent_phone'      => ($this->mother_lpr) ? $this->mother_phone : (($this->father_lpr) ? $this->father_phone : $this->other_relative_phone),
             'parent_type'       => ($this->mother_lpr) ? 'Мать' : (($this->father_lpr) ? 'Отец' : 'Другой родственник'),
             'group_id'          =>  $this->group_id,
-            'journal'           =>  $this->journal
+            'journal'           =>  $this->journal,
+            'Type' => $this->group
 
         ];
     }
