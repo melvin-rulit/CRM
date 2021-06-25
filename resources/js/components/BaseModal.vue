@@ -196,7 +196,7 @@
                                 <span v-if="dataObject.call_status === 1">Дозвон</span>
                             </h4>
 
-                            <!---------------------------------- Статус в карточке ребенка ----------------------------->
+                            <!------------- Статус в карточке ребенка ------------------------>
 
                             <h4 class="text-center mb-3">Статус - <span
                                 :style="{ color: dataObject.status_color }">{{ dataObject.status }}</span>
@@ -774,10 +774,22 @@
                                                     <td>Окончание:</td>
                                                     <td>{{ activeContract.end }}</td>
                                                 </tr>
+
                                                 <tr>
                                                     <td>Окончание факт:</td>
-                                                    <td>{{ activeContract.end_actually }}</td>
+                                                    <td>
+
+                                                        <input-form
+                                                            v-model="activeContract.end_actually"
+                                                            name="end_actually"
+                                                            :gate="can.edit_end_actuallu"
+                                                            datePicker="true"
+                                                            @edit-field="end_actually">
+                                                        </input-form>
+
+                                                    </td>
                                                 </tr>
+
                                                 <tr>
                                                     <td>Заморозки:</td>
                                                     <td>
@@ -1176,6 +1188,26 @@ export default {
 
     methods: {
 
+        //------------------------------- Изменяем поле "Окончание факт  -------------------//
+
+        end_actually(e, name) {
+
+
+            axios.post('api/v2/endActually', {
+
+
+                field_value: e,
+                idContract: this.activeContract.id,
+
+
+            })
+
+            axios.post('api/v2/getinfo', {id: this.dataObject['id']}).then(response => {
+                this.dataObject = response.data.data
+            })
+
+        },
+
         birthdayYY(value) {
             alert(value)
         },
@@ -1208,9 +1240,15 @@ export default {
 //------------------------ Сохраняем дынные из окна Изменить платеж -------------------------//
 
         saveNewPay() {
-            if(this.new_pay !== '' && this.saveNewPayComment !== ''){
+            if (this.new_pay !== '' && this.saveNewPayComment !== '') {
 
-                axios.post('api/v2/saveNewPay', {id: this.editPay.id, pay: this.new_pay, contract_id: this.contractId, comment: this.saveNewPayComment, base: this.fieldId})
+                axios.post('api/v2/saveNewPay', {
+                    id: this.editPay.id,
+                    pay: this.new_pay,
+                    contract_id: this.contractId,
+                    comment: this.saveNewPayComment,
+                    base: this.fieldId
+                })
 
                 this.saveNewPayComment = ''
 
@@ -1218,7 +1256,7 @@ export default {
                     .then(response => {
                         this.dataObject = response.data.data
                     })
-            }else {
+            } else {
                 this.saveNewPayComment = ''
                 this.$alert("Поля: Сумма оплаты и Комментарий обязательны!");
             }
@@ -1235,7 +1273,12 @@ export default {
                 });
                 return false
             }
-            axios.post('api/v2/saveNewBalance', {id: id, balance: this.newBalance, base_id: this.dataObject.id, coment: this.comment_pay})
+            axios.post('api/v2/saveNewBalance', {
+                id: id,
+                balance: this.newBalance,
+                base_id: this.dataObject.id,
+                coment: this.comment_pay
+            })
 
             axios.post('api/v2/getinfo', {id: this.dataObject.id})
                 .then(response => {
@@ -1487,15 +1530,16 @@ export default {
                 field_name: name ? name : key,
                 field_value: value,
                 idContract: this.activeContract.id,
-                oldFreezing_total : this.oldFreezing_total,
-                oldClasses_total : this.oldClasses_total
+                oldFreezing_total: this.oldFreezing_total,
+                oldClasses_total: this.oldClasses_total
             })
 
             this.oldClasses_total = this.activeContract.classes_total
             this.oldFreezing_total = this.activeContract.freezing_total
 
         },
-//----------------------------- Открываем существующий контракт у ребенка -------------------//
+
+
         // editField(e, name, type) {
         //     if (type){
         //         axios.put('api/v2/users/' + this.user.id, {field_name: name, field_value: e })

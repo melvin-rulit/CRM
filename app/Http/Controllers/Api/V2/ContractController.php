@@ -62,6 +62,21 @@ $base = $base_id->base_id;
         return new ContractResource($contract);
     }
 
+        //------------------------------- Изменяем поле "Окончание факт"  -------------------//
+
+    public function endActually(Request $request){
+
+        Contract::where('id', $request->idContract)->update(
+            [
+                'end_actually' => $request['field_value'],
+            ]
+        );
+
+        return "Поле изменено";
+
+}
+
+
 //----------------------------  Выводим контракты ребенка ---------------------//
 
     public function showContract(Request $request){

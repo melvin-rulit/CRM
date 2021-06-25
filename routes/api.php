@@ -79,7 +79,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('showcontract', 'ContractController@showContract');
     Route::post('savecontract', 'ContractController@saveContractAndEditBaseFields');
     Route::post('editContract', 'ContractController@editContract');
-    Route::post('editContract', 'ContractController@editContract');
+    Route::post('endActually', 'ContractController@endActually');
 
     // Journals
     Route::post('workout', 'BaseController@workout');

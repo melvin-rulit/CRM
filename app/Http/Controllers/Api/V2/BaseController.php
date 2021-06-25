@@ -839,6 +839,7 @@ class BaseController extends Controller
                         'edit_status' => Gate::allows('edit_status'),
                         'edit_training' => Gate::allows('edit_training'),
                         'edit_freezing' => Gate::allows('edit_freezing'),
+                        'edit_end_actuallu' => Gate::allows('edit_end_actuallu'),
                     ]
                 ]
             );
