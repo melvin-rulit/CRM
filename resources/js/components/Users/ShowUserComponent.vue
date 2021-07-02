@@ -247,6 +247,7 @@
 
     import Multiselect from 'vue-multiselect'
     import Loading from 'vue-loading-overlay';
+    import Vue from "vue";
     Vue.use(Loading, {
         color: '#007BFF',
         width: 35,
@@ -297,6 +298,8 @@
                 sortBy: 'created_at',
                 sortDesc: true,
                 datatest:'',
+                confirmDelete:'',
+
             }
         },
 
@@ -365,10 +368,6 @@
 
             editAvatar() {
                 alert("Изменение аватара временно не доступно");
-            },
-
-            deleteuser() {
-                alert("Удаление сотрудника временно ограниченно");
             },
 
         //---------------------  Показ истории при нажитии "Карьера" -------------------------//
@@ -441,6 +440,46 @@
                 }
             },
 
+            deleteuser(){
+
+
+                this.$bvModal.msgBoxConfirm('Вы уверены что хотите удалить сотрудника ( ' + this.user.surname + ' ' + this.user.name + ' ) ?', {
+                    size: 'md',
+                    buttonSize: 'md',
+                    okVariant: 'danger',
+                    okTitle: 'Да',
+                    cancelTitle: 'Нет',
+                    footerClass: 'p-2',
+                    hideHeaderClose: false,
+                    centered: true
+                })
+                    .then(value => {
+                        this.confirmDelete = value
+
+                        if (this.confirmDelete === true) {
+
+                            axios.delete('api/v2/users/'+ this.user.id);
+
+                            this.$bvModal.hide('showUser')
+
+                            let loader = this.$loading.show({
+                                color: '#0080ff',
+                            });
+                            setTimeout(() => {
+
+                                Vue.$toast.open({
+                                    message: "Сотрудник Удален",
+                                    type: 'success',
+                                    duration: 5000,
+                                    position: 'top-right'
+                                });
+
+                                loader.hide()
+                            }, 1000)
+                        }
+                    })
+
+            },
 
             addNewUserModal(id) {
                 axios.get('api/v2/users/' + id)

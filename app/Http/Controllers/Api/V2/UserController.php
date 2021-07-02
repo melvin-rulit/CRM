@@ -53,7 +53,7 @@ class UserController extends Controller
                         'user_create' => Gate::allows('user_create'),
                         'user_role' => Gate::allows('user_role'),
                         'user_edit' => Gate::allows('user_edit'),
-//                    'user_delete'           => Gate::allows('user_delete'),
+                    'user_delete'           => Gate::allows('user_delete'),
                         'user_show_password' => Gate::allows('user_show_password'),
                     ]
                 ]
@@ -202,17 +202,8 @@ class UserController extends Controller
 
         $user->roles()->sync($request->roles);
 
-//        $role[] = Role::find($request->roles);
-
-//        dd($role[0]->title);
-//        $role[] = Role::find($request->roles);
-
         $userName = User::find(Auth::user()->id);
 
-//        $data = array_shift($role);
-
-//        dd($data);
-//        dd($role[0]['title']);
 
       loger(9, $userName->id, null,null, $userName->surname . ' ' . $userName->name. ':' . '  добавил(a)  '. '" '  .$user->name . ' "'. ' должность  ( '  . $request->lastRole[0]['title'] .  ' )');
 
