@@ -19,7 +19,7 @@
         </b-modal>
 
         <!-- Модальное окно с оплатой в основном контракте-->
-        <b-modal id="pay_main" title="Оплата" centered ok-only ok-title="Ок" @ok="savePaysPays">
+        <b-modal id="pay_main" title="Оплата" centered ok-only ok-title="Ок" @ok="savePaysPays"    @hidden="closeModal">
             <div class="card-body py-0">
                 <div class="form-group row mt-4">
                     <label class="col-sm-3 col-form-label">Сумма</label>
@@ -739,6 +739,7 @@ export default {
             this.getInfoFromContract()
         },
 
+//--------------------------------  Сохраняем контракт с печатью  -----------------------//
 
         sendVm(contract_type) {
 
@@ -855,7 +856,8 @@ export default {
 
         OnlysendVm(contract_type) {
 
-            if (contract_type == 'vm') {
+            if (contract_type === 'vm') {
+
                 if (
                     !this.dataVm.parent_surname ||
                     !this.dataVm.parent_name ||
@@ -866,32 +868,30 @@ export default {
                     return false
                 }
 
+                    axios.post('api/v2/savecontract', {
+                        week: this.week,
+                        contract_type: contract_type,
+                        base_id: this.user_id ,
+                        name_vm: this.productVm.name,
+                        date: this.dataVm.date,
+                        price: this.productVm.price,
+                        balance: this.productVm.price - this.pay_artiallyVM,
+                        pay: this.pay_artiallyVM,
+                        child_surname: this.dataVm.child_surname,
+                        child_name: this.dataVm.child_name,
+                        child_middle_name: this.dataVm.child_middle_name,
+                        parent_surname: this.dataVm.parent_surname,
+                        parent_name: this.dataVm.parent_name,
+                        parent_middle_name: this.dataVm.parent_middle_name,
+                        currency: this.dataVm.branch.currency,
+                        adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                        group_id: this.shedule.id,
+                    })
+                this.$bvModal.hide('dogovorVm')
 
-                axios.post('api/v2/savecontract', {
-                    week: this.week,
-                    contract_type: contract_type,
-                    base_id: this.user_id ,
-                    name_vm: this.productVm.name,
-                    date: this.dataVm.date,
-                    price: this.productVm.price,
-                    balance: this.productVm.price - this.pay_artiallyVM,
-                    pay: this.pay_artiallyVM,
-                    child_surname: this.dataVm.child_surname,
-                    child_name: this.dataVm.child_name,
-                    child_middle_name: this.dataVm.child_middle_name,
-                    parent_surname: this.dataVm.parent_surname,
-                    parent_name: this.dataVm.parent_name,
-                    parent_middle_name: this.dataVm.parent_middle_name,
-                    currency: this.dataVm.branch.currency,
-                    adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
-                    group_id: this.shedule.id,
-                })
-                // this.printvm = true
-                // contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printmain');
-                // contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#mainModal').modal('hide');
-                // $(document.body).removeClass("modal-open");
-                // $(".modal-backdrop.show").hide();
-                // this.printvm = false
+                Vue.$toast.open({message: 'Контракт сохранен', type: 'success', duration: 5000, position: 'top'});
+
+
 
             }else{
 
@@ -911,48 +911,54 @@ export default {
                 var D = new Date(this.dataVm.end_actualy);
                 this.startA = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
 
-                axios.post('api/v2/savecontract', {
-                    contract_type: contract_type,
-                    base_id: this.user_id ,
-                    name: this.product.name,
-                    name_vm: this.contracts_vm,
-                    date: this.dataVm.date,
-                    start: this.startA,
-                    end: this.stopContract,
-                    end_actually: this.stopContract,
-                    price: this.pro,
-                    balance: this.balance ? this.balance : this.product.price,
-                    child_surname: this.dataVm.child_surname,
-                    child_name: this.dataVm.child_name,
-                    child_middle_name: this.dataVm.child_middle_name,
-                    child_birthday: this.dataVm.child_birthday,
-                    parent_surname: this.dataVm.parent_surname,
-                    parent_name: this.dataVm.parent_name,
-                    parent_middle_name: this.dataVm.parent_middle_name,
-                    parent_phone: this.dataVm.parent_phone,
-                    parent_viber: this.dataVm.parent_viber,
-                    parent_email: this.dataVm.parent_email,
-                    parent_facebook: this.dataVm.parent_facebook,
-                    parent_instagram: this.dataVm.parent_instagram,
-                    form_size: this.form_size,
-                    classes_week: this.product.classes_week,
-                    classes_total: this.product.classes_total,
-                    freezing_total: this.product.freezing_total,
-                    freezing_kolvo: this.product.freezing_kolvo,
-                    pays: this.pays.pays,
-                    programm: this.programm.name,
-                    programm_id: this.programm.id,
-                    currency: this.dataVm.branch.currency,
-                    adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
-                    price_title: this.product.price_title,
-                    category_time: this.product.category_time,
-                    group_id: this.shedule.id,
-                    coment: this.coment,
 
-                })
-                // this.print = true
-                // contract_type == 'vm' ? this.$htmlToPaper('printVM'): this.$htmlToPaper('printmain');
-                // contract_type == 'vm' ? $('#vmModal').modal('hide') : $('#mainModal').modal('hide');
+
+
+                    axios.post('api/v2/savecontract', {
+                        contract_type: contract_type,
+                        base_id: this.user_id ,
+                        name: this.product.name,
+                        name_vm: this.contracts_vm,
+                        date: this.dataVm.date,
+                        start: this.startA,
+                        end: this.stopContract,
+                        end_actually: this.stopContract,
+                        price: this.pro,
+                        balance: this.balance ? this.balance : this.product.price,
+                        child_surname: this.dataVm.child_surname,
+                        child_name: this.dataVm.child_name,
+                        child_middle_name: this.dataVm.child_middle_name,
+                        child_birthday: this.dataVm.child_birthday,
+                        parent_surname: this.dataVm.parent_surname,
+                        parent_name: this.dataVm.parent_name,
+                        parent_middle_name: this.dataVm.parent_middle_name,
+                        parent_phone: this.dataVm.parent_phone,
+                        parent_viber: this.dataVm.parent_viber,
+                        parent_email: this.dataVm.parent_email,
+                        parent_facebook: this.dataVm.parent_facebook,
+                        parent_instagram: this.dataVm.parent_instagram,
+                        form_size: this.form_size,
+                        classes_week: this.product.classes_week,
+                        classes_total: this.product.classes_total,
+                        freezing_total: this.product.freezing_total,
+                        freezing_kolvo: this.product.freezing_kolvo,
+                        pays: this.pays.pays,
+                        programm: this.programm.name,
+                        programm_id: this.programm.id,
+                        currency: this.dataVm.branch.currency,
+                        adress: this.dataVm.branch.geolocation + ', ' + this.dataVm.branch.adress,
+                        price_title: this.product.price_title,
+                        category_time: this.product.category_time,
+                        group_id: this.shedule.id,
+                        coment: this.coment,
+
+                    })
+
+                this.$bvModal.hide('dogovorMain')
+
+                Vue.$toast.open({message: 'Контракт сохранен', type: 'success', duration: 5000, position: 'top'});
+
+
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();
                 // this.print = false
@@ -961,6 +967,8 @@ export default {
                 this.hall = ''
                 this.shedule = ''
                 this.pro = ''
+
+
             }
         },
 

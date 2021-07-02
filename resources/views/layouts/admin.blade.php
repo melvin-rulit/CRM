@@ -115,7 +115,16 @@
                 </div>
             @endif
             <div class="row">
-                <div class="col-md-10 left-otstup">
+
+                {{-- Если мы находимся на странице promouter, то убираем левый отступ--}}
+                @if( Request :: is('promouter'))
+
+                    <div class="col-md-10 left-otstup-for-promouter">
+                @else
+
+                    <div class="col-md-10 left-otstup">
+                @endif
+
                     @yield('content')
                 </div>
             </div>

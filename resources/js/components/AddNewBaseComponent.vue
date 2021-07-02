@@ -79,10 +79,7 @@
             </div>
         </b-modal>
     </div>
-    </div>
 
-    </div>
-    </div>
 </template>
 
 <script>
@@ -162,6 +159,7 @@
                 this.getSourceGroup()
             },
 
+    //----------------------------- Сохоаняем данные нового ребенка --------------------------//
 
             saveUser(bvModalEvt){
                 this.$v.$touch()

@@ -15,7 +15,7 @@
             <div class="dropup">
                 <a href="#"  @click.prevent="getShowModal(user.id)" class="dropdown-toggle" role="button">
                     <div class="avatar avatar-xl avatar-online">
-                        <img src="http://62.109.26.106//images/photo_LI.jpg" class="avatar-img rounded-circle" alt="...">
+                        <img src="http://crm-leva.netface.com.ua/images/photo_LI.jpg" class="avatar-img rounded-circle" alt="...">
                     </div>
                 </a>
             </div>

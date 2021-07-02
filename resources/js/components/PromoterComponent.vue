@@ -1,8 +1,14 @@
 <template>
     <div>
         <header>
-            <a><img src="/images/images_for_promouter/avatar.png"></a>
-            <a><img src="/images/images_for_promouter/red.png"></a>
+
+            <div class="avatar avatar-xl avatar-online">
+                <img src="http://crm-leva.netface.com.ua/images/photo_LI.jpg" class="avatar-img rounded-circle">
+            </div>
+            <div>
+                <a><img src="/images/images_for_promouter/red.png"></a>
+            </div>
+
             <a><img src="/images/images_for_promouter/calendar.png"></a>
             <a><img src="/images/images_for_promouter/map-button.png"></a>
             <div class="menu-icon"><img src='/images/images_for_promouter/menu.svg'></div>
@@ -16,80 +22,146 @@
                     <a>menu item</a>
                 </div>
             </div>
+
+            <!------------------------\  Форма  /--------------------------------->
+
             <div class="row">
                 <div class="inputs">
                     <form @submit.prevent="send">
+
+
+                        <!--------------------------- Имя ребенка ---------------------------->
+
                         <div class="form-group col-md-12">
-                            <input type="text" class="form-control" placeholder="Имя ребенка" v-model="child_name">
+                            <input type="text" class="form-control" v-model="new_child_name" placeholder="Имя ребенка">
+
                         </div>
-                        <div>
-                            <div class="form-group col-md-7">
-                                <input type="datetime" class="form-control col" id="inputEmail4"
-                                       placeholder="17.04.21 17.00">
-                            </div>
 
-
-                            <div class="form-group col-md-4">
-
-                                <b-form-select v-model="selected"
-                                               :options="options"
-                                               class="city-select"
-                                ></b-form-select>
-
-                            </div>
-                            <div class="col-md-4">
-
-                                <b-form-group label="Выберите близкого">
-                                    <b-form-radio-group
-                                        v-model="selected_2"
-                                        :options="options_2"
-                                        name="radio-inline"
-                                    ></b-form-radio-group>
-                                </b-form-group>
-
-                            </div>
+                        <div class="alert alert-warning" role="alert"
+                             v-if="$v.new_child_name.$invalid || $v.new_child_surname.$invalid">
+                            Имя и Фамилия ребенка обязательны для заполнения!
                         </div>
-                        <div class="form-group col-md-4">
+
+                        <!--------------------------- Фамилия ребенка ---------------------------->
+
+                        <div class="form-group col-md-12">
+                            <input type="text" class="form-control" v-model="new_child_surname"
+                                   placeholder="Фамилия ребенка">
+
+                        </div>
+
+                        <!--------------------  Дата  -------------------------------------->
+
+                        <div class="form-group col-md-12">
+                            <input class="form-control" type="date"
+                                   v-model="new_date">
+
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" v-if="$v.new_date.$invalid">
+                            Выберите из календаря дату рождения ребенка!
+                        </div>
+
+
+                        <!-------------------------- Выбор Родственника -------------------------->
+
+                        <div class="form-group col-md-12">
+
+                            <b-form-select v-model="selected_2"
+                                           :options="options_2"
+                                           class="city-select"
+                            ></b-form-select>
+
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" v-if="$v.new_parent_name.$invalid">
+                            Выберите близкого и укажите обязательно его имя!
+                        </div>
+
+                        <!----------------------- Вибираем имя родителя ------------------------>
+
+                        <div class="form-group col-md-12">
                             <input type="text" class="form-control" placeholder="Имя родителя"
-                                   v-model="parent_name">
+                                   v-model="new_parent_name">
                         </div>
 
-
-                        <input type="tel" placeholder="+38 (___) ___-__-__" v-model="parent_phone"
-                               v-mask="'+38 (###) ###-##-##'">
+                        <!--------------------  Телефон родителя  ------------------------------>
 
 
-                        <select class="form-select city-select" aria-label="Default select example">
-                            <option selected value="1">Сихив</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                        <button type="submit" class="button send-button btn">Отправить</button>
+                        <div class="form-group col-md-12">
+                            <input type="tel" class="form-control" placeholder="+38 (___) ___-__-__"
+                                   v-model="new_parent_phone"
+                                   v-mask="'+38 (###) ###-##-##'">
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" v-if="$v.new_parent_phone.$invalid">
+                            Телефон родителя обязательно для заполнения!
+                        </div>
+
+                        <!------------------------  Филиал  ------------------------------------>
+
+                        <div class="form-group col-md-12">
+
+                            <dynamic-select
+                                :options="branches"
+                                option-value="id"
+                                option-text="name"
+                                placeholder="Список Филиалов"
+                                v-model="select_branch"
+                                class="city-select" />
+
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" v-if="$v.select_branch.$invalid">
+                            Поле Филиал обязательно для заполнения!
+                        </div>
+
+                        <!------------------------  Джероло контакту  ----------------------------->
+
+                        <div class="form-group col-md-12">
+
+                            <dynamic-select
+                                :options="sourceGroupArray"
+                                option-value="id"
+                                option-text="name"
+                                placeholder="Джероло контакт"
+                                v-model="selectGroup"
+                                class="city-select"
+                                @input="getSource()"/>
+
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" v-if="$v.selectGroup.$invalid">
+                            Поле Джероло контакту обязательно для заполнения!
+                        </div>
+
+                        <!------------------------  Точка авторизации   -------------------------->
+
+                        <div class="form-group col-md-12">
+
+                            <dynamic-select
+                                :options="sourceArray"
+                                option-value="id"
+                                option-text="name"
+                                placeholder="Точка авторизации"
+                                v-model="select_source"
+                                class="city-select" />
+
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" v-if="$v.select_source.$invalid">
+                            Поле Точка авторизации обязательно для заполнения!
+                        </div>
+
+                        <!------------------------ Отправляем данные ---------------------------->
+
+                        <button type="submit" class=" send-button btn btn-center btn btn-success mt-2" v-show="!$v.$invalid">
+                            Отправить
+                        </button>
+
                     </form>
                 </div>
 
-
-                <div class="conversation-block">
-                    <div class="message-block">
-                        <div class="receiver-block">
-                            <img class="person-avatar" src='/images/images_for_promouter/avatar.png'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                        </div>
-                        <div class="sender-block">
-                            <img class="person-avatar" src='/images/images_for_promouter/avatar.png'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                        </div>
-                        <div class="receiver-block">
-                            <img class="person-avatar" src='/images/images_for_promouter/avatar.png'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                        </div>
-                        <div class="sender-block">
-                            <img class="person-avatar" src='/images/images_for_promouter/avatar.png'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                        </div>
-                    </div>
-                    <button>Написать сообщение...</button>
-                </div>
             </div>
         </main>
     </div>
@@ -102,117 +174,173 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 
 Vue.use(VueToast);
 
-import Vuelidate from 'vuelidate'
 
-Vue.use(Vuelidate)
 import {required, minLength, between} from 'vuelidate/lib/validators'
 import Vue from "vue";
 
+
 export default {
+
+
     data() {
         return {
-            selected: '',
-            selected_2: 'м',
-            options: [
-                {value: '', text: 'Возраст ребенка'},
-                {text: '3', value: '3'},
-                {text: '4', value: '4'},
-                {text: '5', value: '5'},
-                {text: '6', value: '6'},
-                {text: '7', value: '7'},
-                {text: '8', value: '8'},
-            ],
+
+            selected_1: '',
+            selected_2: 'мother_name',
+
 
             options_2: [
-                {text: 'Мать', value: 'м'},
-                {text: 'Отец', value: 'о'},
-                {text: 'Родственник', value: 'р'},
+                {text: 'Мать', value: 'мother_name'},
+                {text: 'Отец', value: 'father_name'},
+                {text: 'Родственник', value: 'other_relative_name'},
             ],
 
-            child_name: '',
-            parent_name: '',
-            parent_phone: '',
-            branch: '',
-            date: '',
-            age: '',
-            notes: '',
+            new_child_name: null,
+            new_child_surname: null,
+            new_parent_name: null,
+            new_parent_phone: null,
+            new_date: null,
+            branches: '',
+            select_branch: null,
+            selectGroup: null,
+            sourceGroupArray: [],
+            select_source: null,
+            sourceArray: [],
+
 
         }
     },
 
     validations: {
-        name: {
+
+        new_child_name: {
             required,
-            minLength: minLength(4)
+
         },
-        age: {
-            between: between(20, 30)
-        }
+        new_child_surname: {
+            required,
+
+        },
+        new_parent_name: {
+            required,
+
+        },
+        new_parent_phone: {
+            required,
+
+        },
+        new_date: {
+            required,
+
+        },
+        select_branch: {
+            required,
+
+        },
+        selectGroup: {
+            required,
+
+        },
+        select_source: {
+            required,
+
+        },
+
+
     },
 
-    mounted() {
+    beforeCreate() {
+
+        axios.get('api/v2/getbranches')
+            .then(response => this.branches = response.data.data)
+
+        axios.get('api/v2/getSourceGroupBaseModal')
+            .then(response => {this.sourceGroupArray = response.data.data
+            })
+
     },
 
     methods: {
 
-        setName(value) {
-            this.name = value
-            this.$v.name.$touch()
-        },
-        setAge(value) {
-            this.age = value
-            this.$v.age.$touch()
+        getSource(){
+
+            axios.post('api/v2/getSourceInGroup', {group_id: this.selectGroup.id})
+                .then(response => {this.sourceArray = response.data.data
+                })
         },
 
         send() {
-            Vue.$toast.open({
-                message: 'Днные о ребенке успешно добавлены',
-                type: 'success',
-                duration: 5000,
-                position: 'top-right'
-            });
 
-            if (this.selected_2 == "м") {
+            if (this.selected_2 === "мother_name") {
 
-                axios.post('/api/v2/addClientFromPromoter/', {
-                    child_name: this.child_name,
-                    mother_phone: this.parent_phone,
-                    mother_name: this.parent_name,
-                    age: this.selected
+                axios.post('api/v2/addnewuser', {
+                    child_name: this.new_child_name,
+                    child_surname: this.new_child_surname,
+                    mother_name: this.new_parent_name,
+                    mother_phone: this.new_parent_phone,
+                    birthday: this.new_date,
+                    branch: this.select_branch.id,
+                    source: this.select_source.id,
+
+                }).finally(() => (this.reset()))
+
+            } else if (this.selected_2 === "father_name") {
+
+                axios.post('/api/v2/addnewuser', {
+                    child_name: this.new_child_name,
+                    child_surname: this.new_child_surname,
+                    father_name: this.new_parent_name,
+                    father_phone: this.new_parent_phone,
+                    birthday: this.new_date,
+                    branch: this.select_branch.id,
+                    source: this.select_source.id,
 
 
                 }).finally(() => (this.reset()))
-            } else if (this.selected_2 == "о") {
 
-                axios.post('/api/v2/addClientFromPromoter/', {
-                    child_name: this.child_name,
-                    father_phone: this.parent_phone,
-                    father_name: this.parent_name,
-                    age: this.selected
-
-
-                }).finally(() => (this.reset()))
             } else {
 
-                axios.post('/api/v2/addClientFromPromoter/', {
-                    child_name: this.child_name,
-                    other_relative_phone: this.parent_phone,
-                    other_relative_name: this.parent_name,
-                    age: this.selected
+                axios.post('/api/v2/addnewuser', {
+                    child_name: this.new_child_name,
+                    child_surname: this.new_child_surname,
+                    other_relative_name: this.new_parent_name,
+                    other_relative_phone: this.new_parent_phone,
+                    birthday: this.new_date,
+                    branch: this.select_branch.id,
+                    source: this.select_source.id,
 
 
                 }).finally(() => (this.reset()))
             }
 
+            let loader = this.$loading.show({
+                color: '#0080ff',
+            });
+            setTimeout(() => {
+                loader.hide()
+
+                Vue.$toast.open({
+                    message: 'Ребенок успешно добавлен в Базу',
+                    type: 'success',
+                    duration: 5000,
+                    position: 'top'
+                });
+
+            }, 1000)
+
+
         },
 
         reset() {
-            this.mother_phone = '',
-                this.child_name = '',
-                this.mother_name = '',
-                this.selected = ''
-
-
+            this.select_branch = '',
+            this.new_parent_phone = '',
+                this.new_child_name = '',
+                this.new_child_surname = '',
+                this.new_parent_name = '',
+                this.selected_2 = 'мother_name',
+                this.new_date = ''
+                this.selectGroup = ''
+                this.select_source = ''
         },
     },
 }
@@ -243,7 +371,6 @@ html, body {
 .inputs input {
     height: 95px;
     text-align: center;
-    margin-bottom: 45px;
     border: 2px solid #044510;
     font-size: 28px;
     letter-spacing: 4px;
@@ -327,25 +454,23 @@ header .menu-icon img {
     width: 78px;
 }
 
-.inputs div {
-    display: flex;
-    justify-content: space-between;
-}
+/*.inputs div {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
 
-.inputs div:not(.form-group) input:first-child {
-    width: 75%;
-}
+/*.inputs div:not(.form-group) input:first-child {*/
+/*    width: 75%;*/
+/*}*/
 
-.inputs div:not(.form-group) input:last-child {
-    width: 20%;
-}
+/*.inputs div:not(.form-group) input:last-child {*/
+/*    width: 20%;*/
+/*}*/
 
 .city-select {
     border: 2px solid #044510;
-    margin-bottom: 45px;
     height: 95px;
-    font-size: 28px;
-    letter-spacing: 4px;
+    font-size: 18px;
 }
 
 .city-select option {
@@ -473,6 +598,10 @@ header .menu-icon img {
     .modal-dialog-centered {
         max-width: 90%;
     }
+}
+
+.btn-center {
+    margin-left: 30%;
 }
 
 

@@ -1,6 +1,7 @@
 <template>
     <div>
-        <b-modal title="Измините данные Операции" @ok="editOperation" @hidden="resetModal" centered ok-only ok-title="Готово" v-model="modalShow">
+        <b-modal title="Измините данные Операции" @ok="editOperation" @hidden="resetModal" centered ok-only
+                 ok-title="Готово" v-model="modalShow">
 
             <div class="radio-group-toggle mb-5 text-center">
                 <input class="mx-3" type="checkbox" id="comin" value="1" v-model="dataObject.comin">
@@ -17,45 +18,45 @@
 
             <div class="card-body py-0">
 
-                    <div class="form-group row ">
-                        <label class="col-sm-3">Название</label>
-                        <div class="col-sm-8 " style="margin-left: 13px;">
-                            <input-form
-                                v-model="operationField.name"
-                                name="name"
-                                @edit-field="editField"
-                                :gate="can.kassa_add_operation_type">
+                <div class="form-group row ">
+                    <label class="col-sm-3">Название</label>
+                    <div class="col-sm-8 " style="margin-left: 13px;">
+                        <input-form
+                            v-model="operationField.name"
+                            name="name"
+                            @edit-field="editField"
+                            :gate="can.kassa_add_operation_type">
 
-                            </input-form>
-                        </div>
+                        </input-form>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Касса</label>
-                        <div class="col-sm-9">
-                            <dynamic-select
-                                :options="branches"
-                                v-model="dataObject.branch"
-                                option-value="id"
-                                option-text="name"
-                                placeholder="Введите для поиска кассы"/>
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Касса</label>
+                    <div class="col-sm-9">
+                        <dynamic-select
+                            :options="branches"
+                            v-model="dataObject.branch"
+                            option-value="id"
+                            option-text="name"
+                            placeholder="Введите для поиска кассы"/>
                     </div>
+                </div>
 
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Группа</label>
-                        <div class="col-sm-9">
-                            <dynamic-select
-                                :options="group"
-                                v-model="dataObject.groupid"
-                                option-value="id"
-                                option-text="name"
-                                placeholder="Введите для поиска группы"/>
-                        </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Группа</label>
+                    <div class="col-sm-9">
+                        <dynamic-select
+                            :options="group"
+                            v-model="dataObject.groupid"
+                            option-value="id"
+                            option-text="name"
+                            placeholder="Введите для поиска группы"/>
                     </div>
+                </div>
 
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Примечание</label>
-                        <div class="col-sm-8" style="margin-left: 13px;">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Примечание</label>
+                    <div class="col-sm-8" style="margin-left: 13px;">
                             <textarea
                                 class="form-control"
                                 v-model="dataObject.coment"
@@ -64,15 +65,16 @@
                                 name="coment"
                             >
                                   </textarea>
-                        </div>
                     </div>
+                </div>
 
             </div>
 
             <template #modal-footer="{ ok, cancel, hide }">
 
-                <b-button style= "margin-right: 250px" size="sm" variant="outline-secondary" @click="deleteField">
-                    <b-icon icon="trash" ></b-icon> Удалить
+                <b-button style="margin-right: 250px" size="sm" variant="outline-secondary" @click="deleteField">
+                    <b-icon icon="trash"></b-icon>
+                    Удалить
                 </b-button>
 
                 <b-button size="sm" variant="success" @click="ok()">
@@ -107,6 +109,8 @@ export default {
             operation_types: [],
             modalShow: false,
             dataObject: {},
+            inComin_Data_1: '',
+            inComin_Data_2: '',
 
         }
 
@@ -118,21 +122,31 @@ export default {
 
     methods: {
 
+        //--------------------------------- Открытие модалки -----------------------------//
+
         showModalEditOperationKassaSettings(items) {
             this.operationField = items
             this.modalShow = true
+            this.group = ''
+
             axios.get('api/v2/getbranches')
                 .then(response => this.branches = response.data.data)
             axios.get('api/v2/kassaGroups')
                 .then(response => this.group = response.data.data)
-            axios.post('api/v2/kassaSettingsGetOperationData/' , {id : this.operationField.id} )
+            axios.post('api/v2/kassaSettingsGetOperationData', {id: this.operationField.id})
                 .then(response => this.dataObject = response.data.data)
+
+            //.. Записываем первоначальные данные в переменные ( для дальнейшей их сверке )
+            this.inComin_Data_1 = this.dataObject.branch.id
+            this.inComin_Data_2 = this.dataObject.groupid.id
         },
 
+//-------------------------- Изменяем поля: Касса и Группа -----------------------------------//
 
         editOperation() {
 
-            if (this.dataObject.branch) {
+            //.. Делаем отправку данных если только введенные данные отличаются от изначальных
+            if (this.dataObject.branch.id !== this.inComin_Data_1) {
 
                 axios.post('api/v2/kassaSettingsEditOperationKassa', {
                     field_id: this.operationField.id,
@@ -142,7 +156,8 @@ export default {
 
             }
 
-            if (this.dataObject.groupid) {
+            //.. Делаем отправку данных если только введенные данные отличаются от изначальных
+            else if (this.dataObject.groupid.id !== this.inComin_Data_2) {
 
                 axios.post('api/v2/kassaSettingsEditOperationKassa', {
                     field_id: this.operationField.id,
@@ -152,7 +167,9 @@ export default {
 
 
             }
-            //--------------------------------- Send Checkbox -------------------------------
+
+
+            //------------------------------ Изменяем чекбоксы  ----------------------------------//
 
             if (this.dataObject.cash) {
 
@@ -161,45 +178,51 @@ export default {
                     field_name: "cash",
                     field_value: this.dataObject.cash,
                 })
+                this.$emit('get-method')
 
-            }else{
-            axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
-                field_id: this.operationField.id,
-                field_name: "cash",
-                field_value: 0,
-            })
-        }
+            } else {
+                axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
+                    field_id: this.operationField.id,
+                    field_name: "cash",
+                    field_value: 0,
+                })
+                this.$emit('get-method')
+            }
 
-           if (this.dataObject.beznal) {
+            if (this.dataObject.beznal) {
 
                 axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
                     field_id: this.operationField.id,
                     field_name: "beznal",
                     field_value: this.dataObject.beznal,
                 })
+                this.$emit('get-method')
 
-            }else{
+            } else {
                 axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
                     field_id: this.operationField.id,
                     field_name: "beznal",
                     field_value: 0,
                 })
+                this.$emit('get-method')
             }
 
-           if (this.dataObject.comin) {
+            if (this.dataObject.comin) {
 
                 axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
                     field_id: this.operationField.id,
                     field_name: "coming",
                     field_value: this.dataObject.comin,
                 })
+                this.$emit('get-method')
 
-            }else{
+            } else {
                 axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
                     field_id: this.operationField.id,
                     field_name: "coming",
                     field_value: 0,
                 })
+                this.$emit('get-method')
             }
 
             if (this.dataObject.out) {
@@ -209,25 +232,21 @@ export default {
                     field_name: "out",
                     field_value: this.dataObject.out,
                 })
+                this.$emit('get-method')
 
-            }else{
+            } else {
                 axios.post('api/v2/kassaSettingsEditOperationCheckbox', {
                     field_id: this.operationField.id,
                     field_name: "out",
                     field_value: 0,
                 })
+                this.$emit('get-method')
             }
 
-            Vue.$toast.open({message: 'Данные обновлены', type: 'success', duration: 5000, position: 'top-right'});
-
-            this.$emit('get-method')
-
-            this.branch = ''
-            this.group = ''
-            this.groupid = ''
-            this.groupid = ''
 
         },
+
+        //-------------------- Изменяем имя операции и комментарий ----------------------------//
 
         editField(e, name, type) {
 
@@ -246,20 +265,57 @@ export default {
                     field_value: value
                 })
             }
+
+            if (name === 'coment') {
+
+                setTimeout(() => {
+
+                    Vue.$toast.open({
+                        message: 'Коментарий обновлен',
+                        type: 'success',
+                        duration: 5000,
+                        position: 'top-right'
+                    });
+
+
+                },1000)
+
+            } else {
+
+                setTimeout(() => {
+
+                    Vue.$toast.open({
+                        message: 'Имя операции обновлено',
+                        type: 'success',
+                        duration: 5000,
+                        position: 'top-right'
+                    });
+
+                },1000)
+
+            }
+
+            this.$emit('get-method')
+
         },
 
 
         //--------------------------------- Удаляем операцию -----------------------------//
 
-        deleteField(){
+        deleteField() {
             axios.delete('api/v2/kassaOperations/' + this.operationField.id)
-            Vue.$toast.open({message: 'Операция удалена' ,type: 'success',duration: 5000,position: 'top-right'});
+            Vue.$toast.open({message: 'Операция удалена', type: 'success', duration: 5000, position: 'top-right'});
             this.modalShow = false
             this.$emit('get-method')
         },
 
-        resetModal(){
+
+        //--------------------------- Очищаем данные при закрытие модалки --------------------//
+
+        resetModal() {
             this.branch = ''
+            this.inComin_Data_1 = ''
+            this.inComin_Data_2 = ''
         },
 
     }

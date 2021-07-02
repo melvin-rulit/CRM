@@ -98,7 +98,7 @@ class KassaOperationController extends Controller
         return KassaOperationResource::collection($kassa_operation);
     }
 
-    //---------------------------- Operations in Kassa-Settings -------------------//
+    //---------------------------- Удаление операции в Kassa_Settings -------------------//
 
     /**
      * Remove the specified resource from storage.

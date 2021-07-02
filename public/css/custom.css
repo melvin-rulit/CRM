@@ -1,6 +1,9 @@
 .left-otstup{
     margin-left: 18%;
 }
+.left-otstup-for-promouter{
+    margin: auto;
+}
 
 .ck-editor__editable,
 textarea {

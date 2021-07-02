@@ -1,0 +1,62 @@
+.bg{
+	background:   url(../images/intro-bg.jpg) no-repeat center;
+    height: 960px;
+}
+
+/*header{*/
+/*    !*background: url("/images/avatar/0016.jpg");*!*/
+/*    height: 270px;*/
+/*}*/
+
+
+
+.personal h2{
+   color: whitesmoke;
+}
+.personal {
+    margin-top: 400px;
+}
+
+.checkbox{
+	color: #6cb2eb;
+}
+
+
+li:hover img{
+    /*text-shadow: 1px 1px 1px ;*/
+    /*text-shadow: 1px 1px 3px lightgray, 0 0 1px black;*/
+
+
+/*margin-left: 15px;*/
+    width: 42px;
+    height: 42px;
+}
+
+
+.nav-link img{
+    width: 34px;
+    height: 34px;
+}
+
+.bg-after-login{
+    background:   url(../images/bg-after-login.jpg) no-repeat;
+    height: 100%;
+}
+
+
+/* active links*/
+.menu {
+    margin: 0 0 40px;
+    padding: 0;
+    list-style: none;
+}
+
+.menu_link {
+    color: #555;
+}
+
+.menu_link.active {
+    font-weight: bold;
+    color: #900;
+}
+

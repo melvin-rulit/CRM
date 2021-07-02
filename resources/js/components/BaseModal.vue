@@ -185,10 +185,8 @@
 
                             <select v-if="can.base_call" class="form-control mb-3" @change="changeCallStatus($event)">
                                 <option v-if="dataObject.call_status == null" value=""></option>
-                                <option :selected="dataObject.call_status === 0"
-                                " value="0">Не дозвон</option>
-                                <option :selected="dataObject.call_status === 1"
-                                " value="1">Дозвон</option>
+                                <option :selected="dataObject.call_status === 0"" value="0">Не дозвон</option>
+                                <option :selected="dataObject.call_status === 1"" value="1">Дозвон</option>
                             </select>
 
                             <h4 class="text-center mb-3" v-if="!can.base_call">

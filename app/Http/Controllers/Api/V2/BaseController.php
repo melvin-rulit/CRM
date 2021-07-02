@@ -737,6 +737,7 @@ class BaseController extends Controller
 
     }
 
+    //------------------------- Заносим нового ребенка в БД -----------------------------//
     public function addNewUser(Request $request)
     {
 
@@ -964,7 +965,7 @@ class BaseController extends Controller
     }
 
 
-    //-------------------- Добавляем данные о ребенке ---------------------------------------------
+    //-------------------- Добавляем данные о ребенке /promouter -----------------------------//
 
     public function addClientFromPromoter(Request $request)
     {
