@@ -3,7 +3,15 @@
         <header>
 
             <div class="avatar avatar-xl avatar-online">
-                <img src="http://crm-leva.netface.com.ua/images/photo_LI.jpg" class="avatar-img rounded-circle">
+
+                <b-img
+                    center
+                    thumbnail
+                    fluid
+                    :src="siteURL + user.avatar"
+                    class="avatar-img rounded-circle">
+                </b-img>
+
             </div>
             <div>
                 <a><img src="/images/images_for_promouter/red.png"></a>
@@ -108,7 +116,7 @@
                                 option-text="name"
                                 placeholder="Список Филиалов"
                                 v-model="select_branch"
-                                class="city-select" />
+                                class="city-select"/>
 
                         </div>
 
@@ -145,7 +153,7 @@
                                 option-text="name"
                                 placeholder="Точка авторизации"
                                 v-model="select_source"
-                                class="city-select" />
+                                class="city-select"/>
 
                         </div>
 
@@ -155,7 +163,8 @@
 
                         <!------------------------ Отправляем данные ---------------------------->
 
-                        <button type="submit" class=" send-button btn btn-center btn btn-success mt-2" v-show="!$v.$invalid">
+                        <button type="submit" class=" send-button btn btn-center btn btn-success mt-2"
+                                v-show="!$v.$invalid">
                             Отправить
                         </button>
 
@@ -206,6 +215,8 @@ export default {
             sourceGroupArray: [],
             select_source: null,
             sourceArray: [],
+            siteURL: "http://127.0.0.1:8000/",
+            user: '',
 
 
         }
@@ -255,17 +266,22 @@ export default {
             .then(response => this.branches = response.data.data)
 
         axios.get('api/v2/getSourceGroupBaseModal')
-            .then(response => {this.sourceGroupArray = response.data.data
+            .then(response => {
+                this.sourceGroupArray = response.data.data
             })
+
+        axios.get('api/v2/getUserName')
+            .then(response => this.user = response.data)
 
     },
 
     methods: {
 
-        getSource(){
+        getSource() {
 
             axios.post('api/v2/getSourceInGroup', {group_id: this.selectGroup.id})
-                .then(response => {this.sourceArray = response.data.data
+                .then(response => {
+                    this.sourceArray = response.data.data
                 })
         },
 
@@ -333,14 +349,14 @@ export default {
 
         reset() {
             this.select_branch = '',
-            this.new_parent_phone = '',
+                this.new_parent_phone = '',
                 this.new_child_name = '',
                 this.new_child_surname = '',
                 this.new_parent_name = '',
                 this.selected_2 = 'мother_name',
                 this.new_date = ''
-                this.selectGroup = ''
-                this.select_source = ''
+            this.selectGroup = ''
+            this.select_source = ''
         },
     },
 }

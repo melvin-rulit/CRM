@@ -1,5 +1,5 @@
 {{--@extends('layouts.promoter')--}}
-{{--@section('content')--}}
+@section('content')
 
 <div id="app">
     <promoter-component></promoter-component>

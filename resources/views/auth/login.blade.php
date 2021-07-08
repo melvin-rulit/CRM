@@ -6,8 +6,12 @@
 
         <div class="row">
             <div class="col-12 col-md-5 col-xl-4 personal">
-                <h2 class="display-5 text-center mb-3">{{ trans('panel.site_title') }}</h2>
-                <h6 class="text-info text-center mb-1">{{ trans('panel.site_description') }}</h6>
+
+                <!--  Logo -->
+               <div class="main-logo"></div>
+
+{{--                <h2 class="display-5 text-center mb-3">{{ trans('panel.site_title') }}</h2>--}}
+{{--                <h6 class="text-info text-center mb-1">{{ trans('panel.site_description') }}</h6>--}}
                 @if ($errors->has('email'))
                     <span class="help-block" style="color:red; font-size: 14px;">
                                     <strong>{{ $errors->first('email') }}</strong>
