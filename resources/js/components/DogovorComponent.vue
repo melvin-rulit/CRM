@@ -19,7 +19,7 @@
         </b-modal>
 
         <!-- Модальное окно с оплатой в основном контракте-->
-        <b-modal id="pay_main" title="Оплата" centered ok-only ok-title="Ок" @ok="savePaysPays"    @hidden="closeModal">
+        <b-modal id="pay_main" title="Оплата" centered ok-only ok-title="Ок" @ok="savePaysPays"    @hidden="closeModalForpay_main">
             <div class="card-body py-0">
                 <div class="form-group row mt-4">
                     <label class="col-sm-3 col-form-label">Сумма</label>
@@ -986,9 +986,15 @@ export default {
             this.pay_artially = ''
             this.balance = ''
             this.pay_artiallyVM = ''
-            this.coment = ''
+
 
         },
+
+        closeModalForpay_main(){
+
+            this.coment = ''
+
+        }
 
         // closeSelectModal(){
         //    $(document.body).removeClass("modal-open");

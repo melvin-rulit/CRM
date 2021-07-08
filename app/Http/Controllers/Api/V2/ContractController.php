@@ -94,6 +94,10 @@ $base = $base_id->base_id;
 
     	$base = Base::find($request['base_id']);
 
+    	$date = Carbon::createFromDate($request['end']);
+    	$data = date_format($date, 'Y-m-d');
+
+
         if ($base->mother_lpr) {
             $base->mother_surname = $request['parent_surname'];
             $base->mother_name = $request['parent_name'];
@@ -139,13 +143,15 @@ $base = $base_id->base_id;
 
 
 	if ($request['contract_type'] == 'vm') {
+
     	$contract = new Contract;
 		$contract->base_id = $request['base_id'];
 		$contract->name = $request['name_vm'];
 		$contract->price = $request['price'];
         $contract->balance = $request['balance'];
 		$contract->start = Carbon::createFromDate($request['start']);
-		$contract->end = Carbon::createFromDate($request['end']);
+//		$contract->end = Carbon::createFromDate($request['end']);
+		$contract->end = $data;
 		$contract->end_actually = Carbon::createFromDate($request['end_actually']);
 		$contract->date = Carbon::createFromDate($request['date']);
 		$contract->active = true;
@@ -295,7 +301,8 @@ $base = $base_id->base_id;
 		$contract->price = $request['price'];
 		$contract->balance = $request['balance'];
 		$contract->start = Carbon::createFromDate($request['start']);
-		$contract->end = Carbon::createFromDate($request['end']);
+//		$contract->end = Carbon::createFromDate($request['end']);
+		$contract->end = $data;
 		$contract->end_actually = Carbon::createFromDate($request['end_actually']);
 		$contract->date = Carbon::createFromDate($request['date']);
 		$contract->active = true;

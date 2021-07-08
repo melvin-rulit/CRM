@@ -169,6 +169,7 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::get('getGates', 'UserController@getGates');
     Route::post('getUserKit', 'UserController@getUserKit');
     Route::post('getFilter', 'UserController@getFilter');
+    Route::post('imageUser', 'UserController@upload');
 
 
     Route::post('addClientInGroup', 'BaseController@addClientInGroup');
@@ -194,7 +195,10 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::get('test', 'BaseController@test');
 
     Route::post('getTest', 'ContractController@test');
+
+//    Route::get('promouter', 'PagesController@promoter');
 });
+
 
 
 
@@ -213,4 +217,5 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // School Classes
     Route::apiResource('school-classes', 'SchoolClassesApiController');
+
 });

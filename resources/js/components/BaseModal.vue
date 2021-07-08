@@ -22,19 +22,28 @@
                     <div class="col-md-4">
                         <input type="file" ref="avatar" @change="onFileChange" style="display: none;">
                         <div v-if="!dataObject.attributes.avatar">
-                            <div @click="$refs.avatar.click()" class="hoverim not-photo"><span>?</span></div>
+                            <b-img
+                                @click="$refs.avatar.click()"
+                                center
+                                thumbnail
+                                fluid
+                                src="../images/no_avatar.jpg"
+                                alt="?"
+                                class="hoverim not-photo">
+                            </b-img>
                         </div>
+
                         <div v-else>
-                            <!--                        <img @click="$refs.avatar.click()" class="hoverim photo" :src="siteURL+dataObject.attributes.avatar" />-->
                             <b-img
                                 @click="$refs.avatar.click()"
                                 center
                                 fluid
                                 :src="siteURL+dataObject.attributes.avatar"
-                                alt="Фото"
-                                class="hoverim">
+                                alt="?"
+                                class="hoverim not-photo">
                             </b-img>
                         </div>
+
                     </div>
                     <div class="col-md-4">
                         <div class="card-body">
@@ -1096,7 +1105,7 @@ export default {
             getURL: "api/v2/getinfo",
             postURL: "getone",
             URLaddNewUser: "api/v2/addnewuser",
-            siteURL: "http://62.109.26.106/",
+            siteURL: "http://127.0.0.1:8000/",
             articles: [],
             article_id: '',
             showBranch: false,
@@ -1579,27 +1588,33 @@ export default {
                 this.$refs.dogovor.getContractMain()
             }
         },
+//------------------------- Открытие модального окна карточки ребенка --------------------------//
 
         BaseModal() {
             this.$bvModal.show('userShow')
         },
+
         onFileChange(e) {
+
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length)
                 return;
-            this.createImage(files[0]);
+
+           this.createImage(files[0]);
+
         },
         createImage(file) {
             var image = new Image();
             var reader = new FileReader();
-            var vm = this;
+            // var vm = this;
             reader.onload = (e) => {
-                vm.image = e.target.result;
+                this.image = e.target.result;
             };
             reader.readAsDataURL(file);
             this.upload(event);
         },
         upload(event) {
+
             let data = new FormData();
             let file = event.target.files[0];
             data.append('file', file)
@@ -1610,12 +1625,14 @@ export default {
                 }
             }
             axios.post('api/v2/image', data, config)
+
             setTimeout(() => {
                 axios.post('api/v2/getinfo', {id: this.dataObject['id']}).then(response => {
                     this.dataObject = response.data.data
                 })
             }, 200)
         },
+
         closeUserModal(bvModalEvt) {
             if (!this.dataObject.call_date) {
                 bvModalEvt.preventDefault()
@@ -1643,6 +1660,7 @@ export default {
             this.comments = ''
             this.kits = ''
             this.selected = ''
+
         },
 
         removeBlock() {

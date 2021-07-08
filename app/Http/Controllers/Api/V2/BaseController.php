@@ -776,6 +776,7 @@ class BaseController extends Controller
         return Carbon::now()->diffInHours($open);
     }
 
+//------------------------ Получаем информацию при открытие карточки ребенка -------------------//
 
     public function getInfo(Request $request)
     {
@@ -909,9 +910,10 @@ class BaseController extends Controller
         return UsersResource::collection(User::select('id', 'name', 'surname')->get());
     }
 
+        //------------------------ Загрузка аватарки -------------------------------//
+
     public function upload(Request $request)
     {
-
         $path = $request['file']->store('public/avatars');
         $path = str_replace("public", "storage", $path);
 
