@@ -22,11 +22,9 @@ use App\Loger;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    //---------------------- Получаем информацию при открыти карточки юзера  -------------------//
+
     public function index()
     {
         $user = User::find(Auth::user()->id);
@@ -53,7 +51,7 @@ class UserController extends Controller
                         'user_create' => Gate::allows('user_create'),
                         'user_role' => Gate::allows('user_role'),
                         'user_edit' => Gate::allows('user_edit'),
-                    'user_delete'           => Gate::allows('user_delete'),
+                        'user_delete'  => Gate::allows('user_delete'),
                         'user_show_password' => Gate::allows('user_show_password'),
                     ]
                 ]
@@ -106,7 +104,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return GetUser
      */
     public function show(User $user)
     {
@@ -129,7 +127,7 @@ class UserController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function update(Request $request, User $user)
     {
@@ -145,11 +143,13 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function destroy(User $user)
     {
         $user->delete();
+
+        return "Сотрудник удален";
     }
 
     public function getUserNameFromMenu()
@@ -161,6 +161,7 @@ class UserController extends Controller
             "surname" => $user->surname,
             "name" => $user->name,
             "id" => $user->id,
+            "avatar" => $user->avatar,
         ];
     }
 
@@ -186,15 +187,38 @@ class UserController extends Controller
 
     }
 
+    //------------------------ Загрузка аватарки -------------------------------//
+
+    public function upload(Request $request)
+    {
+        $path = $request['file']->store('public/avatars');
+        $path = str_replace("public", "storage", $path);
+
+        $base = User::find($request['id']);
+        $base->avatar = $path;
+        $base->save();
+
+        loger(2, $base->id, null, null, 'Изменил аватар ' . $base->name);
+
+
+        return $path;
+    }
+
+//-------------------------------- Добовление Филиала в карточке сотрудника ----------------//
+
     public function saveBranches(Request $request)
     {
         $user = User::find($request->user_id);
 
         $user->branches()->sync($request->branches);
 
+        $userName = User::find(Auth::user()->id);
+
+        loger(9, $userName->id, null,null, $userName->surname . ' ' . $userName->name. ':' . '  добавил(a)  '. '" '  .$user->name . ' "'. ' филиал  ( '  . $request->lastBranch[0]['name'] .  ' )');
+
     }
 
-    //-------------------------- Сохраняем должность ----------------------------//
+    //-------------------------- Добовление Должности в карточке сотрудника ----------------//
 
     public function saveRoles(Request $request)
     {
@@ -220,7 +244,6 @@ class UserController extends Controller
     {
         return User::filter($request->all())->get();
     }
-
 
     public function getGates()
     {

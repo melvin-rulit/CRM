@@ -186,6 +186,7 @@ Vue.use(VueHtmlToPaper, options);
                 $(".modal-backdrop.show").hide();
             },
             closeModal(){
+                $('#ShowModal').modal('hide')
                 $('#info li:first-child a').tab('show')
                 $(document.body).removeClass("modal-open");
                 $(".modal-backdrop.show").hide();

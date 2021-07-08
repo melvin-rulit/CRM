@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <showuser-component :can="can" @get-method="fetch" ref="getmodal"></showuser-component>
+<!--        <showuser-component :can="can" @get-method="fol" ref="getmodal"></showuser-component>-->
 
         <div class="navbar-user d-none d-md-flex" id="sidebarUser">
 
@@ -12,10 +12,30 @@
             </a>
 
 
-            <div class="dropup">
+            <div class="dropup" ref="mod">
                 <a href="#"  @click.prevent="getShowModal(user.id)" class="dropdown-toggle" role="button">
-                    <div class="avatar avatar-xl avatar-online">
-                        <img src="http://crm-leva.netface.com.ua/images/photo_LI.jpg" class="avatar-img rounded-circle" alt="...">
+                    <div v-if="user.avatar" class="avatar-online">
+                        <b-img
+                            @click="$refs.avatar.click()"
+                            center
+                            thumbnail
+                            fluid
+                            :src="siteURL + user.avatar"
+                            class="avatar-img rounded-circle">
+                        </b-img>
+                    </div>
+
+                    <div v-else>
+                        <b-img
+                            center
+                            thumbnail
+                            fluid
+                            src="http://127.0.0.1:8000/images/no.png"
+                            alt="?"
+                            class="avatar-img rounded-circle"
+                            >
+                        </b-img>
+
                     </div>
                 </a>
             </div>
@@ -43,7 +63,9 @@
     export default {
         data(){
             return {
-                user: ''
+                user: '',
+                siteURL: "http://127.0.0.1:8000/",
+
             }
         },
 
@@ -57,20 +79,19 @@
                 .then(response => this.user = response.data)
             },
 
-            getShowModal(id){
-
-                 this.$refs.getmodal.addNewUserModal(id)
-                if (this.can.user_show){
-                    this.$refs.getmodal.addNewUserModal(index.id)
-                }
-            },
+            // getShowModal(id){
+            //
+            //      this.$refs.getmodal.addNewUserModal(id)
+            //
+            // },
 
             logout() {
                 axios.post('/logout')
                 .catch(error => {
                     window.location.href = '/login';
                 });
-            }
+            },
+
         }
 }
 

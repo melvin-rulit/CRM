@@ -7,19 +7,37 @@
                         <div class="row no-gutters">
                             <div class="col-md-4">
                                 <div class="py-2">
+                                    <input type="file" ref="avatar" @change="onFileChange" style="display: none;">
+                                    <div v-if="!user.avatar">
+
+                                        <b-img
+                                            @click="$refs.avatar.click()"
+                                            center
+                                            thumbnail
+                                            fluid
+                                            src="../images/no_avatar.jpg"
+                                            alt="?"
+                                            class="hoverim not-photo">
+                                        </b-img>
+
+                                    </div>
+
+                                    <div v-else>
                                     <b-img
-                                        @click="editAvatar"
+                                        @click="$refs.avatar.click()"
                                         center
                                         thumbnail
                                         fluid
-                                        src="https://picsum.photos/250/250/?image=54"
-                                        alt="Image 1"
-                                        class="hoverim">
+                                        :src="siteURL + user.avatar">
                                     </b-img>
+                                    </div>
+
                                 </div>
                                 <b-button block squared class="mt-3">Информация</b-button>
-                                <b-button @click="career('career')" block squared variant="outline-secondary">Карьера</b-button>
-                                <b-button @click="history('history')" block squared variant="outline-secondary">История действий
+                                <b-button @click="career('career')" block squared variant="outline-secondary">Карьера
+                                </b-button>
+                                <b-button @click="history('history')" block squared variant="outline-secondary">История
+                                    действий
                                 </b-button>
                                 <b-button v-if="can.user_delete" block squared variant="danger" @click="deleteuser">
                                     Удалить
@@ -126,7 +144,7 @@
                                             <td>
                                         <span v-if="!showEditBranch" v-for="item in user.branch"
                                               class="badge badge-info mr-2">
-                                            {{item.name}}
+                                            {{ item.name }}
                                         </span>
                                                 <multiselect
                                                     v-if="showEditBranch"
@@ -159,7 +177,7 @@
                                             <td>
                                         <span v-if="!showEditRole" v-for="item in user.role"
                                               class="badge badge-info mr-2">
-                                        {{item.title}}
+                                        {{ item.title }}
                                     </span>
                                                 <multiselect
                                                     v-if="showEditRole"
@@ -207,7 +225,7 @@
                     </div>
                 </b-tab>
 
-                            <!--  Вывод истории действий  -->
+                <!--  Вывод истории действий  -->
                 <b-tab>
                     <div class="card-header">
                         <div class="row align-items-center">
@@ -233,7 +251,8 @@
                     </div>
 
                     <p v-if="kits" v-for="kit in user_kits" :key="kit.id" class="mb-2">
-                        {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{ kit.name
+                        {{ kit.date }} - Выдано - {{ kit.article }} {{ kit.quantity }} шт. {{ kit.surname }} {{
+                            kit.name
                         }} - {{ kit.comment }}
                     </p>
                 </b-tab>
@@ -245,296 +264,348 @@
 
 <script>
 
-    import Multiselect from 'vue-multiselect'
-    import Loading from 'vue-loading-overlay';
-    import Vue from "vue";
-    Vue.use(Loading, {
-        color: '#007BFF',
-        width: 35,
-        height: 35,
-    });
+import Multiselect from 'vue-multiselect'
+import Loading from 'vue-loading-overlay';
+import Vue from "vue";
+
+Vue.use(Loading, {
+    color: '#007BFF',
+    width: 35,
+    height: 35,
+});
 
 
-    Vue.use(Multiselect);
-    // import 'vue-multiselect/dist/vue-multiselect.min.css';
+Vue.use(Multiselect);
+// import 'vue-multiselect/dist/vue-multiselect.min.css';
 
 
-    export default {
-        components: { Multiselect },
-        data() {
-            return {
-                fullPage: false,
-                tabIndex: 0,
-                can: '',
-                arrays: ["1", "2", "3"],
-                showEditBranch: false,
-                showEditRole: false,
-                branches: [],
-                roles: [],
-                user: {},
-                infoModal: {
-                    title: '',
-                    content: ''
+export default {
+    components: {Multiselect},
+    data() {
+        return {
+            fullPage: false,
+            tabIndex: 0,
+            can: '',
+            arrays: ["1", "2", "3"],
+            showEditBranch: false,
+            showEditRole: false,
+            branches: [],
+            roles: [],
+            user: {},
+            infoModal: {
+                title: '',
+                content: ''
+            },
+            user_history: [],
+            user_kits: [],
+            roletest: '',
+            items: [
+                {name: 'MacDonald', id: 40},
+                {name: 'Shaw', id: 21},
+                {name: 'Wilson', id: 89},
+                {name: 'Carney', id: 38}
+            ],
+            fields: [
+                {
+                    key: 'message',
+                    label: 'Действие',
                 },
-                user_history: [],
-                user_kits: [],
-                roletest: '',
-                items: [
-                    {name: 'MacDonald', id: 40},
-                    {name: 'Shaw', id: 21},
-                    {name: 'Wilson', id: 89},
-                    {name: 'Carney', id: 38}
-                ],
-                fields: [
-                    {
-                        key: 'message',
-                        label: 'Действие',
-                    },
-                    {
-                        key: 'created_at',
-                        label: 'Дата',
-                    },
-                ],
-                sortBy: 'created_at',
-                sortDesc: true,
-                datatest:'',
-                confirmDelete:'',
+                {
+                    key: 'created_at',
+                    label: 'Дата',
+                },
+            ],
+            sortBy: 'created_at',
+            sortDesc: true,
+            datarole: '',
+            databranch: '',
+            confirmDelete: '',
+            siteURL: "http://127.0.0.1:8000/",
 
+        }
+    },
+
+    props: {
+        can: {}
+    },
+
+    computed: {
+        newBranchArray() {
+            this.databranch = this.user.branch
+            return this.user.branch.slice().map(item => item.id.toString());
+        },
+
+        newRoleArray() {
+            this.datarole = this.user.role
+            return this.user.role.slice().map(item => item.id.toString());
+        },
+
+        dataRole() {
+            return this.datarole.slice(-1);
+        },
+
+        dataBranch() {
+            return this.databranch.slice(-1);
+        },
+
+    },
+
+    methods: {
+
+        getAllBranches() {
+            axios.get('api/v2/getAllBranches')
+                .then(response => this.branches = response.data)
+        },
+
+        getAllRoles() {
+            axios.get('api/v2/getAllRoles')
+                .then(response => this.roles = response.data)
+        },
+
+        // Костыль события, если призодит type (datePicker), то выполняем блок именно для него
+        editField(e, name, type) {
+            if (type) {
+                axios.put('api/v2/users/' + this.user.id, {field_name: name, field_value: e})
+            } else {
+                const value = e.target.value;
+                const key = e.currentTarget.getAttribute('name');
+                axios.put('api/v2/users/' + this.user.id, {field_name: key, field_value: value})
             }
         },
 
-        props: {
-            can: {}
+        editBranch() {
+            this.showEditBranch = !this.showEditBranch
+            this.getAllBranches()
         },
 
-        computed: {
-            newBranchArray() {
-                return this.user.branch.slice().map(item => item.id.toString());
-            },
+        saveBranch() {
+            this.showEditBranch = !this.showEditBranch
+            axios.post('api/v2/saveBranches', {user_id: this.user.id, branches: this.newBranchArray, lastBranch: this.dataBranch})
+        },
 
-            newRoleArray() {
-                this.datatest = this.user.role
-                return this.user.role.slice().map(item => item.id.toString());
-            },
+        editRole() {
+            this.showEditRole = !this.showEditRole
+            this.getAllRoles()
+        },
 
-            dataTest(){
-                return this.datatest.slice(-1);
-            },
+        saveRole() {
+            this.showEditRole = !this.showEditRole
+            axios.post('api/v2/saveRoles', {user_id: this.user.id, roles: this.newRoleArray, lastRole: this.dataRole})
+        },
+
+        onFileChange(e) {
+
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+
+            this.createImage(files[0]);
 
         },
 
-        methods: {
+        createImage(file) {
+            var image = new Image();
+            var reader = new FileReader();
+            // var vm = this;
+            reader.onload = (e) => {
+                this.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            this.upload(event);
+        },
 
-            getAllBranches() {
-                axios.get('api/v2/getAllBranches')
-                    .then(response => this.branches = response.data)
-            },
+        upload(event) {
 
-            getAllRoles() {
-                axios.get('api/v2/getAllRoles')
-                    .then(response => this.roles = response.data)
-            },
-
-            // Костыль события, если призодит type (datePicker), то выполняем блок именно для него
-            editField(e, name, type) {
-                if (type) {
-                    axios.put('api/v2/users/' + this.user.id, {field_name: name, field_value: e})
-                } else {
-                    const value = e.target.value;
-                    const key = e.currentTarget.getAttribute('name');
-                    axios.put('api/v2/users/' + this.user.id, {field_name: key, field_value: value})
+            let data = new FormData();
+            let file = event.target.files[0];
+            data.append('file', file)
+            data.append('id', this.user.id)
+            let config = {
+                header: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            },
+            }
+            axios.post('api/v2/imageUser', data, config)
 
-            editBranch() {
-                this.showEditBranch = !this.showEditBranch
-                this.getAllBranches()
-            },
-
-            saveBranch() {
-                this.showEditBranch = !this.showEditBranch
-                axios.post('api/v2/saveBranches', {user_id: this.user.id, branches: this.newBranchArray})
-            },
-
-            editRole() {
-                this.showEditRole = !this.showEditRole
-                this.getAllRoles()
-            },
-
-            saveRole() {
-                this.showEditRole = !this.showEditRole
-                axios.post('api/v2/saveRoles', {user_id: this.user.id, roles: this.newRoleArray, lastRole: this.dataTest})
-            },
-
-            editAvatar() {
-                alert("Изменение аватара временно не доступно");
-            },
-
-        //---------------------  Показ истории при нажитии "Карьера" -------------------------//
-
-            async career(history_type){
-
-
-                try {
-                    let loader = this.$loading.show({
-                        container: this.fullPage ? null : this.$refs.formContainer,
-                        canCancel: true,
-                    });
-
-                        let res = await axios.post('api/v2/history', {user_id: this.user.id, history_type: history_type})
-
-                    if (res.status == 200) {
-                        this.user_history = res.data.data
-                        this.tabIndex = 1
-                        loader.hide()
-                    }
-                    return res.data.data
-                } catch (err) {
-                    console.error(err);
-                }
-
-            },
-
-            //------------  Показ истории при нажитии "История действий" -----------------//
-
-            async history(history_type) {
-                try {
-                    let loader = this.$loading.show({
-                        container: this.fullPage ? null : this.$refs.formContainer,
-                        canCancel: true,
-                    });
-
-                        let res = await axios.post('api/v2/history', {
-                            user_id: this.user.id,
-                            history_type: history_type
-                        })
-
-                    if (res.status == 200) {
-                        this.user_history = res.data.data
-                        this.tabIndex = 1
-                        loader.hide()
-                    }
-                    return res.data.data
-                } catch (err) {
-                    console.error(err);
-                }
-            },
-
-            async kits() {
-                try {
-                    let loader = this.$loading.show({
-                        container: this.fullPage ? null : this.$refs.formContainer,
-                        canCancel: true,
-                    });
-
-                    let res = await axios.post('api/v2/getUserKit', {user_id: this.user.id})
-
-                    if (res.status == 200) {
-                        this.user_kits = res.data.data
-                        this.tabIndex = 2
-                        loader.hide()
-                    }
-                    return res.data.data
-                } catch (err) {
-                    console.error(err);
-                }
-            },
-
-            deleteuser(){
-
-
-                this.$bvModal.msgBoxConfirm('Вы уверены что хотите удалить сотрудника ( ' + this.user.surname + ' ' + this.user.name + ' ) ?', {
-                    size: 'md',
-                    buttonSize: 'md',
-                    okVariant: 'danger',
-                    okTitle: 'Да',
-                    cancelTitle: 'Нет',
-                    footerClass: 'p-2',
-                    hideHeaderClose: false,
-                    centered: true
-                })
-                    .then(value => {
-                        this.confirmDelete = value
-
-                        if (this.confirmDelete === true) {
-
-                            axios.delete('api/v2/users/'+ this.user.id);
-
-                            this.$bvModal.hide('showUser')
-
-                            let loader = this.$loading.show({
-                                color: '#0080ff',
-                            });
-                            setTimeout(() => {
-
-                                Vue.$toast.open({
-                                    message: "Сотрудник Удален",
-                                    type: 'success',
-                                    duration: 5000,
-                                    position: 'top-right'
-                                });
-
-                                loader.hide()
-                            }, 1000)
-                        }
-                    })
-
-            },
-
-            addNewUserModal(id) {
-                axios.get('api/v2/users/' + id)
+            setTimeout(() => {
+                axios.get('api/v2/users/' + this.user.id)
                     .then(response => {
                         this.user = response.data.data
                     })
+            }, 300)
+        },
 
-                this.$bvModal.show('showUser')
-            },
 
-            closeModel() {
-                this.user_history = []
-                this.showEditBranch = false,
-                    this.showEditRole = false
-                this.$emit('get-method')
-                this.tabIndex = 0
+        //---------------------  Показ истории при нажитии "Карьера" -------------------------//
+
+        async career(history_type) {
+
+
+            try {
+                let loader = this.$loading.show({
+                    container: this.fullPage ? null : this.$refs.formContainer,
+                    canCancel: true,
+                });
+
+                let res = await axios.post('api/v2/history', {user_id: this.user.id, history_type: history_type})
+
+                if (res.status == 200) {
+                    this.user_history = res.data.data
+                    this.tabIndex = 1
+                    loader.hide()
+                }
+                return res.data.data
+            } catch (err) {
+                console.error(err);
+            }
+
+        },
+
+        //------------  Показ истории при нажитии "История действий" -----------------//
+
+        async history(history_type) {
+            try {
+                let loader = this.$loading.show({
+                    container: this.fullPage ? null : this.$refs.formContainer,
+                    canCancel: true,
+                });
+
+                let res = await axios.post('api/v2/history', {
+                    user_id: this.user.id,
+                    history_type: history_type
+                })
+
+                if (res.status == 200) {
+                    this.user_history = res.data.data
+                    this.tabIndex = 1
+                    loader.hide()
+                }
+                return res.data.data
+            } catch (err) {
+                console.error(err);
             }
         },
-    }
+
+        async kits() {
+            try {
+                let loader = this.$loading.show({
+                    container: this.fullPage ? null : this.$refs.formContainer,
+                    canCancel: true,
+                });
+
+                let res = await axios.post('api/v2/getUserKit', {user_id: this.user.id})
+
+                if (res.status == 200) {
+                    this.user_kits = res.data.data
+                    this.tabIndex = 2
+                    loader.hide()
+                }
+                return res.data.data
+            } catch (err) {
+                console.error(err);
+            }
+        },
+
+        //-------------------------- Удаление сотрудника -------------------------------------//
+        deleteuser() {
+
+            this.$bvModal.msgBoxConfirm('Вы уверены что хотите удалить сотрудника ( ' + this.user.surname + ' ' + this.user.name + ' ) ?', {
+                size: 'md',
+                buttonSize: 'md',
+                okVariant: 'danger',
+                okTitle: 'Да',
+                cancelTitle: 'Нет',
+                footerClass: 'p-2',
+                hideHeaderClose: false,
+                centered: true
+            })
+                .then(value => {
+                    this.confirmDelete = value
+
+                    if (this.confirmDelete === true) {
+
+                        axios.delete('api/v2/users/' + this.user.id);
+
+                        this.$bvModal.hide('showUser')
+
+                        let loader = this.$loading.show({
+                            color: '#0080ff',
+                        });
+                        setTimeout(() => {
+
+                            Vue.$toast.open({
+                                message: "Сотрудник Удален",
+                                type: 'success',
+                                duration: 5000,
+                                position: 'top-right'
+                            });
+
+                            loader.hide()
+                        }, 1000)
+                    }
+                })
+
+        },
+
+        addNewUserModal(id) {
+            axios.get('api/v2/users/' + id)
+                .then(response => {
+                    this.user = response.data.data
+                })
+
+            setTimeout(() => {
+
+                this.$bvModal.show('showUser')
+
+            }, 300)
+        },
+
+        closeModel() {
+            this.user_history = []
+            this.showEditBranch = false,
+                this.showEditRole = false
+            this.$emit('get-method')
+            this.tabIndex = 0
+            this.user.avatar = ''
+        }
+    },
+}
 </script>
 
 <style scoped>
 
-    .table td, .table th {
-        padding: 10px;
-    }
+.table td, .table th {
+    padding: 10px;
+}
 
-    .hoverim:hover{
-        opacity: 0.5;
-        cursor: pointer;
-    }
+.hoverim:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
 
-    .not-photo{
-        display: flex;
-        width: 250px;
-        height: 250px;
-        border-radius: 0px;
-        font: 100px / 250px Helvetica, Arial, sans-serif;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        user-select: none;
-        background-color: rgb(255, 193, 7);
-        color: rgb(255, 255, 255);
-    }
+.not-photo {
+    display: flex;
+    width: 250px;
+    height: 250px;
+    border-radius: 0px;
+    font: 100px / 250px Helvetica, Arial, sans-serif;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    user-select: none;
+    background-color: rgb(255, 193, 7);
+    color: rgb(255, 255, 255);
+}
 
-    .photo{
-        display: flex;
-        width: 250px;
-        height: 250px;
-        border-radius: 0px;
-    }
+.photo {
+    display: flex;
+    width: 250px;
+    height: 250px;
+    border-radius: 0px;
+}
 
-    .multiselect__tags {
-        font-size: 12px;
-    }
+.multiselect__tags {
+    font-size: 12px;
+}
 
 </style>

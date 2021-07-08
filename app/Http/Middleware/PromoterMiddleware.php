@@ -4,21 +4,18 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class PromoterMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
+
+
+
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->hasRole('Старший администратор')) {
-//            return redirect('promoter');
-//            abort(404);
+        if(Auth::user()->hasRole('Промоутер')) {
+
+            return redirect()->route('promouter');
         }
 
         return $next($request);
