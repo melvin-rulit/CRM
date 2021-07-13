@@ -17,8 +17,8 @@ class SourceResource extends JsonResource
         return [
             'id'	    => $this->id,
             'name'	    => $this->name,
-            'group'	    => $this->group ? $this->group->name : '',
-            'group_id'	=> $this->group_id,
+            'group'	    => $this->group ? $this->group->name : '----------------------------',
+            'gr'	    => $this->group,
             'coment'	=> $this->coment,
         ];
     }

@@ -16,6 +16,7 @@ class KassaOperationTypeForKassaSettings extends JsonResource
     {
         return [
 
+            'name'	=> $this->name,
             'branch'	=> $this->branch,
             'groupid'	    => $this->group ? $this->group : '',
             'comin'	=> $this->coming,

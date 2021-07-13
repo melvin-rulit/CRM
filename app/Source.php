@@ -10,6 +10,7 @@ class Source extends Model
         'name',
         'group_id',
         'coment',
+        'branch_id',
     ];
 
     public function group()

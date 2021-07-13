@@ -11,7 +11,7 @@
                                 <label class="col-sm-3">Наименование</label>
                                 <div class="col-sm-8" style="margin-left: 13px;">
                                     <input-form
-                                        style="font-size: 20px"
+
                                         v-model="groupField.name"
                                         name="name"
                                         @edit-field="editField"
@@ -139,12 +139,47 @@ if (this.branch) {
                     this.operation_types = response.data.data, this.can = response.data.can
                 })
         },
+    //----------------------------------- Удаление Группы ---------------------------------//
 
         deleteField(){
-            axios.delete('api/v2/kassaGroups/' + this.groupField.id)
-            Vue.$toast.open({message: 'Группа удалена' ,type: 'success',duration: 5000,position: 'top-right'});
-            this.modalShow = false
-            this.$emit('get-method')
+
+            this.$bvModal.msgBoxConfirm('Вы уверены что хотите удалить группу ( ' + this.groupField.name + ' ) ?'  , {
+                size: 'lg',
+                buttonSize: 'md',
+                okVariant: 'danger',
+                okTitle: 'Да',
+                cancelTitle: 'Нет',
+                footerClass: 'p-2',
+                hideHeaderClose: false,
+                centered: true
+            })
+                .then(value => {
+                    this.boxTwo = value
+
+                    if (this.boxTwo === true) {
+
+                        axios.delete('api/v2/kassaGroups/' + this.groupField.id)
+
+                        this.modalShow = false
+                        this.$emit('get-method')
+
+                        let loader = this.$loading.show({
+                            color: '#0080ff',
+                        });
+                        setTimeout(() => {
+
+                            Vue.$toast.open({
+                                message: "Группа удалена",
+                                type: 'success',
+                                duration: 5000,
+                                position: 'top-right'
+                            });
+
+
+                            loader.hide()
+                        }, 1000)
+                    }
+                })
 
         },
 

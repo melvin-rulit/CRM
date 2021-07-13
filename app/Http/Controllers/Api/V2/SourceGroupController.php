@@ -23,6 +23,7 @@ class SourceGroupController extends Controller
                     'can' => [
                         'source_create'       => Gate::allows('source_create'),
                         'source_edit'         => Gate::allows('source_edit'),
+                        'delete_source'         => Gate::allows('delete_source'),
                     ]
                 ]
             );
@@ -91,10 +92,13 @@ class SourceGroupController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function destroy($id)
     {
-        //
+        SourceGroup::where('id', $id)->delete(
+        );
+        return "Группа удалена из Базы данных";
     }
+
 }

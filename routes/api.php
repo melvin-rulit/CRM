@@ -66,12 +66,15 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
     Route::post('kassaSettingsEditGroupsName', 'KassaGroupController@editNameInKassaSettings');
     Route::post('kassaSettingsEditGroupsKassa', 'KassaGroupController@editKassaInKassaSettings');
 
-    // SourceGraoup
+    // SourceGroup
     Route::apiResource('sourceGroups', 'SourceGroupController');
     Route::post('groups', 'SourceGroupController@getGroupInSource');
 
+
     // Source
     Route::apiResource('source', 'SourceController');
+    Route::post('sourceBranch', 'SourceController@sourceBranch');
+
 
     // Contracts
     Route::post('getcontract', 'ContractController@getContract');
@@ -196,7 +199,6 @@ Route::group(['prefix' => 'v2', 'as' => 'api.', 'namespace' => 'Api\V2', 'middle
 
     Route::post('getTest', 'ContractController@test');
 
-//    Route::get('promouter', 'PagesController@promoter');
 });
 
 

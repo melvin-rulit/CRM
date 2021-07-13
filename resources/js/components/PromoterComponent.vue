@@ -2,19 +2,39 @@
     <div>
         <header>
 
-            <div class="avatar avatar-xl avatar-online">
-
+            <div v-if="user.avatar" class="avatar-online avatar avatar-xl">
                 <b-img
+                    @click="$refs.avatar.click()"
                     center
                     thumbnail
                     fluid
                     :src="siteURL + user.avatar"
                     class="avatar-img rounded-circle">
                 </b-img>
+            </div>
+
+            <div v-else class="avatar avatar-xl">
+
+                <b-img
+                    center
+                    thumbnail
+                    fluid
+                    src="http://127.0.0.1:8000/images/no_avatar.jpg"
+                    alt="?"
+                    class="avatar-img rounded-circle">
+                </b-img>
 
             </div>
-            <div>
-                <a><img src="/images/images_for_promouter/red.png"></a>
+
+            <div class="avatar-online avatar avatar-xl">
+                <b-img
+                    center
+                    thumbnail
+                    fluid
+                    src="/images/images_for_promouter/red.png"
+                    alt="?"
+                    class="avatar-img rounded-circle">
+                </b-img>
             </div>
 
             <a><img src="/images/images_for_promouter/calendar.png"></a>

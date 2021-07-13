@@ -55,17 +55,16 @@
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Примечание</label>
-                    <div class="col-sm-8" style="margin-left: 13px;">
                             <textarea
+
+                                placeholder="Примечание"
                                 class="form-control"
                                 v-model="dataObject.coment"
                                 @blur="event => editField(event, 'coment')"
                                 rows="3"
-                                name="coment"
-                            >
-                                  </textarea>
-                    </div>
+                                name="coment">
+
+                            </textarea>
                 </div>
 
             </div>
@@ -105,6 +104,7 @@ export default {
             groupid: '',
             operationField: '',
             can: '',
+            boxTwo: '',
             comment: '',
             operation_types: [],
             modalShow: false,
@@ -303,10 +303,45 @@ export default {
         //--------------------------------- Удаляем операцию -----------------------------//
 
         deleteField() {
-            axios.delete('api/v2/kassaOperations/' + this.operationField.id)
-            Vue.$toast.open({message: 'Операция удалена', type: 'success', duration: 5000, position: 'top-right'});
-            this.modalShow = false
-            this.$emit('get-method')
+
+            this.$bvModal.msgBoxConfirm('Вы уверены что хотите удалить операцию ( ' + this.dataObject.name + ' ) ?'  , {
+                size: 'lg',
+                buttonSize: 'md',
+                okVariant: 'danger',
+                okTitle: 'Да',
+                cancelTitle: 'Нет',
+                footerClass: 'p-2',
+                hideHeaderClose: false,
+                centered: true
+            })
+                .then(value => {
+                    this.boxTwo = value
+
+                    if (this.boxTwo === true) {
+
+                        axios.delete('api/v2/kassaOperations/' + this.operationField.id)
+
+                        this.modalShow = false
+                        this.$emit('get-method')
+
+                        let loader = this.$loading.show({
+                            color: '#0080ff',
+                        });
+                        setTimeout(() => {
+
+                            Vue.$toast.open({
+                                message: "Операция удалена",
+                                type: 'success',
+                                duration: 5000,
+                                position: 'top-right'
+                            });
+
+
+                            loader.hide()
+                        }, 1000)
+                    }
+                })
+
         },
 
 

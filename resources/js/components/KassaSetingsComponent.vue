@@ -13,19 +13,15 @@
             <div class="card-body py-0">
                 <form ref="formSettingsGroup" @submit.stop.prevent="handleSubmit">
 
-                    <div class="radio-group-toggle mb-5 text-center">
                         <input class="mx-3" type="checkbox" id="comin" value="1" v-model="checkbox.coming">
                         <label for="comin">Приход</label>
                         <input class="mx-3" type="checkbox" id="out" value="1" v-model="checkbox.out">
                         <label for="out">Расход</label>
                         <input class="mx-3" type="checkbox" id="cash" value="1" v-model="checkbox.cash">
                         <label for="cash">Наличные</label>
-                        <br>
+
                         <input class="mx-3" type="checkbox" id="beznal" value="1" v-model="checkbox.beznal">
                         <label for="beznal">Экваринг</label>
-                        <br>
-
-                    </div>
 
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Наименование</label>
@@ -57,7 +53,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <textarea v-model="coment" class="form-control" rows="3" placeholder="Коментарий"></textarea>
+                        <textarea v-model="coment" class="form-control" rows="3" placeholder="Примечание"></textarea>
                     </div>
                 </form>
             </div>
